@@ -64,8 +64,8 @@
         <!-- Masthead-->
         <header class="masthead">
             <div class="container">
-                <div class="masthead-subheading">{!! DB::table('content')->where('type','header')->first()->content !!}</div>
-                <div class="masthead-heading text-uppercase">{!! DB::table('content')->where('type','subheader')->first()->content !!}</div>
+                <div class="masthead-heading">{!! DB::table('content')->where('type','header')->first()->content !!}</div>
+                <div class="masthead-subheading">{!! DB::table('content')->where('type','subheader')->first()->content !!}</div>
                 <!-- <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Tell Me More</a> -->
             </div>
         </header>
