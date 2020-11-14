@@ -4,17 +4,17 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Blog</h1>
+        <h1 class="h3 mb-0 text-gray-800">Pengguna</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Daftar Blog</b></h6>
-                    <a href="{{ route('blog.create') }}" class="btn btn-success btn-sm add">
-                        <i class="fa fa-plus"></i>
-                        <span>Tambah Blog</span>
+                    <h6><b>Daftar Pengguna</b></h6>
+                    <a href="{{ route('user.create') }}" class="btn btn-success btn-sm add">
+                        <i class="fa fa-user-plus "></i>
+                        <span>Tambah Pengguna</span>
                     </a>
                 </div>
                 <div class="card-body">
@@ -23,31 +23,34 @@
                   @if ($message = Session::get('success'))
                   <div class="alert alert-success alert-dismissible" id="success-alert">
                       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                      <p>{{ $message }}</p>
+                      <p>{!! $message !!}</p>
                   </div>
                   @endif
                   @if ($message = Session::get('danger'))
                   <div class="alert alert-danger alert-dismissible" id="danger-alert">
                       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                      <p>{{ $message }}</p>
+                      <p>{!! $message !!}</p>
                   </div>
                   @endif
-                  <div id="blog-data">
+                  <div id="user-data">
                     <div class="table-responsive">
-                        <table class="table" id="table-blog-data" width="100%">
+                        <table class="table" id="table-user-data" width="100%">
                             <thead>
                                 <tr>
                                     <th>
                                         No
                                     </th>
                                     <th>
-                                        Slug
+                                        Nama
                                     </th>
                                     <th>
-                                        Title
+                                        Username
                                     </th>
                                     <th>
-                                        Description
+                                        Email
+                                    </th>
+                                    <th>
+                                        Role
                                     </th>
                                     <th class="text-right">
                                         Actions
@@ -66,7 +69,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    var url_delete = "{{url('blog-delete')}}";
+    var url_delete = "{{url('user-delete')}}";
     var base_url = "{{ url('/') }}";
 </script>
 
@@ -75,7 +78,7 @@
 @push('other-script')
 <script type="text/javascript">
     $(function () {
-        $('#table-blog-data').DataTable({
+        $('#table-user-data').DataTable({
             processing: true,
             serverSide: true,
             "lengthMenu": [
@@ -88,7 +91,7 @@
                   'next': '<span class="fas fa-angle-right"></span>'
                 }
               },
-            ajax: base_url+"/blog-data",
+            ajax: base_url+"/user-data",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
@@ -96,16 +99,34 @@
                     searchable: false
                 },
                 {
-                    data: 'slug',
-                    name: 'slug'
+                    data: 'name',
+                    name: 'name'
                 },
                 {
-                    data: 'title',
-                    name: 'title'
+                    data: 'username',
+                    name: 'username'
                 },
                 {
-                    data: 'description',
-                    name: 'description',
+                    data: 'email',
+                    name: 'email',
+                    render: function (data, type, row) {
+                        if(data == null){
+                            return '-';
+                        }else{
+                            return data;
+                        }           
+                    }
+                },
+                {
+                    data: 'role',
+                    name: 'role',
+                    render: function (data, type, row) {
+                        if(data == 1){
+                            return 'Admin';
+                        }else{
+                            return 'Karyawan';
+                        }           
+                    }
                 },
                 {
                     data: 'action',
@@ -120,14 +141,14 @@
 
 
     $(document).ready(function () {
-        $("body").on("click", ".blogDelete", function (e) {
+        $("body").on("click", ".userDelete", function (e) {
             e.preventDefault();
             var id = $(this).data("id");
             var token = $("meta[name='csrf-token']").attr("content");
             var url = e.target;
             swal({
                 title: 'Apakah Anda Yakin?',
-                text: 'Blog yang telah dihapus tidak dapat dikembalikan lagi!',
+                text: 'Pengguna yang telah dihapus tidak dapat dikembalikan lagi!',
                 icon: 'warning',
                 buttons: ["Cancel", "Yes!"],
             }).then(function (value) {

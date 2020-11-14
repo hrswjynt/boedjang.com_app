@@ -31,9 +31,18 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get("social-media", "SocialMediaController@index")->name('socialmedia.index');
 	Route::post("social-media", "SocialMediaController@store")->name('socialmedia.store');
 
+	Route::get("slipgaji", "SlipGajiController@index")->name('slipgaji.index');
+	Route::post("slipgaji", "SlipGajiController@store")->name('slipgaji.store');
+
 	Route::resource('blog','BlogController')->except(['destroy']);
 	Route::get("blog-data", "BlogController@getData");
 	Route::post('/blog-delete/{id}', 'BlogController@delete')->name('blog.delete');
 
 	Route::post('ckeditor/upload', 'CkeditorController@upload')->name('ckeditor.upload');
+	Route::resource('user','UserController')->except(['destroy']);
+});
+
+Route::group(['middleware' => ['admin']], function() {
+	Route::get("user-data", "UserController@getData");
+    Route::post('/user-delete/{id}', 'UserController@delete')->name('user.delete');
 });

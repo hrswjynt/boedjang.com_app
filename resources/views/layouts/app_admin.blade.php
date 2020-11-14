@@ -31,15 +31,18 @@
             <!-- Sidebar -->
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="route('dashboard')" style="height: auto;padding: 10px">
                     <div class="sidebar-brand-icon">
                         <!-- <i class="fas fa-laugh-wink"></i> -->
-                        <img src="{{ asset('landing/assets/img/boedjang.png')}}" class="img img-responsive" style="height: 50px">
+                        <img src="{{ asset('landing/assets/img/boedjang.png')}}" class="img img-responsive" style="height: 100px">
                     </div>
-                    <div class="sidebar-brand-text mx-3">Boedjang Group</div>
+                    <!-- <div class="sidebar-brand-text">Boedjang Group</div> -->
                 </a>
                 <!-- Divider -->
-                <hr class="sidebar-divider my-0">
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">
+                    Karyawan
+                </div>
                 <!-- Nav Item - Dashboard -->
                 <li class="nav-item @if($page == 'dashboard') active @endif">
                     <a class="nav-link" href="{{route('dashboard')}}">
@@ -47,21 +50,29 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+                <li class="nav-item @if($page == 'slipgaji') active @endif">
+                    <a class="nav-link" href="{{route('slipgaji.index')}}">
+                        <i class="fas fa-money-check-alt"></i>
+                        <span>Slip Gaji</span>
+                    </a>
+                </li>
                 <!-- Divider -->
                 <hr class="sidebar-divider">
                 <!-- Heading -->
+                @if(Auth::user()->role == 1)
                 <div class="sidebar-heading">
                     Admin
                 </div>
                 <!-- Nav Item - Utilities Collapse Menu -->
-                <li class="nav-item @if($page == 'blog') active @endif">
+                <li class="nav-item @if($page == 'blog' || $page == 'user') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                         <i class="fas fa-cube"></i>
                         <span>Master</span>
                     </a>
-                    <div id="collapseUtilities" class="collapse @if($page == 'blog') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                    <div id="collapseUtilities" class="collapse @if($page == 'blog' || $page == 'user') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <!-- <h6 class="collapse-header">Custom Utilities:</h6> -->
+                            <h6 class="collapse-header">Master Data Admin</h6>
+                            <a class="collapse-item @if($page == 'user') active @endif" href="{{route('user.index')}}">Pengguna</a>
                             <a class="collapse-item @if($page == 'blog') active @endif" href="{{route('blog.index')}}">Blog</a>
                         </div>
                     </div>
@@ -83,6 +94,7 @@
 
                 <!-- Divider -->
                 <hr class="sidebar-divider d-none d-md-block">
+                @endif
                 <!-- Sidebar Toggler (Sidebar) -->
                 <div class="text-center d-none d-md-inline">
                     <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -137,7 +149,7 @@
                 </div>
                 <!-- End of Main Content -->
                 <!-- Footer -->
-                <footer class="sticky-footer bg-white">
+                <footer class="sticky-footer bg-white" style="margin-top: 50px">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
                             <span>{!! DB::table('content')->where('type','footer')->first()->content !!}</span>
@@ -162,6 +174,7 @@
         <script src="{{asset('admin/js/sb-admin-2.min.js')}}"></script>
         <script src="{{ asset('admin/vendor/sweetalert/sweetalert.min.js') }}"></script>
         <script src="{{ asset('admin/js/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset('admin/js/formatUang.js') }}"></script>
 
 
         <script src="{{ asset('admin/vendor/datatables/jquery.dataTables.js') }}"></script>

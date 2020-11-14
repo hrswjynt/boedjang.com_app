@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use App\AttLogCenter;
+use App\Karyawan;
+use Auth;
+use DB;
 
 class HomeController extends Controller
 {
@@ -23,6 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {   
-        return view('home')->with('page','dashboard');
+        $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
+        return view('home')->with('page','dashboard')->with('karyawan',$karyawan);
     }
 }
