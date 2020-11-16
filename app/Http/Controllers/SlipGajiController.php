@@ -169,7 +169,7 @@ class SlipGajiController extends Controller
                     WHERE
                         ( absenstatus = 'Resign' AND jml_kerja >= 1 ) 
                         OR ( absenstatus <> 'Resign' ) 
-                    AND ) AS REKAP_AKHIR 
+                    ) AS REKAP_AKHIR 
                 WHERE
                     NIP = '".Auth::user()->username."'
                 ORDER BY
