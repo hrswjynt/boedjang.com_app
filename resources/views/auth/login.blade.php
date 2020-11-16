@@ -38,7 +38,7 @@
                                         <form method="POST" action="{{ route('login') }}">
                                             @csrf
                                             <div class="form-group">
-                                                <input type="text" class="form-control @error('username') is-invalid @enderror form-control-user" id="exampleInputEmail" name="username" value="{{ old('username') }}" aria-describedby="emailHelp" placeholder="Enter Username..." required autocomplete="username" autofocus>
+                                                <input type="text" class="form-control @error('username') is-invalid @enderror form-control-user" id="exampleInputEmail" name="username" value="{{ old('username') }}" aria-describedby="NIP" placeholder="NIP" required autocomplete="username" autofocus>
                                                 @error('username')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
