@@ -35,14 +35,9 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group mb-4 bmd-form-group">
-                                                        <label class="bmd-label-floating">Tanggal Awal <span class="red">*</span></label>
-                                                        <input name="sdate" type="date" value="{{$date1}}"
+                                                        <label class="bmd-label-floating">Periode Bulan <span class="red">*</span></label>
+                                                        <input name="sdate" type="month" value="{{$date1}}"
                                                         class="form-control" id="sdate" required="">
-                                                    </div>
-                                                    <div class="form-group mb-4 bmd-form-group">
-                                                        <label class="bmd-label-floating">Tanggal Akhir <span class="red">*</span></label>
-                                                        <input name="edate" type="date"
-                                                        class="form-control" id="edate" value="{{$date2}}" required="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -80,20 +75,21 @@
         $('#btn-submit-loading').hide();
 
         $("#btn-submit").click(function(){
-            if($("#sdate").val().split('-')[2] != '16' || $("#sdate").val() > $("#edate").val()){
-                return swal("Tanggal awal harus bertanggal 16 dan tidak boleh melebihi tanggal akhir!", {
-                      icon: "error",
-                    });
-            }
-            else if($("#edate").val().split('-')[2] != '15' || $("#sdate").val() > $("#edate").val()){
-                return swal("Tanggal akhir harus bertanggal 15 dan tidak boleh kurang dari tanggal awal!", {
-                      icon: "error",
-                    });
-            }else{
+            // if($("#sdate").val().split('-')[2] != '16' || $("#sdate").val() > $("#edate").val()){
+            //     return swal("Tanggal awal harus bertanggal 16 dan tidak boleh melebihi tanggal akhir!", {
+            //           icon: "error",
+            //         });
+            // }
+            // else if($("#edate").val().split('-')[2] != '15' || $("#sdate").val() > $("#edate").val()){
+            //     return swal("Tanggal akhir harus bertanggal 15 dan tidak boleh kurang dari tanggal awal!", {
+            //           icon: "error",
+            //         });
+            // }else{
+
                 $('#btn-submit').hide();
                 $('#btn-submit-loading').show();
                 $("#slipgaji_form").submit();
-            }
+            // }
             
         });
 

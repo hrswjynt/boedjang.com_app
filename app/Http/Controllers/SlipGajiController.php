@@ -19,15 +19,20 @@ class SlipGajiController extends Controller
     public function index()
     {   
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
-        if(date('d') >= 16){
-            $date1= date("Y-m-d", strtotime("-1 month", strtotime(date('16-m-Y'))));
-            $date2= date('Y-m-15');
-        }else{
+        // if(date('d') >= 16){
+        //     $date1= date("Y-m-d", strtotime("-1 month", strtotime(date('16-m-Y'))));
+        //     $date2= date('Y-m-15');
+        // }else{
             
-            $date1 = date('Y-m-16');
-            $date2 = date("Y-m-d", strtotime("+1 month", strtotime(date('15-m-Y'))));
+        //     $date1 = date('Y-m-16');
+        //     $date2 = date("Y-m-d", strtotime("+1 month", strtotime(date('15-m-Y'))));
+        // }
+        if(date('d') >= 16){
+            $date1= date("Y-m", strtotime("-1 month"));
+        }else{
+            $date1 = date('Y-m');
         }
-        return view('slipgaji')->with('page','slipgaji')->with('date1',$date1)->with('date2',$date2)->with('karyawan',$karyawan);
+        return view('slipgaji')->with('page','slipgaji')->with('date1',$date1)->with('karyawan',$karyawan);
     }
 
     public function store(Request $request)
@@ -38,8 +43,8 @@ class SlipGajiController extends Controller
             return 'Data karyawan tidak ditemukan.';
         }
         $array = array(1669,1673,1669,1671,1672,1678,1679,1690,1765,1798,1890,1947,1960,1962);
-        $date1 = $request->sdate;
-        $date2 = $request->edate;
+        $date1 = $request->sdate.'-16';
+        $date2 = date("Y-m-d", strtotime("+1 month", strtotime(date($request->sdate.'-15'))));
         if(in_array($karyawan->No, $array)){
             $data = DB::select(DB::raw("SELECT
                     *,
