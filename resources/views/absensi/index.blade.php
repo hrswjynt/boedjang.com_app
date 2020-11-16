@@ -207,7 +207,7 @@
                     $(row).addClass('greenClass');
                 }
             },
-            "scrollY": 500, 
+            "scrollY": 300, 
             "scrollX": true,
             "lengthMenu": [
                 [25, 50, 100,200,500,-1],
