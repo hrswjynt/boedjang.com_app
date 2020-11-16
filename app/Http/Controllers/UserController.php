@@ -103,10 +103,15 @@ class UserController extends Controller
     
     public function edit(User $user)
     {   
-        if(Auth::user()->role !== 5){
+        if(Auth::user()->role == 1){
             return view('user.edit')->with('page','user')
                                         ->with('user', $user);
         }else{
+            if(Auth::user()->id != $user->id){
+                $message_type = 'danger';
+                $message = 'Tidak memiliki hak akses untuk mengedit Orang lain.';
+                return redirect()->route('dashboard')->with($message_type,$message);
+            }
             return view('user.edit')->with('page','dashboard')
                                         ->with('user', $user);
         }
@@ -124,7 +129,15 @@ class UserController extends Controller
             if(Auth::user()->role !== 1){
                 $message_type = 'danger';
                 $message = 'Tidak memiliki hak akses untuk mengedit Admin.';
-                return redirect()->route('user.edit',['user' => $user->id])->withInput()->with($message_type,$message);
+                return redirect()->route('dashboard')->with($message_type,$message);
+            }
+        }
+
+        if(Auth::user()->role !== 1){
+            if(Auth::user()->id != $user->id){
+                $message_type = 'danger';
+                $message = 'Tidak memiliki hak akses untuk mengedit Orang lain.';
+                return redirect()->route('dashboard')->with($message_type,$message);
             }
         }
         

@@ -51,13 +51,14 @@
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Username <span class="red">*</span></label>
                                                             <input name="username" type="text"
-                                                                class="form-control" value="{{$user->username}}" id="username" maxlength="20" >
+                                                                class="form-control" value="{{$user->username}}" id="username" maxlength="20" @if(Auth::user()->role !== 1) readonly @endif>
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Email </label>
                                                             <input name="email" type="email"
                                                                 class="form-control" value="{{$user->email}}" maxlength="100" >
                                                         </div>
+                                                        @if(Auth::user()->role == 1)
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Role <span class="red">*</span></label>
                                                             <select class="form-control select2" name="role">
@@ -74,6 +75,9 @@
                                                                 @endif
                                                             </select>
                                                         </div>
+                                                        @else
+                                                        <input type="hidden" name="role" value="5">
+                                                        @endif
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Password <span class="red">*</span><span class="red" style="font-size: 12px"> Hanya diisi jika ingin mengganti password</span></label>
                                                             <input name="password" type="password"

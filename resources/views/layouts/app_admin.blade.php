@@ -19,9 +19,17 @@
         <link href="{{asset('admin/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
         <link href="{{asset('admin/vendor/datatables/buttons.dataTables.min.css')}}" rel="stylesheet">
         <link href="{{asset('admin/vendor/datatables/fixedHeader.dataTables.min.css')}}" rel="stylesheet">
+        {{-- datetimepicker --}}
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet">
         <style type="text/css">
             .red{
                 color: red;
+            }
+            .swal-modal .swal-text {
+                text-align: center;
+            }
+            tr,td,th{
+                text-align: center
             }
         </style>
     </head>
@@ -31,7 +39,7 @@
             <!-- Sidebar -->
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="route('dashboard')" style="height: auto;padding: 10px">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('dashboard')}}" style="height: auto;padding: 10px">
                     <div class="sidebar-brand-icon">
                         <!-- <i class="fas fa-laugh-wink"></i> -->
                         <img src="{{ asset('landing/assets/img/boedjang.png')}}" class="img img-responsive" style="height: 100px">
@@ -48,6 +56,18 @@
                     <a class="nav-link" href="{{route('dashboard')}}">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item @if($page == 'datadiri') active @endif">
+                    <a class="nav-link" href="{{route('data-diri.index')}}">
+                        <i class="fas fa-id-card-alt"></i>
+                        <span>Data Diri</span>
+                    </a>
+                </li>
+                <li class="nav-item @if($page == 'absensi') active @endif">
+                    <a class="nav-link" href="{{route('absensi.index')}}">
+                        <i class="fas fa-address-book"></i>
+                        <span>Absensi</span>
                     </a>
                 </li>
                 <li class="nav-item @if($page == 'slipgaji') active @endif">
@@ -122,7 +142,7 @@
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="{{route('user.edit',Auth::user()->id)}}">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Profile
                                     </a>
@@ -181,6 +201,20 @@
         <script src="{{ asset('admin/vendor/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('admin/vendor/datatables/dataTables.bootstrap4.js') }}"></script>
         <script src="{{ asset('admin/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+        <script type="text/javascript">
+            $( ".datepicker" ).datepicker({
+                    dateFormat: 'dd MM yy',
+                    changeMonth: true,
+                    changeYear: true,
+                    widgetPositioning:{
+                    horizontal: 'auto',
+                    vertical: 'bottom'
+                }
+            });
+        </script>
         <!-- Page level plugins -->
         <!-- <script src="{{asset('admin/vendor/chart.js/Chart.min.js')}}"></script> -->
         <!-- Page level custom scripts -->

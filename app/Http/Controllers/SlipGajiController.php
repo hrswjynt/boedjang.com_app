@@ -18,14 +18,16 @@ class SlipGajiController extends Controller
 
     public function index()
     {   
+        $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
         if(date('d') >= 16){
-            $date1 = date('Y-m-16');
-            $date2 = date("Y-m-d", strtotime("+1 month", strtotime(date('15-m-Y'))));
-        }else{
             $date1= date("Y-m-d", strtotime("-1 month", strtotime(date('16-m-Y'))));
             $date2= date('Y-m-15');
+        }else{
+            
+            $date1 = date('Y-m-16');
+            $date2 = date("Y-m-d", strtotime("+1 month", strtotime(date('15-m-Y'))));
         }
-        return view('slipgaji')->with('page','slipgaji')->with('date1',$date1)->with('date2',$date2);
+        return view('slipgaji')->with('page','slipgaji')->with('date1',$date1)->with('date2',$date2)->with('karyawan',$karyawan);
     }
 
     public function store(Request $request)
