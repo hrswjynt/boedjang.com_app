@@ -59,7 +59,7 @@
                   </div>
                   @endif
                   <div id="user-data">
-                    <div class="table-responsive table-bordered">
+                    <div class="table-responsive">
                         <table class="table" id="table-user-data" width="100%" style="zoom:80%">
                             <thead>
                                 <tr>
