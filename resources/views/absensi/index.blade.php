@@ -181,9 +181,9 @@
 <script type="text/javascript">
     var base_url = "{{ url('/') }}";
     if(localStorage.getItem('sdate-absen') == null){
-        url_ajax = base_url+"/absensi-data";
+        url_ajax = base_url+"/absensi-karyawan-data";
     }else{
-        url_ajax = base_url+"/absensi-data/"+localStorage.getItem('sdate-absen')+'/'+localStorage.getItem('edate-absen');
+        url_ajax = base_url+"/absensi-karyawan-data/"+localStorage.getItem('sdate-absen')+'/'+localStorage.getItem('edate-absen');
     }
 </script>
 

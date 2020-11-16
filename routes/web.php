@@ -30,9 +30,9 @@ Route::group(['middleware' => ['auth']], function() {
 
 	Route::get("data-diri", "HomeController@datadiri")->name('data-diri.index');
 
-	Route::get('absensi','AbsensiController@index')->name('absensi.index');
-	Route::get('absensi-data', "AbsensiController@getData");
-	Route::get('absensi-data/{sdate}/{edate}', 'AbsensiController@getDataSearch');
+	Route::get('absensi-karyawan','AbsensiController@index')->name('absensi.index');
+	Route::get('absensi-karyawan-data', "AbsensiController@getData");
+	Route::get('absensi-karyawan-data/{sdate}/{edate}', 'AbsensiController@getDataSearch');
 
 	Route::get("slipgaji", "SlipGajiController@index")->name('slipgaji.index');
 	Route::post("slipgaji", "SlipGajiController@store")->name('slipgaji.store');
