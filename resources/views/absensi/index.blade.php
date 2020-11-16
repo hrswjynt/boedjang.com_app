@@ -156,7 +156,7 @@
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header bg-gradient-warning ">
+            <div class="modal-header bg-gradient-primary ">
                 <p style="color: white">Filter Absensi</p>
                 <button type="button" class="close" data-dismiss="modal"><span style="color: white">&times;</span></button>
             </div>
