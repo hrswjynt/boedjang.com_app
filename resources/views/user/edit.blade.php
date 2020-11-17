@@ -11,11 +11,13 @@
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Tambah Pengguna</b></h6>
+                    @if(Auth::user()->role == 1)
+                    <h6><b>Edit Pengguna</b></h6>
                     <a href="{{ route('user.index') }}" class="btn btn-info btn-sm add">
                         <i class="fa fa-arrow-left "></i>
                         <span>Kembali</span>
                     </a>
+                    @endif
                 </div>
                 <div class="card-body">
                     <div id="success-delete">
