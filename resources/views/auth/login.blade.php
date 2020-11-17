@@ -13,6 +13,13 @@
         <!-- Custom styles for this template-->
         <link href="{{asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
         <link rel="icon" type="image/x-icon" href="{{ asset('landing/assets/img/boedjang.png')}}" />
+        <style type="text/css">
+            @media only screen and (max-width: 600px) {
+              #desktop {
+                display: none
+              }
+            }
+        </style>
     </head>
     <body class="bg-gradient-primary">
         <div class="container">
@@ -24,7 +31,8 @@
                             <!-- Nested Row within Card Body -->
                             <div class="row p-3 bg-gray-900">
                                 <div class="text-center col-lg-12">
-                                    <h5 style="color: white">Boedjang Group Indonesia - Login</h5>
+                                    <h3 style="color: white">LOGIN</h3>
+                                    <h5 style="color: white">Boedjang Group Indonesia</h5>
                                 </div>
                             </div>
                             <div class="row">
@@ -83,14 +91,13 @@
                                 <div class="text-center col-lg-6 p-3" style="margin-top: 20px;color: white">
                                     {!! DB::table('content')->where('type','footer')->first()->content !!}
                                 </div>
-                                <div class="text-center col-lg-6 p-3">
+                                <div class="text-center col-lg-6 p-3" id="desktop">
                                     <img class="img img-responsive" src="{{asset('landing/assets/img/brand/bebekboedjang.webp')}}" style="height: 50px;margin-left: 10px" alt="" />
                                     <img class="img img-responsive" src="{{asset('landing/assets/img/brand/bts.webp')}}" style="height: 50px;margin-left: 10px" alt="" />
                                     <img class="img img-responsive" src="{{asset('landing/assets/img/brand/muaraikansambal.webp')}}" style="height: 50px;margin-left: 10px" alt="" />
                                     <img class="img img-responsive" src="{{asset('landing/assets/img/brand/bebekbejo.webp')}}" style="height: 50px;margin-left: 10px" alt="" />
                                     <img class="img img-responsive" src="{{asset('landing/assets/img/brand/bale.webp')}}" style="height: 50px;margin-left: 10px" alt="" />
                                     <img class="img img-responsive" src="{{asset('landing/assets/img/brand/sotosemar.webp')}}" style="height: 50px;margin-left: 10px" alt="" />
-                                    <!-- <a class="small" href="forgot-password.html">Forgot Password?</a> -->
                                 </div>
                             </div>
                         </div>

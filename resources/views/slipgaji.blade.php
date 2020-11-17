@@ -29,21 +29,17 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="container-fluid mt-3">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group mb-4 bmd-form-group">
-                                                        <label class="bmd-label-floating">Periode Bulan <span class="red">*</span></label>
-                                                        <input name="sdate" type="month" value="{{$date1}}"
-                                                        class="form-control" id="sdate" required="">
-                                                    </div>
-                                                </div>
+                                <div class="container-fluid mt-3">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-4 bmd-form-group">
+                                                <label class="bmd-label-floating">Periode Bulan <span class="red">*</span></label>
+                                                <input name="sdate" type="month" value="{{$date1}}"
+                                                class="form-control" id="sdate" required="">
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> 
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px">
