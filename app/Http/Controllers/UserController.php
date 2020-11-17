@@ -98,7 +98,13 @@ class UserController extends Controller
     
     public function show(User $user)
     {   
-        return view('user.show')->with('user', $user)->with('page','user');
+        if(Auth::user()->role == 1){
+            return view('user.show')->with('user', $user)->with('page','user');
+        }else{
+            $message_type = 'danger';
+            $message = 'Tidak memiliki hak akses untuk mengedit Orang lain.';
+            return redirect()->route('dashboard')->with($message_type,$message);
+        }
     }
     
     public function edit(User $user)
