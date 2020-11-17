@@ -20,7 +20,14 @@ class UserController extends Controller
 
     public function index()
     {   
-        return view('user.index')->with('page','user');
+        if(Auth::user()->role == 1){
+            return view('user.index')->with('page','user');
+        }else{
+            $message_type = 'danger';
+            $message = 'Tidak memiliki hak akses untuk melihat data.';
+            return redirect()->route('dashboard')->with($message_type,$message);
+        }
+        
     }
 
     public function getData(){
@@ -50,7 +57,14 @@ class UserController extends Controller
     }
     
     public function create(){
-        return view('user.create')->with('page','user');
+        if(Auth::user()->role == 1){
+            return view('user.create')->with('page','user');
+        }else{
+            $message_type = 'danger';
+            $message = 'Tidak memiliki hak akses untuk menambah data.';
+            return redirect()->route('dashboard')->with($message_type,$message);
+        }
+        
     }
     
     public function store(Request $request)
