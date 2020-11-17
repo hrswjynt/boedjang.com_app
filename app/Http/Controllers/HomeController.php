@@ -33,18 +33,6 @@ class HomeController extends Controller
         $date1= date("Y-m-d", strtotime("-2 month"));
         $date2= date('Y-m-d');
 
-        $cabang = DB::table('u1127775_absensi.Abs_list_outlet')->where('nama',$karyawan->Cabang)->where('koderegion', $karyawan->region)->first();
-
-        $checklist = DB::select(DB::raw("SELECT u1127775_finance.checklist_group.nama, (select count(*) from u1127775_finance.checklist_harian ch inner join u1127775_finance.user u on u.user = ch.user inner join u1127775_finance.checklist c on c.id = ch.id_checklist inner join u1127775_finance.checklist_group cg on cg.id = c.grup where u.cabang = '".$cabang->id."' and (ch.status='0' or ch.status='1') and date(ch.tgl) = curdate() and cg.id = u1127775_finance.checklist_group.id ) 'progress' ,count(*) 'target' from u1127775_finance.checklist inner join u1127775_finance.checklist_cabang on checklist_cabang.id_checklist = checklist.id inner join u1127775_finance.checklist_group on u1127775_finance.checklist_group.id = u1127775_finance.checklist.grup where u1127775_finance.checklist_cabang.cabang = '".$cabang->id."' group by u1127775_finance.checklist_group.id"));
-
-        $penjualan_bulan_ini = DB::select(DB::raw("SELECT avg(u1127775_finance.closing.penjualan) 'penjualan' from u1127775_finance.closing inner join u1127775_finance.user on u1127775_finance.user.user = u1127775_finance.closing.user where u1127775_finance.user.cabang='".$cabang->id."' and concat(year(u1127775_finance.closing.date),'-',month(u1127775_finance.closing.date)) = concat(year(curdate()),'-',month(curdate()))"));
-        $penjualan_bulan_lalu = DB::select(DB::raw("SELECT avg(u1127775_finance.closing.penjualan) 'penjualan' from u1127775_finance.closing inner join u1127775_finance.user on u1127775_finance.user.user = u1127775_finance.closing.user where u1127775_finance.user.cabang='".$cabang->id."' and concat(year(u1127775_finance.closing.date),'-',month(u1127775_finance.closing.date)) = concat(year(date_sub(curdate(), interval 1 month)),'-',month(date_sub(curdate(), interval 1 month)))"));
-
-        $sales = 0;
-        if ($penjualan_bulan_lalu[0]->penjualan != 0){
-            $sales = ($penjualan_bulan_ini[0]->penjualan/$penjualan_bulan_lalu[0]->penjualan)*100;
-        }
-
         $jumlah_telat = AttLogCenter::whereBetween('tgl_absen', [$date1,$date2])
                                     ->where('nip', Auth::user()->username)
                                     ->where('pot_masuk','>',0)
@@ -57,6 +45,19 @@ class HomeController extends Controller
                                     ->where('pot_masuk','!=','')
                                     ->whereNotNull('pot_masuk')
                                     ->sum('pot_masuk');
+
+        if(Auth::user()->role == 2){
+        $cabang = DB::table('u1127775_absensi.Abs_list_outlet')->where('nama',$karyawan->Cabang)->where('koderegion', $karyawan->region)->first();
+
+        $checklist = DB::select(DB::raw("SELECT u1127775_finance.checklist_group.nama, (select count(*) from u1127775_finance.checklist_harian ch inner join u1127775_finance.user u on u.user = ch.user inner join u1127775_finance.checklist c on c.id = ch.id_checklist inner join u1127775_finance.checklist_group cg on cg.id = c.grup where u.cabang = '".$cabang->id."' and (ch.status='0' or ch.status='1') and date(ch.tgl) = curdate() and cg.id = u1127775_finance.checklist_group.id ) 'progress' ,count(*) 'target' from u1127775_finance.checklist inner join u1127775_finance.checklist_cabang on checklist_cabang.id_checklist = checklist.id inner join u1127775_finance.checklist_group on u1127775_finance.checklist_group.id = u1127775_finance.checklist.grup where u1127775_finance.checklist_cabang.cabang = '".$cabang->id."' group by u1127775_finance.checklist_group.id"));
+
+        $penjualan_bulan_ini = DB::select(DB::raw("SELECT avg(u1127775_finance.closing.penjualan) 'penjualan' from u1127775_finance.closing inner join u1127775_finance.user on u1127775_finance.user.user = u1127775_finance.closing.user where u1127775_finance.user.cabang='".$cabang->id."' and concat(year(u1127775_finance.closing.date),'-',month(u1127775_finance.closing.date)) = concat(year(curdate()),'-',month(curdate()))"));
+        $penjualan_bulan_lalu = DB::select(DB::raw("SELECT avg(u1127775_finance.closing.penjualan) 'penjualan' from u1127775_finance.closing inner join u1127775_finance.user on u1127775_finance.user.user = u1127775_finance.closing.user where u1127775_finance.user.cabang='".$cabang->id."' and concat(year(u1127775_finance.closing.date),'-',month(u1127775_finance.closing.date)) = concat(year(date_sub(curdate(), interval 1 month)),'-',month(date_sub(curdate(), interval 1 month)))"));
+
+        $sales = 0;
+        if ($penjualan_bulan_lalu[0]->penjualan != 0){
+            $sales = ($penjualan_bulan_ini[0]->penjualan/$penjualan_bulan_lalu[0]->penjualan)*100;
+        }
 
         $data = DB::select(DB::raw("SELECT sum(u1127775_finance.closing.penjualan) 'jumlah', 'Penjualan' as 'tipe' from u1127775_finance.closing inner join u1127775_finance.user on u1127775_finance.user.user = u1127775_finance.closing.user inner join u1127775_finance.cabang on u1127775_finance.cabang.id = u1127775_finance.user.cabang where u1127775_finance.user.cabang='".$cabang->id."' and concat(year(u1127775_finance.closing.date),'-',month(u1127775_finance.closing.date)) = concat(year(curdate()),'-',month(curdate()) )
     
@@ -119,6 +120,8 @@ class HomeController extends Controller
         $jum_tanpa_ket = DB::select(DB::raw("select count(a.NIP) as jumlah from `u1127775_absensi`.Absen a LEFT JOIN (select b.nip, b.nama, tgl_absen from `u1127775_absensi`.Abs_att_log_center b where b.tgl_absen = '". date('Y-m-d', strtotime("-1 days"))."')  b on b.nip = a.NIP where b.tgl_absen is null and a.Status <> 'Resign' and a.No not in (1669,1673,1669,1671,1672,1678,1679,1690,1765,1798,1890,1947,1960,1962) and a.region ='".Auth::user()->region ."' and a.Cabang ='".Auth::user()->cabang ."'"));
         $jum_tanpa_ket = $jum_tanpa_ket[0]->jumlah;
 
+
+
         return view('home')->with('page','dashboard')
                             ->with('karyawan',$karyawan)
                             ->with('jumlah_telat',$jumlah_telat)
@@ -138,6 +141,12 @@ class HomeController extends Controller
                             ->with('jum_tidak_absen',$jum_tidak_absen)
                             ->with('jum_tanpa_ket', $jum_tanpa_ket)
                             ;
+        }else{
+            return view('home')->with('page','dashboard')
+                            ->with('karyawan',$karyawan)
+                            ->with('jumlah_telat',$jumlah_telat)
+                            ->with('total_telat',$total_telat);
+        }
     }
 
     public function datadiri()
