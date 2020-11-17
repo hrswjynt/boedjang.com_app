@@ -62,7 +62,10 @@
                                                             <select class="form-control select2" name="role">   
                                                                 <option value="5">Karyawan</option>
                                                                 @if(Auth::user()->role == '1')
+                                                                
+                                                                <option value="2">SPV</option>
                                                                 <option value="1">Admin</option>
+
                                                                 @endif
                                                             </select>
                                                         </div>

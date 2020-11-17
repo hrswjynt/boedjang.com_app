@@ -123,7 +123,9 @@
                     render: function (data, type, row) {
                         if(data == 1){
                             return 'Admin';
-                        }else{
+                        } else if(data == 2){
+                            return 'SPV';
+                        } else{
                             return 'Karyawan';
                         }           
                     }

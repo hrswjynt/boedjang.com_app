@@ -64,12 +64,20 @@
                                                             <select class="form-control select2" name="role">
                                                                 @if($user->role == 5) 
                                                                 <option value="5" selected="">Karyawan</option>
+                                                                <option value="2">SPV</option>
+                                                                <option value="1">Admin</option>
+                                                                @endif
+
+                                                                @if($user->role == 2) 
+                                                                <option value="5">Karyawan</option>
+                                                                <option value="2" selected="">SPV</option>
                                                                 <option value="1">Admin</option>
                                                                 @endif
 
                                                                 @if($user->role == 1)
                                                                 @if(Auth::user()->role == '1')
                                                                 <option value="5">Karyawan</option>
+                                                                <option value="2">SPV</option>
                                                                 <option value="1" selected="">Admin</option>
                                                                 @endif
                                                                 @endif
