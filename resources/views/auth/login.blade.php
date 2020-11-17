@@ -29,7 +29,7 @@
                     <div class="card o-hidden border-0 shadow-lg my-4">
                         <div class="card-body p-0">
                             <!-- Nested Row within Card Body -->
-                            <div class="row p-3 bg-gray-900">
+                            <div class="row p-3 bg-gray-800">
                                 <div class="text-center col-lg-12">
                                     <h3 style="color: white">LOGIN</h3>
                                     <h5 style="color: white">Boedjang Group Indonesia</h5>
@@ -45,7 +45,10 @@
                                         </div>
                                         <form method="POST" action="{{ route('login') }}">
                                             @csrf
-                                            <div class="form-group">
+                                            <div class="form-group input-group">
+                                                <div class="input-group-prepend">
+                                                  <button class="btn btn-primary" type="button"><i class="fa fa-user"></i></button>
+                                                </div>
                                                 <input type="text" class="form-control @error('username') is-invalid @enderror form-control-user" id="exampleInputEmail" name="username" value="{{ old('username') }}" aria-describedby="NIP" placeholder="NIP" required autocomplete="username" autofocus>
                                                 @error('username')
                                                     <span class="invalid-feedback" role="alert">
@@ -54,7 +57,10 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="form-group">
+                                            <div class="form-group input-group">
+                                                <div class="input-group-prepend">
+                                                  <button class="btn btn-primary" type="button"><i class="fas fa-lock"></i></button>
+                                                </div>
                                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror form-control-user" id="exampleInputPassword" placeholder="Password" name="password" required autocomplete="current-password">
                                                 @error('password')
                                                     <span class="invalid-feedback" role="alert">
@@ -72,7 +78,7 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            <button type="submit" class="btn btn-primary btn-user btn-block"><i class="fas fa-sign-in-alt"></i>
                                                 Login
                                             </button>
                                             <!-- <hr> -->
@@ -87,7 +93,7 @@
                                     
                                 </div>
                             </div>
-                            <div class="row bg-gray-900" style="margin: 0 auto;">
+                            <div class="row bg-gray-800" style="margin: 0 auto;">
                                 <div class="text-center col-lg-6 p-3" style="margin-top: 20px;color: white">
                                     {!! DB::table('content')->where('type','footer')->first()->content !!}
                                 </div>

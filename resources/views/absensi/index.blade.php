@@ -70,16 +70,10 @@
                                         Tgl
                                     </th>
                                     <th>
-                                        NIP
-                                    </th>
-                                    <th>
                                         Cabang
                                     </th>
                                     <th>
                                         Lokasi Absen
-                                    </th>
-                                    <th>
-                                        Nama
                                     </th>
                                     <th>
                                         Status 1
@@ -241,10 +235,6 @@
                     }
                 },
                 {
-                    data: 'nip',
-                    name: 'nip'
-                },
-                {
                     data: 'cabang',
                     name: 'cabang',
                     render: function (data, type, row) {
@@ -258,17 +248,6 @@
                 {
                     data: 'lokasi_absen',
                     name: 'lokasi_absen',
-                },
-                {
-                    data: 'nama',
-                    name: 'nama',
-                    render: function (data, type, row) {
-                        if(data == null){
-                            return '-';
-                        }else{
-                            return data;
-                        }           
-                    }
                 },
                 {
                     data: 'status',
