@@ -169,7 +169,7 @@
                 </div>
                 <!-- End of Main Content -->
                 <!-- Footer -->
-                <footer class="sticky-footer bg-white" style="margin-top: 110px;">
+                <footer class="sticky-footer bg-white" style="margin-top: 120px;">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
                             <span>{!! DB::table('content')->where('type','footer')->first()->content !!}</span>
