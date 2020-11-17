@@ -17,6 +17,12 @@
                         <i class="fa fa-arrow-left "></i>
                         <span>Kembali</span>
                     </a>
+                    @else
+                    <h6><b>Edit Data</b></h6>
+                    <a href="{{ route('dashboard') }}" class="btn btn-info btn-sm add">
+                        <i class="fa fa-arrow-left "></i>
+                        <span>Kembali</span>
+                    </a>
                     @endif
                 </div>
                 <div class="card-body">
