@@ -214,6 +214,15 @@
             <h1 style="zoom:75%" class="h3 mb-0 text-gray-800">Data <b>{{Auth::user()->name}}</b>
         </div>
         @endif
+        <?php
+            if(date('d') >= 16){
+                $date1 = date('16/m/Y');
+                $date2 = date("d/m/Y", strtotime("+1 month", strtotime(date('15-m-Y'))));
+            }else{
+                $date1= date("d/m/Y", strtotime("-1 month", strtotime(date('16-m-Y'))));
+                $date2= date('15/m/Y');
+            }
+        ?>
         <div class="row">
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
@@ -287,7 +296,7 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Jumlah terlambat <p style="zoom:80%">2 Bulan Terakhir</p> </div>
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Jumlah terlambat <p style="zoom:80%">{{$date1}} sampai {{$date2}}</p> </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-700">{{$jumlah_telat}} Kali</div>
                             </div>
                             <div class="col-auto">
@@ -303,7 +312,7 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Total Pot. Terlambat <p style="zoom:80%">2 Bulan Terakhir</p> </div>
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Total Pot. Terlambat <p style="zoom:80%">{{$date1}} sampai {{$date2}}</p> </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-700">Rp.{{number_format($total_telat,0,',','.')}}</div>
                             </div>
                             <div class="col-auto">

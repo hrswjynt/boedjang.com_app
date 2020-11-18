@@ -81,12 +81,16 @@
             //           icon: "error",
             //         });
             // }else{
+            if($("#sdate").val() < '2020-10'){
+                return swal("Periode yang dipilih tidak boleh kurang dari periode Oktober 2020", {
+                      icon: "error",
+                    });
+            }
 
-                $('#btn-submit').hide();
-                $('#btn-submit-loading').show();
-                $("#slipgaji_form").submit();
+            $('#btn-submit').hide();
+            $('#btn-submit-loading').show();
+            $("#slipgaji_form").submit();
             // }
-            
         });
 
     });

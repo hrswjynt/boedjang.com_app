@@ -32,18 +32,24 @@
                         if(date('d') >= 16){
                             $date1 = date('Y-m-16');
                             $date2 = date("Y-m-d", strtotime("+1 month", strtotime(date('15-m-Y'))));
+
+                            $date10 = date('16-m-Y');
+                            $date20 = date("d-m-Y", strtotime("+1 month", strtotime(date('15-m-Y'))));
                         }else{
                             $date1= date("Y-m-d", strtotime("-1 month", strtotime(date('16-m-Y'))));
                             $date2= date('Y-m-15');
+
+                            $date10= date("d-m-Y", strtotime("-1 month", strtotime(date('16-m-Y'))));
+                            $date20= date('15-m-Y');
                         }
                     ?>
-                    <a type="button" href="#" class="btn btn-info btn-sm search" data-toggle="modal" data-target="#modal-search">
+                    <!-- <a type="button" href="#" class="btn btn-info btn-sm search" data-toggle="modal" data-target="#modal-search">
                         <i class="fa fa-search"></i>
                         <span>Filter</span>
-                    </a>
+                    </a> -->
                 </div>
                 <div class="card-body">
-                    <p class="card-absen" style="zoom:70%"><span id="sdate-span" style="margin-right: 30px;">Tanggal awal : {{$date1}}</span> <span id="edate-span">Tanggal akhir : {{$date2}}</span></p>
+                    <p class="card-absen" style="zoom:70%"><span id="sdate-span" style="margin-right: 30px;">Tanggal awal : {{$date10}}</span> <span id="edate-span">Tanggal akhir : {{$date20}}</span></p>
                   <div id="success-delete">
                   </div>
                   @if ($message = Session::get('success'))

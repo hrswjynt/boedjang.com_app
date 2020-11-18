@@ -30,8 +30,13 @@ class HomeController extends Controller
     {   
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
         
-        $date1= date("Y-m-d", strtotime("-2 month"));
-        $date2= date('Y-m-d');
+        if(date('d') >= 16){
+            $date1 = date('Y-m-16');
+            $date2 = date("Y-m-d", strtotime("+1 month", strtotime(date('15-m-Y'))));
+        }else{
+            $date1= date("Y-m-d", strtotime("-1 month", strtotime(date('16-m-Y'))));
+            $date2= date('Y-m-15');
+        }
 
         $jumlah_telat = AttLogCenter::whereBetween('tgl_absen', [$date1,$date2])
                                     ->where('nip', Auth::user()->username)
