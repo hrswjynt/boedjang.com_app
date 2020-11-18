@@ -43,10 +43,8 @@ class BlogController extends Controller
             'description'   => 'required'
         ]);
 
-        $validatedData['slug'] = Str::slug($validatedData['slug'], '-');
-
         $blog = new Blog;
-        $blog->slug = $request->slug;
+        $blog->slug = str_replace(" ","-",$request->slug);
         $blog->title = $request->title;
         $blog->content = $request->content;
         $blog->description = $request->description;
@@ -67,7 +65,7 @@ class BlogController extends Controller
             ->addColumn('action', function ($data) {
                 $action = '<div class="btn-group">';
                 $action.= '<a class="btn btn-sm btn-info btn-simple shadow" href="'.route("blog.show",$data->id).'" title="Info"><i class="fa fa-search"></i> Info </a>';
-                $action .='<a class="btn btn-sm btn-warning btn-simple shadow" href="'.route("blog.edit",$data->id).'" title="Edit"><i class="fa fa-pencil"></i> Edit</a>';
+                $action .='<a class="btn btn-sm btn-warning btn-simple shadow" href="'.route("blog.edit",$data->id).'" title="Edit"><i class="fa fa-edit"></i> Edit</a>';
                 $action .='<a href="'.route("blog.delete",$data->id).'" class="btn btn-sm btn-danger btn-simple shadow blogDelete" title="Delete" data-id="'.$data->id.'"><i class="fa fa-trash"></i> Hapus</a>';
                 if($action == ''){
                     $action .= 'None';
@@ -87,7 +85,6 @@ class BlogController extends Controller
     
     public function edit(Blog $blog)
     {   
-        $machine = DaftarMesin::all();
         return view('blog.edit')->with('page','blog')
                                         ->with('blog', $blog);
     }
@@ -100,14 +97,13 @@ class BlogController extends Controller
             'description'   => 'required'
         ]);
 
-        $validatedData['slug'] = Str::slug($validatedData['slug'], '-');
-        $blog->slug = $request->slug;
+        $blog->slug = str_replace(" ","-",$request->slug);
         $blog->title = $request->title;
         $blog->content = $request->content;
         $blog->description = $request->description;
-        $blog->publish = 0;
+        $blog->publish = $request->publish;
         $blog->save();
-        return redirect()->back()->with('success','Data blog '.$request->title.' berhasil diupdate.');
+        return redirect()->route('blog.index')->with('success','Data blog '.$request->title.' berhasil diupdate.');
    }
 
    public function delete($id){

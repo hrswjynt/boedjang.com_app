@@ -19,8 +19,8 @@ class Blog extends Model
         'id','slug','title',
         'description','content','created_at','updated_at','publish'];
 
-    public function getRouteKeyName(){
-        return 'slug';
-    }
+    // public function getRouteKeyName(){
+    //     return 'slug';
+    // }
 }
 

@@ -62,11 +62,6 @@
                                         class="form-control" value="{{$karyawan->Masa_kerja}}" disabled="">
                                     </div>
                                     <div class="form-group mb-4 bmd-form-group">
-                                        <label class="font-weight-bold">Grade</label>
-                                        <input type="text"
-                                        class="form-control" value="{{$karyawan->Grade}}" disabled="">
-                                    </div>
-                                    <div class="form-group mb-4 bmd-form-group">
                                         <label class="font-weight-bold">Tambahan 3 Bulan</label>
                                         <input name="tambahan3bln" type="text"
                                         class="form-control" value="{{$karyawan->tambahan3bln}}" disabled="">
