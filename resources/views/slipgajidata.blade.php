@@ -145,7 +145,7 @@
                     
                 </tr>
             </table>
-            <table style="margin-left: 10px">
+            <table style="margin-left: 10px;margin-bottom: 10px">
                 <tr>
                     <td class="f9 bold">Nama</td>
                     <td class="f9 bold">:</td>
@@ -161,11 +161,11 @@
                     <td class="f9 bold">:</td>
                     <td class="f9 ">{{$d->Jabatan}}</td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td class="f9 bold">Golongan/Grade</td>
                     <td class="f9 bold">:</td>
                     <td class="f9 ">{{$d->Grade}}</td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td class="f9 bold">Cabang</td>
                     <td class="f9 bold">:</td>
