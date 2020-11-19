@@ -140,7 +140,7 @@
                 </tr>
                 <tr>
                     <td width="60%" class="f8 txt-center">
-                        Jl. Johan Idrus, Akcaya, No.111D - Pontianak
+                        Jl. Teuku Umar, Komplek Ruko Pontianak Mall, Pontianak
                     </td>
                     
                 </tr>
