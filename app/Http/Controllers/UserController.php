@@ -40,11 +40,14 @@ class UserController extends Controller
         return Datatables::of($data)
             ->addColumn('action', function ($data) {
                 $action = '<div class="btn-group">';
-                if(Auth::user()->role == 1 || $data->role != 1){
+                if($data->role == 1){
+                    $action.= '<a class="btn btn-sm btn-info btn-simple shadow" href="'.route("user.show",$data->id).'" title="Info"><i class="fa fa-search"></i> Info </a>';
+                }else if(Auth::user()->role == 1){
                     $action.= '<a class="btn btn-sm btn-info btn-simple shadow" href="'.route("user.show",$data->id).'" title="Info"><i class="fa fa-search"></i> Info </a>';
                     $action .='<a class="btn btn-sm btn-warning btn-simple shadow" href="'.route("user.edit",$data->id).'" title="Edit"><i class="fa fa-edit"></i> Edit</a>';
                     $action .='<a href="'.route("user.delete",$data->id).'" class="btn btn-sm btn-danger btn-simple userDelete shadow" title="Hapus" data-id="'.$data->id.'"><i class="fa fa-trash"></i> Hapus</a>';
                 }
+
                 if($action == ''){
                     $action .= 'None';
                 }
