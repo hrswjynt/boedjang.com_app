@@ -39,6 +39,9 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::post("slipgaji", "SlipGajiController@store")->name('slipgaji.store');
 
 	Route::resource('user','UserController')->except(['destroy']);
+
+	Route::get("sop-list", "SopController@getList")->name('sop_list.index');
+	Route::get("sop-list/{slug}", "SopController@getSop")->name('get_sop.index');
 });
 
 Route::group(['middleware' => ['admin']], function() {
@@ -55,6 +58,10 @@ Route::group(['middleware' => ['admin']], function() {
 	Route::resource('blog','BlogController')->except(['destroy']);
 	Route::get("blog-data", "BlogController@getData");
 	Route::post('/blog-delete/{id}', 'BlogController@delete')->name('blog.delete');
+
+	Route::resource('sop','SopController')->except(['destroy']);
+	Route::get("sop-data", "SopController@getData");
+	Route::post('/sop-delete/{id}', 'SopController@delete')->name('sop.delete');
 
 	Route::post('ckeditor/upload', 'CkeditorController@upload')->name('ckeditor.upload');
 });

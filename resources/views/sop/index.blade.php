@@ -4,17 +4,17 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Blog</h1>
+        <h1 class="h3 mb-0 text-gray-800">SOP</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Daftar Blog</b></h6>
-                    <a href="{{ route('blog.create') }}" class="btn btn-success btn-sm add">
+                    <h6><b>Daftar SOP</b></h6>
+                    <a href="{{ route('sop.create') }}" class="btn btn-success btn-sm add">
                         <i class="fa fa-plus"></i>
-                        <span>Tambah Blog</span>
+                        <span>Tambah SOP</span>
                     </a>
                 </div>
                 <div class="card-body">
@@ -32,9 +32,9 @@
                       <p>{{ $message }}</p>
                   </div>
                   @endif
-                  <div id="blog-data">
+                  <div id="sop-data">
                     <div class="table-responsive">
-                        <table class="table" id="table-blog-data" width="100%">
+                        <table class="table" id="table-sop-data" width="100%">
                             <thead>
                                 <tr>
                                     <th>
@@ -69,7 +69,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    var url_delete = "{{url('blog-delete')}}";
+    var url_delete = "{{url('sop-delete')}}";
     var base_url = "{{ url('/') }}";
 </script>
 
@@ -78,7 +78,7 @@
 @push('other-script')
 <script type="text/javascript">
     $(function () {
-        $('#table-blog-data').DataTable({
+        $('#table-sop-data').DataTable({
             processing: true,
             serverSide: true,
             "lengthMenu": [
@@ -91,7 +91,7 @@
                   'next': '<span class="fas fa-angle-right"></span>'
                 }
               },
-            ajax: base_url+"/blog-data",
+            ajax: base_url+"/sop-data",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
@@ -134,14 +134,14 @@
 
 
     $(document).ready(function () {
-        $("body").on("click", ".blogDelete", function (e) {
+        $("body").on("click", ".sopDelete", function (e) {
             e.preventDefault();
             var id = $(this).data("id");
             var token = $("meta[name='csrf-token']").attr("content");
             var url = e.target;
             swal({
                 title: 'Apakah Anda Yakin?',
-                text: 'Blog yang telah dihapus tidak dapat dikembalikan lagi!',
+                text: 'SOP yang telah dihapus tidak dapat dikembalikan lagi!',
                 icon: 'warning',
                 buttons: ["Cancel", "Yes!"],
             }).then(function (value) {

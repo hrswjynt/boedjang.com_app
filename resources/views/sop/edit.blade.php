@@ -3,15 +3,15 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Blog</h1>
+        <h1 class="h3 mb-0 text-gray-800">SOP</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Edit Blog</b></h6>
-                    <a href="{{ route('blog.index') }}" class="btn btn-primary btn-sm add">
+                    <h6><b>Edit SOP</b></h6>
+                    <a href="{{ route('sop.index') }}" class="btn btn-primary btn-sm add">
                         <i class="fa fa-arrow-left"></i>
                         <span>Kembali</span>
                     </a>
@@ -31,7 +31,7 @@
                         <p>{{ $message }}</p>
                     </div>
                     @endif
-                    <form method="POST" action="{{route('blog.update',$blog->id)}}" id="blog_form" enctype="multipart/form-data">
+                    <form method="POST" action="{{route('sop.update',$sop->id)}}" id="sop_form" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="container-fluid mt-3">
@@ -45,22 +45,22 @@
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Judul <span class="red">*</span></label>
                                                             <input name="title" type="text"
-                                                                class="form-control" value="{{$blog->title}}" tabindex="1" id="title" maxlength="200" >
+                                                                class="form-control" value="{{$sop->title}}" tabindex="1" id="title" maxlength="200" >
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Slug <span class="red">*</span></label>
                                                             <input name="slug" type="text"
-                                                                class="form-control" value="{{$blog->slug}}" tabindex="1" id="slug" maxlength="200" >
+                                                                class="form-control" value="{{$sop->slug}}" tabindex="1" id="slug" maxlength="200" >
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Publish Blog <span class="red">*</span></label>
+                                                            <label>Publish SOP <span class="red">*</span></label>
                                                             <select class="form-control" name="publish">
-                                                                @if($blog->publish == 0)
+                                                                @if($sop->publish == 0)
                                                                 <option value="1">Ya</option>
                                                                 <option value="0" selected="">Tidak</option>
                                                                 @endif
 
-                                                                @if($blog->publish == 1)
+                                                                @if($sop->publish == 1)
                                                                 <option value="1" selected="">Ya</option>
                                                                 <option value="0">Tidak</option>
                                                                 @endif
@@ -70,19 +70,19 @@
                                                             <label>Gambar Thumbnail </label>
                                                             <input name="gambar" type="file"
                                                                 class="form-control" value="" id="gambar">
-                                                            @if($blog->gambar == null)
-                                                            <img id="img" src="{{asset('images/noimage.png')}}" alt="your image" height="300px" style="margin-top: 10px" />
+                                                            @if($sop->gambar == null)
+                                                            <img id="img" src="{{asset('images/noimage.png')}}" alt="your image" height="100px" style="margin-top: 10px" />
                                                             @else
-                                                            <img id="img" src="{{asset('images/blog/'.$blog->gambar)}}" alt="your image" height="300px" style="margin-top: 10px"/>
+                                                            <img id="img" src="{{asset('images/sop/'.$sop->gambar)}}" alt="your image" height="300px" style="margin-top: 10px"/>
                                                             @endif
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Deskripsi <span class="red">*</span></label>
-                                                            <textarea rows="3" name="description" class="form-control" required="">{!! $blog->description !!}</textarea>
+                                                            <textarea rows="2" name="description" class="form-control" required="">{!! $sop->description !!}</textarea>
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Konten <span class="red">*</span></label>
-                                                            <textarea rows="5" name="content" id="konten" class="form-control" required="">{!! $blog->content !!}</textarea>
+                                                            <textarea rows="5" name="content" id="konten" class="form-control" required="">{!! $sop->content !!}</textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -115,7 +115,7 @@
 
 @push('other-script')
 <script type="text/javascript">
-    var url_delete = "{{url('blog-delete')}}";
+    var url_delete = "{{url('sop-delete')}}";
     var base_url = "{{ url('/') }}";
 </script>
 <script type="text/javascript">
@@ -180,25 +180,6 @@
         $('#btn-submit').show();
         $('#btn-submit-loading').hide();
 
-        $("#btn-submit").click(function(){
-            swal({
-                title: "Apakah anda yakin akan mengupdate Blog?",
-                text: 'Data yang dirubah dapat merubah data pada database.', 
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-              if (willDelete) {
-                $("#blog_form").submit()
-              } else {
-                swal("Proses Update Data Blog Dibatalkan!", {
-                  icon: "error",
-                });
-              }
-            });
-        });
-
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -216,8 +197,27 @@
             readURL(this);
         });
 
-        $("#blog_form").submit(function(){
-            if($("#blog_form").valid()){
+        $("#btn-submit").click(function(){
+            swal({
+                title: "Apakah anda yakin akan mengupdate SOP?",
+                text: 'Data yang dirubah dapat merubah data pada database.', 
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+                $("#sop_form").submit()
+              } else {
+                swal("Proses Update Data SOP Dibatalkan!", {
+                  icon: "error",
+                });
+              }
+            });
+        });
+
+        $("#sop_form").submit(function(){
+            if($("#sop_form").valid()){
                 $('#btn-submit').hide();
                 $('#btn-submit-loading').show();
             }else{
@@ -225,8 +225,8 @@
             }
         });
 
-        if($("#blog_form").length > 0) {
-            $("#blog_form").validate({
+        if($("#sop_form").length > 0) {
+            $("#sop_form").validate({
                 rules: {
                     slug: {
                         required: true

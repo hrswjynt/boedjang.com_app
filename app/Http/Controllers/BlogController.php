@@ -42,7 +42,11 @@ class BlogController extends Controller
             'slug'          => 'required',
             'description'   => 'required'
         ]);
-
+        $imageName = null;
+        if($request->gambar !== null){
+            $imageName = time().'blog.'.request()->gambar->getClientOriginalExtension();
+            request()->gambar->move(public_path('images/blog'), $imageName);
+        }
         $blog = new Blog;
         $blog->slug = str_replace(" ","-",$request->slug);
         $blog->title = $request->title;
@@ -96,11 +100,24 @@ class BlogController extends Controller
             'slug'          => 'required',
             'description'   => 'required'
         ]);
-
+        $imageName = null;
+        if($request->gambar !== null){
+            $imageName = time().'blog.'.request()->gambar->getClientOriginalExtension();
+            request()->gambar->move(public_path('images/blog'), $imageName);
+        }
         $blog->slug = str_replace(" ","-",$request->slug);
         $blog->title = $request->title;
         $blog->content = $request->content;
         $blog->description = $request->description;
+        if($imageName != null){
+            if($blog->gambar !==null){
+                $image_path = public_path('images/blog'.$blog->gambar);
+                if(File::exists($image_path)) {
+                    File::delete($image_path);
+                }
+            }
+            $blog->gambar = $imageName;
+        }
         $blog->publish = $request->publish;
         $blog->save();
         return redirect()->route('blog.index')->with('success','Data blog '.$request->title.' berhasil diupdate.');

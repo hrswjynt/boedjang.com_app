@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Blog extends Model
+class Sop extends Model
 {
     /**
      * The attributes that are mass assignable.
      *	
      * @var array
      */
-    protected $table = 'blogs';
+    protected $table = 'sop';
     protected $primaryKey = 'id';
     public $timestamps = true;
     public $incrementing = true;

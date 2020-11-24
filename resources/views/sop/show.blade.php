@@ -3,15 +3,15 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Blog</h1>
+        <h1 class="h3 mb-0 text-gray-800">POS</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Detail Blog</b></h6>
-                    <a href="{{ route('blog.index') }}" class="btn btn-primary btn-sm add">
+                    <h6><b>Detail POS</b></h6>
+                    <a href="{{ route('sop.index') }}" class="btn btn-primary btn-sm add">
                         <i class="fa fa-arrow-left"></i>
                         <span>Kembali</span>
                     </a>
@@ -42,22 +42,22 @@
                                                     <div class="form-group mb-4 bmd-form-group">
                                                         <label>Judul <span class="red">*</span></label>
                                                         <input name="title" type="text"
-                                                        class="form-control" value="{{$blog->title}}" tabindex="1" id="title" maxlength="200" disabled="">
+                                                        class="form-control" value="{{$sop->title}}" tabindex="1" id="title" maxlength="200" disabled="">
                                                     </div>
                                                     <div class="form-group mb-4 bmd-form-group">
                                                         <label>Slug <span class="red">*</span></label>
                                                         <input name="slug" type="text"
-                                                        class="form-control" value="{{$blog->slug}}" tabindex="1" id="slug" maxlength="200" disabled="">
+                                                        class="form-control" value="{{$sop->slug}}" tabindex="1" id="slug" maxlength="200" disabled="">
                                                     </div>
                                                     <div class="form-group mb-4 bmd-form-group">
-                                                        <label>Publish Blog <span class="red">*</span></label>
+                                                        <label>Publish SOP <span class="red">*</span></label>
                                                         <select class="form-control" name="publish" disabled="">
-                                                            @if($blog->publish == 0)
+                                                            @if($sop->publish == 0)
                                                             <option value="1">Ya</option>
                                                             <option value="0" selected="">Tidak</option>
                                                             @endif
 
-                                                            @if($blog->publish == 1)
+                                                            @if($sop->publish == 1)
                                                             <option value="1" selected="">Ya</option>
                                                             <option value="0">Tidak</option>
                                                             @endif
@@ -65,12 +65,12 @@
                                                     </div>
                                                     <div class="form-group mb-4 bmd-form-group">
                                                         <label>Deskripsi <span class="red">*</span></label>
-                                                        <textarea rows="3" name="description" class="form-control" required="" disabled="">{!! $blog->description !!}</textarea>
+                                                        <textarea rows="2" name="description" class="form-control" required="" disabled="">{!! $sop->description !!}</textarea>
                                                     </div>
                                                     <div class="form-group mb-4 bmd-form-group">
                                                         <label>Konten <span class="red">*</span></label>
                                                         <div class="bg-gray-200" style="padding: 10px">
-                                                            {!! $blog->content !!}
+                                                            {!! $sop->content !!}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -89,7 +89,7 @@
 @endsection
 @push('other-script')
 <script type="text/javascript">
-var url_delete = "{{url('blog-delete')}}";
+var url_delete = "{{url('sop-delete')}}";
 var base_url = "{{ url('/') }}";
 </script>
 @endpush

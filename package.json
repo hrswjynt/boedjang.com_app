@@ -21,5 +21,9 @@
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
         "vue": "^2.5.17"
+    },
+    "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^23.1.0",
+        "@ckeditor/ckeditor5-upload": "^23.1.0"
     }
 }

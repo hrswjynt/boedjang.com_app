@@ -31,7 +31,7 @@
                         <p>{{ $message }}</p>
                     </div>
                     @endif
-                    <form method="POST" action="{{route('blog.store')}}" id="blog_form">
+                    <form method="POST" action="{{route('blog.store')}}" id="blog_form" enctype="multipart/form-data">
                         @csrf
                         <div class="container-fluid mt-3">
                             <div class="row">
@@ -51,7 +51,12 @@
                                                             <input name="slug" type="text"
                                                                 class="form-control" value="{{old('slug')}}" tabindex="1" id="slug" maxlength="200" >
                                                         </div>
-
+                                                        <div class="form-group mb-4 bmd-form-group">
+                                                            <label>Gambar Thumbnail </label>
+                                                            <input name="gambar" type="file"
+                                                                class="form-control" value="" id="gambar">
+                                                            <img id="img" src="" alt="your image" height="300px" />
+                                                        </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Deskripsi <span class="red">*</span></label>
                                                             <textarea rows="3" name="description" class="form-control" required="">{!! old('description') !!}</textarea>
@@ -155,6 +160,23 @@
     $(document).ready(function () {
         $('#btn-submit').show();
         $('#btn-submit-loading').hide();
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+        
+                reader.onload = function(e) {
+                  $('#img').attr('src', e.target.result);
+                }
+        
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+        $("#gambar").change(function() {
+            $('#img').show();
+            readURL(this);
+        });
 
         $("#btn-submit").click(function(){
             swal({
