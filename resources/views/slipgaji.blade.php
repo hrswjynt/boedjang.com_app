@@ -65,6 +65,7 @@
 
 @push('other-script')
 <script type="text/javascript">
+    var now = "{{date('Y-m', strtotime('-1 month'))}}";
     $(document).ready(function(){
 
         $('#btn-submit').show();
@@ -85,6 +86,10 @@
                 return swal("Periode yang dipilih tidak boleh kurang dari periode Oktober 2020", {
                       icon: "error",
                     });
+            }else if($("#sdate").val() > now){
+                return swal("Periode yang dipilih tidak boleh melebihi periode sekarang", {
+                    icon: "error",
+                });
             }
 
             $('#btn-submit').hide();
