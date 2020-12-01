@@ -57,7 +57,12 @@
                     <div class="col-6 p-2">
                         <div class="card text-white bg-warning mb-3 h-100">
                             <div class="card-body text-center">
-                                <h1 class="card-title" id="hpp">{{round(($total_hpp/$data_penjualan)*100,1)}}%</h1>
+                                <h1 class="card-title" id="hpp">
+                                @if($data_penjualan !== 0)
+                                {{round(($total_hpp/$data_penjualan)*100,1)}}%</h1>
+                                @else
+                                0%</h1>
+                                @endif
                                 <p class="card-text">% HPP</p>
                             </div>
                         </div>
@@ -67,7 +72,12 @@
                     <div class="col-6 p-2">
                         <div class="card text-white bg-success mb-3 h-100">
                             <div class="card-body text-center">
-                                <h1 class="card-title" id="operasional">{{round(($data_operasional/$data_penjualan)*100,1)}}%</h1>
+                                <h1 class="card-title" id="operasional">
+                                @if($data_penjualan !== 0)
+                                {{round(($data_operasional/$data_penjualan)*100,1)}}%</h1>
+                                @else
+                                0%</h1>
+                                @endif
                                 <p class="card-text">% Operasional</p>
                             </div>
                         </div>
