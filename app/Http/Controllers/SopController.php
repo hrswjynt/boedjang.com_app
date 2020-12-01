@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Sop;
+use App\Category;
+use App\SopRelationCategory;
 use DataTables;
 use Auth;
 use DB;
@@ -32,7 +34,8 @@ class SopController extends Controller
     }
 
     public function create(){
-        return view('sop.create')->with('page','sop');
+        $category = Category::all();
+        return view('sop.create')->with('page','sop')->with('category',$category);
     }
 
     public function store(Request $request)
@@ -40,8 +43,6 @@ class SopController extends Controller
         // dd($request->all());
         $validatedData = $this->validate($request, [
             'title'         => 'required',
-            'slug'          => 'required',
-            'description'   => 'required'
         ]);
 
         $imageName = null;
@@ -51,15 +52,27 @@ class SopController extends Controller
         }
 
         $sop = new Sop;
-        $sop->slug = str_replace(" ","-",$request->slug);
+        $sop->slug = str_replace(" ","-",$request->title);
         $sop->title = $request->title;
         $sop->content = $request->content;
-        $sop->description = $request->description;
+        $sop->google_drive = $request->google_drive;
+        $sop->youtube = $request->youtube;
         $sop->gambar = $imageName;
         $sop->publish = 0;
+        $sop->category_display = '';
         $sop->save();
 
-        return redirect()->back()->with('success','Data SOP '.$request->title.' berhasil disimpan.');
+        foreach ($request->category as $category) {
+            $relation = new SopRelationCategory;
+            $relation->id_sop = $sop->id;
+            $relation->id_category = $category;
+            $relation->save();
+
+            $sop->category_display = $sop->category_display.';'.Category::find($category)->name;
+            $sop->save();
+        }
+
+        return redirect()->route('sop.index')->with('success','Data SOP '.$request->title.' berhasil disimpan.');
     }
 
     public function getData(){
@@ -88,31 +101,45 @@ class SopController extends Controller
     
     public function show(Sop $sop)
     {   
-        return view('sop.show')->with('sop', $sop)->with('page','sop');
+        $category = Category::all();
+        $sopcategory = SopRelationCategory::where('id_sop',$sop->id)->get();
+        foreach ($sopcategory as $sc) {
+            $arrayc[] = $sc->id_category;
+        }
+        return view('sop.show')->with('sop', $sop)
+                                ->with('page','sop')
+                                ->with('category',$category)
+                                ->with('sopcategory',$arrayc);
     }
     
     public function edit(Sop $sop)
     {   
+        $category = Category::all();
+        $sopcategory = SopRelationCategory::where('id_sop',$sop->id)->get();
+        foreach ($sopcategory as $sc) {
+            $arrayc[] = $sc->id_category;
+        }
+        // dd($arrayc);        
         return view('sop.edit')->with('page','sop')
-                                        ->with('sop', $sop);
+                                ->with('sop', $sop)
+                                ->with('category',$category)
+                                ->with('sopcategory',$arrayc)
+                                ;
     }
     
     public function update(Request $request, Sop $sop)
     {
         $validatedData = $this->validate($request, [
             'title'         => 'required',
-            'slug'          => 'required',
-            'description'   => 'required'
         ]);
         $imageName = null;
         if($request->gambar !== null){
             $imageName = time().'sop.'.request()->gambar->getClientOriginalExtension();
             request()->gambar->move(public_path('images/sop'), $imageName);
         }
-        $sop->slug = str_replace(" ","-",$request->slug);
+        $sop->slug = str_replace(" ","-",$request->title);
         $sop->title = $request->title;
         $sop->content = $request->content;
-        $sop->description = $request->description;
         if($imageName != null){
             if($sop->gambar !==null){
                 $image_path = public_path('images/sop'.$sop->gambar);
@@ -122,8 +149,22 @@ class SopController extends Controller
             }
             $sop->gambar = $imageName;
         }
+        $sop->category_display = '';
         $sop->publish = $request->publish;
+        $sop->google_drive = $request->google_drive;
+        $sop->youtube = $request->youtube;
         $sop->save();
+
+        SopRelationCategory::where('id_sop',$sop->id)->delete();
+        foreach ($request->category as $category) {
+            $relation = new SopRelationCategory;
+            $relation->id_sop = $sop->id;
+            $relation->id_category = $category;
+            $relation->save();
+
+            $sop->category_display = $sop->category_display.';'.Category::find($category)->name;
+            $sop->save();
+        }
         return redirect()->route('sop.index')->with('success','Data SOP '.$request->title.' berhasil diupdate.');
    }
 
@@ -149,17 +190,36 @@ class SopController extends Controller
 
     public function getList()
     {   
+        $search = null;
+        $category_select = null;
         $sop = Sop::orderBy('updated_at','DESC')->get();
-        return view('sop.home')->with('page','sop_list')->with('sop',$sop);
+        $category = Category::all();
+        return view('sop.home')->with('page','sop_list')->with('sop',$sop)->with('category',$category)->with('category_select',$category_select)->with('search',$search);
     }
 
     public function getSop($slug)
     {   
         $sop = Sop::where('slug',$slug)->first();
+        $category = SopRelationCategory::join('category','category.id','sop_relation_category.id_category')->select('category.*')->where('id_sop',$sop->id)->get();
         if($sop == null){
             return redirect()->route('sop_list.index')->with('danger','SOP yang dicari tidak ditemukan.');
         }
 
-        return view('sop.post')->with('page','sop_list')->with('sop',$sop);
+        return view('sop.post')->with('page','sop_list')->with('sop',$sop)->with('category',$category);
+    }
+
+    public function getSearch(Request $request){
+        // dd($request->all());
+        $search = $request->search;
+        $category_select = null;
+        if($request->category == 'all'){
+            $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.slug','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->select('sop.*')->groupBy('sop.id')->get();
+        }else{
+            $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.slug','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop_relation_category.id_category',$request->category)->select('sop.*')->groupBy('sop.id')->get();
+            $category_select = Category::find($request->category);
+        }
+        
+        $category = Category::all();
+        return view('sop.home')->with('page','sop_list')->with('sop',$sop)->with('category',$category)->with('category_select',$category_select)->with('search',$search);
     }
 }

@@ -30,7 +30,7 @@ class Karyawan extends Model
         'Last_update_gapok','Bonus_bulanan','Bonus_khusus',
         'Terakhir_Update','bpjs_ksht','bpjs_tkrj','bonus_ext',
         'region','kodedivisi','tambahan3bln','total_gaji',
-        'max_kasbon_1','max_kasbon_all','jml_kasbon','penangguhan',
+        'max_kasbon_1','max_kasbon_all','jml_kasbon','sisa_cuti',
         'tgl_penangguhan','tesupdate','user_id'
     ];
 }

@@ -21,6 +21,7 @@
         <link href="{{asset('admin/vendor/datatables/fixedHeader.dataTables.min.css')}}" rel="stylesheet">
         {{-- datetimepicker --}}
         <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('admin/vendor/select2/dist/css/select2.min.css') }}">
         <style type="text/css">
             .red{
                 color: red;
@@ -30,6 +31,9 @@
             }
             tr,td,th{
                 text-align: center
+            }
+            .bmd-label-floating{
+                font-weight: 700;
             }
         </style>
     </head>
@@ -83,6 +87,13 @@
                         <span>SOP</span>
                     </a>
                 </li>
+
+                <li class="nav-item @if($page == 'formcuti') active @endif">
+                    <a class="nav-link" href="{{route('formcuti.index')}}">
+                        <i class="fas fa-clipboard"></i>
+                        <span>Form Cuti</span>
+                    </a>
+                </li>
                 <!-- Divider -->
                 <hr class="sidebar-divider">
                 <!-- Heading -->
@@ -91,16 +102,17 @@
                     Admin
                 </div>
                 <!-- Nav Item - Utilities Collapse Menu -->
-                <li class="nav-item @if($page == 'blog' || $page == 'user' || $page == 'sop') active @endif">
+                <li class="nav-item @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                         <i class="fas fa-cube"></i>
                         <span>Master</span>
                     </a>
-                    <div id="collapseUtilities" class="collapse @if($page == 'blog' || $page == 'user' || $page == 'sop') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                    <div id="collapseUtilities" class="collapse @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Master Data Admin</h6>
                             <a class="collapse-item @if($page == 'user') active @endif" href="{{route('user.index')}}">Pengguna</a>
                             <a class="collapse-item @if($page == 'blog') active @endif" href="{{route('blog.index')}}">Blog</a>
+                            <a class="collapse-item @if($page == 'category') active @endif" href="{{route('category.index')}}">Kategori SOP</a>
                             <a class="collapse-item @if($page == 'sop') active @endif" href="{{route('sop.index')}}">SOP</a>
                         </div>
                     </div>
@@ -146,7 +158,7 @@
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
-                                    <img class="img-profile rounded-circle" src="{{ asset('landing/assets/img/boedjang.png')}}">
+                                    <img class="img-profile rounded-circle" src="{{ asset('admin/img/default.png')}}">
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -211,6 +223,7 @@
         <script src="{{ asset('admin/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+        <script src="{{ asset('admin/vendor/select2/dist/js/select2.min.js')}}"></script>
         <!-- include summernote css/js -->
         <!-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script> -->
@@ -224,6 +237,8 @@
                     vertical: 'bottom'
                 }
             });
+
+            $('.select2').select2();
         </script>
         <!-- Page level plugins -->
         <!-- <script src="{{asset('admin/vendor/chart.js/Chart.min.js')}}"></script> -->

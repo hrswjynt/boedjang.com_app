@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     // return view('welcome');
-    return view('auth.login');
+    return redirect()->route('dashboard');
 });
 
 Auth::routes([
@@ -42,11 +42,23 @@ Route::group(['middleware' => ['auth']], function() {
 
 	Route::get("sop-list", "SopController@getList")->name('sop_list.index');
 	Route::get("sop-list/{slug}", "SopController@getSop")->name('get_sop.index');
+
+	Route::get("sop-search", "SopController@getSearch")->name('sop_search.index');
+
+	Route::get("pengajuanformcuti", "CutiController@pengajuan")->name('formcuti.pengajuan');
+    Route::post("formcuti-pengajuanpost", "CutiController@pengajuanPost")->name('formcuti.pengajuanpost');
+
+    Route::get("formcuti", "CutiController@index")->name('formcuti.index');
+	Route::get("formcuti-data", "CutiController@getData");
 });
 
 Route::group(['middleware' => ['admin']], function() {
 	Route::get("user-data", "UserController@getData");
     Route::post('/user-delete/{id}', 'UserController@delete')->name('user.delete');
+
+    Route::resource('category','CategoryController')->except(['destroy']);
+	Route::get("category-data", "CategoryController@getData");
+	Route::post('/category-delete/{id}', 'CategoryController@delete')->name('category.delete');
 
     Route::resource('blog','BlogController')->except(['destroy']);
 	Route::get("blog-data", "BlogController@getData");

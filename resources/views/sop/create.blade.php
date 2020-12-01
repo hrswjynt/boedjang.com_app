@@ -46,26 +46,35 @@
                                                             <input name="title" type="text"
                                                                 class="form-control" value="{{old('title')}}" tabindex="1" id="title" maxlength="200" >
                                                         </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Slug <span class="red">*</span></label>
-                                                            <input name="slug" type="text"
-                                                                class="form-control" value="{{old('slug')}}" tabindex="1" id="slug" maxlength="200" >
-                                                        </div>
 
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Gambar Thumbnail</label>
                                                             <input name="gambar" type="file"
                                                                 class="form-control" value="" id="gambar">
-                                                            <img id="img" src="" alt="your image" height="300px" />
+                                                            <img id="img" src="" alt="your image" style="margin-top: 10px;width: 100%;height: auto;"  />
                                                         </div>
 
                                                         <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Deskripsi <span class="red">*</span></label>
-                                                            <textarea rows="2" name="description" class="form-control" required="">{!! old('description') !!}</textarea>
+                                                            <label>Kategori<span class="red">*</span></label>
+                                                            <select class="select2" multiple="multiple" name="category[]" id="category" class="form-control" style="width: 100%" required>   
+                                                                @foreach($category as $c)
+                                                                <option value="{{$c->id}}">{{$c->name}}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Konten <span class="red">*</span></label>
                                                             <textarea rows="5" name="content" id="konten" class="form-control" required="">{!! old('content') !!}</textarea>
+                                                        </div>
+                                                        <div class="form-group mb-4 bmd-form-group">
+                                                            <label>Google Drive ID File </label>
+                                                            <input name="google_drive" type="text"
+                                                                class="form-control" value="{{old('google_drive')}}" id="google_drive" maxlength="250" >
+                                                        </div>
+                                                        <div class="form-group mb-4 bmd-form-group">
+                                                            <label>Youtube Embed </label>
+                                                            <input name="youtube" type="text"
+                                                                class="form-control" value="{{old('youtube')}}" id="youtube" maxlength="250" >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -150,7 +159,7 @@
           items: ['Scayt']
         }
       ],
-
+      height: 500,
       extraAllowedContent: 'h3{clear};h2{line-height};h2 h3{margin-left,margin-top}',
 
       extraPlugins: 'print,format,font,colorbutton,justify,uploadimage',
@@ -219,7 +228,7 @@
                     title: {
                         required: true
                     },
-                    description: {
+                    category: {
                         required: true
                     },
                     content: {
@@ -234,8 +243,8 @@
                     title: {
                         required : 'Data judul tidak boleh kosong',
                     },
-                    description: {
-                        required : 'Data deskripsi tidak boleh kosong',
+                    category: {
+                        required : 'Data Kategori tidak boleh kosong',
                     },
                     content: 'Data konten tidak boleh kosong',
                 },

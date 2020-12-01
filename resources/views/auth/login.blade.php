@@ -47,7 +47,7 @@
                                             @csrf
                                             <div class="form-group input-group">
                                                 <div class="input-group-prepend">
-                                                  <button class="btn btn-primary" type="button"><i class="fa fa-user"></i></button>
+                                                  <div class="btn btn-primary"><i class="fa fa-user"></i></div>
                                                 </div>
                                                 <input type="text" class="form-control @error('username') is-invalid @enderror form-control-user" id="exampleInputEmail" name="username" value="{{ old('username') }}" aria-describedby="NIP" placeholder="NIP" required autocomplete="username" autofocus>
                                                 @error('username')
@@ -59,7 +59,7 @@
 
                                             <div class="form-group input-group">
                                                 <div class="input-group-prepend">
-                                                  <button class="btn btn-primary" type="button"><i class="fas fa-lock"></i></button>
+                                                  <div class="btn btn-primary"><i class="fas fa-lock"></i></div>
                                                 </div>
                                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror form-control-user" id="exampleInputPassword" placeholder="Password" name="password" required autocomplete="current-password">
                                                 @error('password')

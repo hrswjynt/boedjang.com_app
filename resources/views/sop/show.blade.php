@@ -64,14 +64,32 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-4 bmd-form-group">
-                                                        <label>Deskripsi <span class="red">*</span></label>
-                                                        <textarea rows="2" name="description" class="form-control" required="" disabled="">{!! $sop->description !!}</textarea>
+                                                        <label>Kategori<span class="red">*</span></label>
+                                                        <select class="select2" multiple="multiple" name="category[]" id="category" class="form-control" style="width: 100%" disabled="">   
+                                                            @foreach($category as $c)
+                                                            @if(in_array($c->id,$sopcategory))
+                                                            <option value="{{$c->id}}" selected="">{{$c->name}}</option>
+                                                            @else
+                                                            <option value="{{$c->id}}">{{$c->name}}</option>
+                                                            @endif
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                     <div class="form-group mb-4 bmd-form-group">
                                                         <label>Konten <span class="red">*</span></label>
                                                         <div class="bg-gray-200" style="padding: 10px">
                                                             {!! $sop->content !!}
                                                         </div>
+                                                    </div>
+                                                    <div class="form-group mb-4 bmd-form-group">
+                                                        <label>Google Drive ID File </label>
+                                                        <input name="google_drive" type="text"
+                                                            class="form-control" value="{{old('google_drive')}}" id="google_drive" maxlength="250" disabled="">
+                                                    </div>
+                                                    <div class="form-group mb-4 bmd-form-group">
+                                                        <label>Youtube Embed </label>
+                                                        <input name="youtube" type="text"
+                                                            class="form-control" value="{{old('youtube')}}" id="youtube" maxlength="250" disabled="">
                                                     </div>
                                                 </div>
                                             </div>
