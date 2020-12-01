@@ -221,7 +221,7 @@
         </div>
         <hr>
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 style="zoom:75%" class="h3 mb-0 text-gray-800">Data <b>{{Auth::user()->name}}</b>
+            <h1 style="zoom:75%" class="h3 mb-0 text-gray-800">Data <b>{{Auth::user()->name}}</b></h1>
         </div>
         @endif
         <?php
@@ -365,6 +365,8 @@
                 </div>
             </div>
         </div>
+    
+</div>
         <!-- /.container-fluid -->
         @endif
         @endsection

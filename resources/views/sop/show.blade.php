@@ -64,6 +64,14 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-4 bmd-form-group">
+                                                        <label>Gambar Thumbnail </label>
+                                                        @if($sop->gambar == null)
+                                                        <img id="img" src="{{asset('images/noimage.png')}}" alt="your image" height="100%" style="margin-top: 10px;width: 100%;height: auto;" />
+                                                        @else
+                                                        <img id="img" src="{{asset('images/sop/'.$sop->gambar)}}" alt="your image" height="100%" style="margin-top: 10px;width: 100%;height: auto;"/>
+                                                        @endif
+                                                    </div>
+                                                    <div class="form-group mb-4 bmd-form-group">
                                                         <label>Kategori<span class="red">*</span></label>
                                                         <select class="select2" multiple="multiple" name="category[]" id="category" class="form-control" style="width: 100%" disabled="">   
                                                             @foreach($category as $c)
