@@ -37,16 +37,16 @@
                         <table class="table" id="table-category-data" width="100%">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th width="1%">
                                         No
                                     </th>
-                                    <th>
+                                    <th width="20%">
                                         Nama
                                     </th>
-                                    <th>
+                                    <th width="30%">
                                         Deskripsi
                                     </th>
-                                    <th class="text-right">
+                                    <th class="text-right" width="20%">
                                         Actions
                                     </th>
                                 </tr>
@@ -86,6 +86,14 @@
                 }
               },
             ajax: base_url+"/category-data",
+            columnDefs: [
+                {
+                    render: function (data, type, full, meta) {
+                        return "<div class='text-wrap'>" + data + "</div>";
+                    },
+                    targets: 2
+                }
+             ],
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',

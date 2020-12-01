@@ -51,7 +51,7 @@
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Deskripsi<span class="red">*</span></label>
                                                             <input name="description" type="text"
-                                                                class="form-control" value="{{$category->description}}" id="description" maxlength="20" @if(Auth::user()->role !== 1) readonly @endif>
+                                                                class="form-control" value="{{$category->description}}" id="description" maxlength="200" @if(Auth::user()->role !== 1) readonly @endif>
                                                         </div>
                                                     </div>
                                                 </div>

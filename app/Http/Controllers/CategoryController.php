@@ -44,7 +44,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
         $category->save();
-        return redirect()->route('categor.index')->with('success','Data Kategori '.$request->name.' berhasil disimpan.');
+        return redirect()->route('category.index')->with('success','Data Kategori '.$request->name.' berhasil disimpan.');
     }
 
     public function getData(){
