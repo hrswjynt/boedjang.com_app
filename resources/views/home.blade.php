@@ -58,7 +58,7 @@
                         <div class="card text-white bg-warning mb-3 h-100">
                             <div class="card-body text-center">
                                 <h1 class="card-title" id="hpp">
-                                @if($data_penjualan !== 0)
+                                @if($data_penjualan !== 0 && $data_penjualan !== null)
                                 {{round(($total_hpp/$data_penjualan)*100,1)}}%</h1>
                                 @else
                                 0%</h1>
@@ -73,7 +73,7 @@
                         <div class="card text-white bg-success mb-3 h-100">
                             <div class="card-body text-center">
                                 <h1 class="card-title" id="operasional">
-                                @if($data_penjualan !== 0)
+                                @if($data_penjualan !== 0 && $data_penjualan !== null)
                                 {{round(($data_operasional/$data_penjualan)*100,1)}}%</h1>
                                 @else
                                 0%</h1>
