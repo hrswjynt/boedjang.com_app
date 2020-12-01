@@ -14,8 +14,8 @@
             <div class="card shadow mb-4">
                 <div class="card-body">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800" style="font-weight: 700">{{$sop->title}}</h1>
-                        <a href="{{ route('sop_list.index') }}" style="margin-left: 10px" class="btn btn-primary btn-sm add">
+                        <h1 class="h3 mb-0 text-gray-800" style="font-weight: 700;margin-right: 10px">{{$sop->title}}</h1>
+                        <a href="{{ route('sop_list.index') }}" class="btn btn-primary btn-sm add">
                             <i class="fa fa-arrow-left"></i>
                             <span>Kembali</span>
                         </a>
@@ -24,7 +24,7 @@
                         @if($sop->gambar == null)
                         <div class="col-md-12">
                             @foreach($category as $c)
-                            <span class="badge badge-info shadow">{{$c->name}}</span>
+                            <span class="badge badge-warning shadow">{{$c->name}}</span>
                             @endforeach
                             <p class="text-muted">{{$sop->updated_at}}</p>
                             <img id="img" src="{{asset('images/noimage.png')}}" alt="sop" style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 30px" />
@@ -33,7 +33,7 @@
                         @else
                         <div class="col-md-12">
                             @foreach($category as $c)
-                            <span class="badge badge-info shadow">{{$c->name}}</span>
+                            <span class="badge badge-warning shadow">{{$c->name}}</span>
                             @endforeach
                             <p class="text-muted">{{$sop->updated_at}}</p>
                             <img id="img" src="{{asset('images/sop/'.$sop->gambar)}}" alt="sop" style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 30px"/>

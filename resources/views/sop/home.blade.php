@@ -65,7 +65,7 @@
                                             <span class="badge badge-success">New</span>
                                             @endif
                                             @for($i=1;$i < count($kategori);$i++)
-                                            <span class="badge badge-info">{{$kategori[$i]}}</span>
+                                            <span class="badge badge-warning">{{$kategori[$i]}}</span>
                                             @endfor
                                         </div>
                                     </div>
