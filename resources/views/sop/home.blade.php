@@ -50,9 +50,9 @@
                         <div class="col-md-4 d-flex align-items-stretch">
                             <div class="card mb-4 box-shadow">
                                 @if($s->gambar == null)
-                                <img src="{{asset('images/placeholder.png')}}" style="max-height: 200px;border-bottom: 1px solid #DFE4E5;">
+                                <img src="{{asset('images/placeholder.png')}}" style="height: 200px;width: 100%;object-fit: cover;border-bottom: 1px solid #DFE4E5;">
                                 @else
-                                <img src="{{ asset('images/sop/'.$s->gambar) }}" style="max-height: 200px;border-bottom: 1px solid #DFE4E5;">
+                                <img src="{{ asset('images/sop/'.$s->gambar) }}" style="height: 200px;width: 100%;object-fit: cover;border-bottom: 1px solid #DFE4E5;">
                                 @endif
                                 <div class="card-body">
                                     <div class="zoom"><a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;"><h4 class="card-text text-gray-900" style="text-align: center;font-weight: 800;margin-bottom: 30px">{{$s->title}}</h4></a></div>
