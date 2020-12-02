@@ -66,9 +66,9 @@
                                                             <input name="gambar" type="file"
                                                                 class="form-control" value="" id="gambar">
                                                             @if($sop->gambar == null)
-                                                            <img id="img" src="{{asset('images/noimage.png')}}" alt="your image" height="100%" style="margin-top: 10px;width: 100%;height: auto;" />
+                                                            <img id="img" src="{{asset('images/noimage.png')}}" alt="your image" height="100%" style="margin-top: 10px;width: 20%;height: auto;" />
                                                             @else
-                                                            <img id="img" src="{{asset('images/sop/'.$sop->gambar)}}" alt="your image" height="100%" style="margin-top: 10px;width: 100%;height: auto;"/>
+                                                            <img id="img" src="{{asset('images/sop/'.$sop->gambar)}}" alt="your image" height="100%" style="margin-top: 10px;width: 60%;height: auto;"/>
                                                             @endif
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
@@ -145,10 +145,10 @@
           name: 'styles',
           items: ['Format', 'Font', 'FontSize']
         },
-        // {
-        //   name: 'colors',
-        //   items: ['TextColor', 'BGColor']
-        // },
+        {
+          name: 'colors',
+          items: ['TextColor', 'BGColor']
+        },
         {
           name: 'align',
           items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
@@ -179,7 +179,7 @@
           items: ['Scayt']
         }
       ],
-      height: 500,
+      height: 700,
       extraAllowedContent: 'h3{clear};h2{line-height};h2 h3{margin-left,margin-top}',
 
       extraPlugins: 'print,format,font,colorbutton,justify,uploadimage',

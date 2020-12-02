@@ -51,7 +51,7 @@
                                                             <label>Gambar Thumbnail</label>
                                                             <input name="gambar" type="file"
                                                                 class="form-control" value="" id="gambar">
-                                                            <img id="img" src="" alt="your image" style="margin-top: 10px;width: 100%;height: auto;"  />
+                                                            <img id="img" src="" alt="your image" style="margin-top: 10px;width: 60%;height: auto;"  />
                                                         </div>
 
                                                         <div class="form-group mb-4 bmd-form-group">
@@ -125,10 +125,10 @@
           name: 'styles',
           items: ['Format', 'Font', 'FontSize']
         },
-        // {
-        //   name: 'colors',
-        //   items: ['TextColor', 'BGColor']
-        // },
+        {
+          name: 'colors',
+          items: ['TextColor', 'BGColor']
+        },
         {
           name: 'align',
           items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
@@ -159,7 +159,7 @@
           items: ['Scayt']
         }
       ],
-      height: 500,
+      height: 700,
       extraAllowedContent: 'h3{clear};h2{line-height};h2 h3{margin-left,margin-top}',
 
       extraPlugins: 'print,format,font,colorbutton,justify,uploadimage',
