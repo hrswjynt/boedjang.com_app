@@ -74,7 +74,7 @@
                             <span class="badge badge-warning shadow">{{$c->name}}</span>
                             @endforeach
                             <p class="text-muted">{{$sop->updated_at}}</p>
-                            <img id="img" src="{{asset('images/sop/'.$sop->gambar)}}" alt="sop" style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 30px"/>
+                            <!-- <img id="img" src="{{asset('images/sop/'.$sop->gambar)}}" alt="sop" style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 30px"/> -->
                         </div>
                         @endif
 
