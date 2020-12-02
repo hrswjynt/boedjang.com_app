@@ -12,6 +12,17 @@
       -webkit-transform: scale(1.1); /* Safari 3-8 */
       transform: scale(1.1); 
     }
+
+    .zoom2 {
+      transition: transform .2s; /* Animation */
+      margin: 0 auto;
+    }
+
+    .zoom2:hover {
+      -ms-transform: scale(1.03); /* IE 9 */
+      -webkit-transform: scale(1.03); /* Safari 3-8 */
+      transform: scale(1.03); 
+    }
 </style>
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -50,9 +61,17 @@
                         <div class="col-md-4 d-flex align-items-stretch">
                             <div class="card mb-4 box-shadow">
                                 @if($s->gambar == null)
-                                <img src="{{asset('images/placeholder.png')}}" style="height: 200px;width: 100%;object-fit: cover;border-bottom: 1px solid #DFE4E5;">
+                                <div class="zoom2">
+                                    <a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;">
+                                        <img src="{{asset('images/placeholder.png')}}" style="height: 200px;width: 100%;object-fit: cover;border-bottom: 1px solid #DFE4E5;">
+                                    </a>
+                                </div>
                                 @else
-                                <img src="{{ asset('images/sop/'.$s->gambar) }}" style="height: 200px;width: 100%;object-fit: cover;border-bottom: 1px solid #DFE4E5;">
+                                <div class="zoom2">
+                                    <a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;">
+                                        <img src="{{ asset('images/sop/'.$s->gambar) }}" style="height: 200px;width: 100%;object-fit: cover;border-bottom: 1px solid #DFE4E5;">
+                                    </a>
+                                </div>
                                 @endif
                                 <div class="card-body">
                                     <div class="zoom"><a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;"><h4 class="card-text text-gray-900" style="text-align: center;font-weight: 800;margin-bottom: 30px">{{$s->title}}</h4></a></div>
