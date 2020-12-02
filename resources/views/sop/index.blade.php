@@ -97,7 +97,15 @@
                 },
                 {
                     data: 'slug',
-                    name: 'slug'
+                    name: 'slug',
+                    render: function (data, type, row) {
+                        if(data !== null){
+                            return '<a target="__blank" href="'+base_url+'/sop-list/'+data+'">'+data+'</a>';
+                        }else{
+                            return '-';
+                        }           
+                    }
+
                 },
                 {
                     data: 'title',

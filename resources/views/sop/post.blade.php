@@ -6,6 +6,8 @@
         height: auto !important;
         border: 3px solid #3BBEEC;
         margin:5px;
+        margin-left: auto;
+        margin-right: auto;
     }
     table {
       border-collapse: collapse;
