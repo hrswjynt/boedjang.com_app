@@ -92,7 +92,7 @@
                         </div>
 
                         @if($sop->google_drive !== null && $sop->google_drive !== '')
-                        <video controls style="width: 100%;padding: 10px">
+                        <video controls style="width: 100%;max-width: 600px;max-height: 400px;padding: 10px;margin-right: auto;margin-left: auto">
                             <source src="https://drive.google.com/uc?export=download&id={{$sop->google_drive}}" type='video/mp4'>
                         </video>
                         @endif
