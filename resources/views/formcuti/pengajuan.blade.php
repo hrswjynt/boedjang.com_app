@@ -33,59 +33,58 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
-                            <div class="form-group mb-4 bmd-form-group">
-                                <label class="bmd-label-floating">Cabang </label>
-                                <input name="cabang" type="text" value="{{$karyawan->Cabang}} {{$karyawan->region}}"
-                                class="form-control" id="cabang" disabled>
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">Cabang </label>
+                                    <input name="cabang" type="text" value="{{$karyawan->Cabang}} {{$karyawan->region}}"
+                                    class="form-control" id="cabang" disabled>
+                                </div>
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">NIP </label>
+                                    <input name="nip" type="text" value="{{$karyawan->NIP}}"
+                                    class="form-control" id="nip" disabled>
+                                </div>
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">Nama </label>
+                                    <input name="nama" type="text" value="{{$karyawan->NAMA}}"
+                                    class="form-control" id="nama" disabled>
+                                </div>
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">Tanggal Mulai <span class="red">*</span></label>
+                                    <input name="tanggal_mulai" type="date" value="{{date('Y-m-d')}}"
+                                    class="form-control" id="tanggal_mulai" required="">
+                                </div>
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">Tanggal Akhir <span class="red">*</span></label>
+                                    <input name="tanggal_akhir" type="date" value="{{date('Y-m-d')}}"
+                                    class="form-control" id="tanggal_akhir" required="">
+                                </div>
                             </div>
-                            <div class="form-group mb-4 bmd-form-group">
-                                <label class="bmd-label-floating">NIP </label>
-                                <input name="nip" type="text" value="{{$karyawan->NIP}}"
-                                class="form-control" id="nip" disabled>
+                            <div class="col-md-6">
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">Jumlah Off <span class="red">*</span></label>
+                                    <input name="jumlah_off" type="number" value="0"
+                                    class="form-control" id="jumlah_off" required="">
+                                </div>
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">Sisa Cuti Tersedia</label>
+                                    <input name="sisa_cuti" type="text" value="{{$karyawan->sisa_cuti}}"
+                                    class="form-control" id="sisa_cuti" readonly="">
+                                </div>
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">Jumlah Cuti Diambil</label>
+                                    <input name="cuti_diambil" type="text" value="0"
+                                    class="form-control" id="cuti_diambil" readonly="">
+                                </div>
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">Sisa Cuti Akhir</label>
+                                    <input name="cuti_akhir" type="text" value="0"
+                                    class="form-control" id="cuti_akhir" readonly="">
+                                </div>
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">Lokasi Cuti <span class="red">*</span></label>
+                                    <textarea name="lokasi_cuti" type="text" rows="3" class="form-control" id="lokasi_cuti" required=""></textarea>
+                                </div>
                             </div>
-                            <div class="form-group mb-4 bmd-form-group">
-                                <label class="bmd-label-floating">Nama </label>
-                                <input name="nama" type="text" value="{{$karyawan->NAMA}}"
-                                class="form-control" id="nama" disabled>
-                            </div>
-                            <div class="form-group mb-4 bmd-form-group">
-                                <label class="bmd-label-floating">Tanggal Mulai <span class="red">*</span></label>
-                                <input name="tanggal_mulai" type="date" value="{{date('Y-m-d')}}"
-                                class="form-control" id="tanggal_mulai" required="">
-                            </div>
-                            <div class="form-group mb-4 bmd-form-group">
-                                <label class="bmd-label-floating">Tanggal Akhir <span class="red">*</span></label>
-                                <input name="tanggal_akhir" type="date" value="{{date('Y-m-d')}}"
-                                class="form-control" id="tanggal_akhir" required="">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-4 bmd-form-group">
-                                <label class="bmd-label-floating">Jumlah Off <span class="red">*</span></label>
-                                <input name="jumlah_off" type="number" value="0"
-                                class="form-control" id="jumlah_off" required="">
-                            </div>
-                            <div class="form-group mb-4 bmd-form-group">
-                                <label class="bmd-label-floating">Lokasi Cuti <span class="red">*</span></label>
-                                <input name="lokasi_cuti" type="text" value=""
-                                class="form-control" id="lokasi_cuti" required="">
-                            </div>
-                            <div class="form-group mb-4 bmd-form-group">
-                                <label class="bmd-label-floating">Sisa Cuti Tersedia</label>
-                                <input name="sisa_cuti" type="text" value="{{$karyawan->sisa_cuti}}"
-                                class="form-control" id="sisa_cuti" readonly="">
-                            </div>
-                            <div class="form-group mb-4 bmd-form-group">
-                                <label class="bmd-label-floating">Jumlah Cuti Diambil</label>
-                                <input name="cuti_diambil" type="text" value="0"
-                                class="form-control" id="cuti_diambil" readonly="">
-                            </div>
-                            <div class="form-group mb-4 bmd-form-group">
-                                <label class="bmd-label-floating">Sisa Cuti Akhir</label>
-                                <input name="cuti_akhir" type="text" value="0"
-                                class="form-control" id="cuti_akhir" readonly="">
-                            </div>
-                        </div>
                         </div>
                         
                             
