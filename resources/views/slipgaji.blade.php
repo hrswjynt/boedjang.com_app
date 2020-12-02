@@ -65,7 +65,7 @@
 
 @push('other-script')
 <script type="text/javascript">
-    var now = "{{date('Y-m', strtotime('-1 month'))}}";
+    var now = "{{$date1}}";
     $(document).ready(function(){
 
         $('#btn-submit').show();

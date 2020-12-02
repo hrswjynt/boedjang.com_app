@@ -30,8 +30,9 @@ class SlipGajiController extends Controller
         if(date('d') >= 16){
             $date1= date("Y-m", strtotime("-1 month"));
         }else{
-            $date1 = date('Y-m');
+            $date1 = date("Y-m", strtotime("-2 month"));
         }
+        // dd($date1);
         return view('slipgaji')->with('page','slipgaji')->with('date1',$date1)->with('karyawan',$karyawan);
     }
 
