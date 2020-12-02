@@ -5,6 +5,7 @@
         max-width: 100%;
         height: auto !important;
         border: 3px solid #3BBEEC;
+        margin:5px;
     }
     table {
       border-collapse: collapse;

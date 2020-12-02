@@ -46,7 +46,7 @@
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('dashboard')}}" style="height: auto;padding: 10px">
                     <div class="sidebar-brand-icon">
                         <!-- <i class="fas fa-laugh-wink"></i> -->
-                        <img src="{{ asset('landing/assets/img/boedjang.png')}}" class="img img-responsive" style="height: 100px !important">
+                        <img src="{{ asset('landing/assets/img/boedjang.png')}}" class="img img-responsive" style="height: 100px !important;margin:0px !important;">
                     </div>
                     <!-- <div class="sidebar-brand-text">Boedjang Group</div> -->
                 </a>
