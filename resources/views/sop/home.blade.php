@@ -74,10 +74,10 @@
                                 </div>
                                 @endif
                                 <div class="card-body">
-                                    <div class="zoom"><a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;"><h4 class="card-text text-gray-900" style="text-align: center;font-weight: 800;margin-bottom: 30px">{{$s->title}}</h4></a></div>
+                                    <div class="zoom"><a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;"><h4 class="card-text text-gray-900" style="text-align: center;font-weight: 800;margin-bottom: 50px">{{$s->title}}</h4></a></div>
                                     
                                     <!-- <hr class="sidebar-divider"> -->
-                                    <div style="bottom: 10px;position: absolute;margin-top: 10px" class="justify-content-between">
+                                    <div style="bottom: 10px;position: absolute;" class="justify-content-between">
                                         <div class="justify-content-between align-items-center">
                                             <small class="text-muted" style="background-color:#DFE4E5;margin-right: 10px">{{$s->updated_at->diffForHumans()}}</small>
                                             @if($s->updated_at > date('Y-m-d H:m:s', strtotime("-7 days")))
