@@ -41,6 +41,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::resource('user','UserController')->except(['destroy']);
 
 	Route::get("sop-list", "SopController@getList")->name('sop_list.index');
+	// Route::get("sop-list/{slug?}", "SopController@getSop")->name('get_sop.index')->where('slug', '(.*)');
 	Route::get("sop-list/{slug}", "SopController@getSop")->name('get_sop.index');
 
 	Route::get("sop-search", "SopController@getSearch")->name('sop_search.index');

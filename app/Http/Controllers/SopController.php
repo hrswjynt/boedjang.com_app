@@ -52,7 +52,8 @@ class SopController extends Controller
         }
 
         $sop = new Sop;
-        $sop->slug = str_replace(" ","-",$request->title);
+        $slug = str_replace("/","",$request->title);
+        $sop->slug = str_replace(" ","-",$slug);
         $sop->title = $request->title;
         $sop->content = $request->content;
         $sop->google_drive = $request->google_drive;
@@ -137,7 +138,8 @@ class SopController extends Controller
             $imageName = time().'sop.'.request()->gambar->getClientOriginalExtension();
             request()->gambar->move(public_path('images/sop'), $imageName);
         }
-        $sop->slug = str_replace(" ","-",$request->title);
+        $slug = str_replace("/","",$request->title);
+        $sop->slug = str_replace(" ","-",$slug);
         $sop->title = $request->title;
         $sop->content = $request->content;
         if($imageName != null){
