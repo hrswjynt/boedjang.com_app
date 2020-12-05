@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth']], function() {
 	// Route::get("sop-list/{slug?}", "SopController@getSop")->name('get_sop.index')->where('slug', '(.*)');
 	Route::get("sop-list/{slug}", "SopController@getSop")->name('get_sop.index');
 
-	Route::get("sop-search", "SopController@getSearch")->name('sop_search.index');
+	Route::post("sop-search", "SopController@getSearch")->name('sop_search.index');
 
 	Route::get("pengajuanformcuti", "CutiController@pengajuan")->name('formcuti.pengajuan');
     Route::post("formcuti-pengajuanpost", "CutiController@pengajuanPost")->name('formcuti.pengajuanpost');
