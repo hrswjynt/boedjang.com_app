@@ -97,8 +97,10 @@
                             <h3 style="text-align: center;margin-top: 30px">Tidak ada data SOP yang tersedia. <i class="fas fa-laugh-wink"></i></h3>
                         </div>
                         @endif
-                        <div class="col-md-12" style="margin-left: 0;margin-right: 0; margin-top: 30px">
-                            {{ $sop->links() }}
+                        <div class="d-flex">
+                            <div class="mx-auto">
+                                {{$sop->links("pagination::bootstrap-4")}}
+                            </div>
                         </div>
                     </div>
                 </div>
