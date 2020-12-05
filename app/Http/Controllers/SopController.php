@@ -194,7 +194,7 @@ class SopController extends Controller
     {   
         $search = null;
         $category_select = null;
-        $sop = Sop::where('publish','1')->orderBy('updated_at','DESC')->get();
+        $sop = Sop::where('publish','1')->orderBy('updated_at','DESC')->paginate(15);
         $category = Category::all();
         return view('sop.home')->with('page','sop_list')->with('sop',$sop)->with('category',$category)->with('category_select',$category_select)->with('search',$search);
     }
@@ -202,7 +202,7 @@ class SopController extends Controller
     public function getSop($slug)
     {   
         $sop = Sop::where('slug',$slug)->first();
-        $category = SopRelationCategory::join('category','category.id','sop_relation_category.id_category')->select('category.*')->where('id_sop',$sop->id)->get();
+        $category = SopRelationCategory::join('category','category.id','sop_relation_category.id_category')->select('category.*')->where('id_sop',$sop->id)->paginate(15);
         if($sop == null){
             return redirect()->route('sop_list.index')->with('danger','SOP yang dicari tidak ditemukan.');
         }

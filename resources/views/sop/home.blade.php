@@ -97,6 +97,7 @@
                             <h3 style="text-align: center;margin-top: 30px">Tidak ada data SOP yang tersedia. <i class="fas fa-laugh-wink"></i></h3>
                         </div>
                         @endif
+                        {{ $sop->links() }}
                     </div>
                 </div>
             </div>
