@@ -98,7 +98,7 @@
                         </div>
                         @endif
                         <div class="d-flex col-md-12">
-                            <div class="mx-auto">;
+                            <div class="mx-auto">
                                 {{$sop->appends(request()->input())->links()}}
                             </div>
                         </div>
