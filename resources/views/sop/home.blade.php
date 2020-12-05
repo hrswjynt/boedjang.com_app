@@ -35,7 +35,7 @@
             <div class="card shadow mb-4">
                 <div class="card-body">
                     <!-- Search form -->
-                    <form class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2" action="{{route('sop_search.index')}}" method="POST" style="margin-bottom: 30px">
+                    <form class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2" action="{{route('sop_search.index')}}" method="GET" style="margin-bottom: 30px">
                          @csrf
                         <input class="form-control" type="text" aria-label="Search"name="search" placeholder="Cari SOP" value="{{$search}}" style="margin:5px"/>
                         <select class="form-control" name="category" style="margin:5px">
@@ -98,8 +98,8 @@
                         </div>
                         @endif
                         <div class="d-flex col-md-12">
-                            <div class="mx-auto">
-                                {{$sop->links("pagination::bootstrap-4")}}
+                            <div class="mx-auto">;
+                                {{$sop->appends(request()->input())->links()}}
                             </div>
                         </div>
                     </div>
