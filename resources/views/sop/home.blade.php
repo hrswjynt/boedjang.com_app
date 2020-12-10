@@ -97,11 +97,10 @@
                             <h3 style="text-align: center;margin-top: 30px">Tidak ada data SOP yang tersedia. <i class="fas fa-laugh-wink"></i></h3>
                         </div>
                         @endif
-                        <div class="d-flex col-md-12">
-                            <div class="mx-auto">
-                                {{$sop->appends(request()->input())->onEachSide(1)->links()}}
-                            </div>
-                        </div>
+                        
+                    </div>
+                    <div class="d-flex col-md-12">
+                        {{$sop->appends(request()->input())->onEachSide(1)->links()}}
                     </div>
                 </div>
             </div>
