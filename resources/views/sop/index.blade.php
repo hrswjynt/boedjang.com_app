@@ -116,9 +116,9 @@
                     name: 'publish',
                     render: function (data, type, row) {
                         if(data == 1){
-                            return '<span class="btn btn-success btn-sm active shadow">Publish</span>';
+                            return '<span class="badge badge-success shadow" style="zoom:120%">Publish</span>';
                         }else{
-                            return '<span class="btn btn-warning btn-sm active shadow">Draft</span>';
+                            return '<span class="badge badge-warning shadow">Draft</span>';
                         }           
                     }
                 },

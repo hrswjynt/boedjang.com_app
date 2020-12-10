@@ -35,6 +35,10 @@
             .bmd-label-floating{
                 font-weight: 700;
             }
+            @font-face {
+                font-family: 'Comic Sans MS';
+                src: url("{{asset('7cc6719bd5f0310be3150ba33418e72e.woff')}}") format("woff");
+            }
         </style>
     </head>
     <body id="page-top">
