@@ -99,7 +99,7 @@
                         @endif
                         <div class="d-flex col-md-12">
                             <div class="mx-auto">
-                                {{$sop->appends(request()->input())->onEachSide(2)->links()}}
+                                {{$sop->appends(request()->input())->onEachSide(1)->links()}}
                             </div>
                         </div>
                     </div>
