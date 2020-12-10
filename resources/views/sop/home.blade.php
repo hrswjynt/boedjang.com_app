@@ -23,6 +23,23 @@
       -webkit-transform: scale(1.03); /* Safari 3-8 */
       transform: scale(1.03); 
     }
+    @media screen and ( max-width: 400px ){
+
+        li.page-item {
+
+            display: none;
+        }
+
+        .page-item:first-child,
+        .page-item:nth-child( 2 ),
+        .page-item:nth-last-child( 2 ),
+        .page-item:last-child,
+        .page-item.active,
+        .page-item.disabled {
+
+            display: block;
+        }
+    }
 </style>
 <div class="container-fluid">
     <!-- Page Heading -->
