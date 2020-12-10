@@ -105,7 +105,9 @@
     </div>
 </div>
 <div class="d-flex col-md-12">
-    {{$sop->appends(request()->input())->onEachSide(1)->links()}}
+    <div class="mx-auto">
+        {{$sop->appends(request()->input())->onEachSide(1)->links()}}
+    </div>
 </div>
 <script type="text/javascript">
     var base_url = "{{ url('/') }}";
