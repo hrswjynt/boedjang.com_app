@@ -194,7 +194,7 @@ class SopController extends Controller
     {   
         $search = null;
         $category_select = null;
-        $sop = Sop::where('publish','1')->orderBy('updated_at','DESC')->paginate(15)->onEachSide(2);
+        $sop = Sop::where('publish','1')->orderBy('updated_at','DESC')->paginate(15)->onEachSide(1);
         $category = Category::all();
         return view('sop.home')->with('page','sop_list')->with('sop',$sop)->with('category',$category)->with('category_select',$category_select)->with('search',$search);
     }
@@ -215,9 +215,9 @@ class SopController extends Controller
         $search = $request->search;
         $category_select = null;
         if($request->category == 'all'){
-            $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.slug','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15)->onEachSide(2);
+            $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.slug','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15)->onEachSide(1);
         }else{
-            $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.slug','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop_relation_category.id_category',$request->category)->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15)->onEachSide(2);
+            $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.slug','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop_relation_category.id_category',$request->category)->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15)->onEachSide(1);
             $category_select = Category::find($request->category);
         }
         
