@@ -76,15 +76,15 @@
                         @foreach($sop as $s)
                         <?php $kategori = explode(';',$s->category_display);?>
                         <div class="col-md-4 d-flex align-items-stretch">
-                            <div class="card mb-4 box-shadow">
+                            <div class="card mb-4 box-shadow" style="width: 100%">
                                 @if($s->gambar == null)
-                                <div class="zoom2">
+                                <div class="zoom2" style="width: 100%">
                                     <a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;">
                                         <img src="{{asset('images/placeholder.png')}}" style="height: 200px;width: 100%;object-fit: cover;border-bottom: 1px solid #DFE4E5;">
                                     </a>
                                 </div>
                                 @else
-                                <div class="zoom2">
+                                <div class="zoom2" style="width: 100%">
                                     <a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;">
                                         <img src="{{ asset('images/sop/'.$s->gambar) }}" style="height: 200px;width: 100%;object-fit: cover;border-bottom: 1px solid #DFE4E5;">
                                     </a>
