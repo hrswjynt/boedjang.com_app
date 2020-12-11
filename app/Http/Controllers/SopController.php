@@ -10,6 +10,7 @@ use DataTables;
 use Auth;
 use DB;
 use File;
+use Image;
 
 class SopController extends Controller
 {
@@ -42,13 +43,23 @@ class SopController extends Controller
     {   
         // dd($request->all());
         $validatedData = $this->validate($request, [
-            'title'         => 'required',
+            'title' => 'required',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20480'
         ]);
 
         $imageName = null;
         if($request->gambar !== null){
-            $imageName = time().'sop.'.request()->gambar->getClientOriginalExtension();
-            request()->gambar->move(public_path('images/sop'), $imageName);
+            // $imageName = time().'sop.'.request()->gambar->getClientOriginalExtension();
+            // request()->gambar->move(public_path('images/sop'), $imageName);
+
+            $image = $request->file('gambar');
+            $image_name = time() . 'sop.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images/sop');
+            $resize_image = Image::make($image->getRealPath());
+            $resize_image->resize(null, 300, function($constraint){
+                $constraint->aspectRatio();
+            })->save($destinationPath . '/' . $image_name);
+            // $image->move($destinationPath, $image_name);
         }
 
         $sop = new Sop;
@@ -58,7 +69,7 @@ class SopController extends Controller
         $sop->content = $request->content;
         $sop->google_drive = $request->google_drive;
         $sop->youtube = $request->youtube;
-        $sop->gambar = $imageName;
+        $sop->gambar = $image_name;
         $sop->publish = 0;
         $sop->category_display = '';
         $sop->save();
@@ -135,21 +146,29 @@ class SopController extends Controller
         ]);
         $imageName = null;
         if($request->gambar !== null){
-            $imageName = time().'sop.'.request()->gambar->getClientOriginalExtension();
-            request()->gambar->move(public_path('images/sop'), $imageName);
+            // $imageName = time().'sop.'.request()->gambar->getClientOriginalExtension();
+            // request()->gambar->move(public_path('images/sop'), $imageName);
+
+            $image = $request->file('gambar');
+            $image_name = time() . 'sop.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images/sop');
+            $resize_image = Image::make($image->getRealPath());
+            $resize_image->resize(null, 300, function($constraint){
+                $constraint->aspectRatio();
+            })->save($destinationPath . '/' . $image_name);
         }
         $slug = str_replace("/","",$request->title);
         $sop->slug = str_replace(" ","-",$slug);
         $sop->title = $request->title;
         $sop->content = $request->content;
-        if($imageName != null){
+        if($image_name != null){
             if($sop->gambar !==null){
-                $image_path = public_path('images/sop'.$sop->gambar);
+                $image_path = public_path('/images/sop/'.$sop->gambar);
                 if(File::exists($image_path)) {
                     File::delete($image_path);
                 }
             }
-            $sop->gambar = $imageName;
+            $sop->gambar = $image_name;
         }
         $sop->category_display = '';
         $sop->publish = $request->publish;
@@ -175,7 +194,14 @@ class SopController extends Controller
         try{
             $sop = Sop::find($id);
             $title = $sop->title;
+            $gambar = $sop->gambar;
             $sop->delete();
+            if($gambar !==null){
+                $image_path = public_path('/images/sop/'.$gambar);
+                if(File::exists($image_path)) {
+                    File::delete($image_path);
+                }
+            }
             DB::commit();
             return response()->json([
                 'message' => 'SOP "'.$title.'" berhasil dihapus!',
