@@ -144,7 +144,7 @@ class SopController extends Controller
         $validatedData = $this->validate($request, [
             'title'         => 'required',
         ]);
-        $imageName = null;
+        $image_name = null;
         if($request->gambar !== null){
             // $imageName = time().'sop.'.request()->gambar->getClientOriginalExtension();
             // request()->gambar->move(public_path('images/sop'), $imageName);
