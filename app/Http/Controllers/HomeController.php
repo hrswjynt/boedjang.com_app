@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\AttLogCenter;
 use App\Karyawan;
+use App\SanksiPegawai;
 use Auth;
 use DB;
 
@@ -29,7 +30,7 @@ class HomeController extends Controller
     public function index()
     {   
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
-        
+        $sanksi = SanksiPegawai::where('status',1)->where('nip',$karyawan->NIP)->first();
         if(date('d') >= 16){
             $date1 = date('Y-m-16');
             $date2 = date("Y-m-d", strtotime("+1 month", strtotime(date('15-m-Y'))));
@@ -125,8 +126,6 @@ class HomeController extends Controller
         $jum_tanpa_ket = DB::select(DB::raw("select count(a.NIP) as jumlah from `u1127775_absensi`.Absen a LEFT JOIN (select b.nip, b.nama, tgl_absen from `u1127775_absensi`.Abs_att_log_center b where b.tgl_absen = '". date('Y-m-d', strtotime("-1 days"))."')  b on b.nip = a.NIP where b.tgl_absen is null and a.Status <> 'Resign' and a.No not in (1669,1673,1669,1671,1672,1678,1679,1690,1765,1798,1890,1947,1960,1962) and a.region ='".Auth::user()->region ."' and a.Cabang ='".Auth::user()->cabang ."'"));
         $jum_tanpa_ket = $jum_tanpa_ket[0]->jumlah;
 
-
-
         return view('home')->with('page','dashboard')
                             ->with('karyawan',$karyawan)
                             ->with('jumlah_telat',$jumlah_telat)
@@ -145,12 +144,15 @@ class HomeController extends Controller
                             ->with('jum_izinalfa',$jum_izinalfa)
                             ->with('jum_tidak_absen',$jum_tidak_absen)
                             ->with('jum_tanpa_ket', $jum_tanpa_ket)
+                            ->with('sanksi', $sanksi)
                             ;
         }else{
             return view('home')->with('page','dashboard')
                             ->with('karyawan',$karyawan)
                             ->with('jumlah_telat',$jumlah_telat)
-                            ->with('total_telat',$total_telat);
+                            ->with('total_telat',$total_telat)
+                            ->with('sanksi', $sanksi)
+                            ;
         }
     }
 
