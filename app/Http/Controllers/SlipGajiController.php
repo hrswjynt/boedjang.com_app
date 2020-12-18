@@ -329,7 +329,7 @@ class SlipGajiController extends Controller
                             SUM(
                             IFNULL( pinjaman, 0 )) AS 'Angsuran',
                             b.penangguhan AS 'penangguhan',
-                            ifnull( CAST( b.tambahan3bln AS INT ), 0 ) AS 'tigabln',
+                            ifnull( CAST( max(a.tambahan3bln) AS INT ), 0 ) AS 'tigabln',
                             ".date('t',strtotime($date1))." AS period,
                             b.region,
                             date( b.Tanggal_Masuk ) AS 'tgl_masuk',
