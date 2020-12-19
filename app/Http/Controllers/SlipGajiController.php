@@ -128,8 +128,8 @@ class SlipGajiController extends Controller
                             ) AS 'akm_alfa_a',
                             ROUND( b.Masa_kerja, 1 ) AS masa_kerja,
                             0 AS 'akm_alfa_b',
-                            ifnull( b.bpjs_ksht, 0 ) AS 'bpjs_ksht',
-                            ifnull( b.bpjs_tkrj, 0 ) AS 'bpjs_tkrj',
+                            ifnull(( SELECT bpjs_ksht FROM u1127775_absensi.bpjs WHERE u1127775_absensi.bpjs.nip = b.NIP and u1127775_absensi.bpjs.tgl = '".$date2."'),'0') AS 'bpjs_ksht',
+                            ifnull(( SELECT bpjs_tkrj FROM u1127775_absensi.bpjs WHERE u1127775_absensi.bpjs.nip = b.NIP and u1127775_absensi.bpjs.tgl = '".$date2."'),'0') AS 'bpjs_tkrj',
                             b.Masa_kerja AS 'masakerja',
                             b.STATUS AS 'absenstatus',
                             SUM(
@@ -322,8 +322,8 @@ class SlipGajiController extends Controller
                                     )),
                                 0 
                             ) AS 'akm_alfa_b',
-                            ifnull( b.bpjs_ksht, 0 ) AS 'bpjs_ksht',
-                            ifnull( b.bpjs_tkrj, 0 ) AS 'bpjs_tkrj',
+                            ifnull(( SELECT bpjs_ksht FROM u1127775_absensi.bpjs WHERE u1127775_absensi.bpjs.nip = b.NIP and u1127775_absensi.bpjs.tgl = '".$date2."'),'0') AS 'bpjs_ksht',
+                            ifnull(( SELECT bpjs_tkrj FROM u1127775_absensi.bpjs WHERE u1127775_absensi.bpjs.nip = b.NIP and u1127775_absensi.bpjs.tgl = '".$date2."'),'0') AS 'bpjs_tkrj',
                             b.Masa_kerja AS 'masakerja',
                             b.STATUS AS 'absenstatus',
                             SUM(
