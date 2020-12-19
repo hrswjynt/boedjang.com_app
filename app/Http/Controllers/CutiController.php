@@ -41,7 +41,6 @@ class CutiController extends Controller
         $model->tgl_akhir = $request->tanggal_akhir;
         $model->off = $request->jumlah_off;
         $model->status = 'Menunggu';
-        $model->save();
 
         if(!$model->save()) {
             DB::rollback();
