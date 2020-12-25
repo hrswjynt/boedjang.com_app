@@ -43,7 +43,7 @@ class SlipGajiController extends Controller
         if($karyawan == null){
             return 'Data karyawan tidak ditemukan.';
         }
-        $array = array(1669,1673,1669,1671,1672,1678,1679,1690,1765,1798,1890,1947,1960,1962);
+        $array = array(1669,1673,1669,1671,1672,1678,1679,1690,1765,1798,1890,1947,1960,1962,1685);
         $date1 = $request->sdate.'-16';
         $date2 = date("Y-m-d", strtotime("+1 month", strtotime(date($request->sdate.'-15'))));
         if(in_array($karyawan->No, $array)){
@@ -157,6 +157,7 @@ class SlipGajiController extends Controller
                                 1679,
                                 1690,
                                 1765,
+                                1685,
                                 1798,
                                 1890,
                                 1947,
@@ -352,6 +353,7 @@ class SlipGajiController extends Controller
                                 1679,
                                 1690,
                                 1765,
+                                1685,
                                 1798,
                                 1890,
                                 1947,
