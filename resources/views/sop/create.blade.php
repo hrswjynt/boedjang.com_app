@@ -63,6 +63,14 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
+                                                            <label>Jenis<span class="red">*</span></label>
+                                                            <select class="select2" name="type" id="type" class="form-control" style="width: 100%" required>   
+                                                                @foreach($type as $t)
+                                                                <option value="{{$t->id}}">{{$t->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group mb-4 bmd-form-group">
                                                             <label>Konten <span class="red">*</span></label>
                                                             <textarea rows="5" name="content" id="konten" class="form-control" required="">{!! old('content') !!}</textarea>
                                                         </div>
@@ -243,6 +251,9 @@
                     category: {
                         required: true
                     },
+                    type: {
+                        required: true
+                    },
                     content: {
                         required: true,
                         email : true
@@ -257,6 +268,9 @@
                     },
                     category: {
                         required : 'Data Kategori tidak boleh kosong',
+                    },
+                    type: {
+                        required : 'Data Jenis tidak boleh kosong',
                     },
                     content: 'Data konten tidak boleh kosong',
                 },

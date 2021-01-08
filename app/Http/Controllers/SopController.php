@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Sop;
 use App\Category;
+use App\Type;
 use App\SopRelationCategory;
 use DataTables;
 use Auth;
@@ -36,7 +37,8 @@ class SopController extends Controller
 
     public function create(){
         $category = Category::all();
-        return view('sop.create')->with('page','sop')->with('category',$category);
+        $type = Type::all();
+        return view('sop.create')->with('page','sop')->with('category',$category)->with('type',$type);
     }
 
     public function store(Request $request)
@@ -66,6 +68,7 @@ class SopController extends Controller
         $slug = str_replace("/","",$request->title);
         $sop->slug = str_replace(" ","-",$slug);
         $sop->title = $request->title;
+        $sop->type = $request->type;
         $sop->content = $request->content;
         $sop->google_drive = $request->google_drive;
         $sop->youtube = $request->youtube;
@@ -114,12 +117,14 @@ class SopController extends Controller
     public function show(Sop $sop)
     {   
         $category = Category::all();
+        $type = Type::all();
         $sopcategory = SopRelationCategory::where('id_sop',$sop->id)->get();
         foreach ($sopcategory as $sc) {
             $arrayc[] = $sc->id_category;
         }
         return view('sop.show')->with('sop', $sop)
                                 ->with('page','sop')
+                                ->with('type',$type)
                                 ->with('category',$category)
                                 ->with('sopcategory',$arrayc);
     }
@@ -127,6 +132,7 @@ class SopController extends Controller
     public function edit(Sop $sop)
     {   
         $category = Category::all();
+        $type = Type::all();
         $sopcategory = SopRelationCategory::where('id_sop',$sop->id)->get();
         foreach ($sopcategory as $sc) {
             $arrayc[] = $sc->id_category;
@@ -134,6 +140,7 @@ class SopController extends Controller
         // dd($arrayc);        
         return view('sop.edit')->with('page','sop')
                                 ->with('sop', $sop)
+                                ->with('type',$type)
                                 ->with('category',$category)
                                 ->with('sopcategory',$arrayc)
                                 ;
@@ -174,6 +181,7 @@ class SopController extends Controller
         $sop->publish = $request->publish;
         $sop->google_drive = $request->google_drive;
         $sop->youtube = $request->youtube;
+        $sop->type = $request->type;
         $sop->save();
 
         SopRelationCategory::where('id_sop',$sop->id)->delete();
@@ -220,9 +228,11 @@ class SopController extends Controller
     {   
         $search = null;
         $category_select = null;
+        $type_select = null;
         $sop = Sop::where('publish','1')->orderBy('updated_at','DESC')->paginate(15);
         $category = Category::all();
-        return view('sop.home')->with('page','sop_list')->with('sop',$sop)->with('category',$category)->with('category_select',$category_select)->with('search',$search);
+        $type = Type::all();
+        return view('sop.home')->with('page','sop_list')->with('sop',$sop)->with('category',$category)->with('type',$type)->with('category_select',$category_select)->with('type_select',$type_select)->with('search',$search);
     }
 
     public function getSop($slug)
@@ -240,14 +250,32 @@ class SopController extends Controller
         // dd($request->all());
         $search = $request->search;
         $category_select = null;
+        $type_select = null;
         if($request->category == 'all'){
-            $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.slug','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15);
+            if($request->type == 'all'){
+                $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.title','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15);
+            }else{
+                $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.title','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop.publish','1')->where('sop.type',$request->type)->select('sop.*')->groupBy('sop.id')->paginate(15);
+                $type_select = Category::find($request->type);
+            }
         }else{
-            $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.slug','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop_relation_category.id_category',$request->category)->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15);
-            $category_select = Category::find($request->category);
+            if($request->type == 'all'){
+                $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.title','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop_relation_category.id_category',$request->category)->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15);
+                $category_select = Category::find($request->category);
+            }else{
+                $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.title','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop_relation_category.id_category',$request->category)->where('sop.type',$request->type)->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15);
+                $category_select = Category::find($request->category);
+                $type_select = Category::find($request->type);
+            }
         }
-        
         $category = Category::all();
-        return view('sop.home')->with('page','sop_list')->with('sop',$sop)->with('category',$category)->with('category_select',$category_select)->with('search',$search);
+        $type = Type::all();
+        return view('sop.home')->with('page','sop_list')
+                    ->with('sop',$sop)
+                    ->with('category',$category)
+                    ->with('category_select',$category_select)
+                    ->with('type',$type)
+                    ->with('type_select',$type_select)
+                    ->with('search',$search);
     }
 }

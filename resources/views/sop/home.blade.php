@@ -56,7 +56,7 @@
                          @csrf
                         <input class="form-control" type="text" aria-label="Search"name="search" placeholder="Cari SOP" value="{{$search}}" style="margin:5px"/>
                         <select class="form-control" name="category" style="margin:5px">
-                            <option value="all">Semua</option>
+                            <option value="all">Semua Kategori</option>
                             @foreach($category as $c)
                             @if($category_select != null)
                                 @if($category_select->id == $c->id)
@@ -66,6 +66,20 @@
                                 @endif
                             @else
                             <option value="{{$c->id}}">{{$c->name}}</option>
+                            @endif
+                            @endforeach
+                        </select>
+                        <select class="form-control" name="type" style="margin:5px">
+                            <option value="all">Semua Jenis</option>
+                            @foreach($type as $t)
+                            @if($type_select != null)
+                                @if($type_select->id == $t->id)
+                                <option value="{{$t->id}}" selected="">{{$t->name}}</option>
+                                @else
+                                <option value="{{$t->id}}">{{$t->name}}</option>
+                                @endif
+                            @else
+                            <option value="{{$t->id}}">{{$t->name}}</option>
                             @endif
                             @endforeach
                         </select>
