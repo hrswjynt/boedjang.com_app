@@ -100,7 +100,7 @@ class TypeController extends Controller
         $name = $type->name;
         if(Sop::where('type',$id)->first() !== null){
             return response()->json([
-                'message' => 'Jenis SOP "'.$name.'" gagal dihapus, kategori telah digunakan.',
+                'message' => 'Jenis SOP "'.$name.'" gagal dihapus, jenis telah digunakan.',
                 'type'=> 'danger',
             ]);
         }
