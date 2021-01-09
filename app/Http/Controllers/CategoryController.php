@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
+use App\SopRelationCategory;
 use DataTables;
 use Auth;
 use DB;
@@ -95,9 +96,15 @@ class CategoryController extends Controller
 
    public function delete($id){
         DB::beginTransaction();
+        $category = Category::find($id);
+        $name = $category->name;
+        if(SopRelationCategory::where('id_category',$id)->first() !== null){
+            return response()->json([
+                'message' => 'Kategori "'.$name.'" gagal dihapus, kategori telah digunakan.',
+                'type'=> 'danger',
+            ]);
+        }
         try{
-            $category = Category::find($id);
-            $name = $category->name;
             $category->delete();
             DB::commit();
             return response()->json([
@@ -105,7 +112,7 @@ class CategoryController extends Controller
                 'type'=> 'success',
             ]);
         } catch (\Exception $e) {
-            DB::rollback();
+            DB::rollBack();
             return response()->json([
                 'message' => 'Kategori "'.$name.'" gagal dihapus!',
                 'type'=> 'danger',
