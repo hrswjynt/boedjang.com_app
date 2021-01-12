@@ -256,7 +256,7 @@ class SopController extends Controller
                 $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.title','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15);
             }else{
                 $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.title','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop.publish','1')->where('sop.type',$request->type)->select('sop.*')->groupBy('sop.id')->paginate(15);
-                $type_select = Category::find($request->type);
+                $type_select = Type::find($request->type);
             }
         }else{
             if($request->type == 'all'){
@@ -265,7 +265,7 @@ class SopController extends Controller
             }else{
                 $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.title','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop_relation_category.id_category',$request->category)->where('sop.type',$request->type)->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15);
                 $category_select = Category::find($request->category);
-                $type_select = Category::find($request->type);
+                $type_select = Type::find($request->type);
             }
         }
         $category = Category::all();
