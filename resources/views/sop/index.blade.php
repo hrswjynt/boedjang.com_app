@@ -99,20 +99,26 @@
                     searchable: false
                 },
                 {
-                    data: 'slug',
-                    name: 'slug',
+                    data: 'title',
+                    name: 'title',
                     render: function (data, type, row) {
                         if(data !== null){
-                            return '<a target="__blank" href="'+base_url+'/sop-list/'+data+'">'+data+'</a>';
+                            return '<a target="__blank" href="'+base_url+'/sop-list/'+row.slug+'">'+data+'</a>';
                         }else{
                             return '-';
                         }           
                     }
-
                 },
                 {
-                    data: 'title',
-                    name: 'title'
+                    data: 'type_name',
+                    name: 'type_name',
+                    render: function (data, type, row) {
+                        if(data !== null){
+                            return '<span class="badge badge-info shadow">'+data+'</span>';
+                        }else{
+                            return '-';
+                        }           
+                    }
                 },
                 {
                     data: 'google_drive',

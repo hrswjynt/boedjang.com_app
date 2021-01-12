@@ -91,7 +91,7 @@ class SopController extends Controller
     }
 
     public function getData(){
-        $data = Sop::all();
+        $data = Sop::leftJoin('type','type.id','sop.type')->select('sop.*', 'type.name as type_name')->get();
         return $this->datatable($data);
     }
 
