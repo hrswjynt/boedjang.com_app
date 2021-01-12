@@ -115,17 +115,6 @@
                     name: 'title'
                 },
                 {
-                    data: 'publish',
-                    name: 'publish',
-                    render: function (data, type, row) {
-                        if(data == 1){
-                            return '<span class="badge badge-success shadow" style="zoom:120%">Publish</span>';
-                        }else{
-                            return '<span class="badge badge-warning shadow">Draft</span>';
-                        }           
-                    }
-                },
-                {
                     data: 'google_drive',
                     name: 'google_drive',
                     render: function (data, type, row) {
@@ -136,6 +125,18 @@
                         }           
                     }
                 },
+                {
+                    data: 'publish',
+                    name: 'publish',
+                    render: function (data, type, row) {
+                        if(data == 1){
+                            return '<span class="badge badge-success shadow" style="zoom:120%">Publish</span>';
+                        }else{
+                            return '<span class="badge badge-warning shadow">Draft</span>';
+                        }           
+                    }
+                },
+                
                 {
                     data: 'action',
                     name: 'action',
