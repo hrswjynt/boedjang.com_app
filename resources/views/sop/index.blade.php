@@ -114,7 +114,7 @@
                     name: 'type_name',
                     render: function (data, type, row) {
                         if(data !== null){
-                            return '<span class="badge badge-info shadow">'+data+'</span>';
+                            return '<span class="badge badge-info shadow" style="zoom:120%">'+data+'</span>';
                         }else{
                             return '-';
                         }           
@@ -127,7 +127,7 @@
                         if((data == null || data == '') && (row.youtube == null || row.youtube == '')){
                             return '<span class="badge badge-danger shadow" style="zoom:120%">Tidak</span>';
                         }else{
-                            return '<span class="badge badge-primary shadow">Ya</span>';
+                            return '<span class="badge badge-primary shadow" style="zoom:120%">Ya</span>';
                         }           
                     }
                 },
@@ -138,7 +138,7 @@
                         if(data == 1){
                             return '<span class="badge badge-success shadow" style="zoom:120%">Publish</span>';
                         }else{
-                            return '<span class="badge badge-warning shadow">Draft</span>';
+                            return '<span class="badge badge-warning shadow" style="zoom:120%">Draft</span>';
                         }           
                     }
                 },
