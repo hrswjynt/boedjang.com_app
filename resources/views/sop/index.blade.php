@@ -47,6 +47,9 @@
                                         Judul
                                     </th>
                                     <th>
+                                        Video
+                                    </th>
+                                    <th>
                                         Status
                                     </th>
                                     <th class="text-right">
@@ -119,6 +122,17 @@
                             return '<span class="badge badge-success shadow" style="zoom:120%">Publish</span>';
                         }else{
                             return '<span class="badge badge-warning shadow">Draft</span>';
+                        }           
+                    }
+                },
+                {
+                    data: 'google_drive',
+                    name: 'google_drive',
+                    render: function (data, type, row) {
+                        if((data == null || data == '') && (row.youtube == null || row.youtube == '')){
+                            return '<span class="badge badge-success shadow" style="zoom:120%">Tidak</span>';
+                        }else{
+                            return '<span class="badge badge-warning shadow">Ya</span>';
                         }           
                     }
                 },
