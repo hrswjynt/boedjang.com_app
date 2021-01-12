@@ -41,10 +41,10 @@
                                         No
                                     </th>
                                     <th>
-                                        Slug
+                                        Judul
                                     </th>
                                     <th>
-                                        Judul
+                                        Jenis
                                     </th>
                                     <th>
                                         Video
