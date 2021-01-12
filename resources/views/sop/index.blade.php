@@ -130,9 +130,9 @@
                     name: 'google_drive',
                     render: function (data, type, row) {
                         if((data == null || data == '') && (row.youtube == null || row.youtube == '')){
-                            return '<span class="badge badge-success shadow" style="zoom:120%">Tidak</span>';
+                            return '<span class="badge badge-danger shadow" style="zoom:120%">Tidak</span>';
                         }else{
-                            return '<span class="badge badge-warning shadow">Ya</span>';
+                            return '<span class="badge badge-primary shadow">Ya</span>';
                         }           
                     }
                 },
