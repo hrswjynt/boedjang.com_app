@@ -61,6 +61,10 @@ Route::group(['middleware' => ['admin']], function() {
 	Route::get("category-data", "CategoryController@getData");
 	Route::post('/category-delete/{id}', 'CategoryController@delete')->name('category.delete');
 
+	Route::resource('tag','TagController')->except(['destroy']);
+	Route::get("tag-data", "TagController@getData");
+	Route::post('/tag-delete/{id}', 'TagController@delete')->name('tag.delete');	
+
 	Route::resource('type','TypeController')->except(['destroy']);
 	Route::get("type-data", "TypeController@getData");
 	Route::post('/type-delete/{id}', 'TypeController@delete')->name('type.delete');

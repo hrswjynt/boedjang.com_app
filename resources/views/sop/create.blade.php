@@ -50,7 +50,7 @@
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Gambar Thumbnail</label>
                                                             <input name="gambar" type="file"
-                                                                class="form-control" value="" id="gambar">
+                                                                class="form-control" value="" id="gambar" accept="image/*">
                                                             <img id="img" src="" alt="your image" style="margin-top: 10px;width: 60%;height: auto;"  />
                                                         </div>
 
@@ -242,9 +242,6 @@
         if($("#sop_form").length > 0) {
             $("#sop_form").validate({
                 rules: {
-                    slug: {
-                        required: true
-                    },
                     title: {
                         required: true
                     },
@@ -256,13 +253,9 @@
                     },
                     content: {
                         required: true,
-                        email : true
                     },
                 },
                 messages: {
-                    slug: {
-                        required : 'Data slug tidak boleh kosong.',
-                    },
                     title: {
                         required : 'Data judul tidak boleh kosong',
                     },

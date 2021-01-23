@@ -64,8 +64,16 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-4 bmd-form-group">
-                                                        <label>Deskripsi <span class="red">*</span></label>
-                                                        <textarea rows="3" name="description" class="form-control" required="" disabled="">{!! $blog->description !!}</textarea>
+                                                        <label>Tag<span class="red">*</span></label>
+                                                        <select class="select2" multiple="multiple" name="tag[]" id="tag" class="form-control" style="width: 100%" disabled="">   
+                                                            @foreach($tag as $c)
+                                                            @if(in_array($c->id,$blogtag))
+                                                            <option value="{{$c->id}}" selected="">{{$c->name}}</option>
+                                                            @else
+                                                            <option value="{{$c->id}}">{{$c->name}}</option>
+                                                            @endif
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                     <div class="form-group mb-4 bmd-form-group">
                                                         <label>Konten <span class="red">*</span></label>

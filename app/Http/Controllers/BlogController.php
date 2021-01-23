@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Blog;
+use App\Tag;
+use App\BlogRelationTag;
 use DataTables;
 use Auth;
 use DB;
+use File;
+use Image;
 
 class BlogController extends Controller
 {
@@ -31,35 +35,54 @@ class BlogController extends Controller
     }
 
     public function create(){
-        return view('blog.create')->with('page','blog');
+        $tag = Tag::all();
+        return view('blog.create')->with('page','blog')->with('tag',$tag);
     }
 
     public function store(Request $request)
     {   
         // dd($request->all());
         $validatedData = $this->validate($request, [
-            'title'         => 'required',
-            'slug'          => 'required',
-            'description'   => 'required'
+            'title' => 'required',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20480'
         ]);
-        $imageName = null;
+
+        $image_name = null;
         if($request->gambar !== null){
-            $imageName = time().'blog.'.request()->gambar->getClientOriginalExtension();
-            request()->gambar->move(public_path('images/blog'), $imageName);
+            $image = $request->file('gambar');
+            $image_name = time() . 'blog.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images/blog');
+            $resize_image = Image::make($image->getRealPath());
+            $resize_image->resize(null, 500, function($constraint){
+                $constraint->aspectRatio();
+            })->save($destinationPath . '/' . $image_name);
         }
         $blog = new Blog;
-        $blog->slug = str_replace(" ","-",$request->slug);
+        $slug = str_replace("/","",$request->title);
+        $blog->slug = strtolower(str_replace(" ","-",$slug));
         $blog->title = $request->title;
         $blog->content = $request->content;
-        $blog->description = $request->description;
+        $blog->gambar = $image_name;
         $blog->publish = 0;
+        $blog->tag_display = '';
+        $blog->author = Auth::user()->id;
         $blog->save();
 
-        return redirect()->back()->with('success','Data blog '.$request->title.' berhasil disimpan.');
+        foreach ($request->tag as $tag) {
+            $relation = new BlogRelationTag;
+            $relation->id_blog = $blog->id;
+            $relation->id_tag = $tag;
+            $relation->save();
+
+            $blog->tag_display = $blog->tag_display.';'.Tag::find($tag)->name;
+            $blog->save();
+        }
+
+        return redirect()->route('blog.index')->with('success','Data blog '.$request->title.' berhasil disimpan.');
     }
 
     public function getData(){
-        $data = Blog::all();
+        $data = Blog::join('users', 'users.id','blogs.author')->select('blogs.*', 'users.name as author_name')->get();
         return $this->datatable($data);
     }
 
@@ -84,43 +107,75 @@ class BlogController extends Controller
     
     public function show(Blog $blog)
     {   
-        return view('blog.show')->with('blog', $blog)->with('page','blog');
+        $tag = Tag::all();
+        $blogtag = BlogRelationTag::where('id_blog',$blog->id)->get();
+        foreach ($blogtag as $bt) {
+            $arrayt[] = $bt->id_tag;
+        }
+        return view('blog.show')->with('blog', $blog)
+                                ->with('tag', $tag)
+                                ->with('blogtag', $arrayt)
+                                ->with('page','blog');
     }
     
     public function edit(Blog $blog)
     {   
+        $tag = Tag::all();
+        $blogtag = BlogRelationTag::where('id_blog',$blog->id)->get();
+        foreach ($blogtag as $bt) {
+            $arrayt[] = $bt->id_tag;
+        }
         return view('blog.edit')->with('page','blog')
-                                        ->with('blog', $blog);
+                                    ->with('tag', $tag)
+                                    ->with('blogtag', $arrayt)
+                                    ->with('blog', $blog);
     }
     
     public function update(Request $request, Blog $blog)
     {
         $validatedData = $this->validate($request, [
             'title'         => 'required',
-            'slug'          => 'required',
-            'description'   => 'required'
         ]);
-        $imageName = null;
+
+        $image_name = null;
         if($request->gambar !== null){
-            $imageName = time().'blog.'.request()->gambar->getClientOriginalExtension();
-            request()->gambar->move(public_path('images/blog'), $imageName);
+            $image = $request->file('gambar');
+            $image_name = time() . 'blog.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images/blog');
+            $resize_image = Image::make($image->getRealPath());
+            $resize_image->resize(null, 300, function($constraint){
+                $constraint->aspectRatio();
+            })->save($destinationPath . '/' . $image_name);
         }
-        $blog->slug = str_replace(" ","-",$request->slug);
+        $slug = str_replace("/","",$request->title);
+        $blog->slug = strtolower(str_replace(" ","-",$slug));
         $blog->title = $request->title;
         $blog->content = $request->content;
-        $blog->description = $request->description;
-        if($imageName != null){
+        if($image_name != null){
             if($blog->gambar !==null){
-                $image_path = public_path('images/blog'.$blog->gambar);
+                $image_path = public_path('/images/blog/'.$blog->gambar);
                 if(File::exists($image_path)) {
                     File::delete($image_path);
                 }
             }
-            $blog->gambar = $imageName;
+            $blog->gambar = $image_name;
         }
+        $blog->tag_display = '';
         $blog->publish = $request->publish;
+        $blog->author = Auth::user()->id;
         $blog->save();
-        return redirect()->route('blog.index')->with('success','Data blog '.$request->title.' berhasil diupdate.');
+
+        BlogRelationTag::where('id_blog',$blog->id)->delete();
+        foreach ($request->tag as $tag) {
+            $relation = new BlogRelationTag;
+            $relation->id_blog = $blog->id;
+            $relation->id_tag = $tag;
+            $relation->save();
+
+            $blog->tag_display = $blog->tag_display.';'.Tag::find($tag)->name;
+            $blog->save();
+        }
+        return redirect()->route('blog.index')->with('success','Data Blog '.$request->title.' berhasil diupdate.');
    }
 
    public function delete($id){
@@ -128,7 +183,14 @@ class BlogController extends Controller
         try{
             $blog = Blog::find($id);
             $title = $blog->title;
+            $gambar = $blog->gambar;
             $blog->delete();
+            if($gambar !==null){
+                $image_path = public_path('/images/blog/'.$gambar);
+                if(File::exists($image_path)) {
+                    File::delete($image_path);
+                }
+            }
             DB::commit();
             return response()->json([
                 'message' => 'Blog "'.$title.'" berhasil dihapus!',

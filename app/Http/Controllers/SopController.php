@@ -49,7 +49,7 @@ class SopController extends Controller
             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20480'
         ]);
 
-        $imageName = null;
+        $image_name = null;
         if($request->gambar !== null){
             // $imageName = time().'sop.'.request()->gambar->getClientOriginalExtension();
             // request()->gambar->move(public_path('images/sop'), $imageName);
@@ -66,7 +66,7 @@ class SopController extends Controller
 
         $sop = new Sop;
         $slug = str_replace("/","",$request->title);
-        $sop->slug = str_replace(" ","-",$slug);
+        $sop->slug = strtolower(str_replace(" ","-",$slug));
         $sop->title = $request->title;
         $sop->type = $request->type;
         $sop->content = $request->content;
@@ -165,7 +165,7 @@ class SopController extends Controller
             })->save($destinationPath . '/' . $image_name);
         }
         $slug = str_replace("/","",$request->title);
-        $sop->slug = str_replace(" ","-",$slug);
+        $sop->slug = strtolower(str_replace(" ","-",$slug));
         $sop->title = $request->title;
         $sop->content = $request->content;
         if($image_name != null){

@@ -64,7 +64,7 @@
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Gambar Thumbnail </label>
                                                             <input name="gambar" type="file"
-                                                                class="form-control" value="" id="gambar">
+                                                                class="form-control" value="" id="gambar" accept="image/*">
                                                             @if($sop->gambar == null)
                                                             <img id="img" src="{{asset('images/noimage.png')}}" alt="your image" height="100%" style="margin-top: 10px;width: 20%;height: auto;" />
                                                             @else
@@ -265,13 +265,7 @@
         if($("#sop_form").length > 0) {
             $("#sop_form").validate({
                 rules: {
-                    slug: {
-                        required: true
-                    },
                     title: {
-                        required: true
-                    },
-                    description: {
                         required: true
                     },
                     content: {
@@ -280,14 +274,8 @@
                     },
                 },
                 messages: {
-                    slug: {
-                        required : 'Data slug tidak boleh kosong.',
-                    },
                     title: {
                         required : 'Data judul tidak boleh kosong',
-                    },
-                    description: {
-                        required : 'Data deskripsi tidak boleh kosong',
                     },
                     content: 'Data konten tidak boleh kosong',
                 },

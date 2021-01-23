@@ -4,17 +4,17 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Blog</h1>
+        <h1 class="h3 mb-0 text-gray-800">Tag</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Daftar Blog</b></h6>
-                    <a href="{{ route('blog.create') }}" class="btn btn-success btn-sm add">
-                        <i class="fa fa-plus"></i>
-                        <span>Tambah Blog</span>
+                    <h6><b>Daftar Tag</b></h6>
+                    <a href="{{ route('tag.create') }}" class="btn btn-success btn-sm add">
+                        <i class="fa fa-user-plus "></i>
+                        <span>Tambah Tag</span>
                     </a>
                 </div>
                 <div class="card-body">
@@ -23,33 +23,30 @@
                   @if ($message = Session::get('success'))
                   <div class="alert alert-success alert-dismissible" id="success-alert">
                       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                      <p>{{ $message }}</p>
+                      <p>{!! $message !!}</p>
                   </div>
                   @endif
                   @if ($message = Session::get('danger'))
                   <div class="alert alert-danger alert-dismissible" id="danger-alert">
                       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                      <p>{{ $message }}</p>
+                      <p>{!! $message !!}</p>
                   </div>
                   @endif
-                  <div id="blog-data">
+                  <div id="tag-data">
                     <div class="table-responsive">
-                        <table class="table" id="table-blog-data" width="100%">
+                        <table class="table" id="table-tag-data" width="100%">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th width="1%">
                                         No
                                     </th>
-                                    <th>
-                                        Judul
+                                    <th width="20%">
+                                        Nama
                                     </th>
-                                    <th>
-                                        Author
+                                    <th width="30%">
+                                        Deskripsi
                                     </th>
-                                    <th>
-                                        Status
-                                    </th>
-                                    <th class="text-right">
+                                    <th class="text-right" width="20%">
                                         Actions
                                     </th>
                                 </tr>
@@ -66,7 +63,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    var url_delete = "{{url('blog-delete')}}";
+    var url_delete = "{{url('tag-delete')}}";
     var base_url = "{{ url('/') }}";
 </script>
 
@@ -75,7 +72,7 @@
 @push('other-script')
 <script type="text/javascript">
     $(function () {
-        $('#table-blog-data').DataTable({
+        $('#table-tag-data').DataTable({
             processing: true,
             serverSide: true,
             "lengthMenu": [
@@ -88,7 +85,15 @@
                   'next': '<span class="fas fa-angle-right"></span>'
                 }
               },
-            ajax: base_url+"/blog-data",
+            ajax: base_url+"/tag-data",
+            columnDefs: [
+                {
+                    render: function (data, type, full, meta) {
+                        return "<div class='text-wrap'>" + data + "</div>";
+                    },
+                    targets: 2
+                }
+             ],
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
@@ -96,23 +101,12 @@
                     searchable: false
                 },
                 {
-                    data: 'title',
-                    name: 'title'
+                    data: 'name',
+                    name: 'name'
                 },
                 {
-                    data: 'author_name',
-                    name: 'author_name'
-                },
-                {
-                    data: 'publish',
-                    name: 'publish',
-                    render: function (data, type, row) {
-                        if(data == 1){
-                            return '<span class="badge badge-success btn-sm active shadow" style="zoom:120%">Publish</span>';
-                        }else{
-                            return '<span class="badge badge-warning btn-sm active shadow" style="zoom:120%">Draft</span>';
-                        }           
-                    }
+                    data: 'description',
+                    name: 'description'
                 },
                 {
                     data: 'action',
@@ -127,14 +121,14 @@
 
 
     $(document).ready(function () {
-        $("body").on("click", ".blogDelete", function (e) {
+        $("body").on("click", ".tagDelete", function (e) {
             e.preventDefault();
             var id = $(this).data("id");
             var token = $("meta[name='csrf-token']").attr("content");
             var url = e.target;
             swal({
                 title: 'Apakah Anda Yakin?',
-                text: 'Blog yang telah dihapus tidak dapat dikembalikan lagi!',
+                text: 'Tag yang telah dihapus tidak dapat dikembalikan lagi!',
                 icon: 'warning',
                 buttons: ["Cancel", "Yes!"],
             }).then(function (value) {

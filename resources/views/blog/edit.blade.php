@@ -48,11 +48,6 @@
                                                                 class="form-control" value="{{$blog->title}}" tabindex="1" id="title" maxlength="200" >
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Slug <span class="red">*</span></label>
-                                                            <input name="slug" type="text"
-                                                                class="form-control" value="{{$blog->slug}}" tabindex="1" id="slug" maxlength="200" >
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
                                                             <label>Publish Blog <span class="red">*</span></label>
                                                             <select class="form-control" name="publish">
                                                                 @if($blog->publish == 0)
@@ -69,16 +64,24 @@
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Gambar Thumbnail </label>
                                                             <input name="gambar" type="file"
-                                                                class="form-control" value="" id="gambar">
+                                                                class="form-control" value="" id="gambar" accept="image/*">
                                                             @if($blog->gambar == null)
-                                                            <img id="img" src="{{asset('images/noimage.png')}}" alt="your image" height="300px" style="margin-top: 10px" />
+                                                            <img id="img" src="{{asset('images/noimage.png')}}" alt="your image" height="100%" style="margin-top: 10px;width: 20%;height: auto;" />
                                                             @else
-                                                            <img id="img" src="{{asset('images/blog/'.$blog->gambar)}}" alt="your image" height="300px" style="margin-top: 10px"/>
+                                                            <img id="img" src="{{asset('images/blog/'.$blog->gambar)}}" alt="your image" height="100%" style="margin-top: 10px;width: 60%;height: auto;"/>
                                                             @endif
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Deskripsi <span class="red">*</span></label>
-                                                            <textarea rows="3" name="description" class="form-control" required="">{!! $blog->description !!}</textarea>
+                                                            <label>Tag<span class="red">*</span></label>
+                                                            <select class="select2" multiple="multiple" name="tag[]" id="tag" class="form-control" style="width: 100%" required>   
+                                                                @foreach($tag as $t)
+                                                                @if(in_array($t->id,$blogtag))
+                                                                <option value="{{$t->id}}" selected="">{{$t->name}}</option>
+                                                                @else
+                                                                <option value="{{$t->id}}">{{$t->name}}</option>
+                                                                @endif
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Konten <span class="red">*</span></label>
@@ -166,7 +169,7 @@
           items: ['Scayt']
         }
       ],
-
+      height: 700,
       extraAllowedContent: 'h3{clear};h2{line-height};h2 h3{margin-left,margin-top}',
 
       extraPlugins: 'print,format,font,colorbutton,justify,uploadimage',
@@ -216,6 +219,18 @@
             readURL(this);
         });
 
+        var uploadField = document.getElementById("gambar");
+
+        uploadField.onchange = function() {
+            if(this.files[0].size > 2097152){
+                swal("Data Gambar terlalu besar!", {
+                  icon: "error",
+                });
+               this.value = "";
+               $('#img').hide();
+            };
+        };
+
         $("#blog_form").submit(function(){
             if($("#blog_form").valid()){
                 $('#btn-submit').hide();
@@ -228,31 +243,23 @@
         if($("#blog_form").length > 0) {
             $("#blog_form").validate({
                 rules: {
-                    slug: {
-                        required: true
-                    },
                     title: {
-                        required: true
-                    },
-                    description: {
                         required: true
                     },
                     content: {
                         required: true,
                         email : true
                     },
+                    tag: {
+                        required :true
+                    }
                 },
                 messages: {
-                    slug: {
-                        required : 'Data slug tidak boleh kosong.',
-                    },
                     title: {
                         required : 'Data judul tidak boleh kosong',
                     },
-                    description: {
-                        required : 'Data deskripsi tidak boleh kosong',
-                    },
                     content: 'Data konten tidak boleh kosong',
+                    tag : 'Data tag tidak boleh kosong'
                 },
             })
         }

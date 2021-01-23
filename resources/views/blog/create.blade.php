@@ -47,19 +47,18 @@
                                                                 class="form-control" value="{{old('title')}}" tabindex="1" id="title" maxlength="200" >
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Slug <span class="red">*</span></label>
-                                                            <input name="slug" type="text"
-                                                                class="form-control" value="{{old('slug')}}" tabindex="1" id="slug" maxlength="200" >
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Gambar Thumbnail </label>
+                                                            <label>Gambar Thumbnail</label>
                                                             <input name="gambar" type="file"
-                                                                class="form-control" value="" id="gambar">
-                                                            <img id="img" src="" alt="your image" height="300px" />
+                                                                class="form-control" value="" id="gambar" accept="image/*">
+                                                            <img id="img" src="" alt="your image" style="margin-top: 10px;width: 60%;height: auto;"  />
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Deskripsi <span class="red">*</span></label>
-                                                            <textarea rows="3" name="description" class="form-control" required="">{!! old('description') !!}</textarea>
+                                                            <label>Tag<span class="red">*</span></label>
+                                                            <select class="select2" multiple="multiple" name="tag[]" id="tag" class="form-control" style="width: 100%" required>   
+                                                                @foreach($tag as $t)
+                                                                <option value="{{$t->id}}">{{$t->name}}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Konten <span class="red">*</span></label>
@@ -147,7 +146,7 @@
           items: ['Scayt']
         }
       ],
-
+      height: 700,
       extraAllowedContent: 'h3{clear};h2{line-height};h2 h3{margin-left,margin-top}',
 
       extraPlugins: 'print,format,font,colorbutton,justify,uploadimage',
@@ -160,6 +159,7 @@
     $(document).ready(function () {
         $('#btn-submit').show();
         $('#btn-submit-loading').hide();
+        $('#img').hide();
 
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -177,6 +177,18 @@
             $('#img').show();
             readURL(this);
         });
+
+        var uploadField = document.getElementById("gambar");
+
+        uploadField.onchange = function() {
+            if(this.files[0].size > 2097152){
+                swal("Data Gambar terlalu besar!", {
+                  icon: "error",
+                });
+               this.value = "";
+               $('#img').hide();
+            };
+        };
 
         $("#btn-submit").click(function(){
             swal({
@@ -209,13 +221,10 @@
         if($("#blog_form").length > 0) {
             $("#blog_form").validate({
                 rules: {
-                    slug: {
-                        required: true
-                    },
                     title: {
                         required: true
                     },
-                    description: {
+                    tag: {
                         required: true
                     },
                     content: {
@@ -224,14 +233,11 @@
                     },
                 },
                 messages: {
-                    slug: {
-                        required : 'Data slug tidak boleh kosong.',
-                    },
                     title: {
                         required : 'Data judul tidak boleh kosong',
                     },
-                    description: {
-                        required : 'Data deskripsi tidak boleh kosong',
+                    tag: {
+                        required : 'Data tag tidak boleh kosong',
                     },
                     content: 'Data konten tidak boleh kosong',
                 },
