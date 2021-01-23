@@ -47,6 +47,9 @@
     blockquote p {
       display: inline;
     }
+    .text-muted{
+        zoom: 80%;
+    }
 </style>
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -63,26 +66,28 @@
                         </a>
                     </div>
                     <div class="row">
+
                         @if($sop->gambar == null)
                         <div class="col-md-12">
                             @foreach($category as $c)
-                            <span class="badge badge-warning shadow">{{$c->name}}</span>
+                            <span class="badge badge-warning shadow"><i class="fas fa-tag"></i> {{$c->name}}</span>
                             @endforeach
-                            <p class="text-muted">{{$sop->updated_at}}</p>
+                            <p class="text-muted"> <i class="far fa-clock"></i> {{date_format($sop->updated_at,'d-m-Y H:i:s')}}</p>
                             <!-- <img id="img" src="{{asset('images/noimage.png')}}" alt="sop" style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 30px" /> -->
                         </div>
                         
                         @else
                         <div class="col-md-12">
                             @foreach($category as $c)
-                            <span class="badge badge-warning shadow">{{$c->name}}</span>
+                            <span class="badge badge-warning shadow"><i class="fas fa-tag"></i> {{$c->name}}</span>
                             @endforeach
-                            <p class="text-muted">{{$sop->updated_at}}</p>
+                            <p class="text-muted"><i class="far fa-clock"></i> {{date_format($sop->updated_at,'d-m-Y H:i:s')}}</p>
                             <!-- <img id="img" src="{{asset('images/sop/'.$sop->gambar)}}" alt="sop" style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 30px"/> -->
                         </div>
                         @endif
 
                         <div class="col-md-12" style="overflow-x:auto;">
+                            <hr>
                             {!! $sop->content !!}
                             <hr>
                             <p style="text-align: center"><b>Video</b></p>
