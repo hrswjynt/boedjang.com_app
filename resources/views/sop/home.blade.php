@@ -111,11 +111,11 @@
                                     <div style="bottom: 10px;position: absolute;" class="justify-content-between">
                                         <div class="justify-content-between align-items-center">
                                             <small class="text-muted" style="background-color:#DFE4E5;margin-right: 10px">{{$s->updated_at->diffForHumans()}}</small>
-                                            @if($s->updated_at > date('Y-m-d H:m:s', strtotime("-7 days")))
-                                            <span class="badge badge-success">New</span>
+                                            @if($s->updated_at > date('Y-m-d H:m:s', strtotime("-10 days")))
+                                            <span class="badge badge-success"><i class="far fa-calendar-check"></i> Terbaru</span>
                                             @endif
                                             @for($i=1;$i < count($kategori);$i++)
-                                            <span class="badge badge-warning">{{$kategori[$i]}}</span>
+                                            <span class="badge badge-warning"><i class="fas fa-tag"></i> {{$kategori[$i]}}</span>
                                             @endfor
                                         </div>
                                     </div>
