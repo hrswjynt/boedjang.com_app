@@ -173,7 +173,8 @@
             });
         });
 
-        $("#cuti_form").submit(function(){
+        $("#cuti_form").submit(function(e){
+            e.preventDefault();
             if($('#cuti_akhir').val() < 0){
                 return swal("Sisa cuti akhir tidak boleh kurang dari 0", {
                   icon: "error",
