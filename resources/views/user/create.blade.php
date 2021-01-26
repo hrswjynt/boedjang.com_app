@@ -45,17 +45,17 @@
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Nama Pengguna <span class="red">*</span></label>
                                                             <input name="name" type="text"
-                                                                class="form-control" value="{{old('name')}}" id="name" maxlength="100" >
+                                                                class="form-control" value="{{old('name')}}" id="name" maxlength="100" autocomplete="new-password">
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Username <span class="red">*</span></label>
                                                             <input name="username" type="text"
-                                                                class="form-control" value="{{old('username')}}" id="username" maxlength="100" >
+                                                                class="form-control" value="{{old('username')}}" id="username" maxlength="100" autocomplete="new-password">
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Email </label>
                                                             <input name="email" type="email"
-                                                                class="form-control" value="{{old('email')}}" maxlength="100" >
+                                                                class="form-control" value="{{old('email')}}" maxlength="100" autocomplete="new-password">
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Role <span class="red">*</span></label>
@@ -72,7 +72,7 @@
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Password <span class="red">*</span></label>
                                                             <input name="password" type="password"
-                                                                class="form-control" value="{{old('password')}}"maxlength="100" required="">
+                                                                class="form-control" value="{{old('password')}}"maxlength="100" required="" autocomplete="new-password">
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Konfirmasi Password<span class="red">*</span></label>
