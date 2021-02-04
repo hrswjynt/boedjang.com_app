@@ -56,7 +56,7 @@ class SlipGajiController extends Controller
                     SELECT
                         *,
                         (
-                            P_masuk + P_pulang + P_jam_krj + P_no_absen + P_extra + P_alfa_a + P_izin + P_sakit + P_alfa_b + p_plg_awal + P_kasbon + akm_alfa_a + akm_alfa_b + Angsuran + penangguhan 
+                            P_masuk + P_pulang + P_jam_krj + P_no_absen + P_extra + P_alfa_a + P_izin + P_sakit + P_alfa_b + p_plg_awal + P_kasbon + akm_alfa_a + akm_alfa_b + Angsuran + penangguhan + pot_lain 
                         ) AS total_potongan,
                         ( T_lembur + T_extra + BX + BK +tigabln) AS total_tambahan,
                     IF
@@ -141,7 +141,8 @@ class SlipGajiController extends Controller
                             date( b.Tanggal_Masuk ) AS 'tgl_masuk',
                             b.Bank,
                             b.No_Rek AS 'No Rek',
-                            b.STATUS 
+                            b.STATUS,
+                            ifnull(( SELECT sum(total) FROM u1127775_absensi.Abs_potongan_lain WHERE u1127775_absensi.Abs_potongan_lain.nip = b.NIP and u1127775_absensi.Abs_potongan_lain.tanggal BETWEEN '".$date1."' AND '".$date2."'),'0') AS 'pot_lain' 
                         FROM
                             u1127775_absensi.Absen b
                             LEFT JOIN u1127775_absensi.Abs_att_log_center a ON a.nip = b.NIP 
@@ -187,7 +188,7 @@ class SlipGajiController extends Controller
                     SELECT
                         *,
                         (
-                            P_masuk + P_pulang + P_jam_krj + P_no_absen + P_extra + P_alfa_a + P_izin + P_sakit + P_alfa_b + p_plg_awal + P_kasbon + akm_alfa_a + akm_alfa_b + Angsuran + penangguhan 
+                            P_masuk + P_pulang + P_jam_krj + P_no_absen + P_extra + P_alfa_a + P_izin + P_sakit + P_alfa_b + p_plg_awal + P_kasbon + akm_alfa_a + akm_alfa_b + Angsuran + penangguhan + pot_lain 
                         ) AS total_potongan,
                         ( T_lembur + T_extra + BX + BK +tigabln) AS total_tambahan,
                     IF
@@ -336,7 +337,8 @@ class SlipGajiController extends Controller
                             date( b.Tanggal_Masuk ) AS 'tgl_masuk',
                             b.Bank,
                             b.No_Rek AS 'No Rek',
-                            b.STATUS 
+                            b.STATUS,
+                            ifnull(( SELECT sum(total) FROM u1127775_absensi.Abs_potongan_lain WHERE u1127775_absensi.Abs_potongan_lain.nip = b.NIP and u1127775_absensi.Abs_potongan_lain.tanggal BETWEEN '".$date1."' AND '".$date2."'),'0') AS 'pot_lain' 
                         FROM
                             u1127775_absensi.Absen b
                             LEFT JOIN u1127775_absensi.Abs_att_log_center a ON a.nip = b.NIP 

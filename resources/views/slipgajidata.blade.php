@@ -332,10 +332,10 @@
                                 @endif
                             </tr>
                             <tr>
-                                <td style="color: white">Pot. Lain2</td>
-                                <td style="color: white">:</td>
-                                <td class="txt-left lr-none" style="color: white">Rp.</td>
-                                <td class="txt-right l-none" style="color: white">-{{number_format($d->P_extra,0,',','.')}}</td>
+                                <td>Pot. Lain-lain</td>
+                                <td>:</td>
+                                <td class="txt-left lr-none">Rp.</td>
+                                <td class="txt-right l-none">-{{number_format($d->pot_lain,0,',','.')}}</td>
                             </tr>
                             <?php
                                 if(is_numeric($d->bpjs_ksht)){
@@ -348,7 +348,7 @@
                                 }else{
                                     $mbpjs_tkrj = 0;
                                 }
-                                $totalpot = $d->P_masuk+$d->P_alfa_a+$d->P_izin+$d->P_sakit+$d->P_alfa_b+$d->P_plg_awal+$d->akm_alfa_a+$d->akm_alfa_b+$d->P_kasbon+$d->Angsuran+$mbpjs_ksht+$mbpjs_tkrj+$d->P_extra; 
+                                $totalpot = $d->P_masuk+$d->P_alfa_a+$d->P_izin+$d->P_sakit+$d->P_alfa_b+$d->P_plg_awal+$d->akm_alfa_a+$d->akm_alfa_b+$d->P_kasbon+$d->Angsuran+$mbpjs_ksht+$mbpjs_tkrj+$d->P_extra+$d->pot_lain; 
                             ?>
                             <tr class="bold">
                                 <td>TOTAL</td>
