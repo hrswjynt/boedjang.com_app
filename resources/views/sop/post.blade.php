@@ -121,6 +121,13 @@
 @endsection
 @push('other-script')
 <script type="text/javascript">
-
+    setTimeout(
+        function() 
+        {   
+            $.post(base_url+'/readsop',  {  "_token": "{{ csrf_token() }}", sop: "{{$sop->id}}"}, function(data) {
+                console.log('you have read the SOP');
+            })
+        }, 
+    60000);
 </script>
 @endpush

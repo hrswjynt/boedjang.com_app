@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Sop;
+use App\SopHistory;
 use App\Category;
 use App\Type;
 use App\Jabatan;
@@ -103,6 +104,7 @@ class SopController extends Controller
         return Datatables::of($data)
             ->addColumn('action', function ($data) {
                 $action = '<div class="btn-group">';
+                $action .='<a class="btn btn-sm btn-success btn-simple shadow" href="'.route("get_sop.history",$data->id).'" title="History Pembaca"><i class="fab fa-readme"></i></a>';
                 $action.= '<a class="btn btn-sm btn-info btn-simple shadow" href="'.route("sop.show",$data->id).'" title="Info"><i class="fa fa-search"></i></a>';
                 $action .='<a class="btn btn-sm btn-warning btn-simple shadow" href="'.route("sop.edit",$data->id).'" title="Edit"><i class="fa fa-edit"></i></a>';
                 $action .='<a href="'.route("sop.delete",$data->id).'" class="btn btn-sm btn-danger btn-simple shadow sopDelete" title="Delete" data-id="'.$data->id.'"><i class="fa fa-trash"></i></a>';
@@ -314,5 +316,32 @@ class SopController extends Controller
                     ->with('jabatan',$jabatan)
                     ->with('jabatan_select',$jabatan_select)
                     ->with('search',$search);
+    }
+
+    public function readSop(Request $request)
+    {   
+        try {
+            $model = new SopHistory;
+            $model->sop = $request->sop;
+            $model->user = Auth::user()->id;
+            $model->date = date('Y-m-d H:i:s');
+            $model->save();
+            return 'you have read the SOP';
+        } catch (Exception $e) {
+            return 'error';
+        }
+        
+    }
+
+    public function history(Request $request, $id)
+    {   
+        $data = SopHistory::join('users','users.id', 'sop_history.user')
+                            ->select('sop_history.*','users.name as nama','users.username as nip', DB::raw('DATE_FORMAT(sop_history.date, "%d/%m/%Y %H:%i:%s") as date'))
+                            ->where('sop_history.sop', $id)
+                            ->get();
+        // dd($data);        
+        return view('sop.history')->with('page','sop')
+                                ->with('data', $data)
+                                ;
     }
 }
