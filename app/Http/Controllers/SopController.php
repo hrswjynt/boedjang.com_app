@@ -339,8 +339,10 @@ class SopController extends Controller
                             ->select('sop_history.*','users.name as nama','users.username as nip', DB::raw('DATE_FORMAT(sop_history.date, "%d/%m/%Y %H:%i:%s") as date'))
                             ->where('sop_history.sop', $id)
                             ->get();
+        $sop = Sop::find($id);
         // dd($data);        
         return view('sop.history')->with('page','sop')
+                                ->with('sop', $sop)
                                 ->with('data', $data)
                                 ;
     }
