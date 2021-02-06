@@ -43,10 +43,9 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get("sop-list", "SopController@getList")->name('sop_list.index');
 	// Route::get("sop-list/{slug?}", "SopController@getSop")->name('get_sop.index')->where('slug', '(.*)');
 	Route::get("sop-list/{slug}", "SopController@getSop")->name('get_sop.index');
-	Route::get("sop_history/{id}", "SopController@history")->name('get_sop.history');
+	
 	Route::get("sop-search", "SopController@getSearch")->name('sop_search.index');
 	Route::post("readsop", "SopController@readSop");
-	Route::get("sop_history", "SopController@historyAll")->name('sop.history');;
 
 	Route::get("pengajuanformcuti", "CutiController@pengajuan")->name('formcuti.pengajuan');
     Route::post("formcuti-pengajuanpost", "CutiController@pengajuanPost")->name('formcuti.pengajuanpost');
@@ -89,6 +88,8 @@ Route::group(['middleware' => ['admin']], function() {
 	Route::resource('sop','SopController')->except(['destroy']);
 	Route::get("sop-data", "SopController@getData");
 	Route::post('/sop-delete/{id}', 'SopController@delete')->name('sop.delete');
+	Route::get("sop_history/{id}", "SopController@history")->name('get_sop.history');
+	Route::get("sop_history", "SopController@historyAll")->name('sop.history');
 
 	Route::post('ckeditor/upload', 'CkeditorController@upload')->name('ckeditor.upload');
 });

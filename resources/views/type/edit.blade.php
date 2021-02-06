@@ -46,12 +46,12 @@
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Nama Jenis <span class="red">*</span></label>
                                                             <input name="name" type="text"
-                                                                class="form-control" value="{{$type->name}}" id="name" maxlength="100" >
+                                                                class="form-control" value="{{$type->name}}" id="name" maxlength="100" required="">
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Urutan <span class="red">*</span></label>
                                                             <input name="sequence" type="number"
-                                                                class="form-control" value="{{$type->sequence}}" id="name">
+                                                                class="form-control" value="{{$type->sequence}}" id="sequence" required="">
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Deskripsi<span class="red">*</span></label>
@@ -132,6 +132,9 @@
                         required: true,
                         maxlength: 100,
                     },
+                    sequence: {
+                        required: true,
+                    },
                     description: {
                         required: true,
                         maxlength: 200,
@@ -141,6 +144,9 @@
                     name: {
                         required : 'Data Nama harus diisi',
                         maxlength: "Data Nama tidak boleh lebih dari 100 kata",
+                    },
+                    sequence: {
+                        required : 'Data Urutan harus diisi',
                     },
                     description: {
                         required : 'Data Deskripsi harus diisi',

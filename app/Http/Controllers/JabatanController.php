@@ -60,7 +60,7 @@ class JabatanController extends Controller
                 $action = '<div class="btn-group">';
                 $action.= '<a class="btn btn-sm btn-info btn-simple shadow" href="'.route("jabatan.show",$data->id).'" title="Info"><i class="fa fa-search"></i> Info </a>';
                 $action .='<a class="btn btn-sm btn-warning btn-simple shadow" href="'.route("jabatan.edit",$data->id).'" title="Edit"><i class="fa fa-edit"></i> Edit</a>';
-                $action .='<a href="'.route("jabatan.delete",$data->id).'" class="btn btn-sm btn-danger btn-simple shadow typeDelete" title="Delete" data-id="'.$data->id.'"><i class="fa fa-trash"></i> Hapus</a>';
+                $action .='<a href="'.route("jabatan.delete",$data->id).'" class="btn btn-sm btn-danger btn-simple shadow jabatanDelete" title="Delete" data-id="'.$data->id.'"><i class="fa fa-trash"></i> Hapus</a>';
                 if($action == ''){
                     $action .= 'None';
                 }
