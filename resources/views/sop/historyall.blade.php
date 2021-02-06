@@ -40,8 +40,9 @@
                                         No
                                     </th>
                                     <th>
-                                        SOP
+                                        Waktu
                                     </th>
+                                    
                                     <th>
                                         Nama
                                     </th>
@@ -49,7 +50,7 @@
                                         NIP
                                     </th>
                                     <th>
-                                        Waktu
+                                        SOP
                                     </th>
                                 </tr>
                             </thead>
@@ -89,19 +90,22 @@
             data: data,
             columns: [
                 { 
-                    "data": null,
-                    "sortable": false, 
+                    // "sortable": false,
+                    // orderable: false, 
                     render: function (data, type, row, meta) {
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }  
                 },
                 {
-                    data: 'title',
-                    name: 'title',
+                    data: 'date',
+                    name: 'date',
+                    // "sortable": false,
+                    // orderable: false,
                     render: function (data, type, row) {
-                        return '<b>'+data+'</b>';
+                        return '<span class="badge badge-success shadow">'+data+'</span>';
                     }
                 },
+                
                 {
                     data: 'nama',
                     name: 'nama',
@@ -117,10 +121,10 @@
                     }
                 },
                 {
-                    data: 'date',
-                    name: 'date',
+                    data: 'title',
+                    name: 'title',
                     render: function (data, type, row) {
-                        return '<span class="badge badge-success shadow">'+data+'</span>';
+                        return '<span class="badge badge-info shadow" style="zoom:105%">'+data+'</span>';
                     }
                 },
             ]
