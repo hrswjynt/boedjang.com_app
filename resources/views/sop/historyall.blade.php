@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">History Pembaca SOP <b>{{$sop->title}}</b></h1>
+        <h1 class="h3 mb-0 text-gray-800">History Pembaca SOP</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
@@ -38,6 +38,9 @@
                                 <tr>
                                     <th>
                                         No
+                                    </th>
+                                    <th>
+                                        SOP
                                     </th>
                                     <th>
                                         Nama
@@ -93,12 +96,25 @@
                     }  
                 },
                 {
+                    data: 'title',
+                    name: 'title',
+                    render: function (data, type, row) {
+                        return '<b>'+data+'</b>';
+                    }
+                },
+                {
                     data: 'nama',
                     name: 'nama',
+                    render: function (data, type, row) {
+                        return '<span class="badge badge-danger shadow" >'+data+'</span>';
+                    }
                 },
                 {
                     data: 'nip',
                     name: 'nip',
+                    render: function (data, type, row) {
+                        return '<span class="badge badge-primary shadow">'+data+'</span>';
+                    }
                 },
                 {
                     data: 'date',

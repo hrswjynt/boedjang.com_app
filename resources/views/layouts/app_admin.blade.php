@@ -106,12 +106,12 @@
                     Admin
                 </div>
                 <!-- Nav Item - Utilities Collapse Menu -->
-                <li class="nav-item @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category'  || $page == 'type' || $page == 'tag' || $page == 'jabatan') active @endif">
+                <li class="nav-item @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category'  || $page == 'type' || $page == 'tag' || $page == 'jabatan' || $page == 'history_sop') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                         <i class="fas fa-cube"></i>
                         <span>Master</span>
                     </a>
-                    <div id="collapseUtilities" class="collapse @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category' || $page == 'type' || $page == 'tag') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                    <div id="collapseUtilities" class="collapse @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category' || $page == 'type' || $page == 'tag' || $page == 'history_sop') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Master Data Admin</h6>
                             <a class="collapse-item @if($page == 'user') active @endif" href="{{route('user.index')}}">Pengguna</a>
@@ -120,6 +120,7 @@
                             <a class="collapse-item @if($page == 'category') active @endif" href="{{route('category.index')}}">Kategori SOP</a>
                             <a class="collapse-item @if($page == 'type') active @endif" href="{{route('type.index')}}">Jenis SOP</a>
                             <a class="collapse-item @if($page == 'jabatan') active @endif" href="{{route('jabatan.index')}}">Jabatan SOP</a>
+                            <a class="collapse-item @if($page == 'history_sop') active @endif" href="{{route('sop.history')}}">History Pembaca SOP</a>
                             <a class="collapse-item @if($page == 'sop') active @endif" href="{{route('sop.index')}}">SOP</a>
                         </div>
                     </div>

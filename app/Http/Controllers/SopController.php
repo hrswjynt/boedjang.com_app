@@ -346,4 +346,15 @@ class SopController extends Controller
                                 ->with('data', $data)
                                 ;
     }
+
+    public function historyAll(Request $request)
+    {   
+        $data = SopHistory::join('users','users.id', 'sop_history.user')
+                            ->join('sop','sop.id', 'sop_history.sop')
+                            ->select('sop_history.*','users.name as nama','users.username as nip', DB::raw('DATE_FORMAT(sop_history.date, "%d/%m/%Y %H:%i:%s") as date'), 'sop.title as title')
+                            ->get();       
+        return view('sop.historyall')->with('page','history_sop')
+                                ->with('data', $data)
+                                ;
+    }
 }
