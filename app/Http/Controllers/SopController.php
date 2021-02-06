@@ -342,7 +342,7 @@ class SopController extends Controller
         $data = SopHistory::join('users','users.id', 'sop_history.user')
                             ->select('sop_history.*','users.name as nama','users.username as nip', DB::raw('DATE_FORMAT(sop_history.date, "%d/%m/%Y %H:%i:%s") as date'))
                             ->where('sop_history.sop', $id)
-                            ->where('users.role','!=' 1)
+                            ->where('users.role','!=', 1)
                             ->orderBy('sop_history.date', 'DESC')
                             ->get();
         $sop = Sop::find($id);
@@ -359,7 +359,7 @@ class SopController extends Controller
                             ->join('sop','sop.id', 'sop_history.sop')
                             ->select('sop_history.*','users.name as nama','users.username as nip', DB::raw('DATE_FORMAT(sop_history.date, "%d/%m/%Y %H:%i:%s") as date'), 'sop.title as title')
                             ->orderBy('sop_history.date', 'DESC')
-                            ->where('users.role','!=' 1)
+                            ->where('users.role','!=', 1)
                             ->get();       
         return view('sop.historyall')->with('page','history_sop')
                                 ->with('data', $data)
