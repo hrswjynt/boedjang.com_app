@@ -230,6 +230,14 @@
         <script src="{{ asset('admin/vendor/datatables/dataTables.bootstrap4.js') }}"></script>
         <script src="{{ asset('admin/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
+<!--         <script src="{{ asset('admin/vendor/datatables/dataTables.fixedHeader.min.js') }}"></script>
+        <script src="{{ asset('admin/vendor/datatables/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('admin/vendor/datatables/jszip.min.js') }}"></script>
+        <script src="{{ asset('admin/vendor/datatables/pdfmake.min.js') }}"></script>
+        <script src="{{ asset('admin/vendor/datatables/vfs_fonts.js') }}"></script>
+        <script src="{{ asset('admin/vendor/datatables/buttons.html5.min.js') }}"></script>
+        <script src="{{ asset('admin/vendor/datatables/buttons.colVis.min.js') }}"></script> -->
+
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
         <script src="{{ asset('admin/vendor/select2/dist/js/select2.min.js')}}"></script>
         <!-- include summernote css/js -->

@@ -15,6 +15,10 @@
                         <i class="fa fa-arrow-left"></i>
                         <span>Kembali</span>
                     </a>
+                    <a type="button" href="{{ route('sop.history_print') }}" class="btn btn-primary btn-sm" id="history-print" target="__blank">
+                        <i class="fa fa-print"></i>
+                        <span>Print</span>
+                    </a>
                 </div>
                 <div class="card-body">
                   <div id="success-delete">
@@ -88,6 +92,38 @@
                 }
               },
             data: data,
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [ 0, ':visible' ]
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    filename: "potonganlain",
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'csv',
+                    text: 'CSV',
+                    filename: "potonganlain",
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    filename: "potonganlain",
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                'colvis'
+            ],
             columns: [
                 { 
                     // "sortable": false,

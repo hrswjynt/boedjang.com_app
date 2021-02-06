@@ -365,4 +365,17 @@ class SopController extends Controller
                                 ->with('data', $data)
                                 ;
     }
+
+    public function printHistoryAll(Request $request)
+    {   
+        $data = SopHistory::join('users','users.id', 'sop_history.user')
+                            ->join('sop','sop.id', 'sop_history.sop')
+                            ->select('sop_history.*','users.name as nama','users.username as nip', DB::raw('DATE_FORMAT(sop_history.date, "%d/%m/%Y %H:%i:%s") as date'), 'sop.title as title')
+                            ->orderBy('sop_history.date', 'DESC')
+                            ->where('users.role','!=', 1)
+                            ->get();       
+        return view('sop.historyallprint')->with('page','history_sop')
+                                ->with('data', $data)
+                                ;
+    }
 }
