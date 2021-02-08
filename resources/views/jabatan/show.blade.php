@@ -4,15 +4,15 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Jenis SOP</h1>
+        <h1 class="h3 mb-0 text-gray-800">Jabatan SOP</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Detail Jenis SOP</b></h6>
-                    <a href="{{ route('type.index') }}" class="btn btn-info btn-sm add">
+                    <h6><b>Detail Jabatan SOP</b></h6>
+                    <a href="{{ route('jabatan.index') }}" class="btn btn-info btn-sm add">
                         <i class="fa fa-arrow-left "></i>
                         <span>Kembali</span>
                     </a>
@@ -41,19 +41,14 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Nama Jenis <span class="red">*</span></label>
+                                                            <label class="bmd-label-floating">Nama Jabatan <span class="red">*</span></label>
                                                             <input name="name" type="text"
-                                                                class="form-control" value="{{$type->name}}" id="name" maxlength="100" disabled="">
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Urutan <span class="red">*</span></label>
-                                                            <input name="sequence" type="number"
-                                                                class="form-control" value="{{$type->sequence}}" id="name" disabled="">
+                                                                class="form-control" value="{{$jabatan->name}}" id="name" maxlength="100" disabled="">
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Deskripsi <span class="red">*</span></label>
                                                             <input name="description" type="text"
-                                                                class="form-control" value="{{$type->description}}" id="description" maxlength="200" disabled="">
+                                                                class="form-control" value="{{$jabatan->description}}" id="description" maxlength="200" disabled="">
                                                         </div>
                                                     </div>
                                                 </div>

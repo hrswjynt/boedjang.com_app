@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Type;
+use App\Jabatan;
 use App\Sop;
 use DataTables;
 use Auth;
 use DB;
 
-class TypeController extends Controller
+class JabatanController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -28,11 +28,11 @@ class TypeController extends Controller
      */
     public function index()
     {   
-        return view('type.index')->with('page','type');
+        return view('jabatan.index')->with('page','jabatan');
     }
 
     public function create(){
-        return view('type.create')->with('page','type');
+        return view('jabatan.create')->with('page','jabatan');
     }
 
     public function store(Request $request)
@@ -41,16 +41,15 @@ class TypeController extends Controller
         $validatedData = $this->validate($request, [
             'name'         => 'required',
         ]);
-        $type = new Type;
-        $type->name = $request->name;
-        $type->description = $request->description;
-        $type->sequence = $request->sequence;
-        $type->save();
-        return redirect()->route('type.index')->with('success','Data Jenis SOP '.$request->name.' berhasil disimpan.');
+        $jabatan = new Jabatan;
+        $jabatan->name = $request->name;
+        $jabatan->description = $request->description;
+        $jabatan->save();
+        return redirect()->route('jabatan.index')->with('success','Data Jabatan SOP '.$request->name.' berhasil disimpan.');
     }
 
     public function getData(){
-        $data = Type::all();
+        $data = Jabatan::all();
         return $this->datatable($data);
     }
 
@@ -59,9 +58,9 @@ class TypeController extends Controller
         return Datatables::of($data)
             ->addColumn('action', function ($data) {
                 $action = '<div class="btn-group">';
-                $action.= '<a class="btn btn-sm btn-info btn-simple shadow" href="'.route("type.show",$data->id).'" title="Info"><i class="fa fa-search"></i> Info </a>';
-                $action .='<a class="btn btn-sm btn-warning btn-simple shadow" href="'.route("type.edit",$data->id).'" title="Edit"><i class="fa fa-edit"></i> Edit</a>';
-                $action .='<a href="'.route("type.delete",$data->id).'" class="btn btn-sm btn-danger btn-simple shadow typeDelete" title="Delete" data-id="'.$data->id.'"><i class="fa fa-trash"></i> Hapus</a>';
+                $action.= '<a class="btn btn-sm btn-info btn-simple shadow" href="'.route("jabatan.show",$data->id).'" title="Info"><i class="fa fa-search"></i> Info </a>';
+                $action .='<a class="btn btn-sm btn-warning btn-simple shadow" href="'.route("jabatan.edit",$data->id).'" title="Edit"><i class="fa fa-edit"></i> Edit</a>';
+                $action .='<a href="'.route("jabatan.delete",$data->id).'" class="btn btn-sm btn-danger btn-simple shadow typeDelete" title="Delete" data-id="'.$data->id.'"><i class="fa fa-trash"></i> Hapus</a>';
                 if($action == ''){
                     $action .= 'None';
                 }
@@ -73,51 +72,50 @@ class TypeController extends Controller
             ->make(true);
     }
     
-    public function show(Type $type)
+    public function show(Jabatan $jabatan)
     {   
-        return view('type.show')->with('type', $type)->with('page','type');
+        return view('jabatan.show')->with('jabatan', $jabatan)->with('page','jabatan');
     }
     
-    public function edit(Type $type)
+    public function edit(Jabatan $jabatan)
     {   
-        return view('type.edit')->with('page','type')
-                                        ->with('type', $type);
+        return view('jabatan.edit')->with('page','jabatan')
+                                        ->with('jabatan', $jabatan);
     }
     
-    public function update(Request $request, Type $type)
+    public function update(Request $request, Jabatan $jabatan)
     {
         $validatedData = $this->validate($request, [
             'name'         => 'required',
         ]);
-        $type->name = $request->name;
-        $type->description = $request->description;
-        $type->sequence = $request->sequence;
-        $type->save();
-        return redirect()->route('type.index')->with('success','Data Jenis SOP '.$request->name.' berhasil diupdate.');
+        $jabatan->name = $request->name;
+        $jabatan->description = $request->description;
+        $jabatan->save();
+        return redirect()->route('jabatan.index')->with('success','Data Jabatan SOP '.$request->name.' berhasil diupdate.');
    }
 
    public function delete($id){
         DB::beginTransaction();
-        $type = Type::find($id);
-        $name = $type->name;
-        if(Sop::where('type',$id)->first() !== null){
+        $jabatan = Jabatan::find($id);
+        $name = $jabatan->name;
+        if(Sop::where('jabatan',$id)->first() !== null){
             return response()->json([
                 'message' => 'Jenis SOP "'.$name.'" gagal dihapus, jenis telah digunakan.',
-                'type'=> 'danger',
+                'jabatan'=> 'danger',
             ]);
         }
         try{
-            $type->delete();
+            $jabatan->delete();
             DB::commit();
             return response()->json([
                 'message' => 'Jenis SOP "'.$name.'" berhasil dihapus!',
-                'type'=> 'success',
+                'jabatan'=> 'success',
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'message' => 'Jenis SOP "'.$name.'" gagal dihapus!',
-                'type'=> 'danger',
+                'jabatan'=> 'danger',
             ]);
         }
     }

@@ -49,6 +49,11 @@
                                                                 class="form-control" value="{{$type->name}}" id="name" maxlength="100" >
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
+                                                            <label class="bmd-label-floating">Urutan <span class="red">*</span></label>
+                                                            <input name="sequence" type="number"
+                                                                class="form-control" value="{{$type->sequence}}" id="name">
+                                                        </div>
+                                                        <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Deskripsi<span class="red">*</span></label>
                                                             <input name="description" type="text"
                                                                 class="form-control" value="{{$type->description}}" id="description" maxlength="200" @if(Auth::user()->role !== 1) readonly @endif>

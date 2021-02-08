@@ -96,6 +96,18 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
+                                                            <label>Jabatan<span class="red">*</span></label>
+                                                            <select class="select2" name="jabatan" id="jabatan" class="form-control" style="width: 100%" required>   
+                                                                @foreach($jabatan as $j)
+                                                                @if($t->id == $sop->jabatan)
+                                                                <option value="{{$j->id}}" selected="">{{$j->name}}</option>
+                                                                @else
+                                                                <option value="{{$j->id}}">{{$j->name}}</option>
+                                                                @endif
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group mb-4 bmd-form-group">
                                                             <label>Konten <span class="red">*</span></label>
                                                             <textarea rows="5" name="content" id="konten" class="form-control" required="">{!! $sop->content !!}</textarea>
                                                         </div>

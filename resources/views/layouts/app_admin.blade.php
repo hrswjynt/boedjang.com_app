@@ -106,7 +106,7 @@
                     Admin
                 </div>
                 <!-- Nav Item - Utilities Collapse Menu -->
-                <li class="nav-item @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category'  || $page == 'type' || $page == 'tag') active @endif">
+                <li class="nav-item @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category'  || $page == 'type' || $page == 'tag' || $page == 'jabatan') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                         <i class="fas fa-cube"></i>
                         <span>Master</span>
@@ -119,6 +119,7 @@
                             <a class="collapse-item @if($page == 'blog') active @endif" href="{{route('blog.index')}}">Blog</a>
                             <a class="collapse-item @if($page == 'category') active @endif" href="{{route('category.index')}}">Kategori SOP</a>
                             <a class="collapse-item @if($page == 'type') active @endif" href="{{route('type.index')}}">Jenis SOP</a>
+                            <a class="collapse-item @if($page == 'jabatan') active @endif" href="{{route('jabatan.index')}}">Jabatan SOP</a>
                             <a class="collapse-item @if($page == 'sop') active @endif" href="{{route('sop.index')}}">SOP</a>
                         </div>
                     </div>

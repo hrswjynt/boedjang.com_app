@@ -23,6 +23,9 @@
       -webkit-transform: scale(1.03); /* Safari 3-8 */
       transform: scale(1.03); 
     }
+    .kecil{
+        zoom: 85%;
+    }
     @media screen and ( max-width: 400px ){
 
         li.page-item {
@@ -83,6 +86,20 @@
                             @endif
                             @endforeach
                         </select>
+                        <select class="form-control" name="jabatan" style="margin:5px">
+                            <option value="all">Semua Jabatan</option>
+                            @foreach($jabatan as $j)
+                            @if($jabatan_select != null)
+                                @if($jabatan_select->id == $j->id)
+                                <option value="{{$j->id}}" selected="">{{$j->name}}</option>
+                                @else
+                                <option value="{{$j->id}}">{{$j->name}}</option>
+                                @endif
+                            @else
+                            <option value="{{$j->id}}">{{$j->name}}</option>
+                            @endif
+                            @endforeach
+                        </select>
                         <button style="margin:5px" type="submit" class="btn btn-sm btn-primary form-control">Cari <i class="fas fa-search" aria-hidden="true"></i></button>
                     </form>
                     <div class="row">
@@ -110,12 +127,14 @@
                                     <!-- <hr class="sidebar-divider"> -->
                                     <div style="bottom: 10px;position: absolute;" class="justify-content-between">
                                         <div class="justify-content-between align-items-center">
-                                            <small class="text-muted" style="background-color:#DFE4E5;margin-right: 10px">{{$s->updated_at->diffForHumans()}}</small>
+                                            <small class="text-muted kecil" style="background-color:#DFE4E5;margin-right: 10px">{{$s->updated_at->diffForHumans()}}</small>
                                             @if($s->updated_at > date('Y-m-d H:m:s', strtotime("-10 days")))
-                                            <span class="badge badge-success"><i class="far fa-calendar-check"></i> Terbaru</span>
+                                            <span class="badge badge-success kecil"><i class="far fa-calendar-check"></i> Terbaru</span>
                                             @endif
+                                            <span class="badge badge-danger kecil"><i class="fas fa-user-tie"></i></i> {{$s->jabatan_name}}</span>
+                                            <span class="badge badge-primary kecil"><i class="fas fa-star"></i></i> {{$s->type_name}}</span>
                                             @for($i=1;$i < count($kategori);$i++)
-                                            <span class="badge badge-warning"><i class="fas fa-tag"></i> {{$kategori[$i]}}</span>
+                                            <span class="badge badge-warning kecil"><i class="fas fa-tag"></i> {{$kategori[$i]}}</span>
                                             @endfor
                                         </div>
                                     </div>

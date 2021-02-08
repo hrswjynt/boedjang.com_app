@@ -69,6 +69,10 @@ Route::group(['middleware' => ['admin']], function() {
 	Route::get("type-data", "TypeController@getData");
 	Route::post('/type-delete/{id}', 'TypeController@delete')->name('type.delete');
 
+	Route::resource('jabatan','JabatanController')->except(['destroy']);
+	Route::get("jabatan-data", "JabatanController@getData");
+	Route::post('/jabatan-delete/{id}', 'JabatanController@delete')->name('jabatan.delete');
+
     Route::resource('blog','BlogController')->except(['destroy']);
 	Route::get("blog-data", "BlogController@getData");
 	Route::post('/blog-delete/{id}', 'BlogController@delete')->name('blog.delete');

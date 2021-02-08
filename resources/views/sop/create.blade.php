@@ -71,6 +71,14 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
+                                                            <label>Jabatan<span class="red">*</span></label>
+                                                            <select class="select2" name="jabatan" id="jabatan" class="form-control" style="width: 100%" required>   
+                                                                @foreach($jabatan as $j)
+                                                                <option value="{{$j->id}}">{{$j->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group mb-4 bmd-form-group">
                                                             <label>Konten <span class="red">*</span></label>
                                                             <textarea rows="5" name="content" id="konten" class="form-control" required="">{!! old('content') !!}</textarea>
                                                         </div>

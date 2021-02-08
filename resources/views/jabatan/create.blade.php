@@ -4,15 +4,15 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Jenis SOP</h1>
+        <h1 class="h3 mb-0 text-gray-800">Jabatan SOP</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Tambah Jenis</b></h6>
-                    <a href="{{ route('type.index') }}" class="btn btn-info btn-sm add">
+                    <h6><b>Tambah Jabatan</b></h6>
+                    <a href="{{ route('jabatan.index') }}" class="btn btn-info btn-sm add">
                         <i class="fa fa-arrow-left "></i>
                         <span>Kembali</span>
                     </a>
@@ -32,7 +32,7 @@
                       <p>{{ $message }}</p>
                   </div>
                   @endif
-                  <form method="POST" action="{{route('type.store')}}" id="type_form">
+                  <form method="POST" action="{{route('jabatan.store')}}" id="jabatan_form">
                         @csrf
                         <div class="container-fluid mt-3">
                             <div class="row">
@@ -43,14 +43,9 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Nama Jenis <span class="red">*</span></label>
+                                                            <label class="bmd-label-floating">Nama Jabatan SOP <span class="red">*</span></label>
                                                             <input name="name" type="text"
                                                                 class="form-control" value="{{old('name')}}" id="name" maxlength="100" >
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Urutan <span class="red">*</span></label>
-                                                            <input name="sequence" type="number"
-                                                                class="form-control" value="{{old('sequence')}}" id="name">
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Deskripsi <span class="red">*</span></label>
@@ -98,7 +93,7 @@
 
         $("#btn-submit").click(function(){
             swal({
-                title: "Apakah anda yakin akan menambah data jenis sop?",
+                title: "Apakah anda yakin akan menambah data jabatan sop?",
                 text: 'Data yang ditambahkan dapat merubah data pada database.', 
                 icon: "warning",
                 buttons: true,
@@ -106,17 +101,17 @@
             })
             .then((willDelete) => {
               if (willDelete) {
-                $("#type_form").submit()
+                $("#jabatan_form").submit()
               } else {
-                swal("Proses Penambahan Data Jenis SOP Dibatalkan!", {
+                swal("Proses Penambahan Data Jabatan SOP Dibatalkan!", {
                   icon: "error",
                 });
               }
             });
         });
 
-        $("#type_form").submit(function(){
-            if($("#type_form").valid()){
+        $("#jabatan_form").submit(function(){
+            if($("#jabatan_form").valid()){
                 $('#btn-submit').hide();
                 $('#btn-submit-loading').show();
             }else{
@@ -124,8 +119,8 @@
             }
         });
 
-        if($("#type_form").length > 0) {
-            $("#type_form").validate({
+        if($("#jabatan_form").length > 0) {
+            $("#jabatan_form").validate({
                 rules: {
                     name: {
                         required: true,
