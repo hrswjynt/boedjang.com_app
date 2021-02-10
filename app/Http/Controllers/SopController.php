@@ -357,9 +357,10 @@ class SopController extends Controller
     {   
         $data = SopHistory::join('users','users.id', 'sop_history.user')
                             ->join('sop','sop.id', 'sop_history.sop')
-                            ->select('sop_history.*','users.name as nama','users.username as nip', DB::raw('DATE_FORMAT(sop_history.date, "%d/%m/%Y %H:%i:%s") as date'), 'sop.title as title')
+                            ->join('u1127775_absensi.Absen', 'u1127775_absensi.Absen.NIP', 'users.username')
+                            ->select('sop_history.*','users.name as nama','users.username as nip', DB::raw('DATE_FORMAT(sop_history.date, "%d/%m/%Y %H:%i:%s") as date'), 'sop.title as title', 'u1127775_absensi.Absen.Cabang as cabang','u1127775_absensi.Absen.region as region')
                             ->orderBy('sop_history.date', 'DESC')
-                            ->where('users.role','!=', 1)
+                            // ->where('users.role','!=', 1)
                             ->get();       
         return view('sop.historyall')->with('page','history_sop')
                                 ->with('data', $data)
@@ -370,9 +371,10 @@ class SopController extends Controller
     {   
         $data = SopHistory::join('users','users.id', 'sop_history.user')
                             ->join('sop','sop.id', 'sop_history.sop')
-                            ->select('sop_history.*','users.name as nama','users.username as nip', DB::raw('DATE_FORMAT(sop_history.date, "%d/%m/%Y %H:%i:%s") as date'), 'sop.title as title')
+                            ->join('u1127775_absensi.Absen', 'u1127775_absensi.Absen.NIP', 'users.username')
+                            ->select('sop_history.*','users.name as nama','users.username as nip', DB::raw('DATE_FORMAT(sop_history.date, "%d/%m/%Y %H:%i:%s") as date'), 'sop.title as title', 'u1127775_absensi.Absen.Cabang as cabang','u1127775_absensi.Absen.region as region')
                             ->orderBy('sop_history.date', 'DESC')
-                            ->where('users.role','!=', 1)
+                            // ->where('users.role','!=', 1)
                             ->get();       
         return view('sop.historyallprint')->with('page','history_sop')
                                 ->with('data', $data)

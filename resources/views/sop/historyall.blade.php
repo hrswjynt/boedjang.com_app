@@ -1,6 +1,9 @@
 @extends('layouts.app_admin')
 
 @section('content')
+<style type="text/css">
+    th, td { white-space: nowrap; } div.dataTables_wrapper { width: 100%; margin: 0 auto; }
+</style>
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -54,6 +57,9 @@
                                         NIP
                                     </th>
                                     <th>
+                                        Cabang
+                                    </th>
+                                    <th>
                                         SOP
                                     </th>
                                 </tr>
@@ -91,6 +97,14 @@
                   'next': '<span class="fas fa-angle-right"></span>'
                 }
               },
+            columnDefs: [
+                {
+                    render: function (data, type, full, meta) {
+                        return "<div class='text-wrap width-500'>" + data + "</div>";
+                    },
+                    targets: 5
+                },
+            ],
             data: data,
             dom: 'lBfrtip',
             buttons: [
@@ -154,6 +168,13 @@
                     name: 'nip',
                     render: function (data, type, row) {
                         return '<span class="badge badge-primary shadow">'+data+'</span>';
+                    }
+                },
+                {
+                    data: 'cabang',
+                    name: 'cabang',
+                    render: function (data, type, row) {
+                        return '<span class="badge badge-warning shadow">'+data+' '+row.region+'</span>';
                     }
                 },
                 {

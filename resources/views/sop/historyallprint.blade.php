@@ -134,6 +134,9 @@
                             NIP
                         </th>
                         <th>
+                            Cabang
+                        </th>
+                        <th>
                             SOP
                         </th>
                     </tr>
@@ -147,6 +150,7 @@
                         <td>{{$d->date}}</td>
                         <td>{{$d->nama}}</td>
                         <td>{{$d->nip}}</td>
+                        <td>{{$d->cabang}} {{$d->region}}</td>
                         <td>{{$d->title}}</td>
                         
                     
