@@ -16,7 +16,7 @@ class Sop extends Model
     public $timestamps = true;
     public $incrementing = true;
     protected $fillable = [
-        'id','slug','title','content','created_at','updated_at','publish','gambar','google_drive','youtube'];
+        'id','slug','title','content','created_at','updated_at','publish','gambar','google_drive','youtube','jabatan'];
 
     // public function getRouteKeyName(){
     //     return 'slug';
