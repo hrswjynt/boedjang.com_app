@@ -156,7 +156,8 @@ class SopController extends Controller
     }
     
     public function update(Request $request, Sop $sop)
-    {
+    {   
+        // dd($request->all());
         $validatedData = $this->validate($request, [
             'title'         => 'required',
         ]);

@@ -99,7 +99,7 @@
                                                             <label>Jabatan<span class="red">*</span></label>
                                                             <select class="select2" name="jabatan" id="jabatan" class="form-control" style="width: 100%" required>   
                                                                 @foreach($jabatan as $j)
-                                                                @if($t->id == $sop->jabatan)
+                                                                @if($j->id == $sop->jabatan)
                                                                 <option value="{{$j->id}}" selected="">{{$j->name}}</option>
                                                                 @else
                                                                 <option value="{{$j->id}}">{{$j->name}}</option>
