@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Sop;
 use App\SopHistory;
+use App\SopNotification;
 use App\Category;
 use App\Type;
 use App\Jabatan;
@@ -90,6 +91,14 @@ class SopController extends Controller
             $sop->category_display = $sop->category_display.';'.Category::find($category)->name;
             $sop->save();
         }
+
+        $notif = new SopNotification;
+        $notif->sop = $sop->id;
+        $notif->date = date('Y-m-d H:i:s');
+        $notif->keterangan = 'SOP "'.$sop->title.'" telah dibuat oleh '.Auth::user()->name.'.';
+        $notif->admin = Auth::user()->id;
+        $notif->type = 1;
+        $notif->save();
 
         return redirect()->route('sop.index')->with('success','Data SOP '.$request->title.' berhasil disimpan.');
     }
@@ -205,6 +214,15 @@ class SopController extends Controller
             $sop->category_display = $sop->category_display.';'.Category::find($category)->name;
             $sop->save();
         }
+
+        $notif = new SopNotification;
+        $notif->sop = $sop->id;
+        $notif->date = date('Y-m-d H:i:s');
+        $notif->keterangan = 'SOP "'.$sop->title.'" telah diedit oleh '.Auth::user()->name.'.';
+        $notif->admin = Auth::user()->id;
+        $notif->type = 2;
+        $notif->save();
+
         return redirect()->route('sop.index')->with('success','Data SOP '.$request->title.' berhasil diupdate.');
    }
 
@@ -221,6 +239,14 @@ class SopController extends Controller
                     File::delete($image_path);
                 }
             }
+            $notif = new SopNotification;
+            $notif->sop = $id;
+            $notif->date = date('Y-m-d H:i:s');
+            $notif->keterangan = 'SOP "'.$title.'" telah dihapus oleh '.Auth::user()->name.'.';
+            $notif->admin = Auth::user()->id;
+            $notif->type = 3;
+            $notif->save();
+
             DB::commit();
             return response()->json([
                 'message' => 'SOP "'.$title.'" berhasil dihapus!',
@@ -378,6 +404,15 @@ class SopController extends Controller
                             ->where('users.role','!=', 1)
                             ->get();       
         return view('sop.historyallprint')->with('page','history_sop')
+                                ->with('data', $data)
+                                ;
+    }
+
+    public function notification(Request $request)
+    {   
+        $data = SopNotification::orderBy('date','DESC')->select('sop_notification.*',DB::raw('DATE_FORMAT(sop_notification.date, "%d/%m/%Y %H:%i:%s") as date'))->limit(300)->get();
+        // dd($data);    
+        return view('sop.notification')->with('page','dashboard')
                                 ->with('data', $data)
                                 ;
     }

@@ -160,8 +160,53 @@
                         <i class="fa fa-bars"></i>
                         </button>
                         <!-- Topbar Navbar -->
+                        <?php
+                            $sop_notif = DB::table('sop_notification')->leftJoin('sop', 'sop.id','sop_notification.sop')->select('sop_notification.*', 'sop.slug')->orderBy('date','DESC')->limit(5)->get();
+                        ?>
                         <ul class="navbar-nav ml-auto">
                             <!-- <div class="topbar-divider d-none d-sm-block"></div> -->
+                            @if(Auth::user()->role == 1)
+                            @if(count($sop_notif) > 0)
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-bell fa-fw"></i>
+                                    <!-- Counter - Alerts -->
+                                    <span class="badge badge-danger badge-counter">+</span>
+                                </a>
+                                <!-- Dropdown - Alerts -->
+                                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                                    <h6 class="dropdown-header">
+                                        SOP Notifikasi
+                                    </h6>
+                                    @foreach($sop_notif as $notif)
+                                    <a class="dropdown-item d-flex align-items-center" href="{{url('sop-list/'.$notif->slug)}}">
+                                        <div class="mr-3">
+                                            @if($notif->type == 1)
+                                            <div class="icon-circle bg-success">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                            </div>
+                                            @elseif($notif->type == 2)
+                                            <div class="icon-circle bg-warning">
+                                                <i class="fas fa-pencil-alt text-white"></i>
+                                            </div>
+                                            @elseif($notif->type == 3)
+                                            <div class="icon-circle bg-danger">
+                                                <i class="fas fa-trash text-white"></i>
+                                            </div>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <?php $datesop = date_create($notif->date); ?>
+                                            <div class="small text-gray-500">{{date_format($datesop, 'D, d-m-Y H:i:s')}}</div>
+                                            <span class="font-weight-bold">{{$notif->keterangan}}</span>
+                                        </div>
+                                    </a>
+                                    @endforeach
+                                    <a class="dropdown-item text-center small text-gray-500" href="{{route('sop.notification')}}">Lihat Semua</a>
+                                </div>
+                            </li>
+                            @endif
+                            @endif
                             <!-- Nav Item - User Information -->
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

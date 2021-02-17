@@ -7,6 +7,7 @@ use App\User;
 use App\AttLogCenter;
 use App\Karyawan;
 use App\SanksiPegawai;
+use App\SopNotification;
 use Auth;
 use DB;
 

@@ -91,6 +91,7 @@ Route::group(['middleware' => ['admin']], function() {
 	Route::get("sop_history/{id}", "SopController@history")->name('get_sop.history');
 	Route::get("sop_history", "SopController@historyAll")->name('sop.history');
 	Route::get("sop-history-print", "SopController@printHistoryAll")->name('sop.history_print');
+	Route::get("sop_notification", "SopController@notification")->name('sop.notification');
 
 	Route::post('ckeditor/upload', 'CkeditorController@upload')->name('ckeditor.upload');
 });
