@@ -410,7 +410,7 @@ class SopController extends Controller
 
     public function notification(Request $request)
     {   
-        $data = SopNotification::orderBy('date','DESC')->select('sop_notification.*',DB::raw('DATE_FORMAT(sop_notification.date, "%d/%m/%Y %H:%i:%s") as date'))->limit(300)->get();
+        $data = SopNotification::leftJoin('sop', 'sop.id','sop_notification.sop')->orderBy('sop_notification.date','DESC')->select('sop_notification.*',DB::raw('DATE_FORMAT(sop_notification.date, "%d/%m/%Y %H:%i:%s") as date'),'sop.slug')->limit(300)->get();
         // dd($data);    
         return view('sop.notification')->with('page','dashboard')
                                 ->with('data', $data)

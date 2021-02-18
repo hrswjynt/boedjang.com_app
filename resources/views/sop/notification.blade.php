@@ -111,6 +111,14 @@
                 {
                     data: 'keterangan',
                     name: 'keterangan',
+                    render: function (data, type, row) {
+                        if(row.slug != null){
+                            return '<a target="__blank" href="'+base_url+'/sop-list/'+row.slug+'" >'+data+'</a>';
+                        }else{
+                            return '<a target="__blank" href="'+base_url+'/sop-list">'+data+'</a>';
+                        }
+                       
+                    }
                 },
             ]
         });
