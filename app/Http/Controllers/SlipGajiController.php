@@ -312,7 +312,7 @@ class SlipGajiController extends Controller
                             ifnull(
                             IF
                                 (
-                                    b.Masa_kerja < 1 
+                                    b.Masa_kerja < 1.3 
                                     OR b.STATUS = 'Resign' 
                                     OR b.STATUS = 'Harian',
                                     0,
