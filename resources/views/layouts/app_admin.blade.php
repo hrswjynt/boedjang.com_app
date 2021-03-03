@@ -301,13 +301,13 @@
 
             $('.select2').select2();
 
-            //$(document).ready(function () {
-            //    if ($(window).width() < 480){
-            //        $("body").addClass("sidebar-toggled");
-            //        $(".sidebar").addClass("toggled");
-            //        $('.sidebar .collapse').collapse('hide');
-            //    }
-            //});
+            $(document).ready(function () {
+                if ($(window).width() < 480){
+                    $("body").addClass("sidebar-toggled");
+                    $(".sidebar").addClass("toggled");
+                    $('.sidebar .collapse').collapse('hide');
+                }
+            });
         </script>
         <!-- Page level plugins -->
         <!-- <script src="{{asset('admin/vendor/chart.js/Chart.min.js')}}"></script> -->
