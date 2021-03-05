@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Karyawan;
+use App\KaryawanKhusus;
 use Auth;
 use DB;
 
@@ -38,12 +39,18 @@ class SlipGajiController extends Controller
 
     public function store(Request $request)
     {   
+        $khusus = KaryawanKhusus::select('no_id')->get();
+        $no_id = [];
+        foreach ($khusus as $k) {
+            $no_id[]= $k->no_id;
+        }
+        $no_id = implode(',', $no_id);
         // dd($request->all());
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
         if($karyawan == null){
             return 'Data karyawan tidak ditemukan.';
         }
-        $array = array(1669,1673,1669,1671,1672,1678,1679,1690,1765,1798,1890,1947,1960,1962,1685);
+        $array = array($no_id);
         $date1 = $request->sdate.'-16';
         $date2 = date("Y-m-d", strtotime("+1 month", strtotime(date($request->sdate.'-15'))));
         if(in_array($karyawan->No, $array)){
@@ -147,23 +154,7 @@ class SlipGajiController extends Controller
                             LEFT JOIN u1127775_absensi.Abs_att_log_center a ON a.nip = b.NIP 
                             WHERE   if(a.tgl_absen is not null, a.tgl_absen BETWEEN '".$date1."' 
                                 AND '".$date2."',1=1) and
-                            b.NO IN (
-                                1669,
-                                1673,
-                                1669,
-                                1671,
-                                1672,
-                                1678,
-                                1679,
-                                1690,
-                                1765,
-                                1685,
-                                1798,
-                                1890,
-                                1947,
-                                1960,
-                                1962 
-                            ) 
+                            b.NO IN (".$no_id.") 
                             AND b.STATUS <> 'Resign'
                         GROUP BY
                             b.NIP  
@@ -344,23 +335,7 @@ class SlipGajiController extends Controller
                         WHERE
                             a.tgl_absen BETWEEN '".$date1."' 
                             AND '".$date2."' 
-                            AND b.NO NOT IN (
-                                1669,
-                                1673,
-                                1669,
-                                1671,
-                                1672,
-                                1678,
-                                1679,
-                                1690,
-                                1765,
-                                1685,
-                                1798,
-                                1890,
-                                1947,
-                                1960,
-                                1962 
-                            ) 
+                            AND b.NO NOT IN (".$no_id.") 
                         GROUP BY
                             b.NIP 
                         ) AS REKAP 

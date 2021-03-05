@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\AttLogCenter;
 use App\Karyawan;
+use App\KaryawanKhusus;
 use App\SanksiPegawai;
 use App\SopNotification;
 use Auth;
@@ -31,6 +32,14 @@ class HomeController extends Controller
     public function index()
     {   
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
+
+        $khusus = KaryawanKhusus::select('no_id')->get();
+        $no_id = [];
+        foreach ($khusus as $k) {
+            $no_id[]= $k->no_id;
+        }
+        $no_id = implode(',', $no_id);
+
         $sanksi = SanksiPegawai::where('status',1)->where('nip',$karyawan->NIP)->first();
         if(date('d') >= 16){
             $date1 = date('Y-m-16');
@@ -124,7 +133,7 @@ class HomeController extends Controller
         $jum_tidak_absen = DB::select(DB::raw("select count(a.id) as jumlah from `u1127775_absensi`.`Abs_att_log_center` as a where a.`tgl_absen` = '". date('Y-m-d', strtotime("-1 days"))."' and (a.`status` is null or (a.`jam_masuk` is not null or a.`jam_pulang` is not null)) and (a.`jam_kerja`< '01:01:01' or a.`jam_masuk` is null or a.`jam_pulang` is null) and a.region ='".Auth::user()->region ."' and a.cabang ='".Auth::user()->cabang ."'"));
         $jum_tidak_absen = $jum_tidak_absen[0]->jumlah;
 
-        $jum_tanpa_ket = DB::select(DB::raw("select count(a.NIP) as jumlah from `u1127775_absensi`.Absen a LEFT JOIN (select b.nip, b.nama, tgl_absen from `u1127775_absensi`.Abs_att_log_center b where b.tgl_absen = '". date('Y-m-d', strtotime("-1 days"))."')  b on b.nip = a.NIP where b.tgl_absen is null and a.Status <> 'Resign' and a.No not in (1669,1673,1669,1671,1672,1678,1679,1690,1765,1798,1890,1947,1960,1962,1685) and a.region ='".Auth::user()->region ."' and a.Cabang ='".Auth::user()->cabang ."'"));
+        $jum_tanpa_ket = DB::select(DB::raw("select count(a.NIP) as jumlah from `u1127775_absensi`.Absen a LEFT JOIN (select b.nip, b.nama, tgl_absen from `u1127775_absensi`.Abs_att_log_center b where b.tgl_absen = '". date('Y-m-d', strtotime("-1 days"))."')  b on b.nip = a.NIP where b.tgl_absen is null and a.Status <> 'Resign' and a.No not in (".$no_id.") and a.region ='".Auth::user()->region ."' and a.Cabang ='".Auth::user()->cabang ."'"));
         $jum_tanpa_ket = $jum_tanpa_ket[0]->jumlah;
 
         return view('home')->with('page','dashboard')
