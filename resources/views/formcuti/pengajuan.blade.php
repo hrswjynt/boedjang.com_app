@@ -155,26 +155,6 @@
         }
 
         $("#btn-submit").click(function(){
-            swal({
-                title: "Apakah anda yakin akan mengajukan Cuti?",
-                text: 'Data cuti yang diajukan tidak dapat dirubah.', 
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-              if (willDelete) {
-                $("#cuti_form").submit()
-              } else {
-                swal("Proses Pengajuan Cuti Dibatalkan!", {
-                  icon: "error",
-                });
-              }
-            });
-        });
-
-        $("#cuti_form").submit(function(e){
-            e.preventDefault();
             if($('#cuti_akhir').val() < 0){
                 return swal("Sisa cuti akhir tidak boleh kurang dari 0", {
                   icon: "error",
@@ -183,8 +163,26 @@
                 if($("#cuti_form").valid()){
                     $('#btn-submit').hide();
                     $('#btn-submit-loading').show();
+                    swal({
+                        title: "Apakah anda yakin akan mengajukan Cuti?",
+                        text: 'Data cuti yang diajukan tidak dapat dirubah.', 
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                      if (willDelete) {
+                        $("#cuti_form").submit()
+                      } else {
+                        swal("Proses Pengajuan Cuti Dibatalkan!", {
+                          icon: "error",
+                        });
+                      }
+                    });
                 }else{
-                    return false;
+                    return swal("Pengisian form tidak valid", {
+                      icon: "error",
+                    });
                 }
             }
         });
