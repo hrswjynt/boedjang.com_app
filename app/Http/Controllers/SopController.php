@@ -104,7 +104,7 @@ class SopController extends Controller
     }
 
     public function getData(){
-        $data = Sop::leftJoin('type','type.id','sop.type')->select('sop.*', 'type.name as type_name')->get();
+        $data = Sop::leftJoin('type','type.id','sop.type')->select('sop.id','sop.title','sop.slug','sop.publish','sop.google_drive','sop.youtube','sop.type','type.name as type_name')->get();
         return $this->datatable($data);
     }
 
@@ -267,7 +267,7 @@ class SopController extends Controller
         $category_select = null;
         $type_select = null;
         $jabatan_select = null;
-        $sop = Sop::leftJoin('type','type.id','sop.type')->leftJoin('jabatan_sop','jabatan_sop.id','sop.jabatan')->where('publish','1')->select('sop.*','jabatan_sop.name as jabatan_name','type.name as type_name')->orderBy('updated_at','DESC')->paginate(15);
+        $sop = Sop::leftJoin('type','type.id','sop.type')->leftJoin('jabatan_sop','jabatan_sop.id','sop.jabatan')->where('publish','1')->select('sop.*','jabatan_sop.name as jabatan_name','type.name as type_name')->orderBy('updated_at','DESC')->paginate(9);
         $category = Category::all();
         $type = Type::orderBy('sequence', 'ASC')->get();
         $jabatan = Jabatan::all();

@@ -74,8 +74,8 @@
     $(function () {
         $('#table-sop-data').DataTable({
             "lengthMenu": [
-                [100, 200, 500, -1],
-                [100, 200, 500, 'All']
+                [25,50,100, 200, 500, -1],
+                [25,50,100, 200, 500, 'All']
             ],
             language: {
                 'paginate': {

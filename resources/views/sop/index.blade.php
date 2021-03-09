@@ -82,8 +82,8 @@
             processing: true,
             serverSide: true,
             "lengthMenu": [
-                [100, 200, 500, -1],
-                [100, 200, 500, 'All']
+                [50,100, 200, 500, -1],
+                [50,100, 200, 500, 'All']
             ],
             language: {
                 'paginate': {
