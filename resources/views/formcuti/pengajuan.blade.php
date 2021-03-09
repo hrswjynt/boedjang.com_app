@@ -174,6 +174,8 @@
                       if (willDelete) {
                         $("#cuti_form").submit()
                       } else {
+                        $('#btn-submit').show();
+                        $('#btn-submit-loading').hide();
                         swal("Proses Pengajuan Cuti Dibatalkan!", {
                           icon: "error",
                         });
