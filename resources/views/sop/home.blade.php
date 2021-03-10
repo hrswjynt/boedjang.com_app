@@ -105,7 +105,7 @@
                     <div class="row">
                         @if(count($sop) > 0)
                         @foreach($sop as $s)
-                        <?php $kategori = explode(';',$s->category_display);?>
+                        <?php $kategori = explode(';',$s->category_display);$jabatan = explode(';',$s->jabatan_display);?>
                         <div class="col-md-4 d-flex align-items-stretch">
                             <div class="card mb-4 box-shadow" style="width: 100%">
                                 @if($s->gambar == null)
@@ -131,7 +131,10 @@
                                             @if($s->updated_at > date('Y-m-d H:m:s', strtotime("-10 days")))
                                             <span class="badge badge-success kecil"><i class="far fa-calendar-check"></i> Terbaru</span>
                                             @endif
-                                            <span class="badge badge-danger kecil"><i class="fas fa-user-tie"></i></i> {{$s->jabatan_name}}</span>
+
+                                            @for($i=1;$i < count($jabatan);$i++)
+                                            <span class="badge badge-danger kecil"><i class="fas fa-user-tie"></i></i> {{$jabatan[$i]}}</span>
+                                            @endfor
                                             <span class="badge badge-primary kecil"><i class="fas fa-star"></i></i> {{$s->type_name}}</span>
                                             @for($i=1;$i < count($kategori);$i++)
                                             <span class="badge badge-warning kecil"><i class="fas fa-tag"></i> {{$kategori[$i]}}</span>

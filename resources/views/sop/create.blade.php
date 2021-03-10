@@ -72,7 +72,7 @@
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Jabatan<span class="red">*</span></label>
-                                                            <select class="select2" name="jabatan" id="jabatan" class="form-control" style="width: 100%" required>   
+                                                            <select class="select2" multiple="multiple"  name="jabatan[]" id="jabatan" class="form-control" style="width: 100%" required>   
                                                                 @foreach($jabatan as $j)
                                                                 <option value="{{$j->id}}">{{$j->name}}</option>
                                                                 @endforeach

@@ -10,6 +10,7 @@ use App\Category;
 use App\Type;
 use App\Jabatan;
 use App\SopRelationCategory;
+use App\SopRelationJabatan;
 use DataTables;
 use Auth;
 use DB;
@@ -73,7 +74,7 @@ class SopController extends Controller
         $sop->slug = strtolower(str_replace(" ","-",$slug));
         $sop->title = $request->title;
         $sop->type = $request->type;
-        $sop->jabatan = $request->jabatan;
+        // $sop->jabatan = $request->jabatan;
         $sop->content = $request->content;
         $sop->google_drive = $request->google_drive;
         $sop->youtube = $request->youtube;
@@ -89,6 +90,16 @@ class SopController extends Controller
             $relation->save();
 
             $sop->category_display = $sop->category_display.';'.Category::find($category)->name;
+            $sop->save();
+        }
+
+        foreach ($request->jabatan as $jabatan) {
+            $relation = new SopRelationJabatan;
+            $relation->id_sop = $sop->id;
+            $relation->id_jabatan = $jabatan;
+            $relation->save();
+
+            $sop->jabatan_display = $sop->jabatan_display.';'.Jabatan::find($jabatan)->name;
             $sop->save();
         }
 
@@ -134,15 +145,20 @@ class SopController extends Controller
         $type = Type::orderBy('sequence', 'ASC')->get();
         $jabatan = Jabatan::all();
         $sopcategory = SopRelationCategory::where('id_sop',$sop->id)->get();
+        $sopjabatan = SopRelationJabatan::where('id_sop',$sop->id)->get();
         foreach ($sopcategory as $sc) {
             $arrayc[] = $sc->id_category;
+        }
+        foreach ($sopjabatan as $sj) {
+            $arrayj[] = $sj->id_jabatan;
         }
         return view('sop.show')->with('sop', $sop)
                                 ->with('page','sop')
                                 ->with('type',$type)
                                 ->with('jabatan',$jabatan)
                                 ->with('category',$category)
-                                ->with('sopcategory',$arrayc);
+                                ->with('sopcategory',$arrayc)
+                                ->with('sopjabatan',$arrayj);
     }
     
     public function edit(Sop $sop)
@@ -151,8 +167,12 @@ class SopController extends Controller
         $type = Type::orderBy('sequence', 'ASC')->get();
         $jabatan = Jabatan::all();
         $sopcategory = SopRelationCategory::where('id_sop',$sop->id)->get();
+        $sopjabatan = SopRelationJabatan::where('id_sop',$sop->id)->get();
         foreach ($sopcategory as $sc) {
             $arrayc[] = $sc->id_category;
+        }
+        foreach ($sopjabatan as $sj) {
+            $arrayj[] = $sj->id_jabatan;
         }
         // dd($arrayc);        
         return view('sop.edit')->with('page','sop')
@@ -161,6 +181,7 @@ class SopController extends Controller
                                 ->with('jabatan',$jabatan)
                                 ->with('category',$category)
                                 ->with('sopcategory',$arrayc)
+                                ->with('sopjabatan',$arrayj)
                                 ;
     }
     
@@ -201,7 +222,8 @@ class SopController extends Controller
         $sop->google_drive = $request->google_drive;
         $sop->youtube = $request->youtube;
         $sop->type = $request->type;
-        $sop->jabatan = $request->jabatan;
+        $sop->jabatan_display = '';
+        // $sop->jabatan = $request->jabatan;
         $sop->save();
 
         SopRelationCategory::where('id_sop',$sop->id)->delete();
@@ -212,6 +234,17 @@ class SopController extends Controller
             $relation->save();
 
             $sop->category_display = $sop->category_display.';'.Category::find($category)->name;
+            $sop->save();
+        }
+
+        SopRelationJabatan::where('id_sop',$sop->id)->delete();
+        foreach ($request->jabatan as $jabatan) {
+            $relation = new SopRelationJabatan;
+            $relation->id_sop = $sop->id;
+            $relation->id_jabatan = $jabatan;
+            $relation->save();
+
+            $sop->jabatan_display = $sop->jabatan_display.';'.Jabatan::find($jabatan)->name;
             $sop->save();
         }
 
@@ -239,6 +272,10 @@ class SopController extends Controller
                     File::delete($image_path);
                 }
             }
+            $jabatan = SopRelationJabatan::where("id_sop", $id)->delete();
+
+            $category = SopRelationCategory::where("id_sop", $id)->delete();
+
             $notif = new SopNotification;
             $notif->sop = $id;
             $notif->date = date('Y-m-d H:i:s');
@@ -267,7 +304,7 @@ class SopController extends Controller
         $category_select = null;
         $type_select = null;
         $jabatan_select = null;
-        $sop = Sop::leftJoin('type','type.id','sop.type')->leftJoin('jabatan_sop','jabatan_sop.id','sop.jabatan')->where('publish','1')->select('sop.*','jabatan_sop.name as jabatan_name','type.name as type_name')->orderBy('updated_at','DESC')->paginate(9);
+        $sop = Sop::leftJoin('type','type.id','sop.type')->where('publish','1')->select('sop.*','type.name as type_name')->orderBy('updated_at','DESC')->paginate(9);
         $category = Category::all();
         $type = Type::orderBy('sequence', 'ASC')->get();
         $jabatan = Jabatan::all();
@@ -279,10 +316,10 @@ class SopController extends Controller
     {   
         $sop = Sop::where('slug',$slug)->first();
         $category = SopRelationCategory::join('category','category.id','sop_relation_category.id_category')->select('category.*')->where('id_sop',$sop->id)->get();
+        $jabatan = SopRelationJabatan::join('jabatan_sop','jabatan_sop.id','sop_relation_jabatan.id_jabatan')->select('jabatan_sop.*')->where('id_sop',$sop->id)->get();
         if($sop == null){
             return redirect()->route('sop_list.index')->with('danger','SOP yang dicari tidak ditemukan.');
         }
-
         return view('sop.post')->with('page','sop_list')->with('sop',$sop)->with('category',$category);
     }
 
@@ -312,25 +349,20 @@ class SopController extends Controller
             $type_select = Type::find($request->type);
         }
 
-        $sop = Sop::leftJoin('type','type.id','sop.type')->leftJoin('jabatan_sop','jabatan_sop.id','sop.jabatan')->leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.title','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop_relation_category.id_category','like',$query_category)->where('sop.type','like',$query_type)->where('sop.jabatan','like',$query_jabatan)->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->select('sop.*','jabatan_sop.name as jabatan_name','type.name as type_name')->paginate(15);
+        $sop = Sop::leftJoin('type','type.id','sop.type')
+                    ->leftJoin('sop_relation_jabatan','sop_relation_jabatan.id_sop','sop.id')
+                    ->leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')
+                    ->join('category','category.id','sop_relation_category.id_category')
+                    ->join('jabatan_sop','jabatan_sop.id','sop_relation_jabatan.id_jabatan')
+                    ->where('sop.title','like','%'.$request->search.'%')
+                    ->orderBy('sop.updated_at','DESC')
+                    ->where('sop_relation_category.id_category','like',$query_category)
+                    ->where('sop.type','like',$query_type)
+                    ->where('sop_relation_jabatan.id_jabatan','like',$query_jabatan)
+                    ->where('sop.publish','1')
+                    ->groupBy('sop.id')
+                    ->select('sop.*','type.name as type_name')->paginate(15);
 
-        // if($request->category == 'all'){
-        //     if($request->type == 'all'){
-        //         $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.title','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15);
-        //     }else{
-        //         $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.title','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop.publish','1')->where('sop.type',$request->type)->select('sop.*')->groupBy('sop.id')->paginate(15);
-        //         $type_select = Type::find($request->type);
-        //     }
-        // }else{
-        //     if($request->type == 'all'){
-        //         $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.title','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop_relation_category.id_category',$request->category)->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15);
-        //         $category_select = Category::find($request->category);
-        //     }else{
-        //         $sop = Sop::leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')->join('category','category.id','sop_relation_category.id_category')->where('sop.title','like','%'.$request->search.'%')->orderBy('sop.updated_at','DESC')->where('sop_relation_category.id_category',$request->category)->where('sop.type',$request->type)->where('sop.publish','1')->select('sop.*')->groupBy('sop.id')->paginate(15);
-        //         $category_select = Category::find($request->category);
-        //         $type_select = Type::find($request->type);
-        //     }
-        // }
         $category = Category::all();
         $type = Type::orderBy('sequence', 'ASC')->get();
         $jabatan = Jabatan::all();
