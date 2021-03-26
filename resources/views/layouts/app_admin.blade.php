@@ -165,7 +165,7 @@
                         ?>
                         <ul class="navbar-nav ml-auto">
                             <!-- <div class="topbar-divider d-none d-sm-block"></div> -->
-                            @if(Auth::user()->role == 1)
+                            @if(Auth::user()->role == 1 || Auth::user()->role == 2)
                             @if(count($sop_notif) > 0)
                             <li class="nav-item dropdown no-arrow mx-1">
                                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
