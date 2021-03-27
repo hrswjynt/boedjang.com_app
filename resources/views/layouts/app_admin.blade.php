@@ -92,6 +92,13 @@
                     </a>
                 </li>
 
+                <li class="nav-item @if($page == 'item_list') active @endif">
+                    <a class="nav-link" href="{{route('item_list.index')}}">
+                        <i class="fas fa-boxes"></i>
+                        <span>Barang & Bahan</span>
+                    </a>
+                </li>
+
                 <li class="nav-item @if($page == 'formcuti') active @endif">
                     <a class="nav-link" href="{{route('formcuti.index')}}">
                         <i class="fas fa-clipboard"></i>
@@ -106,12 +113,12 @@
                     Admin
                 </div>
                 <!-- Nav Item - Utilities Collapse Menu -->
-                <li class="nav-item @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category'  || $page == 'type' || $page == 'tag' || $page == 'jabatan' || $page == 'history_sop') active @endif">
+                <li class="nav-item @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category'  || $page == 'type' || $page == 'tag' || $page == 'jabatan' || $page == 'history_sop' || $page == 'item') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                         <i class="fas fa-cube"></i>
                         <span>Master</span>
                     </a>
-                    <div id="collapseUtilities" class="collapse @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category' || $page == 'type' || $page == 'tag' || $page == 'history_sop') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                    <div id="collapseUtilities" class="collapse @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category' || $page == 'type' || $page == 'tag' || $page == 'history_sop' || $page == 'item') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Master Data Admin</h6>
                             <a class="collapse-item @if($page == 'user') active @endif" href="{{route('user.index')}}">Pengguna</a>
@@ -122,6 +129,7 @@
                             <a class="collapse-item @if($page == 'jabatan') active @endif" href="{{route('jabatan.index')}}">Jabatan SOP</a>
                             <a class="collapse-item @if($page == 'history_sop') active @endif" href="{{route('sop.history')}}">History Pembaca SOP</a>
                             <a class="collapse-item @if($page == 'sop') active @endif" href="{{route('sop.index')}}">SOP</a>
+                            <a class="collapse-item @if($page == 'item') active @endif" href="{{route('item.index')}}">Barang & Bahan</a>
                         </div>
                     </div>
                 </li>
@@ -211,7 +219,7 @@
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
-                                    <img class="img-profile rounded-circle" src="{{ asset('admin/img/default.png')}}">
+                                    <img style="border: none" class="img-profile rounded-circle" src="{{ asset('admin/img/default.png')}}">
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

@@ -47,6 +47,10 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get("sop-search", "SopController@getSearch")->name('sop_search.index');
 	Route::post("readsop", "SopController@readSop");
 
+	Route::get("item-list", "ItemController@getList")->name('item_list.index');
+	Route::get("item-list/{slug}", "ItemController@getItem")->name('get_item.index');
+	Route::get("item-search", "ItemController@getSearch")->name('item_search.index');
+
 	Route::get("pengajuanformcuti", "CutiController@pengajuan")->name('formcuti.pengajuan');
     Route::post("formcuti-pengajuanpost", "CutiController@pengajuanPost")->name('formcuti.pengajuanpost');
 
@@ -92,6 +96,10 @@ Route::group(['middleware' => ['admin']], function() {
 	Route::get("sop_history", "SopController@historyAll")->name('sop.history');
 	Route::get("sop-history-print", "SopController@printHistoryAll")->name('sop.history_print');
 	Route::get("sop_notification", "SopController@notification")->name('sop.notification');
+
+	Route::resource('item','ItemController')->except(['destroy']);
+	Route::get("item-data", "ItemController@getData");
+	Route::post('/item-delete/{id}', 'ItemController@delete')->name('item.delete');
 
 	Route::post('ckeditor/upload', 'CkeditorController@upload')->name('ckeditor.upload');
 });
