@@ -101,7 +101,7 @@ class JabatanController extends Controller
         if(Sop::where('jabatan',$id)->first() !== null){
             return response()->json([
                 'message' => 'Jenis SOP "'.$name.'" gagal dihapus, jenis telah digunakan.',
-                'jabatan'=> 'danger',
+                'type'=> 'danger',
             ]);
         }
         try{
@@ -109,13 +109,13 @@ class JabatanController extends Controller
             DB::commit();
             return response()->json([
                 'message' => 'Jenis SOP "'.$name.'" berhasil dihapus!',
-                'jabatan'=> 'success',
+                'type'=> 'success',
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'message' => 'Jenis SOP "'.$name.'" gagal dihapus!',
-                'jabatan'=> 'danger',
+                'type'=> 'danger',
             ]);
         }
     }

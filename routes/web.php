@@ -47,6 +47,10 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get("sop-search", "SopController@getSearch")->name('sop_search.index');
 	Route::post("readsop", "SopController@readSop");
 
+	Route::get("bpm-list", "BpmController@getList")->name('bpm_list.index');
+	Route::get("bpm-list/{slug}", "BpmController@getBpm")->name('get_bpm.index');
+	Route::get("bpm-search", "BpmController@getSearch")->name('bpm_search.index');
+
 	Route::get("item-list", "ItemController@getList")->name('item_list.index');
 	Route::get("item-list/{slug}", "ItemController@getItem")->name('get_item.index');
 	Route::get("item-search", "ItemController@getSearch")->name('item_search.index');
@@ -96,6 +100,14 @@ Route::group(['middleware' => ['admin']], function() {
 	Route::get("sop_history", "SopController@historyAll")->name('sop.history');
 	Route::get("sop-history-print", "SopController@printHistoryAll")->name('sop.history_print');
 	Route::get("sop_notification", "SopController@notification")->name('sop.notification');
+
+	Route::resource('bpm','BpmController')->except(['destroy']);
+	Route::get("bpm-data", "BpmController@getData");
+	Route::post('/bpm-delete/{id}', 'BpmController@delete')->name('bpm.delete');
+
+	Route::resource('bpmdivision','BpmDivisionController')->except(['destroy']);
+	Route::get("bpmdivision-data", "BpmDivisionController@getData");
+	Route::post('/bpmdivision-delete/{id}', 'BpmDivisionController@delete')->name('bpmdivision.delete');
 
 	Route::resource('item','ItemController')->except(['destroy']);
 	Route::get("item-data", "ItemController@getData");

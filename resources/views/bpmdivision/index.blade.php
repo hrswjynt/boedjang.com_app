@@ -4,17 +4,17 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Jabatan SOP</h1>
+        <h1 class="h3 mb-0 text-gray-800">Divisi BPM</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Daftar Jabatan SOP</b></h6>
-                    <a href="{{ route('jabatan.create') }}" class="btn btn-success btn-sm add">
+                    <h6><b>Daftar Divisi BPM</b></h6>
+                    <a href="{{ route('bpmdivision.create') }}" class="btn btn-success btn-sm add">
                         <i class="fa fa-user-plus "></i>
-                        <span>Tambah Jabatan</span>
+                        <span>Tambah Divisi</span>
                     </a>
                 </div>
                 <div class="card-body">
@@ -32,9 +32,9 @@
                       <p>{!! $message !!}</p>
                   </div>
                   @endif
-                  <div id="jabatan-data">
+                  <div id="bpmdivision-data">
                     <div class="table-responsive">
-                        <table class="table" id="table-jabatan-data" width="100%">
+                        <table class="table" id="table-bpmdivision-data" width="100%">
                             <thead>
                                 <tr>
                                     <th width="1%">
@@ -63,7 +63,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    var url_delete = "{{url('jabatan-delete')}}";
+    var url_delete = "{{url('bpmdivision-delete')}}";
     var base_url = "{{ url('/') }}";
 </script>
 
@@ -72,7 +72,7 @@
 @push('other-script')
 <script type="text/javascript">
     $(function () {
-        $('#table-jabatan-data').DataTable({
+        $('#table-bpmdivision-data').DataTable({
             processing: true,
             serverSide: true,
             "lengthMenu": [
@@ -85,7 +85,7 @@
                   'next': '<span class="fas fa-angle-right"></span>'
                 }
               },
-            ajax: base_url+"/jabatan-data",
+            ajax: base_url+"/bpmdivision-data",
             columnDefs: [
                 {
                     render: function (data, type, full, meta) {
@@ -121,14 +121,14 @@
 
 
     $(document).ready(function () {
-        $("body").on("click", ".jabatanDelete", function (e) {
+        $("body").on("click", ".bpmdivisionDelete", function (e) {
             e.preventDefault();
             var id = $(this).data("id");
             var token = $("meta[name='csrf-token']").attr("content");
             var url = e.target;
             swal({
                 title: 'Apakah Anda Yakin?',
-                text: 'Jabatan SOP yang telah dihapus tidak dapat dikembalikan lagi!',
+                text: 'Divisi BPM yang telah dihapus tidak dapat dikembalikan lagi!',
                 icon: 'warning',
                 buttons: ["Cancel", "Yes!"],
             }).then(function (value) {
