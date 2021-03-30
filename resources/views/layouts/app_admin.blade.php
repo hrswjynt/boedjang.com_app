@@ -93,7 +93,7 @@
                 </li>
 
                 <?php $karyawan = DB::table('u1127775_absensi.Absen')->where('NIP',Auth::user()->username)->first(); ?>
-                @if(Auth::user()->role == 5 && $karyawan->Cabang !== "HeadOffice")
+                @if(Auth::user()->role !== 5 || $karyawan->Cabang == "HeadOffice")
                 <li class="nav-item @if($page == 'bpm_list') active @endif">
                     <a class="nav-link" href="{{route('bpm_list.index')}}">
                         <i class="fas fa-project-diagram"></i>
