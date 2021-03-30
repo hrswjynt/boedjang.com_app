@@ -92,12 +92,15 @@
                     </a>
                 </li>
 
+                <?php $karyawan = DB::table('u1127775_absensi.Absen')->where('NIP',Auth::user()->username)->first(); ?>
+                @if(Auth::user()->role == 5 && $karyawan->Cabang !== "HeadOffice")
                 <li class="nav-item @if($page == 'bpm_list') active @endif">
                     <a class="nav-link" href="{{route('bpm_list.index')}}">
                         <i class="fas fa-project-diagram"></i>
                         <span>BPM</span>
                     </a>
                 </li>
+                @endif
 
                 {{-- <li class="nav-item @if($page == 'item_list') active @endif">
                     <a class="nav-link" href="{{route('item_list.index')}}">
@@ -115,7 +118,7 @@
                 <!-- Divider -->
                 <hr class="sidebar-divider">
                 <!-- Heading -->
-                @if(Auth::user()->role == 1)
+                @if(Auth::user()->role == 1 || Auth::user()->role == 3)
                 <div class="sidebar-heading">
                     Admin
                 </div>
@@ -128,14 +131,16 @@
                     <div id="collapseUtilities" class="collapse @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category' || $page == 'type' || $page == 'tag' || $page == 'history_sop' || $page == 'bpm' || $page == 'bpmdivision') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Master Data Admin</h6>
+                            @if(Auth::user()->role == 1)
                             <a class="collapse-item @if($page == 'user') active @endif" href="{{route('user.index')}}">Pengguna</a>
                             <a class="collapse-item @if($page == 'tag') active @endif" href="{{route('tag.index')}}">Tag Blog</a>
                             <a class="collapse-item @if($page == 'blog') active @endif" href="{{route('blog.index')}}">Blog</a>
                             <a class="collapse-item @if($page == 'category') active @endif" href="{{route('category.index')}}">Kategori SOP</a>
                             <a class="collapse-item @if($page == 'type') active @endif" href="{{route('type.index')}}">Jenis SOP</a>
                             <a class="collapse-item @if($page == 'jabatan') active @endif" href="{{route('jabatan.index')}}">Jabatan SOP</a>
-                            <a class="collapse-item @if($page == 'history_sop') active @endif" href="{{route('sop.history')}}">History Pembaca SOP</a>
                             <a class="collapse-item @if($page == 'sop') active @endif" href="{{route('sop.index')}}">SOP</a>
+                            @endif
+                            <a class="collapse-item @if($page == 'history_sop') active @endif" href="{{route('sop.history')}}">History Pembaca SOP</a>
                             <a class="collapse-item @if($page == 'bpmdivision') active @endif" href="{{route('bpmdivision.index')}}">Divisi BPM</a>
                             <a class="collapse-item @if($page == 'bpm') active @endif" href="{{route('bpm.index')}}">BPM</a>
                             {{-- <a class="collapse-item @if($page == 'item') active @endif" href="{{route('item.index')}}">Barang & Bahan</a> --}}
@@ -143,6 +148,7 @@
                     </div>
                 </li>
                 <!-- Nav Item - Pages Collapse Menu -->
+                @if(Auth::user()->role == 1)
                 <li class="nav-item @if($page == 'content' || $page == 'social_media') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                         <i class="fas fa-fw fa-wrench"></i>
@@ -156,7 +162,7 @@
                         </div>
                     </div>
                 </li>
-
+                @endif
                 <!-- Divider -->
                 <hr class="sidebar-divider d-none d-md-block">
                 @endif

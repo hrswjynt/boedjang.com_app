@@ -125,7 +125,9 @@
                             return 'Admin';
                         } else if(data == 2){
                             return 'SPV';
-                        } else{
+                        } else if(data == 3){
+                            return 'Manager';
+                        }else{
                             return 'Karyawan';
                         }           
                     }

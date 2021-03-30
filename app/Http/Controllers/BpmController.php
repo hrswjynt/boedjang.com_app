@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Karyawan;
 use App\Bpm;
 use App\BpmDivision;
 use App\BpmRelationDivision;
@@ -210,6 +211,12 @@ class BpmController extends Controller
 
     public function getList()
     {   
+        $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
+        if(Auth::user()->role == 5 && $karyawan->Cabang !== "HeadOffice"){
+            $message_type = 'danger';
+            $message = 'Fitur BPM belum dapat diakses.';
+            return redirect()->route('dashboard')->with($message_type,$message);
+        }
         $search = null;
         $division_select = null;
         $bpm = Bpm::where('publish','1')->orderBy('updated_at','DESC')->paginate(6);
@@ -219,6 +226,12 @@ class BpmController extends Controller
 
     public function getBpm($slug)
     {   
+        $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
+        if(Auth::user()->role == 5 && $karyawan->Cabang !== "HeadOffice"){
+            $message_type = 'danger';
+            $message = 'Fitur BPM belum dapat diakses.';
+            return redirect()->route('dashboard')->with($message_type,$message);
+        }
         $bpm = Bpm::where('slug',$slug)->first();
         $division = BpmRelationDivision::join('bpm_division','bpm_division.id','bpm_relation_division.id_division')->select('bpm_division.*')->where('id_bpm',$bpm->id)->get();
         if($bpm == null){
@@ -229,6 +242,12 @@ class BpmController extends Controller
 
     public function getSearch(Request $request){
         // dd($request->all());
+        $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
+        if(Auth::user()->role == 5 && $karyawan->Cabang !== "HeadOffice"){
+            $message_type = 'warning';
+            $message = 'Fitur BPM belum dapat diakses.';
+            return redirect()->route('dashboard')->with($message_type,$message);
+        }
         $search = $request->search;
         $division_select = null;
         $query_division = $request->division;

@@ -23,7 +23,7 @@ class Admin
     public function handle($request, Closure $next)
     {   
         if(Auth::user()){
-            if(Auth::user()->role == 1){
+            if(Auth::user()->role == 1 || Auth::user()->role == 3){
                 return $next($request);
             }else{
                 abort(401, 'Unauthorized user.');
