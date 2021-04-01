@@ -7,7 +7,7 @@
     <!-- Content Row -->
     <!-- Content Row -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Slip Gaji</h1>
+        <h1 class="h3 mb-0 text-gray-800">Data Diri</h1><a class="btn btn-success" href="{{route('user.edit',Auth::user()->id)}}"><i class="fas fa-share"></i> Update Profile</a>
     </div>
     <div class="row">
         <!-- Area Chart -->
@@ -21,6 +21,15 @@
                 <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
+                                    @if(Auth::user()->gambar == null)
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <img src="{{ asset('admin/img/default.png') }}" style="display: block;margin-left: auto;margin-right: auto;width: 100%;max-width: 300px" class="img-thumbnail shadow">
+                                    </div>
+                                    @else
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <img src="{{ asset('images/profile/'.Auth::user()->gambar) }}" style="display: block;margin-left: auto;margin-right: auto;width: 100%;max-width: 300px" class="img-thumbnail shadow">
+                                    </div>
+                                    @endif
                                     <div class="form-group mb-4 bmd-form-group">
                                         <label class="font-weight-bold ">NIP </label>
                                         <input name="NIP" type="text"

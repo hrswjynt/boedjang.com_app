@@ -40,84 +40,84 @@
                       <p>{{ $message }}</p>
                   </div>
                   @endif
-                  <form method="POST" action="{{route('user.update',$user->id)}}" id="user_form">
+                  <form method="POST" action="{{route('user.update',$user->id)}}" id="user_form" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="container-fluid mt-3">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="container-fluid mt-3">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Nama Pengguna <span class="red">*</span></label>
-                                                            <input name="name" type="text"
-                                                                class="form-control" value="{{$user->name}}" id="name" maxlength="100" >
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Username <span class="red">*</span></label>
-                                                            <input name="username" type="text"
-                                                                class="form-control" value="{{$user->username}}" id="username" maxlength="20" @if(Auth::user()->role !== 1) readonly @endif>
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Email </label>
-                                                            <input name="email" type="email"
-                                                                class="form-control" value="{{$user->email}}" maxlength="100" >
-                                                        </div>
-                                                        @if(Auth::user()->role == 1)
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Role <span class="red">*</span></label>
-                                                            <select class="form-control select2" name="role">
-                                                                @if($user->role == 5) 
-                                                                <option value="5" selected="">Karyawan</option>
-                                                                <option value="3">Manager</option>
-                                                                <option value="2">SPV</option>
-                                                                <option value="1">Admin</option>
-                                                                @endif
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Foto Profil </label>
+                                        <input name="gambar" type="file"
+                                            class="form-control" value="" id="gambar" accept="image/*">
+                                        @if($user->gambar == null)
+                                        <img id="img-thumbnail shadow" src="{{asset('admin/img/default.png')}}" alt="your image" height="100%" style="margin-top: 10px;margin-left: auto;margin-right: auto;width: 100%;max-width: 300px" />
+                                        @else
+                                        <img id="img" src="{{asset('images/profile/'.$user->gambar)}}" alt="your image" height="100%" style="margin-top: 10px;margin-left: auto;margin-right: auto;width: 100%;max-width: 300px"/>
+                                        @endif
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Nama Pengguna <span class="red">*</span></label>
+                                        <input name="name" type="text"
+                                            class="form-control" value="{{$user->name}}" id="name" maxlength="100" >
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Username <span class="red">*</span></label>
+                                        <input name="username" type="text"
+                                            class="form-control" value="{{$user->username}}" id="username" maxlength="20" @if(Auth::user()->role !== 1) readonly @endif>
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Email </label>
+                                        <input name="email" type="email"
+                                            class="form-control" value="{{$user->email}}" maxlength="100" >
+                                    </div>
+                                    @if(Auth::user()->role == 1)
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Role <span class="red">*</span></label>
+                                        <select class="form-control select2" name="role" style="width: 100%">
+                                            @if($user->role == 5) 
+                                            <option value="5" selected="">Karyawan</option>
+                                            <option value="3">Manager</option>
+                                            <option value="2">SPV</option>
+                                            <option value="1">Admin</option>
+                                            @endif
 
-                                                                @if($user->role == 3) 
-                                                                <option value="5">Karyawan</option>
-                                                                <option value="3" selected="">Manager</option>
-                                                                <option value="2">SPV</option>
-                                                                <option value="1">Admin</option>
-                                                                @endif
+                                            @if($user->role == 3) 
+                                            <option value="5">Karyawan</option>
+                                            <option value="3" selected="">Manager</option>
+                                            <option value="2">SPV</option>
+                                            <option value="1">Admin</option>
+                                            @endif
 
-                                                                @if($user->role == 2) 
-                                                                <option value="5">Karyawan</option>
-                                                                <option value="3">Manager</option>
-                                                                <option value="2" selected="">SPV</option>
-                                                                <option value="1">Admin</option>
-                                                                @endif
+                                            @if($user->role == 2) 
+                                            <option value="5">Karyawan</option>
+                                            <option value="3">Manager</option>
+                                            <option value="2" selected="">SPV</option>
+                                            <option value="1">Admin</option>
+                                            @endif
 
-                                                                @if($user->role == 1)
-                                                                @if(Auth::user()->role == '1')
-                                                                <option value="5">Karyawan</option>
-                                                                <option value="3">Manager</option>
-                                                                <option value="2">SPV</option>
-                                                                <option value="1" selected="">Admin</option>
-                                                                @endif
-                                                                @endif
-                                                            </select>
-                                                        </div>
-                                                        @else
-                                                        <input type="hidden" name="role" value="5">
-                                                        @endif
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Password <span class="red">*</span><span class="red" style="font-size: 12px"> Hanya diisi jika ingin mengganti password</span></label>
-                                                            <input name="password" type="password"
-                                                                class="form-control" value="{{old('password')}}"maxlength="100">
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Konfirmasi Password<span class="red">*</span><span class="red" style="font-size: 12px"> Hanya diisi jika ingin mengganti password</span></label>
-                                                            <input name="password_confirm" type="password"
-                                                                class="form-control" value="{{old('password_confirm')}}" maxlength="100">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            @if($user->role == 1)
+                                            @if(Auth::user()->role == '1')
+                                            <option value="5">Karyawan</option>
+                                            <option value="3">Manager</option>
+                                            <option value="2">SPV</option>
+                                            <option value="1" selected="">Admin</option>
+                                            @endif
+                                            @endif
+                                        </select>
+                                    </div>
+                                    @else
+                                    <input type="hidden" name="role" value="5">
+                                    @endif
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Password <span class="red">*</span><span class="red" style="font-size: 12px"> Hanya diisi jika ingin mengganti password</span></label>
+                                        <input name="password" type="password"
+                                            class="form-control" value="{{old('password')}}"maxlength="100">
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Konfirmasi Password<span class="red">*</span><span class="red" style="font-size: 12px"> Hanya diisi jika ingin mengganti password</span></label>
+                                        <input name="password_confirm" type="password"
+                                            class="form-control" value="{{old('password_confirm')}}" maxlength="100">
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +149,7 @@
 @push('other-script')
 <script type="text/javascript">
     $(document).ready(function () {
-    
+        
         $('#btn-submit').show();
         $('#btn-submit-loading').hide();
 
@@ -171,6 +171,35 @@
               }
             });
         });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+        
+                reader.onload = function(e) {
+                  $('#img').attr('src', e.target.result);
+                }
+        
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+        $("#gambar").change(function() {
+            $('#img').show();
+            readURL(this);
+        });
+
+        var uploadField = document.getElementById("gambar");
+
+        uploadField.onchange = function() {
+            if(this.files[0].size > 2097152){
+                swal("Data Gambar terlalu besar!", {
+                  icon: "error",
+                });
+               this.value = "";
+               $('#img').hide();
+            };
+        };
 
         $("#user_form").submit(function(){
             if($("#user_form").valid()){

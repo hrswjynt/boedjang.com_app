@@ -8,6 +8,8 @@ use App\User;
 use DataTables;
 use Auth;
 use DB;
+use File;
+use Image;
 use Hash;
 
 class UserController extends Controller
@@ -164,6 +166,18 @@ class UserController extends Controller
             }
         }
         
+        $image_name = null;
+        if($request->gambar !== null){
+            $image = $request->file('gambar');
+            $image_name = time() . 'profile.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images/profile');
+            $resize_image = Image::make($image->getRealPath());
+            // $resize_image->resize(null, 300, function($constraint){
+            //     $constraint->aspectRatio();
+            // })->save($destinationPath . '/' . $image_name);
+            $resize_image->save($destinationPath . '/' . $image_name);
+        }
+
         $model = $user;
         if($user->username != $request->username){
             if(User::where('username',$request->username)->first() !== null){
@@ -182,6 +196,15 @@ class UserController extends Controller
         $model->name = $request->name;
         $model->username = $request->username;
         $model->email = $request->email;
+        if($image_name != null){
+            if($model->gambar !==null){
+                $image_path = public_path('/images/profile/'.$model->gambar);
+                if(File::exists($image_path)) {
+                    File::delete($image_path);
+                }
+            }
+            $model->gambar = $image_name;
+        }
         if($request->password != null){
             $model->password = Hash::make($request->password);
         }

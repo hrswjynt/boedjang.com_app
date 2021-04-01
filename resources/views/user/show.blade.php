@@ -34,65 +34,63 @@
                   @endif
                         <div class="container-fluid mt-3">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="container-fluid mt-3">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Nama Pengguna <span class="red">*</span></label>
-                                                            <input name="name" type="text"
-                                                                class="form-control" value="{{$user->name}}" id="name" maxlength="100" disabled="">
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Username <span class="red">*</span></label>
-                                                            <input name="username" type="text"
-                                                                class="form-control" value="{{$user->username}}" id="username" maxlength="20" disabled="">
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Email </label>
-                                                            <input name="email" type="email"
-                                                                class="form-control" value="{{$user->email}}" maxlength="100" disabled="">
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Role <span class="red">*</span></label>
-                                                            <select class="form-control select2" name="role" disabled="">
-                                                                @if($user->role == 5) 
-                                                                <option value="5" selected="">Karyawan</option>
-                                                                <option value="3">Manager</option>
-                                                                <option value="2">SPV</option>
-                                                                <option value="1">Admin</option>
-                                                                @endif
+                                <div class="card-body">
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Foto Profil </label><br>
+                                        @if($user->gambar == null)
+                                        <img id="img" src="{{asset('admin/img/default.png')}}" alt="your image" style="margin-top: 10px;margin-left: auto;margin-right: auto;width: 100%;max-width: 300px" />
+                                        @else
+                                        <img id="img" src="{{asset('images/profile/'.$user->gambar)}}" alt="your image"style="margin-top: 10px;margin-left: auto;margin-right: auto;width: 100%;max-width: 300px"/>
+                                        @endif
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Nama Pengguna <span class="red">*</span></label>
+                                        <input name="name" type="text"
+                                            class="form-control" value="{{$user->name}}" id="name" maxlength="100" disabled="">
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Username <span class="red">*</span></label>
+                                        <input name="username" type="text"
+                                            class="form-control" value="{{$user->username}}" id="username" maxlength="20" disabled="">
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Email </label>
+                                        <input name="email" type="email"
+                                            class="form-control" value="{{$user->email}}" maxlength="100" disabled="">
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Role <span class="red">*</span></label>
+                                        <select class="form-control select2" name="role" disabled="" style="width: 100%">
+                                            @if($user->role == 5) 
+                                            <option value="5" selected="">Karyawan</option>
+                                            <option value="3">Manager</option>
+                                            <option value="2">SPV</option>
+                                            <option value="1">Admin</option>
+                                            @endif
 
-                                                                @if($user->role == 3) 
-                                                                <option value="5">Karyawan</option>
-                                                                <option value="3" selected="">Manager</option>
-                                                                <option value="2">SPV</option>
-                                                                <option value="1">Admin</option>
-                                                                @endif
+                                            @if($user->role == 3) 
+                                            <option value="5">Karyawan</option>
+                                            <option value="3" selected="">Manager</option>
+                                            <option value="2">SPV</option>
+                                            <option value="1">Admin</option>
+                                            @endif
 
-                                                                @if($user->role == 2) 
-                                                                <option value="5">Karyawan</option>
-                                                                <option value="3">Manager</option>
-                                                                <option value="2" selected="">SPV</option>
-                                                                <option value="1">Admin</option>
-                                                                @endif
+                                            @if($user->role == 2) 
+                                            <option value="5">Karyawan</option>
+                                            <option value="3">Manager</option>
+                                            <option value="2" selected="">SPV</option>
+                                            <option value="1">Admin</option>
+                                            @endif
 
-                                                                @if($user->role == 1)
-                                                                @if(Auth::user()->role == '1')
-                                                                <option value="5">Karyawan</option>
-                                                                <option value="3">Manager</option>
-                                                                <option value="2">SPV</option>
-                                                                <option value="1" selected="">Admin</option>
-                                                                @endif
-                                                                @endif
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            @if($user->role == 1)
+                                            @if(Auth::user()->role == '1')
+                                            <option value="5">Karyawan</option>
+                                            <option value="3">Manager</option>
+                                            <option value="2">SPV</option>
+                                            <option value="1" selected="">Admin</option>
+                                            @endif
+                                            @endif
+                                        </select>
                                     </div>
                                 </div>
                             </div>

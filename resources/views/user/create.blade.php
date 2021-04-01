@@ -37,52 +37,41 @@
                         <div class="container-fluid mt-3">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="container-fluid mt-3">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Nama Pengguna <span class="red">*</span></label>
-                                                            <input name="name" type="text"
-                                                                class="form-control" value="{{old('name')}}" id="name" maxlength="100" autocomplete="new-password">
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Username <span class="red">*</span></label>
-                                                            <input name="username" type="text"
-                                                                class="form-control" value="{{old('username')}}" id="username" maxlength="100" autocomplete="new-password">
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Email </label>
-                                                            <input name="email" type="email"
-                                                                class="form-control" value="{{old('email')}}" maxlength="100" autocomplete="new-password">
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Role <span class="red">*</span></label>
-                                                            <select class="form-control select2" name="role">   
-                                                                <option value="5">Karyawan</option>
-                                                                @if(Auth::user()->role == '1')
-                                                                <option value="3">Manager</option>
-                                                                <option value="2">SPV</option>
-                                                                <option value="1">Admin</option>
-
-                                                                @endif
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Password <span class="red">*</span></label>
-                                                            <input name="password" type="password"
-                                                                class="form-control" value="{{old('password')}}"maxlength="100" required="" autocomplete="new-password">
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Konfirmasi Password<span class="red">*</span></label>
-                                                            <input name="password_confirm" type="password"
-                                                                class="form-control" value="{{old('password_confirm')}}" maxlength="100" required="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Nama Pengguna <span class="red">*</span></label>
+                                        <input name="name" type="text"
+                                            class="form-control" value="{{old('name')}}" id="name" maxlength="100" autocomplete="new-password">
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Username <span class="red">*</span></label>
+                                        <input name="username" type="text"
+                                            class="form-control" value="{{old('username')}}" id="username" maxlength="100" autocomplete="new-password">
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Email </label>
+                                        <input name="email" type="email"
+                                            class="form-control" value="{{old('email')}}" maxlength="100" autocomplete="new-password">
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Role <span class="red">*</span></label>
+                                        <select class="form-control select2" name="role" style="width: 100%">
+                                            <option value="5">Karyawan</option>
+                                            @if(Auth::user()->role == '1')
+                                            <option value="3">Manager</option>
+                                            <option value="2">SPV</option>
+                                            <option value="1">Admin</option>
+                                            @endif
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Password <span class="red">*</span></label>
+                                        <input name="password" type="password"
+                                            class="form-control" value="{{old('password')}}"maxlength="100" required="" autocomplete="new-password">
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Konfirmasi Password<span class="red">*</span></label>
+                                        <input name="password_confirm" type="password"
+                                            class="form-control" value="{{old('password_confirm')}}" maxlength="100" required="">
                                     </div>
                                 </div>
                             </div>

@@ -234,7 +234,11 @@
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
-                                    <img style="border: none" class="img-profile rounded-circle" src="{{ asset('admin/img/default.png')}}">
+                                    @if(Auth::user()->gambar == null)
+                                    <img style="border: none;zoom:150%;object-fit: cover;" class="img-profile rounded-circle shadow" src="{{ asset('admin/img/default.png')}}">
+                                    @else
+                                    <img style="border: none;zoom:150%;object-fit: cover;" class="img-profile rounded-circle shadow" src="{{ asset('images/profile/'.Auth::user()->gambar)}}">
+                                    @endif
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
