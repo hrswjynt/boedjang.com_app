@@ -3,7 +3,7 @@
 <style type="text/css">
     img {
         max-width: 100%;
-        height: auto !important;
+        /*height: auto !important;*/
         border: 3px solid #3BBEEC;
         margin:5px;
         margin-left: auto;
