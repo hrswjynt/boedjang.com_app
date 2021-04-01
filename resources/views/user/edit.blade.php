@@ -51,7 +51,7 @@
                                         <input name="gambar" type="file"
                                             class="form-control" value="" id="gambar" accept="image/*">
                                         @if($user->gambar == null)
-                                        <img id="img-thumbnail shadow" src="{{asset('admin/img/default.png')}}" alt="your image" height="100%" style="margin-top: 10px;margin-left: auto;margin-right: auto;width: 100%;max-width: 300px" />
+                                        <img id="img" src="{{asset('admin/img/default.png')}}" alt="your image" height="100%" style="margin-top: 10px;margin-left: auto;margin-right: auto;width: 100%;max-width: 300px" />
                                         @else
                                         <img id="img" src="{{asset('images/profile/'.$user->gambar)}}" alt="your image" height="100%" style="margin-top: 10px;margin-left: auto;margin-right: auto;width: 100%;max-width: 300px"/>
                                         @endif
