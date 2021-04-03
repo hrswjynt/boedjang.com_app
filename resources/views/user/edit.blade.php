@@ -192,8 +192,8 @@
         var uploadField = document.getElementById("gambar");
 
         uploadField.onchange = function() {
-            if(this.files[0].size > 1097152){
-                swal("Data Gambar terlalu besar! Maksimal ukuran adalah 1 MB", {
+            if(this.files[0].size > 2097152){
+                swal("Data Gambar terlalu besar! Maksimal ukuran adalah 2 MB", {
                   icon: "error",
                 });
                this.value = "";
