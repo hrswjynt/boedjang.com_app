@@ -2,7 +2,7 @@
 @section('content')
 <style type="text/css">
     img {
-        max-width: 100%;
+        /*max-width: 100%;*/
         height: auto !important;
         border: 3px solid #3BBEEC;
         margin:5px;
@@ -68,7 +68,7 @@
                     <div class="row">
 
                         @if($bpm->gambar == null)
-                        <div class="col-md-12">
+                        <div class="col-md-12" style="overflow-x:auto;">
                             @foreach($division as $c)
                             <span class="badge badge-warning shadow"><i class="fas fa-user-tie"></i></i> {{$c->name}}</span>
                             @endforeach
@@ -77,7 +77,7 @@
                         </div>
                         
                         @else
-                        <div class="col-md-12">
+                        <div class="col-md-12" style="overflow-x:auto;">
                             @foreach($division as $c)
                             <span class="badge badge-warning shadow"><i class="fas fa-user-tie"></i></i> {{$c->name}}</span>
                             @endforeach
