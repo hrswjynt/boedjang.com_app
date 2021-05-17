@@ -68,7 +68,7 @@
                     <div class="row">
 
                         @if($bpm->gambar == null)
-                        <div class="col-md-12" style="overflow-x:auto;">
+                        <div class="col-md-12">
                             @foreach($division as $c)
                             <span class="badge badge-warning shadow"><i class="fas fa-user-tie"></i></i> {{$c->name}}</span>
                             @endforeach
