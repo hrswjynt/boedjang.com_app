@@ -236,11 +236,7 @@ class SlipGajiController extends Controller
                                     )),
                                 0 
                             ) AS 'D_jam_kerja',
-                        IF
-                            (
-                                pot_no_absen IS NULL,
-                                0,
-                            SUM( pot_no_absen )) AS 'P_no_absen',
+                            SUM( ifnull(pot_no_absen,0)) AS 'P_no_absen',
                             COUNT(
                             IF
                             ( pot_no_absen > 0, 1, NULL )) AS 'J_no_absen',

@@ -335,7 +335,7 @@
                                 <td>Pot. Lain-lain</td>
                                 <td>:</td>
                                 <td class="txt-left lr-none">Rp.</td>
-                                <td class="txt-right l-none">-{{number_format($d->pot_lain,0,',','.')}}</td>
+                                <td class="txt-right l-none">-{{number_format($d->pot_lain+$d->P_no_absen,0,',','.')}}</td>
                             </tr>
                             <?php
                                 if(is_numeric($d->bpjs_ksht)){
@@ -348,7 +348,7 @@
                                 }else{
                                     $mbpjs_tkrj = 0;
                                 }
-                                $totalpot = $d->P_masuk+$d->P_alfa_a+$d->P_izin+$d->P_sakit+$d->P_alfa_b+$d->P_plg_awal+$d->akm_alfa_a+$d->akm_alfa_b+$d->P_kasbon+$d->Angsuran+$mbpjs_ksht+$mbpjs_tkrj+$d->P_extra+$d->pot_lain; 
+                                $totalpot = $d->P_masuk+$d->P_alfa_a+$d->P_izin+$d->P_sakit+$d->P_alfa_b+$d->P_plg_awal+$d->akm_alfa_a+$d->akm_alfa_b+$d->P_kasbon+$d->Angsuran+$mbpjs_ksht+$mbpjs_tkrj+$d->P_extra+$d->pot_lain+$d->P_no_absen; 
                             ?>
                             <tr class="bold">
                                 <td>TOTAL</td>
