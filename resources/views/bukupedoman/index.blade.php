@@ -4,17 +4,17 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Divisi </h1>
+        <h1 class="h3 mb-0 text-gray-800">Buku Pedoman</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Daftar Divisi </b></h6>
-                    <a href="{{ route('bpmdivision.create') }}" class="btn btn-success btn-sm add">
-                        <i class="fa fa-user-plus "></i>
-                        <span>Tambah Divisi</span>
+                    <h6><b>Daftar Buku Pedoman</b></h6>
+                    <a href="{{ route('bukupedoman.create') }}" class="btn btn-success btn-sm add">
+                        <i class="fa fa-plus"></i>
+                        <span>Tambah Buku Pedoman</span>
                     </a>
                 </div>
                 <div class="card-body">
@@ -23,30 +23,30 @@
                   @if ($message = Session::get('success'))
                   <div class="alert alert-success alert-dismissible" id="success-alert">
                       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                      <p>{!! $message !!}</p>
+                      <p>{{ $message }}</p>
                   </div>
                   @endif
                   @if ($message = Session::get('danger'))
                   <div class="alert alert-danger alert-dismissible" id="danger-alert">
                       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                      <p>{!! $message !!}</p>
+                      <p>{{ $message }}</p>
                   </div>
                   @endif
-                  <div id="bpmdivision-data">
+                  <div id="bukupedoman-data">
                     <div class="table-responsive">
-                        <table class="table" id="table-bpmdivision-data" width="100%">
+                        <table class="table" id="table-bukupedoman-data" width="100%">
                             <thead>
                                 <tr>
-                                    <th width="1%">
+                                    <th>
                                         No
                                     </th>
-                                    <th width="20%">
-                                        Nama
+                                    <th>
+                                        Judul
                                     </th>
-                                    <th width="30%">
-                                        Deskripsi
+                                    <th>
+                                        Status
                                     </th>
-                                    <th class="text-right" width="20%">
+                                    <th class="text-right">
                                         Actions
                                     </th>
                                 </tr>
@@ -63,7 +63,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    var url_delete = "{{url('bpmdivision-delete')}}";
+    var url_delete = "{{url('bukupedoman-delete')}}";
     var base_url = "{{ url('/') }}";
 </script>
 
@@ -72,12 +72,12 @@
 @push('other-script')
 <script type="text/javascript">
     $(function () {
-        $('#table-bpmdivision-data').DataTable({
+        $('#table-bukupedoman-data').DataTable({
             processing: true,
             serverSide: true,
             "lengthMenu": [
-                [10, 25, 50, 100],
-                [10, 25, 50, 100]
+                [50,100, 200, 500, -1],
+                [50,100, 200, 500, 'All']
             ],
             language: {
                 'paginate': {
@@ -85,15 +85,7 @@
                   'next': '<span class="fas fa-angle-right"></span>'
                 }
               },
-            ajax: base_url+"/bpmdivision-data",
-            columnDefs: [
-                {
-                    render: function (data, type, full, meta) {
-                        return "<div class='text-wrap'>" + data + "</div>";
-                    },
-                    targets: 2
-                }
-             ],
+            ajax: base_url+"/bukupedoman-data",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
@@ -101,13 +93,28 @@
                     searchable: false
                 },
                 {
-                    data: 'name',
-                    name: 'name'
+                    data: 'title',
+                    name: 'title',
+                    render: function (data, type, row) {
+                        if(data !== null){
+                            return '<a target="__blank" href="'+base_url+'/bukupedoman-list/'+row.slug+'">'+data+'</a>';
+                        }else{
+                            return '-';
+                        }           
+                    }
                 },
                 {
-                    data: 'description',
-                    name: 'description'
+                    data: 'publish',
+                    name: 'publish',
+                    render: function (data, type, row) {
+                        if(data == 1){
+                            return '<span class="badge badge-success shadow" style="zoom:120%">Publish</span>';
+                        }else{
+                            return '<span class="badge badge-warning shadow" style="zoom:120%">Draft</span>';
+                        }           
+                    }
                 },
+                
                 {
                     data: 'action',
                     name: 'action',
@@ -121,14 +128,14 @@
 
 
     $(document).ready(function () {
-        $("body").on("click", ".bpmdivisionDelete", function (e) {
+        $("body").on("click", ".bukupedomanDelete", function (e) {
             e.preventDefault();
             var id = $(this).data("id");
             var token = $("meta[name='csrf-token']").attr("content");
             var url = e.target;
             swal({
                 title: 'Apakah Anda Yakin?',
-                text: 'Divisi yang telah dihapus tidak dapat dikembalikan lagi!',
+                text: 'Buku Pedoman yang telah dihapus tidak dapat dikembalikan lagi!',
                 icon: 'warning',
                 buttons: ["Cancel", "Yes!"],
             }).then(function (value) {

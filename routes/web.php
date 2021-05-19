@@ -51,6 +51,10 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get("bpm-list/{slug}", "BpmController@getBpm")->name('get_bpm.index');
 	Route::get("bpm-search", "BpmController@getSearch")->name('bpm_search.index');
 
+	Route::get("bukupedoman-list", "BukuPedomanController@getList")->name('bukupedoman_list.index');
+	Route::get("bukupedoman-list/{slug}", "BukuPedomanController@getBukuPedoman")->name('get_bukupedoman.index');
+	Route::get("bukupedoman-search", "BukuPedomanController@getSearch")->name('bukupedoman_search.index');
+
 	Route::get("item-list", "ItemController@getList")->name('item_list.index');
 	Route::get("item-list/{slug}", "ItemController@getItem")->name('get_item.index');
 	Route::get("item-search", "ItemController@getSearch")->name('item_search.index');
@@ -108,6 +112,14 @@ Route::group(['middleware' => ['admin']], function() {
 	Route::resource('bpmdivision','BpmDivisionController')->except(['destroy']);
 	Route::get("bpmdivision-data", "BpmDivisionController@getData");
 	Route::post('/bpmdivision-delete/{id}', 'BpmDivisionController@delete')->name('bpmdivision.delete');
+
+	Route::resource('bukupedoman','BukuPedomanController')->except(['destroy']);
+	Route::get("bukupedoman-data", "BukuPedomanController@getData");
+	Route::post('/bukupedoman-delete/{id}', 'BukuPedomanController@delete')->name('bukupedoman.delete');
+
+	Route::resource('bukupedomandivision','BukuPedomanDivisionController')->except(['destroy']);
+	Route::get("bukupedomandivision-data", "BukuPedomanDivisionController@getData");
+	Route::post('/bukupedomandivision-delete/{id}', 'BukuPedomanDivisionController@delete')->name('bukupedomandivision.delete');
 
 	Route::resource('item','ItemController')->except(['destroy']);
 	Route::get("item-data", "ItemController@getData");

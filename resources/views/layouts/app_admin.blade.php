@@ -92,6 +92,13 @@
                     </a>
                 </li>
 
+                <li class="nav-item @if($page == 'bukupedoman_list') active @endif">
+                    <a class="nav-link" href="{{route('bukupedoman_list.index')}}">
+                        <i class="fas fa-book"></i>
+                        <span>Buku Pedoman</span>
+                    </a>
+                </li>
+
                 <?php $karyawan = DB::table('u1127775_absensi.Absen')->where('NIP',Auth::user()->username)->first(); ?>
                 @if(Auth::user()->role !== 5 || $karyawan->Cabang == "HeadOffice")
                 <li class="nav-item @if($page == 'bpm_list') active @endif">
@@ -123,12 +130,12 @@
                     Admin
                 </div>
                 <!-- Nav Item - Utilities Collapse Menu -->
-                <li class="nav-item @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category'  || $page == 'type' || $page == 'tag' || $page == 'jabatan' || $page == 'history_sop' || $page == 'bpm' || $page == 'bpmdivision') active @endif">
+                <li class="nav-item @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category'  || $page == 'type' || $page == 'tag' || $page == 'jabatan' || $page == 'history_sop' || $page == 'bpm' || $page == 'bpmdivision' || $page == 'bukupedoman') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                         <i class="fas fa-cube"></i>
                         <span>Master</span>
                     </a>
-                    <div id="collapseUtilities" class="collapse @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category' || $page == 'type' || $page == 'tag' || $page == 'history_sop' || $page == 'bpm' || $page == 'bpmdivision') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                    <div id="collapseUtilities" class="collapse @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category' || $page == 'type' || $page == 'tag' || $page == 'history_sop' || $page == 'bpm' || $page == 'bpmdivision' || $page == 'bukupedoman') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Master Data Admin</h6>
                             @if(Auth::user()->role == 1)
@@ -141,7 +148,9 @@
                             <a class="collapse-item @if($page == 'sop') active @endif" href="{{route('sop.index')}}">SOP</a>
                             @endif
                             <a class="collapse-item @if($page == 'history_sop') active @endif" href="{{route('sop.history')}}">History Pembaca SOP</a>
-                            <a class="collapse-item @if($page == 'bpmdivision') active @endif" href="{{route('bpmdivision.index')}}">Divisi BPM</a>
+                            {{-- <a class="collapse-item @if($page == 'bukupedomandivision') active @endif" href="{{route('bukupedomandivision.index')}}">Divisi Buku Pedoman</a> --}}
+                            <a class="collapse-item @if($page == 'bpmdivision') active @endif" href="{{route('bpmdivision.index')}}">Divisi </a>
+                            <a class="collapse-item @if($page == 'bukupedoman') active @endif" href="{{route('bukupedoman.index')}}">Buku Pedoman</a>
                             <a class="collapse-item @if($page == 'bpm') active @endif" href="{{route('bpm.index')}}">BPM</a>
                             {{-- <a class="collapse-item @if($page == 'item') active @endif" href="{{route('item.index')}}">Barang & Bahan</a> --}}
                         </div>

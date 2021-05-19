@@ -4,15 +4,15 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Divisi</h1>
+        <h1 class="h3 mb-0 text-gray-800">Divisi Buku Pedoman</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Tambah Divisi</b></h6>
-                    <a href="{{ route('bpmdivision.index') }}" class="btn btn-info btn-sm add">
+                    <h6><b>Edit Divisi</b></h6>
+                    <a href="{{ route('bukupedomandivision.index') }}" class="btn btn-info btn-sm add">
                         <i class="fa fa-arrow-left "></i>
                         <span>Kembali</span>
                     </a>
@@ -32,8 +32,9 @@
                       <p>{{ $message }}</p>
                   </div>
                   @endif
-                  <form method="POST" action="{{route('bpmdivision.store')}}" id="bpmdivision_form">
+                  <form method="POST" action="{{route('bukupedomandivision.update',$bukupedomandivision->id)}}" id="bukupedomandivision_form">
                         @csrf
+                        @method('PUT')
                         <div class="container-fluid mt-3">
                             <div class="row">
                                 <div class="col-md-12">
@@ -43,14 +44,14 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Nama Divisi BPM <span class="red">*</span></label>
+                                                            <label class="bmd-label-floating">Nama Divisi Buku Pedoman <span class="red">*</span></label>
                                                             <input name="name" type="text"
-                                                                class="form-control" value="{{old('name')}}" id="name" maxlength="100" >
+                                                                class="form-control" value="{{$bukupedomandivision->name}}" id="name" maxlength="100" >
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Deskripsi <span class="red">*</span></label>
+                                                            <label class="bmd-label-floating">Deskripsi<span class="red">*</span></label>
                                                             <input name="description" type="text"
-                                                                class="form-control" value="{{old('description')}}" id="description" maxlength="200" >
+                                                                class="form-control" value="{{$bukupedomandivision->description}}" id="description" maxlength="200" @if(Auth::user()->role !== 1) readonly @endif>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -93,25 +94,25 @@
 
         $("#btn-submit").click(function(){
             swal({
-                title: "Apakah anda yakin akan menambah data divisi?",
-                text: 'Data yang ditambahkan dapat merubah data pada database.', 
+                title: "Apakah anda yakin akan mengupdate data Divisi Buku Pedoman?",
+                text: 'Data yang dirubah dapat merubah data pada database.', 
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             })
             .then((willDelete) => {
               if (willDelete) {
-                $("#bpmdivision_form").submit()
+                $("#bukupedomandivision_form").submit()
               } else {
-                swal("Proses Penambahan Data Divisi Dibatalkan!", {
+                swal("Proses Perubahan Data Divisi Buku Pedoman Dibatalkan!", {
                   icon: "error",
                 });
               }
             });
         });
 
-        $("#bpmdivision_form").submit(function(){
-            if($("#bpmdivision_form").valid()){
+        $("#bukupedomandivision_form").submit(function(){
+            if($("#bukupedomandivision_form").valid()){
                 $('#btn-submit').hide();
                 $('#btn-submit-loading').show();
             }else{
@@ -119,8 +120,8 @@
             }
         });
 
-        if($("#bpmdivision_form").length > 0) {
-            $("#bpmdivision_form").validate({
+        if($("#bukupedomandivision_form").length > 0) {
+            $("#bukupedomandivision_form").validate({
                 rules: {
                     name: {
                         required: true,
@@ -137,9 +138,9 @@
                         maxlength: "Data Nama tidak boleh lebih dari 100 kata",
                     },
                     description: {
-                        required : 'Data deskripsi harus diisi',
-                        maxlength: "Data deskripsi tidak boleh lebih dari 200 kata ",
-                    }
+                        required : 'Data Deskripsi harus diisi',
+                        maxlength: "Data Deskripsi tidak boleh lebih dari 200 kata ",
+                    },
                 },
             })
         }

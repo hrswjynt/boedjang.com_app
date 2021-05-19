@@ -4,15 +4,15 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Divisi </h1>
+        <h1 class="h3 mb-0 text-gray-800">Divisi Buku Pedoman</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Daftar Divisi </b></h6>
-                    <a href="{{ route('bpmdivision.create') }}" class="btn btn-success btn-sm add">
+                    <h6><b>Daftar Divisi Buku Pedoman</b></h6>
+                    <a href="{{ route('bukupedomandivision.create') }}" class="btn btn-success btn-sm add">
                         <i class="fa fa-user-plus "></i>
                         <span>Tambah Divisi</span>
                     </a>
@@ -32,9 +32,9 @@
                       <p>{!! $message !!}</p>
                   </div>
                   @endif
-                  <div id="bpmdivision-data">
+                  <div id="bukupedomandivision-data">
                     <div class="table-responsive">
-                        <table class="table" id="table-bpmdivision-data" width="100%">
+                        <table class="table" id="table-bukupedomandivision-data" width="100%">
                             <thead>
                                 <tr>
                                     <th width="1%">
@@ -63,7 +63,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    var url_delete = "{{url('bpmdivision-delete')}}";
+    var url_delete = "{{url('bukupedomandivision-delete')}}";
     var base_url = "{{ url('/') }}";
 </script>
 
@@ -72,7 +72,7 @@
 @push('other-script')
 <script type="text/javascript">
     $(function () {
-        $('#table-bpmdivision-data').DataTable({
+        $('#table-bukupedomandivision-data').DataTable({
             processing: true,
             serverSide: true,
             "lengthMenu": [
@@ -85,7 +85,7 @@
                   'next': '<span class="fas fa-angle-right"></span>'
                 }
               },
-            ajax: base_url+"/bpmdivision-data",
+            ajax: base_url+"/bukupedomandivision-data",
             columnDefs: [
                 {
                     render: function (data, type, full, meta) {
@@ -121,14 +121,14 @@
 
 
     $(document).ready(function () {
-        $("body").on("click", ".bpmdivisionDelete", function (e) {
+        $("body").on("click", ".bukupedomandivisionDelete", function (e) {
             e.preventDefault();
             var id = $(this).data("id");
             var token = $("meta[name='csrf-token']").attr("content");
             var url = e.target;
             swal({
                 title: 'Apakah Anda Yakin?',
-                text: 'Divisi yang telah dihapus tidak dapat dikembalikan lagi!',
+                text: 'Divisi Buku Pedoman yang telah dihapus tidak dapat dikembalikan lagi!',
                 icon: 'warning',
                 buttons: ["Cancel", "Yes!"],
             }).then(function (value) {

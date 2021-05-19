@@ -110,7 +110,7 @@ class BpmController extends Controller
     {   
         $division = BpmDivision::all();
         $bpmdivision = BpmRelationDivision::where('id_bpm',$bpm->id)->get();
-        foreach ($bpmdivsion as $bd) {
+        foreach ($bpmdivision as $bd) {
             $arrayd[] = $bd->id_division;
         }
         return view('bpm.show')->with('bpm', $bpm)

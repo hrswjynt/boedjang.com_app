@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Divisi BPM</h1>
+        <h1 class="h3 mb-0 text-gray-800">Divisi</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
@@ -44,7 +44,7 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Nama Divisi BPM <span class="red">*</span></label>
+                                                            <label class="bmd-label-floating">Nama Divisi  <span class="red">*</span></label>
                                                             <input name="name" type="text"
                                                                 class="form-control" value="{{$bpmdivision->name}}" id="name" maxlength="100" >
                                                         </div>
@@ -94,7 +94,7 @@
 
         $("#btn-submit").click(function(){
             swal({
-                title: "Apakah anda yakin akan mengupdate data Divisi BPM?",
+                title: "Apakah anda yakin akan mengupdate data Divisi?",
                 text: 'Data yang dirubah dapat merubah data pada database.', 
                 icon: "warning",
                 buttons: true,
@@ -104,7 +104,7 @@
               if (willDelete) {
                 $("#bpmdivision_form").submit()
               } else {
-                swal("Proses Perubahan Data Divisi BPM Dibatalkan!", {
+                swal("Proses Perubahan Data Divisi Dibatalkan!", {
                   icon: "error",
                 });
               }

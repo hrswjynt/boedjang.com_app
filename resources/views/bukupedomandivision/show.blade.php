@@ -4,15 +4,15 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Divisi</h1>
+        <h1 class="h3 mb-0 text-gray-800">Divisi Buku Pedoman</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Detail Divisi</b></h6>
-                    <a href="{{ route('bpmdivision.index') }}" class="btn btn-info btn-sm add">
+                    <h6><b>Detail Divisi Buku Pedoman</b></h6>
+                    <a href="{{ route('bukupedomandivision.index') }}" class="btn btn-info btn-sm add">
                         <i class="fa fa-arrow-left "></i>
                         <span>Kembali</span>
                     </a>
@@ -43,12 +43,12 @@
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Nama Divisi <span class="red">*</span></label>
                                                             <input name="name" type="text"
-                                                                class="form-control" value="{{$bpmdivision->name}}" id="name" maxlength="100" disabled="">
+                                                                class="form-control" value="{{$bukupedomandivision->name}}" id="name" maxlength="100" disabled="">
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label class="bmd-label-floating">Deskripsi <span class="red">*</span></label>
                                                             <input name="description" type="text"
-                                                                class="form-control" value="{{$bpmdivision->description}}" id="description" maxlength="200" disabled="">
+                                                                class="form-control" value="{{$bukupedomandivision->description}}" id="description" maxlength="200" disabled="">
                                                         </div>
                                                     </div>
                                                 </div>
