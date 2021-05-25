@@ -131,13 +131,13 @@
                                 @if($s->gambar == null)
                                 
                                     <a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;" target="__blank">
-                                        <img src="{{asset('images/placeholder.png')}}" style="max-height: 200px;object-fit: cover;border-bottom: 1px solid #DFE4E5;border: none;width: 100%">
+                                        <img src="{{asset('images/placeholder.png')}}" style="height: 200px !important;object-fit: cover;border-bottom: 1px solid #DFE4E5;border: none;width: 100%">
                                     </a>
                                 
                                 @else
                                 
                                     <a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;" target="__blank">
-                                        <img src="{{ asset('images/sop/'.$s->gambar) }}" style="max-height: 200px;object-fit: cover;border-bottom: 1px solid #DFE4E5;border: none;width: 100%">
+                                        <img src="{{ asset('images/sop/'.$s->gambar) }}" style="height: 200px !important;object-fit: cover;border-bottom: 1px solid #DFE4E5;border: none;width: 100%">
                                     </a>
                                 
                                 @endif
