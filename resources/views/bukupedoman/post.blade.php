@@ -118,8 +118,10 @@
                             <br><br><br>
                             <p style="text-align: center;font-weight: 900">Rekomendasi SOP <i class="fas fa-laugh-wink"></i></p>
                         </div>
-                        <div class="col-md-12 row" style="margin: auto">
                         @endif
+                        
+                        <div class="col-md-12 row" style="margin: auto">
+                        
                         @foreach($sop as $s)
                         
                         <div class="col-xs-6 d-flex align-items-stretch" style="width: 45%;margin:0px auto;margin-bottom: 10px">
