@@ -142,7 +142,7 @@
                                 
                                 @endif
                                 <div class="card-body">
-                                    <a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;"><h6 class="card-text text-gray-900" style="height: 50px;text-align: center;font-weight: 800;margin-bottom: 10px" target="__blank">{{$s->title}}</h6></a>
+                                    <a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;"><h6 class="card-text text-gray-900" style="height: 100px;text-align: center;font-weight: 800;margin-bottom: 10px;zoom:90%" target="__blank">{{$s->title}}</h6></a>
                                     
                                 </div>
                                 </div>
