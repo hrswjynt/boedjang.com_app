@@ -119,7 +119,7 @@
                             <p style="text-align: center;font-weight: 900">Rekomendasi SOP <i class="fas fa-laugh-wink"></i></p>
                         </div>
                         @endif
-                        
+
                         <div class="col-md-12 row" style="margin: auto">
                         
                         @foreach($sop as $s)
@@ -131,13 +131,13 @@
                                 @if($s->gambar == null)
                                 
                                     <a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;" target="__blank">
-                                        <img src="{{asset('images/placeholder.png')}}" style="height: 200px;object-fit: cover;border-bottom: 1px solid #DFE4E5;border: none">
+                                        <img src="{{asset('images/placeholder.png')}}" style="max-height: 200px;object-fit: cover;border-bottom: 1px solid #DFE4E5;border: none;width: 100%">
                                     </a>
                                 
                                 @else
                                 
                                     <a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;" target="__blank">
-                                        <img src="{{ asset('images/sop/'.$s->gambar) }}" style="height: 200px;object-fit: cover;border-bottom: 1px solid #DFE4E5;border: none">
+                                        <img src="{{ asset('images/sop/'.$s->gambar) }}" style="max-height: 200px;object-fit: cover;border-bottom: 1px solid #DFE4E5;border: none;width: 100%">
                                     </a>
                                 
                                 @endif
