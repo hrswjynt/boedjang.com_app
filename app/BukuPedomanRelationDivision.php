@@ -8,7 +8,7 @@ class BukuPedomanRelationDivision extends Model
 {
 
     protected $table = 'buku_pedoman_relation_division';
-    protected $primaryKey = 'id_bpm';
+    protected $primaryKey = 'id_buku_pedoman';
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [

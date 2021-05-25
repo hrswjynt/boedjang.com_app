@@ -2,7 +2,7 @@
 @section('content')
 <style type="text/css">
     img {
-        /*max-width: 100%;*/
+        max-width: 100%;
         height: auto !important;
         border: 3px solid #3BBEEC;
         margin:5px;
@@ -50,6 +50,28 @@
     .text-muted{
         zoom: 80%;
     }
+    .zoom {
+      padding: 10px;
+      transition: transform .2s; /* Animation */
+      margin: 0 auto;
+    }
+
+    .zoom:hover {
+      -ms-transform: scale(1.1); /* IE 9 */
+      -webkit-transform: scale(1.1); /* Safari 3-8 */
+      transform: scale(1.1); 
+    }
+
+    .zoom2 {
+      transition: transform .2s; /* Animation */
+      margin: 0 auto;
+    }
+
+    .zoom2:hover {
+      -ms-transform: scale(1.03); /* IE 9 */
+      -webkit-transform: scale(1.03); /* Safari 3-8 */
+      transform: scale(1.03); 
+    }
 </style>
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -91,7 +113,39 @@
                             {!! $bukupedoman->content !!}
                             <hr>
                         </div>
-
+                        <div class="col-md-12">
+                            <br><br><br>
+                            <p style="text-align: center;font-weight: 900">Rekomendasi SOP <i class="fas fa-laugh-wink"></i></p>
+                        </div>
+                        <div class="col-md-12 row" style="margin: auto">
+                        @foreach($sop as $s)
+                        
+                        <div class="col-xs-6 d-flex align-items-stretch" style="width: 45%;margin:0px auto;margin-bottom: 10px">
+                            <div class="zoom2" style="width: 100%">
+                            <div class="card col-xs-6 box-shadow">
+                                
+                                @if($s->gambar == null)
+                                
+                                    <a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;" target="__blank">
+                                        <img src="{{asset('images/placeholder.png')}}" style="height: 200px;object-fit: cover;border-bottom: 1px solid #DFE4E5;border: none">
+                                    </a>
+                                
+                                @else
+                                
+                                    <a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;" target="__blank">
+                                        <img src="{{ asset('images/sop/'.$s->gambar) }}" style="height: 200px;object-fit: cover;border-bottom: 1px solid #DFE4E5;border: none">
+                                    </a>
+                                
+                                @endif
+                                <div class="card-body">
+                                    <a href="{{url('sop-list/'.$s->slug)}}" style="text-decoration: none;"><h6 class="card-text text-gray-900" style="height: 50px;text-align: center;font-weight: 800;margin-bottom: 10px" target="__blank">{{$s->title}}</h6></a>
+                                    
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
                         <div class="col-md-12">
                             <br><br><br><br>
                             <br><br><br><br>

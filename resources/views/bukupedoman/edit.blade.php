@@ -84,6 +84,18 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
+                                                            <label>SOP<span class="red">*</span></label>
+                                                            <select class="select2" multiple="multiple" name="sop[]" id="sop" class="form-control" style="width: 100%" required>   
+                                                                @foreach($sop as $s)
+                                                                @if(in_array($s->id,$soprelate))
+                                                                <option value="{{$s->id}}" selected="">{{$s->title}}</option>
+                                                                @else
+                                                                <option value="{{$s->id}}">{{$s->title}}</option>
+                                                                @endif
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group mb-4 bmd-form-group">
                                                             <label>Konten <span class="red">*</span></label>
                                                             <textarea rows="5" name="content" id="konten" class="form-control" required="">{!! $bukupedoman->content !!}</textarea>
                                                         </div>
