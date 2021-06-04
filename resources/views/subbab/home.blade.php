@@ -75,7 +75,7 @@
                         <br><br><br><br><br>
                         @else
                         <div class="col-md-12" style="height: 400px;">
-                            <h3 style="text-align: center;margin-top: 30px">Tidak ada data SOP yang tersedia. <i class="fas fa-laugh-wink"></i></h3>
+                            <h3 style="text-align: center;margin-top: 30px">Tidak ada data Buku Saku yang tersedia. <i class="fas fa-laugh-wink"></i></h3>
                         </div>
                         @endif
                 </div>

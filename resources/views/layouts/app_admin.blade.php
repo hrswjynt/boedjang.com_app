@@ -94,7 +94,7 @@
 
                 <li class="nav-item @if($page == 'bukusaku_list') active @endif">
                     <a class="nav-link" href="{{route('bukusaku_list.index')}}">
-                        <i class="fas fa-book"></i>
+                        <i class="fas fa-book-open"></i>
                         <span>Buku Saku</span>
                     </a>
                 </li>
