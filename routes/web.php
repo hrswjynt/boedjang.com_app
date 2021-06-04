@@ -51,6 +51,9 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get("bpm-list/{slug}", "BpmController@getBpm")->name('get_bpm.index');
 	Route::get("bpm-search", "BpmController@getSearch")->name('bpm_search.index');
 
+	Route::get("bukusaku-list", "SubBabController@getListBukuSaku")->name('bukusaku_list.index');
+	Route::get("bukusaku-list/{slug}", "SubBabController@getBukuSaku")->name('get_bukusaku.index');
+
 	Route::get("bukupedoman-list", "BukuPedomanController@getList")->name('bukupedoman_list.index');
 	Route::get("bukupedoman-list/{slug}", "BukuPedomanController@getBukuPedoman")->name('get_bukupedoman.index');
 	Route::get("bukupedoman-search", "BukuPedomanController@getSearch")->name('bukupedoman_search.index');
@@ -126,4 +129,16 @@ Route::group(['middleware' => ['admin']], function() {
 	Route::post('/item-delete/{id}', 'ItemController@delete')->name('item.delete');
 
 	Route::post('ckeditor/upload', 'CkeditorController@upload')->name('ckeditor.upload');
+
+	Route::resource('type','TypeController')->except(['destroy']);
+	Route::get("type-data", "TypeController@getData");
+	Route::post('/type-delete/{id}', 'TypeController@delete')->name('type.delete');
+
+	Route::resource('bab','BabController')->except(['destroy']);
+	Route::get("bab-data", "BabController@getData");
+	Route::post('/bab-delete/{id}', 'BabController@delete')->name('bab.delete');
+
+	Route::resource('subbab','SubBabController')->except(['destroy']);
+	Route::get("subbab-data", "SubBabController@getData");
+	Route::post('/subbab-delete/{id}', 'SubBabController@delete')->name('subbab.delete');
 });
