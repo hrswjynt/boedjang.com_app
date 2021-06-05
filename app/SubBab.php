@@ -16,6 +16,6 @@ class SubBab extends Model
     public $timestamps = true;
     public $incrementing = true;
     protected $fillable = [
-        'id','bab','slug','title','content','created_at','updated_at','publish'];
+        'id','bab','slug','title','content','created_at','updated_at','publish','sequence'];
 }
 

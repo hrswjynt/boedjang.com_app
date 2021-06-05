@@ -62,7 +62,7 @@
                         @if(count($bab) > 0)
                         @foreach($bab as $b)
                             <h4>{{$b->name}}</h4>
-                            <?php $subbab = DB::table('sub_bab')->where('sub_bab.bab', $b->id)->get(); ?>
+                            <?php $subbab = DB::table('sub_bab')->where('sub_bab.bab', $b->id)->where('publish',1)->orderBy('sequence','ASC')->get(); ?>
                             <ul>
                             @foreach($subbab as $s)
                                 <li>

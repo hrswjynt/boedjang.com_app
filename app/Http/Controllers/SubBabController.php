@@ -52,6 +52,7 @@ class SubBabController extends Controller
         $subbab->bab = $request->bab;
         $subbab->content = $request->content;
         $subbab->publish = 0;
+        $subbab->sequence = $request->sequence;
         $subbab->save();
         return redirect()->route('subbab.index')->with('success','Data Sub Bab '.$request->title.' berhasil disimpan.');
     }
@@ -109,6 +110,7 @@ class SubBabController extends Controller
         $subbab->bab = $request->bab;
         $subbab->content = $request->content;
         $subbab->publish = $request->publish;
+        $subbab->sequence = $request->sequence;
         $subbab->save();
         return redirect()->route('subbab.index')->with('success','Data Sub Bab '.$request->title.' berhasil diupdate.');
    }
@@ -136,10 +138,9 @@ class SubBabController extends Controller
 
     public function getListBukuSaku()
     {   
-        $subbab = SubBab::leftJoin('bab','bab.id','sub_bab.bab')->where('sub_bab.publish','1')->select('sub_bab.*','bab.name as bab_name')->orderBy('bab.id','ASC')->get();
         $bab = Bab::orderBy('sequence', 'ASC')->get();
         // dd($sop);
-        return view('subbab.home')->with('page','bukusaku_list')->with('subbab',$subbab)->with('bab',$bab);
+        return view('subbab.home')->with('page','bukusaku_list')->with('bab',$bab);
     }
 
     public function getBukuSaku($slug)

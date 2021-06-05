@@ -74,6 +74,11 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
+                                                        <div class="form-group mb-4 bmd-form-group">
+                                                            <label class="bmd-label-floating">Urutan <span class="red">*</span></label>
+                                                            <input name="sequence" type="number"
+                                                                class="form-control" value="{{$subbab->sequence}}" id="sequence" required="">
+                                                        </div>
                                                         
                                                         <div class="form-group mb-4 bmd-form-group">
                                                             <label>Konten <span class="red">*</span></label>
@@ -213,12 +218,18 @@
                         required: true,
                         email : true
                     },
+                    sequence: {
+                        required: true,
+                    },
                 },
                 messages: {
                     title: {
                         required : 'Data judul tidak boleh kosong',
                     },
                     content: 'Data konten tidak boleh kosong',
+                    sequence: {
+                        required : 'Data Urutan harus diisi',
+                    },
                 },
             })
         }

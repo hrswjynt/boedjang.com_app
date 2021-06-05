@@ -55,9 +55,15 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
+                                                            <label class="bmd-label-floating">Urutan <span class="red">*</span></label>
+                                                            <input name="sequence" type="number"
+                                                                class="form-control" value="{{old('sequence')}}" id="sequence">
+                                                        </div>
+                                                        <div class="form-group mb-4 bmd-form-group">
                                                             <label>Konten <span class="red">*</span></label>
                                                             <textarea rows="5" name="content" id="konten" class="form-control" required="">{!! old('content') !!}</textarea>
                                                         </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -195,6 +201,9 @@
                     content: {
                         required: true,
                     },
+                    sequence: {
+                        required: true,
+                    },
                 },
                 messages: {
                     title: {
@@ -204,6 +213,9 @@
                         required : 'Data Bab tidak boleh kosong',
                     },
                     content: 'Data konten tidak boleh kosong',
+                    sequence: {
+                        required : 'Data Urutan harus diisi',
+                    },
                 },
             })
         }
