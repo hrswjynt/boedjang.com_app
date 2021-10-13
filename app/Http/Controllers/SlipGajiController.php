@@ -113,8 +113,16 @@ class SlipGajiController extends Controller
                             ( lembur IS NOT NULL, lembur, 0 )) AS 'T_lembur',
                             '0' AS 'T_extra',
                             ifnull(( SELECT sum(total) FROM u1127775_absensi.Abs_bonus_karyawan WHERE u1127775_absensi.Abs_bonus_karyawan.nip = b.NIP and u1127775_absensi.Abs_bonus_karyawan.jenis = 2 and u1127775_absensi.Abs_bonus_karyawan.tanggal BETWEEN '".$date1."' AND '".$date2."'),'0') AS 'BX',
-                            b.Gaji_pokok AS 'GP',
-                            b.Bonus_bulanan AS 'BB',
+                            IF
+                            (
+                                AVG( a.gaji ) IS NULL,
+                                b.Gaji_pokok,
+                            AVG( a.gaji )) AS 'GP',
+                        IF
+                            (
+                                AVG( a.bonus_bln ) IS NULL,
+                                b.Bonus_bulanan,
+                            AVG( a.bonus_bln )) AS 'BB',
                             ifnull(( SELECT sum(total) FROM u1127775_absensi.Abs_bonus_karyawan WHERE u1127775_absensi.Abs_bonus_karyawan.nip = b.NIP and u1127775_absensi.Abs_bonus_karyawan.jenis = 1 and u1127775_absensi.Abs_bonus_karyawan.tanggal BETWEEN '".$date1."' AND '".$date2."'),'0') AS 'BK',
                             DATEDIFF( '".$date2."', '".$date1."' )+ 1 AS 'jml_kerja',
                             null AS 'maxperiod',
@@ -141,7 +149,7 @@ class SlipGajiController extends Controller
                             b.STATUS AS 'absenstatus',
                             ifnull(( SELECT sum(total) FROM u1127775_absensi.Abs_angsuran WHERE u1127775_absensi.Abs_angsuran.nip = b.NIP and u1127775_absensi.Abs_angsuran.gaji = 1 and u1127775_absensi.Abs_angsuran.tanggal BETWEEN '".$date1."' AND '".$date2."'),'0') AS 'Angsuran',
                             b.penangguhan AS 'penangguhan',
-                            ifnull( CAST( b.tambahan3bln AS INT ), 0 ) AS 'tigabln',
+                            ifnull(( SELECT tambahan3bln FROM u1127775_absensi.Abs_att_log_center WHERE u1127775_absensi.Abs_att_log_center.nip = b.NIP and u1127775_absensi.Abs_att_log_center.tgl_absen = '".$date2."'),CAST( b.tambahan3bln AS INT )) AS 'tigabln',
                             ".date('t',strtotime($date1))." AS period,
                             b.region,
                             date( b.Tanggal_Masuk ) AS 'tgl_masuk',
@@ -152,10 +160,8 @@ class SlipGajiController extends Controller
                         FROM
                             u1127775_absensi.Absen b
                             LEFT JOIN u1127775_absensi.Abs_att_log_center a ON a.nip = b.NIP 
-                            WHERE   if(a.tgl_absen is not null, a.tgl_absen BETWEEN '".$date1."' 
-                                AND '".$date2."',1=1) and
-                            b.NO IN (".$no_id.") 
-                            AND b.STATUS <> 'Resign'
+                            WHERE   
+                            b.STATUS <> 'Resign'
                         GROUP BY
                             b.NIP  
                         ) AS REKAP 
@@ -168,6 +174,7 @@ class SlipGajiController extends Controller
                 ORDER BY
                     region DESC,
                     masakerja DESC"));
+// dd($data);
         }else{
             $data = DB::select(DB::raw("SELECT
                     *,
