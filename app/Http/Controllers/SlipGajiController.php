@@ -44,13 +44,13 @@ class SlipGajiController extends Controller
         foreach ($khusus as $k) {
             $no_id[]= $k->no_id;
         }
-        $no_id = implode(',', $no_id);
+        // $no_id = implode(',', $no_id);
         // dd($request->all());
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
         if($karyawan == null){
             return 'Data karyawan tidak ditemukan.';
         }
-        $array = array($no_id);
+        $array = $no_id;
         // dd($array);
         $date1 = $request->sdate.'-16';
         $date2 = date("Y-m-d", strtotime("+1 month", strtotime(date($request->sdate.'-15'))));
