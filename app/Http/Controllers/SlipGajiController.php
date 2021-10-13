@@ -162,7 +162,9 @@ class SlipGajiController extends Controller
                         FROM
                             u1127775_absensi.Absen b
                             LEFT JOIN u1127775_absensi.Abs_att_log_center a ON a.nip = b.NIP 
-                            WHERE   
+                            WHERE
+                            a.tgl_absen BETWEEN '".$date1."' 
+                            AND '".$date2."' AND 
                             b.STATUS <> 'Resign'
                         GROUP BY
                             b.NIP  
