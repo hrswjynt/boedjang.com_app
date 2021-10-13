@@ -39,7 +39,7 @@ class SlipGajiController extends Controller
 
     public function store(Request $request)
     {   
-        $khusus = KaryawanKhusus::select('no_id')->get();
+        $khusus = KaryawanKhusus::select('no_id')->orderBy("no_id","ASC")->get();
         $no_id = [];
         foreach ($khusus as $k) {
             $no_id[]= $k->no_id;
@@ -51,6 +51,7 @@ class SlipGajiController extends Controller
             return 'Data karyawan tidak ditemukan.';
         }
         $array = array($no_id);
+        // dd($array);
         $date1 = $request->sdate.'-16';
         $date2 = date("Y-m-d", strtotime("+1 month", strtotime(date($request->sdate.'-15'))));
         if(in_array($karyawan->No, $array)){
