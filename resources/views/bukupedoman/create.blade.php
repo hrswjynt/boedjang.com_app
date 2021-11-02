@@ -71,6 +71,13 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
+                                                            <label class="bmd-label-floating">Reader <span class="red">*</span></label>
+                                                            <select class="form-control select2" name="reader" style="width: 100%">
+                                                                <option value="1">Karyawan Umum</option>
+                                                                <option value="0">Karyawan Khusus</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group mb-4 bmd-form-group">
                                                             <label>Konten <span class="red">*</span></label>
                                                             <textarea rows="5" name="content" id="konten" class="form-control" required="">{!! old('content') !!}</textarea>
                                                         </div>

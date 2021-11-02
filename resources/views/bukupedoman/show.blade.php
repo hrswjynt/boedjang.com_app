@@ -85,6 +85,20 @@
                                                             </select>
                                                         </div>
                                                     <div class="form-group mb-4 bmd-form-group">
+                                                        <label class="bmd-label-floating">Reader <span class="red">*</span></label>
+                                                        <select class="form-control select2" name="reader" style="width: 100%" disabled="">
+                                                            @if($bukupedoman->reader == 0)
+                                                            <option value="1">Karyawan Umum</option>
+                                                            <option value="0" selected="">Karyawan Khusus</option>
+                                                            @endif
+
+                                                            @if($bukupedoman->reader == 1)
+                                                            <option value="1" selected="">Karyawan Umum</option>
+                                                            <option value="0">Karyawan Khuss</option>
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group mb-4 bmd-form-group">
                                                         <label>Konten <span class="red">*</span></label>
                                                         <div class="bg-gray-200" style="padding: 10px">
                                                             {!! $bukupedoman->content !!}

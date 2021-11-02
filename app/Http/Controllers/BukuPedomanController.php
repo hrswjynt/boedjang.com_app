@@ -70,6 +70,7 @@ class BukuPedomanController extends Controller
         $bukupedoman->content = $request->content;
         $bukupedoman->gambar = $image_name;
         $bukupedoman->publish = 0;
+        $bukupedoman->reader = $request->reader;
         $bukupedoman->division_display = '';
         $bukupedoman->save();
 
@@ -185,6 +186,7 @@ class BukuPedomanController extends Controller
         }
         $bukupedoman->division_display = '';
         $bukupedoman->publish = $request->publish;
+        $bukupedoman->reader = $request->reader;
         $bukupedoman->save();
 
         BukuPedomanRelationDivision::where('id_buku_pedoman',$bukupedoman->id)->delete();
@@ -239,14 +241,19 @@ class BukuPedomanController extends Controller
     public function getList()
     {   
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
-        if(Auth::user()->role == 5 && $karyawan->Cabang !== "HeadOffice"){
-            $message_type = 'danger';
-            $message = 'Fitur Buku Pedoman belum dapat diakses.';
-            return redirect()->route('dashboard')->with($message_type,$message);
-        }
+        // if(Auth::user()->role == 5 && $karyawan->Cabang !== "HeadOffice"){
+        //     $message_type = 'danger';
+        //     $message = 'Fitur Buku Pedoman belum dapat diakses.';
+        //     return redirect()->route('dashboard')->with($message_type,$message);
+        // }
         $search = null;
         $division_select = null;
-        $bukupedoman = BukuPedoman::where('publish','1')->orderBy('updated_at','DESC')->paginate(6);
+        if(Auth::user()->role == 5){
+            $bukupedoman = BukuPedoman::where('publish','1')->where('reader',1)->orderBy('updated_at','DESC')->paginate(6);
+        }else{
+            $bukupedoman = BukuPedoman::where('publish','1')->orderBy('updated_at','DESC')->paginate(6);
+        }
+        
         $division = BukuPedomanDivision::all();
         return view('bukupedoman.home')->with('page','bukupedoman_list')->with('bukupedoman',$bukupedoman)->with('search',$search)->with('division',$division)->with('division_select',$division_select);
     }
@@ -259,7 +266,11 @@ class BukuPedomanController extends Controller
         //     $message = 'Fitur Buku Pedoman belum dapat diakses.';
         //     return redirect()->route('dashboard')->with($message_type,$message);
         // }
-        $bukupedoman = BukuPedoman::where('slug',$slug)->first();
+        if(Auth::user()->role == 5){
+            $bukupedoman = BukuPedoman::where('slug',$slug)->where('reader',1)->first();
+        }else{
+            $bukupedoman = BukuPedoman::where('slug',$slug)->first();
+        }
         $division = BukuPedomanRelationDivision::join('bpm_division','bpm_division.id','buku_pedoman_relation_division.id_division')->select('bpm_division.*')->where('id_buku_pedoman',$bukupedoman->id)->get();
         $sop = BukuPedomanRelationSop::join('sop','sop.id','buku_pedoman_relation_sop.id_sop')->select('sop.*')->where('id_buku_pedoman',$bukupedoman->id)->get();
         if($bukupedoman == null){

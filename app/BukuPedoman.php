@@ -11,6 +11,6 @@ class BukuPedoman extends Model
     public $timestamps = true;
     public $incrementing = true;
     protected $fillable = [
-        'id','slug','title','content','created_at','updated_at','publish','gambar','division_display'];
+        'id','slug','title','content','created_at','updated_at','publish','gambar','division_display','reader'];
 }
 
