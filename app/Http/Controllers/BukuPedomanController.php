@@ -271,11 +271,12 @@ class BukuPedomanController extends Controller
         }else{
             $bukupedoman = BukuPedoman::where('slug',$slug)->first();
         }
-        $division = BukuPedomanRelationDivision::join('bpm_division','bpm_division.id','buku_pedoman_relation_division.id_division')->select('bpm_division.*')->where('id_buku_pedoman',$bukupedoman->id)->get();
-        $sop = BukuPedomanRelationSop::join('sop','sop.id','buku_pedoman_relation_sop.id_sop')->select('sop.*')->where('id_buku_pedoman',$bukupedoman->id)->get();
         if($bukupedoman == null){
             return redirect()->route('bukupedoman_list.index')->with('danger','Buku Pedoman yang dicari tidak ditemukan.');
         }
+        $division = BukuPedomanRelationDivision::join('bpm_division','bpm_division.id','buku_pedoman_relation_division.id_division')->select('bpm_division.*')->where('id_buku_pedoman',$bukupedoman->id)->get();
+        $sop = BukuPedomanRelationSop::join('sop','sop.id','buku_pedoman_relation_sop.id_sop')->select('sop.*')->where('id_buku_pedoman',$bukupedoman->id)->get();
+        
         return view('bukupedoman.post')->with('page','bukupedoman_list')->with('bukupedoman',$bukupedoman)->with('division',$division)->with('sop',$sop);
     }
 
