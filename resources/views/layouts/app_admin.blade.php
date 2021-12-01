@@ -59,6 +59,8 @@
                 <div class="sidebar-heading">
                     Karyawan
                 </div>
+                
+                @if(Auth::user()->role !== 6)
                 <!-- Nav Item - Dashboard -->
                 <li class="nav-item @if($page == 'dashboard') active @endif">
                     <a class="nav-link" href="{{route('dashboard')}}">
@@ -66,7 +68,6 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                @if(Auth::user()->role !== 6)
                 <li class="nav-item @if($page == 'datadiri') active @endif">
                     <a class="nav-link" href="{{route('data-diri.index')}}">
                         <i class="fas fa-id-card-alt"></i>

@@ -31,6 +31,9 @@ class HomeController extends Controller
      */
     public function index()
     {   
+        if(Auth::user()->role == 6){
+            return redirect('sop-list');
+        }
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
         if($karyawan !== null){
             $khusus = KaryawanKhusus::select('no_id')->get();
