@@ -60,6 +60,7 @@
                                             <option value="3">Manager</option>
                                             <option value="2">SPV</option>
                                             <option value="1">Admin</option>
+                                            <option value="6">Mitra Bakso</option>
                                             @endif
                                         </select>
                                     </div>

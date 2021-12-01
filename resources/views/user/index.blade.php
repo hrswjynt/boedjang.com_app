@@ -127,6 +127,8 @@
                             return 'SPV';
                         } else if(data == 3){
                             return 'Manager';
+                        }else if(data == 6){
+                            return 'Mitra Bakso';
                         }else{
                             return 'Karyawan';
                         }           

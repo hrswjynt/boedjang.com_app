@@ -66,6 +66,7 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+                @if(Auth::user()->role !== 6)
                 <li class="nav-item @if($page == 'datadiri') active @endif">
                     <a class="nav-link" href="{{route('data-diri.index')}}">
                         <i class="fas fa-id-card-alt"></i>
@@ -84,6 +85,7 @@
                         <span>Slip Gaji</span>
                     </a>
                 </li>
+                @endif
 
                 <li class="nav-item @if($page == 'sop_list') active @endif">
                     <a class="nav-link" href="{{route('sop_list.index')}}">
@@ -92,6 +94,7 @@
                     </a>
                 </li>
 
+                @if(Auth::user()->role !== 6)
                 <li class="nav-item @if($page == 'bukusaku_list') active @endif">
                     <a class="nav-link" href="{{route('bukusaku_list.index')}}">
                         <i class="fas fa-book-open"></i>
@@ -115,6 +118,9 @@
                     </a>
                 </li>
                 @endif
+                @endif
+
+                
 
                 {{-- <li class="nav-item @if($page == 'item_list') active @endif">
                     <a class="nav-link" href="{{route('item_list.index')}}">
@@ -122,13 +128,15 @@
                         <span>Barang & Bahan</span>
                     </a>
                 </li> --}}
-
+                
+                @if(Auth::user()->role !== 6)
                 <li class="nav-item @if($page == 'formcuti') active @endif">
                     <a class="nav-link" href="{{route('formcuti.index')}}">
                         <i class="fas fa-clipboard"></i>
                         <span>Form Cuti</span>
                     </a>
                 </li>
+                @endif
                 <!-- Divider -->
                 <hr class="sidebar-divider">
                 <!-- Heading -->

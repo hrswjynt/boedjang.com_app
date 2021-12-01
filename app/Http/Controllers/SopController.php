@@ -304,8 +304,25 @@ class SopController extends Controller
         $category_select = null;
         $type_select = null;
         $jabatan_select = null;
-        $sop = Sop::leftJoin('type','type.id','sop.type')->where('publish','1')->select('sop.*','type.name as type_name')->orderBy('updated_at','DESC')->paginate(9);
-        $category = Category::all();
+        if(Auth::user()->role == 6){
+            $sop = Sop::leftJoin('type','type.id','sop.type')
+                    ->leftJoin('sop_relation_category','sop_relation_category.id_sop','sop.id')
+                    ->join('category','category.id','sop_relation_category.id_category')
+                    ->orderBy('sop.updated_at','DESC')
+                    ->where('sop_relation_category.id_category',4)
+                    ->where('sop.publish','1')
+                    ->groupBy('sop.id')
+                    ->select('sop.*','type.name as type_name')->paginate(9);
+        }else{
+            $sop = Sop::leftJoin('type','type.id','sop.type')->where('publish','1')->select('sop.*','type.name as type_name')->orderBy('updated_at','DESC')->paginate(9);
+        }
+        
+        if(Auth::user()->role == 6){
+            $category = Category::where('id',4)->get();
+        }else{
+            $category = Category::all();
+        }
+        
         $type = Type::orderBy('sequence', 'ASC')->get();
         $jabatan = Jabatan::all();
         // dd($sop);
@@ -361,7 +378,7 @@ class SopController extends Controller
                     ->where('sop_relation_jabatan.id_jabatan','like',$query_jabatan)
                     ->where('sop.publish','1')
                     ->groupBy('sop.id')
-                    ->select('sop.*','type.name as type_name')->paginate(15);
+                    ->select('sop.*','type.name as type_name')->paginate(9);
 
         $category = Category::all();
         $type = Type::orderBy('sequence', 'ASC')->get();

@@ -1,7 +1,7 @@
 @extends('layouts.app_admin')
 @section('content')
 <!-- Begin Page Content -->
-@if($karyawan != null)
+
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -219,11 +219,13 @@
                 </div>
             </div>
         </div>
+        @endif
         <hr>
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 style="zoom:75%" class="h3 mb-0 text-gray-800">Data <b>{{Auth::user()->name}}</b></h1>
         </div>
-        @endif
+        
+
         <?php
             if(date('d') >= 16){
                 $date1 = date('16/m/Y');
@@ -241,7 +243,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Masa Kerja</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-700">{{$karyawan->Masa_kerja}} Bulan</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-700">@if(isset($karyawan)) {{$karyawan->Masa_kerja}} @else - @endif Bulan</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-user-tag fa-2x text-gray-500"></i>
@@ -256,7 +258,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Jabatan</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-700">{{$karyawan->Jabatan}}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-700">@if(isset($karyawan)) {{$karyawan->Jabatan}} @else - @endif</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-briefcase fa-2x text-gray-500"></i>
@@ -272,7 +274,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Gaji Pokok</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-700">Rp.{{number_format($karyawan->Gaji_pokok,0,',','.')}}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-700">Rp.@if(isset($karyawan)) {{number_format($karyawan->Gaji_pokok,0,',','.')}} @else 0 @endif</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-money-bill-wave fa-2x text-gray-500"></i>
@@ -288,7 +290,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Bonus Bulanan</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-700">Rp.{{number_format($karyawan->Bonus_bulanan,0,',','.')}}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-700">Rp.@if(isset($karyawan)) {{number_format($karyawan->Bonus_bulanan,0,',','.')}} @else 0 @endif</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fab fa-btc fa-2x text-gray-500"></i>
@@ -307,7 +309,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Jumlah terlambat <p style="zoom:80%">{{$date1}} sampai {{$date2}}</p> </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-700">{{$jumlah_telat}} Kali</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-700">@if(isset($karyawan)) {{$jumlah_telat}} @else 0 @endif Kali</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-user-minus fa-2x text-gray-500"></i>
@@ -323,7 +325,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Total Pot. Terlambat <p style="zoom:80%">{{$date1}} sampai {{$date2}}</p> </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-700">Rp.{{number_format($total_telat,0,',','.')}}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-700">Rp. @if(isset($karyawan)) {{number_format($total_telat,0,',','.')}} @else 0 @endif</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-search-minus fa-2x text-gray-500"></i>
@@ -339,7 +341,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Cabang</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-700">{{$karyawan->Cabang}} {{strtoupper($karyawan->region)}}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-700">@if(isset($karyawan)) {{$karyawan->Cabang}} {{strtoupper($karyawan->region)}} @else - @endif</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-warehouse fa-2x text-gray-500"></i>
@@ -355,7 +357,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Jam Kerja</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-700">{{$karyawan->Jam_Kerja}}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-700">@if(isset($karyawan)) {{$karyawan->Jam_Kerja}} @else - @endif</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clock fa-2x text-gray-500"></i>
@@ -385,7 +387,7 @@
     
 </div>
         <!-- /.container-fluid -->
-        @endif
+
         @endsection
         @push('other-script')
         <script type="text/javascript">

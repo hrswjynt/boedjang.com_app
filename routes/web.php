@@ -25,7 +25,17 @@ Auth::routes([
 Route::group(['middleware' => ['auth']], function() {
 	// \UniSharp\LaravelFilemanager\Lfm::routes();
 	Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+	Route::resource('user','UserController')->except(['destroy']);
 
+	Route::get("sop-list", "SopController@getList")->name('sop_list.index');
+	// Route::get("sop-list/{slug?}", "SopController@getSop")->name('get_sop.index')->where('slug', '(.*)');
+	Route::get("sop-list/{slug}", "SopController@getSop")->name('get_sop.index');
+	Route::get("sop-search", "SopController@getSearch")->name('sop_search.index');
+	Route::post("readsop", "SopController@readSop");
+});
+
+Route::group(['middleware' => ['karyawan']], function() {
+	// \UniSharp\LaravelFilemanager\Lfm::routes();
 	Route::get("content", "ContentController@index")->name('content.index');
 	Route::post("content", "ContentController@store")->name('content.store');
 
@@ -37,15 +47,6 @@ Route::group(['middleware' => ['auth']], function() {
 
 	Route::get("slipgaji", "SlipGajiController@index")->name('slipgaji.index');
 	Route::post("slipgaji", "SlipGajiController@store")->name('slipgaji.store');
-
-	Route::resource('user','UserController')->except(['destroy']);
-
-	Route::get("sop-list", "SopController@getList")->name('sop_list.index');
-	// Route::get("sop-list/{slug?}", "SopController@getSop")->name('get_sop.index')->where('slug', '(.*)');
-	Route::get("sop-list/{slug}", "SopController@getSop")->name('get_sop.index');
-	
-	Route::get("sop-search", "SopController@getSearch")->name('sop_search.index');
-	Route::post("readsop", "SopController@readSop");
 
 	Route::get("bpm-list", "BpmController@getList")->name('bpm_list.index');
 	Route::get("bpm-list/{slug}", "BpmController@getBpm")->name('get_bpm.index');

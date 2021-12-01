@@ -59,7 +59,9 @@
                          @csrf
                         <input class="form-control" type="text" aria-label="Search"name="search" placeholder="Cari SOP" value="{{$search}}" style="margin:5px"/>
                         <select class="form-control" name="category" style="margin:5px">
+                            @if(Auth::user()->role !== 6)
                             <option value="all">Semua Kategori</option>
+                            @endif
                             @foreach($category as $c)
                             @if($category_select != null)
                                 @if($category_select->id == $c->id)
