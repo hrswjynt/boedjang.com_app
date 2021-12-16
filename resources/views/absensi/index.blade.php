@@ -43,10 +43,10 @@
                             $date20= date('15-m-Y');
                         }
                     ?>
-                    <!-- <a type="button" href="#" class="btn btn-info btn-sm search" data-toggle="modal" data-target="#modal-search">
+                    <a type="button" href="#" class="btn btn-info btn-sm search" data-toggle="modal" data-target="#modal-search">
                         <i class="fa fa-search"></i>
                         <span>Filter</span>
-                    </a> -->
+                    </a>
                 </div>
                 <div class="card-body">
                     <p class="card-absen" style="zoom:70%"><span id="sdate-span" style="margin-right: 30px;">Tanggal awal : {{$date10}}</span> <span id="edate-span">Tanggal akhir : {{$date20}}</span></p>
