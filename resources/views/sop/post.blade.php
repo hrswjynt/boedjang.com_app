@@ -115,6 +115,9 @@
         </div>
     </div>
 </div>
+<a class="floating-button rounded bg-warning" href="{{ url('/') . '/sop/' . $sop->id . '/edit' }}">
+    <i class="fas fa-pen"></i>
+</a>
 <script type="text/javascript">
     var base_url = "{{ url('/') }}";
 </script>
