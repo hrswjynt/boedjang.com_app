@@ -114,6 +114,12 @@
             </div>
         </div>
     </div>
+    
+    @if (Auth::user()->role === 1) 
+    <a class="floating-button rounded bg-warning" href="{{ url('/') . '/sop/' . $sop->id . '/edit' }}">
+        <i class="fas fa-pen"></i>
+    </a>
+    @endif
 </div>
 <script type="text/javascript">
     var base_url = "{{ url('/') }}";
