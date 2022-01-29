@@ -34,60 +34,50 @@
                     <form method="POST" action="{{route('subbab.update',$subbab->id)}}" id="subbab_form" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <div class="container-fluid mt-3">
+                        <div class="container-fluid mt-3">             
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="container-fluid mt-3">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Judul <span class="red">*</span></label>
-                                                            <input name="title" type="text"
-                                                                class="form-control" value="{{$subbab->title}}" tabindex="1" id="title" maxlength="200" >
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Publish Sub Bab <span class="red">*</span></label>
-                                                            <select class="form-control" name="publish">
-                                                                @if($subbab->publish == 0)
-                                                                <option value="1">Ya</option>
-                                                                <option value="0" selected="">Tidak</option>
-                                                                @endif
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Judul <span class="red">*</span></label>
+                                        <input name="title" type="text"
+                                            class="form-control" value="{{$subbab->title}}" tabindex="1" id="title" maxlength="200" >
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Publish Sub Bab <span class="red">*</span></label>
+                                        <select class="form-control" name="publish">
+                                            @if($subbab->publish == 0)
+                                            <option value="1">Ya</option>
+                                            <option value="0" selected="">Tidak</option>
+                                            @endif
 
-                                                                @if($subbab->publish == 1)
-                                                                <option value="1" selected="">Ya</option>
-                                                                <option value="0">Tidak</option>
-                                                                @endif
-                                                            </select>
-                                                        </div>
-                                                        
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Bab<span class="red">*</span></label>
-                                                            <select class="select2" name="bab" id="bab" class="form-control" style="width: 100%" required>   
-                                                                @foreach($bab as $b)
-                                                                @if($b->id == $subbab->bab)
-                                                                <option value="{{$b->id}}" selected="">{{$b->name}}</option>
-                                                                @else
-                                                                <option value="{{$b->id}}">{{$b->name}}</option>
-                                                                @endif
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label class="bmd-label-floating">Urutan <span class="red">*</span></label>
-                                                            <input name="sequence" type="number"
-                                                                class="form-control" value="{{$subbab->sequence}}" id="sequence" required="">
-                                                        </div>
-                                                        
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Konten <span class="red">*</span></label>
-                                                            <textarea rows="5" name="content" id="konten" class="form-control" required="">{!! $subbab->content !!}</textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            @if($subbab->publish == 1)
+                                            <option value="1" selected="">Ya</option>
+                                            <option value="0">Tidak</option>
+                                            @endif
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Bab<span class="red">*</span></label>
+                                        <select class="select2" name="bab" id="bab" class="form-control" style="width: 100%" required>   
+                                            @foreach($bab as $b)
+                                            @if($b->id == $subbab->bab)
+                                            <option value="{{$b->id}}" selected="">{{$b->name}}</option>
+                                            @else
+                                            <option value="{{$b->id}}">{{$b->name}}</option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Urutan <span class="red">*</span></label>
+                                        <input name="sequence" type="number"
+                                            class="form-control" value="{{$subbab->sequence}}" id="sequence" required="">
+                                    </div>
+                                    
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Konten <span class="red">*</span></label>
+                                        <textarea rows="5" name="content" id="konten" class="form-control" required="">{!! $subbab->content !!}</textarea>
                                     </div>
                                 </div>
                             </div>

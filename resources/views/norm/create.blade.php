@@ -3,15 +3,15 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Sub Bab</h1>
+        <h1 class="h3 mb-0 text-gray-800">Norm</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Tambah Sub Bab</b></h6>
-                    <a href="{{ route('subbab.index') }}" class="btn btn-primary btn-sm add">
+                    <h6><b>Tambah Norm</b></h6>
+                    <a href="{{ route('norm.index') }}" class="btn btn-primary btn-sm add">
                         <i class="fa fa-arrow-left"></i>
                         <span>Kembali</span>
                     </a>
@@ -31,7 +31,7 @@
                         <p>{{ $message }}</p>
                     </div>
                     @endif
-                    <form method="POST" action="{{route('subbab.store')}}" id="subbab_form" enctype="multipart/form-data">
+                    <form method="POST" action="{{route('norm.store')}}" id="norm_form" enctype="multipart/form-data">
                         @csrf
                         <div class="container-fluid mt-3">
                             <div class="row">
@@ -40,14 +40,6 @@
                                         <label>Judul <span class="red">*</span></label>
                                         <input name="title" type="text"
                                             class="form-control" value="{{old('title')}}" tabindex="1" id="title" maxlength="200" >
-                                    </div>
-                                    <div class="form-group mb-4 bmd-form-group">
-                                        <label>Bab<span class="red">*</span></label>
-                                        <select class="select2" name="bab" id="bab" class="form-control" style="width: 100%" required>   
-                                            @foreach($bab as $b)
-                                            <option value="{{$b->id}}">{{$b->name}}</option>
-                                            @endforeach
-                                        </select>
                                     </div>
                                     <div class="form-group mb-4 bmd-form-group">
                                         <label class="bmd-label-floating">Urutan <span class="red">*</span></label>
@@ -86,7 +78,7 @@
 
 @push('other-script')
 <script type="text/javascript">
-    var url_delete = "{{url('subbab-delete')}}";
+    var url_delete = "{{url('norm-delete')}}";
     var base_url = "{{ url('/') }}";
 </script>
 <script type="module">
@@ -154,7 +146,7 @@
 
         $("#btn-submit").click(function(){
             swal({
-                title: "Apakah anda yakin akan menambah Sub Bab?",
+                title: "Apakah anda yakin akan menambah Norm?",
                 text: 'Data yang ditambahkan dapat merubah data pada database.', 
                 icon: "warning",
                 buttons: true,
@@ -162,17 +154,17 @@
             })
             .then((willDelete) => {
               if (willDelete) {
-                $("#subbab_form").submit()
+                $("#norm_form").submit()
               } else {
-                swal("Proses Penambahan Data Sub Bab Dibatalkan!", {
+                swal("Proses Penambahan Data Norm Dibatalkan!", {
                   icon: "error",
                 });
               }
             });
         });
 
-        $("#subbab_form").submit(function(){
-            if($("#subbab_form").valid()){
+        $("#norm_form").submit(function(){
+            if($("#norm_form").valid()){
                 $('#btn-submit').hide();
                 $('#btn-submit-loading').show();
             }else{
@@ -180,13 +172,10 @@
             }
         });
 
-        if($("#subbab_form").length > 0) {
-            $("#subbab_form").validate({
+        if($("#norm_form").length > 0) {
+            $("#norm_form").validate({
                 rules: {
                     title: {
-                        required: true
-                    },
-                    bab: {
                         required: true
                     },
                     content: {
@@ -199,9 +188,6 @@
                 messages: {
                     title: {
                         required : 'Data judul tidak boleh kosong',
-                    },
-                    bab: {
-                        required : 'Data Bab tidak boleh kosong',
                     },
                     content: 'Data konten tidak boleh kosong',
                     sequence: {

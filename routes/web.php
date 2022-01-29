@@ -55,6 +55,9 @@ Route::group(['middleware' => ['karyawan']], function() {
 	Route::get("bukusaku-list", "SubBabController@getListBukuSaku")->name('bukusaku_list.index');
 	Route::get("bukusaku-list/{slug}", "SubBabController@getBukuSaku")->name('get_bukusaku.index');
 
+	Route::get("norm-list", "NormController@getListNorm")->name('norm_list.index');
+	Route::get("norm-list/{slug}", "NormController@getNorm")->name('get_norm.index');
+
 	Route::get("bukupedoman-list", "BukuPedomanController@getList")->name('bukupedoman_list.index');
 	Route::get("bukupedoman-list/{slug}", "BukuPedomanController@getBukuPedoman")->name('get_bukupedoman.index');
 	Route::get("bukupedoman-search", "BukuPedomanController@getSearch")->name('bukupedoman_search.index');
@@ -120,6 +123,10 @@ Route::group(['middleware' => ['admin']], function() {
 	Route::resource('bukupedoman','BukuPedomanController')->except(['destroy']);
 	Route::get("bukupedoman-data", "BukuPedomanController@getData");
 	Route::post('/bukupedoman-delete/{id}', 'BukuPedomanController@delete')->name('bukupedoman.delete');
+
+	Route::resource('norm','NormController')->except(['destroy']);
+	Route::get("norm-data", "NormController@getData");
+	Route::post('/norm-delete/{id}', 'NormController@delete')->name('norm.delete');
 
 	Route::resource('bukupedomandivision','BukuPedomanDivisionController')->except(['destroy']);
 	Route::get("bukupedomandivision-data", "BukuPedomanDivisionController@getData");

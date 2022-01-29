@@ -3,15 +3,15 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Sub Bab</h1>
+        <h1 class="h3 mb-0 text-gray-800">Norm</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Detail Sub Bab</b></h6>
-                    <a href="{{ route('subbab.index') }}" class="btn btn-primary btn-sm add">
+                    <h6><b>Detail Norm</b></h6>
+                    <a href="{{ route('norm.index') }}" class="btn btn-primary btn-sm add">
                         <i class="fa fa-arrow-left"></i>
                         <span>Kembali</span>
                     </a>

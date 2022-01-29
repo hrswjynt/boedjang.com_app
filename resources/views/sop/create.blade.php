@@ -36,69 +36,60 @@
                         <div class="container-fluid mt-3">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="container-fluid mt-3">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Judul <span class="red">*</span></label>
-                                                            <input name="title" type="text"
-                                                                class="form-control" value="{{old('title')}}" tabindex="1" id="title" maxlength="200" >
-                                                        </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Judul <span class="red">*</span></label>
+                                        <input name="title" type="text"
+                                            class="form-control" value="{{old('title')}}" tabindex="1" id="title" maxlength="200" >
+                                    </div>
 
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Gambar Thumbnail</label>
-                                                            <input name="gambar" type="file"
-                                                                class="form-control" value="" id="gambar" accept="image/*">
-                                                            <img id="img" src="" alt="your image" style="margin-top: 10px;width: 60%;height: auto;"  />
-                                                        </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Gambar Thumbnail</label>
+                                        <input name="gambar" type="file"
+                                            class="form-control" value="" id="gambar" accept="image/*">
+                                        <img id="img" src="" alt="your image" style="margin-top: 10px;width: 60%;height: auto;"  />
+                                    </div>
 
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Kategori<span class="red">*</span></label>
-                                                            <select class="select2" multiple="multiple" name="category[]" id="category" class="form-control" style="width: 100%" required>   
-                                                                @foreach($category as $c)
-                                                                <option value="{{$c->id}}">{{$c->name}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Jenis<span class="red">*</span></label>
-                                                            <select class="select2" name="type" id="type" class="form-control" style="width: 100%" required>   
-                                                                @foreach($type as $t)
-                                                                <option value="{{$t->id}}">{{$t->name}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Jabatan<span class="red">*</span></label>
-                                                            <select class="select2" multiple="multiple"  name="jabatan[]" id="jabatan" class="form-control" style="width: 100%" required>   
-                                                                @foreach($jabatan as $j)
-                                                                <option value="{{$j->id}}">{{$j->name}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Konten <span class="red">*</span></label>
-                                                            <textarea rows="5" name="content" id="konten" class="form-control" required="">{!! old('content') !!}</textarea>
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Google Drive ID File </label>
-                                                            <input name="google_drive" type="text"
-                                                                class="form-control" value="{{old('google_drive')}}" id="google_drive" maxlength="250" >
-                                                        </div>
-                                                        <div class="form-group mb-4 bmd-form-group">
-                                                            <label>Youtube Embed </label>
-                                                            <input name="youtube" type="text"
-                                                                class="form-control" value="{{old('youtube')}}" id="youtube" maxlength="250" >
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Kategori<span class="red">*</span></label>
+                                        <select class="select2" multiple="multiple" name="category[]" id="category" class="form-control" style="width: 100%" required>   
+                                            @foreach($category as $c)
+                                            <option value="{{$c->id}}">{{$c->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Jenis<span class="red">*</span></label>
+                                        <select class="select2" name="type" id="type" class="form-control" style="width: 100%" required>   
+                                            @foreach($type as $t)
+                                            <option value="{{$t->id}}">{{$t->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Jabatan<span class="red">*</span></label>
+                                        <select class="select2" multiple="multiple"  name="jabatan[]" id="jabatan" class="form-control" style="width: 100%" required>   
+                                            @foreach($jabatan as $j)
+                                            <option value="{{$j->id}}">{{$j->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Konten <span class="red">*</span></label>
+                                        <textarea rows="5" name="content" id="konten" class="form-control" required="">{!! old('content') !!}</textarea>
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Google Drive ID File </label>
+                                        <input name="google_drive" type="text"
+                                            class="form-control" value="{{old('google_drive')}}" id="google_drive" maxlength="250" >
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Youtube Embed </label>
+                                        <input name="youtube" type="text"
+                                            class="form-control" value="{{old('youtube')}}" id="youtube" maxlength="250" >
                                     </div>
                                 </div>
                             </div>
+                                            
                             <div class="row" style="margin-top: 10px">
                                 <div class="col-md-12">
                                     <button class="btn btn-success save pull-right mb-3" type="button" id="btn-submit">
@@ -203,8 +194,19 @@
         }
 
         $("#gambar").change(function() {
-            $('#img').show();
-            readURL(this);
+            var val = $(this).val();
+            switch(val.substring(val.lastIndexOf('.') + 1).toLowerCase()){
+                case 'gif': case 'jpg': case 'png':
+                    $('#img').show();
+                    readURL(this);
+                    break;
+                default:
+                    $(this).val('');
+                    swal("Error Upload", "Format file gambar tidak valid (png | jpg | jpeg)", "error");
+                    $('#gambar').val('');
+                    $('#img').hide();
+                    break;
+            }
         });
 
         var uploadField = document.getElementById("gambar");
