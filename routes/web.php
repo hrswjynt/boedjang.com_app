@@ -58,6 +58,9 @@ Route::group(['middleware' => ['karyawan']], function() {
 	Route::get("norm-list", "NormController@getListNorm")->name('norm_list.index');
 	Route::get("norm-list/{slug}", "NormController@getNorm")->name('get_norm.index');
 
+	Route::get("ketentuan-list", "KetentuanController@getListKetentuan")->name('ketentuan_list.index');
+	Route::get("ketentuan-list/{slug}", "KetentuanController@getKetentuan")->name('get_ketentuan.index');
+
 	Route::get("bukupedoman-list", "BukuPedomanController@getList")->name('bukupedoman_list.index');
 	Route::get("bukupedoman-list/{slug}", "BukuPedomanController@getBukuPedoman")->name('get_bukupedoman.index');
 	Route::get("bukupedoman-search", "BukuPedomanController@getSearch")->name('bukupedoman_search.index');
@@ -127,6 +130,10 @@ Route::group(['middleware' => ['admin']], function() {
 	Route::resource('norm','NormController')->except(['destroy']);
 	Route::get("norm-data", "NormController@getData");
 	Route::post('/norm-delete/{id}', 'NormController@delete')->name('norm.delete');
+
+	Route::resource('ketentuan','KetentuanController')->except(['destroy']);
+	Route::get("ketentuan-data", "KetentuanController@getData");
+	Route::post('/ketentuan-delete/{id}', 'KetentuanController@delete')->name('ketentuan.delete');
 
 	Route::resource('bukupedomandivision','BukuPedomanDivisionController')->except(['destroy']);
 	Route::get("bukupedomandivision-data", "BukuPedomanDivisionController@getData");
