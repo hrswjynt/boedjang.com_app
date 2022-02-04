@@ -127,6 +127,12 @@
 @endsection
 @push('other-script')
 <script type="text/javascript">
+    $('img').each(function(){
+        if($(this).width() < 90){
+            $(this).css('border', 'none');
+        }
+    });
+
     setTimeout(
         function() 
         {   
