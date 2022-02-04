@@ -128,7 +128,7 @@
 @push('other-script')
 <script type="text/javascript">
     $('img').each(function(){
-        if($(this).width() < 90){
+        if($(this).width() < 90 || $(this).height() < 80){
             $(this).css('border', 'none');
         }
     });
