@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth']], function() {
 	// Route::get("sop-list/{slug?}", "SopController@getSop")->name('get_sop.index')->where('slug', '(.*)');
 	Route::get("sop-list/{slug}", "SopController@getSop")->name('get_sop.index');
 	Route::get("sop-search", "SopController@getSearch")->name('sop_search.index');
+	Route::get("norm-search", "NormController@getSearch")->name('norm_search.index');
 	Route::post("readsop", "SopController@readSop");
 });
 
@@ -86,7 +87,11 @@ Route::group(['middleware' => ['admin']], function() {
 
 	Route::resource('tag','TagController')->except(['destroy']);
 	Route::get("tag-data", "TagController@getData");
-	Route::post('/tag-delete/{id}', 'TagController@delete')->name('tag.delete');	
+	Route::post('/tag-delete/{id}', 'TagController@delete')->name('tag.delete');
+
+	Route::resource('normcategory','NormCategoryController')->except(['destroy']);
+	Route::get("normcategory-data", "NormCategoryController@getData");
+	Route::post('/normcategory-delete/{id}', 'NormCategoryController@delete')->name('normcategory.delete');
 
 	Route::resource('type','TypeController')->except(['destroy']);
 	Route::get("type-data", "TypeController@getData");

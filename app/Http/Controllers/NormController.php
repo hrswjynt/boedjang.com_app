@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Norm;
+use App\NormCategory;
 use DataTables;
 use Auth;
 use DB;
@@ -33,7 +34,8 @@ class NormController extends Controller
     }
 
     public function create(){
-        return view('norm.create')->with('page','norm');
+        $normcategory = NormCategory::all();
+        return view('norm.create')->with('normcategory', $normcategory)->with('page','norm');
     }
 
     public function store(Request $request)
@@ -47,6 +49,7 @@ class NormController extends Controller
         $slug = str_replace("/","",$request->title);
         $norm->slug = strtolower(str_replace(" ","-",$slug));
         $norm->title = $request->title;
+        $norm->norm_category = $request->norm_category;
         $norm->content = $request->content;
         $norm->publish = 0;
         $norm->sequence = $request->sequence;
@@ -55,7 +58,7 @@ class NormController extends Controller
     }
 
     public function getData(){
-        $data = Norm::select('norm.id','norm.title','norm.slug','norm.publish')->get();
+        $data = Norm::join('norm_category','norm_category.id','norm.norm_category')->select('norm.id','norm.title','norm.slug','norm.publish', 'norm_category.name as category_name')->get();
         return $this->datatable($data);
     }
 
@@ -80,13 +83,17 @@ class NormController extends Controller
     
     public function show(Norm $norm)
     {   
+        $normcategory = NormCategory::all();
         return view('norm.show')->with('norm', $norm)
+                                ->with('normcategory', $normcategory)
                                 ->with('page','norm');
     }
     
     public function edit(Norm $norm)
     {   
+        $normcategory = NormCategory::all();
         return view('norm.edit')->with('norm', $norm)
+                                ->with('normcategory', $normcategory)
                                 ->with('page','norm');
     }
     
@@ -100,6 +107,7 @@ class NormController extends Controller
         $slug = str_replace("/","",$request->title);
         $norm->slug = strtolower(str_replace(" ","-",$slug));
         $norm->title = $request->title;
+        $norm->norm_category = $request->norm_category;
         $norm->content = $request->content;
         $norm->publish = $request->publish;
         $norm->sequence = $request->sequence;
@@ -130,13 +138,24 @@ class NormController extends Controller
 
     public function getListNorm()
     {   
-        $norm = Norm::orderBy('sequence', 'ASC')->where('publish',1)->get();
-        return view('norm.home')->with('page','norm_list')->with('norm', $norm);
+        $norm = Norm::join('norm_category','norm_category.id','norm.norm_category')->select('norm.*', 'norm_category.name as category_name')->orderBy('norm.norm_category', 'ASC')->orderBy('norm.sequence', 'ASC')->where('norm.publish',1)->get();
+        // dd($norm);
+        return view('norm.home')->with('page','norm_list')->with('norm', $norm)->with('search', null);
+    }
+
+    public function getSearch(Request $request){
+        // dd($request->all());
+        $search = $request->search;
+
+        $norm = Norm::join('norm_category','norm_category.id','norm.norm_category')->select('norm.*', 'norm_category.name as category_name')->orderBy('norm.norm_category', 'ASC')->orderBy('norm.sequence', 'ASC')->where('norm.publish',1)->where('norm.title','like','%'.$request->search.'%')->get();
+
+        return view('norm.home')->with('page','norm_list')->with('norm', $norm)
+                    ->with('search',$search);
     }
 
     public function getNorm($slug)
     {   
-        $norm = Norm::where('slug',$slug)->first();
+        $norm = Norm::join('norm_category','norm_category.id','norm.norm_category')->select('norm.*', 'norm_category.name as category_name')->orderBy('norm.sequence', 'ASC')->where('norm.slug',$slug)->where('norm.publish',1)->first();
         if($norm == null){
             return redirect()->route('norm_list.index')->with('danger','Norm yang dicari tidak ditemukan.');
         }

@@ -56,13 +56,31 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
+                <form class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2" action="{{route('norm_search.index')}}" method="GET">
+                        @csrf
+                    <input class="form-control" type="text" aria-label="Search"name="search" placeholder="Cari Norm" value="{{$search}}" style="margin:5px"/>
+                    <button style="margin:5px" type="submit" class="btn btn-sm btn-primary form-control">Cari <i class="fas fa-search" aria-hidden="true"></i></button>
+                </form>
                 <div class="card-body" style="margin-left: 10px">
                     <h3 style="font-weight: 600">Daftar Isi</h3>
                     <hr>
                         @if(count($norm) > 0)
+                            <?php 
+                                $i=0;
+                            ?>
                             @foreach($norm as $n)
+                            @if($i == 0)
+                            <h4>{{$n->category_name}}</h4>
+                            @else
+                                @if($norm[$i]->norm_category !==  $norm[$i-1]->norm_category)
+                                <h4>{{$n->category_name}}</h4>
+                                @endif
+                            @endif
                             <a style="text-decoration: none" href="{{url('norm-list/'.$n->slug)}}">{{$n->title}}</a>
                             <hr>
+                            <?php 
+                                $i++;
+                            ?>
                             @endforeach
                             
                         <br><br><br><br><br>

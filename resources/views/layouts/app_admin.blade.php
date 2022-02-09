@@ -160,12 +160,12 @@
                     Admin
                 </div>
                 <!-- Nav Item - Utilities Collapse Menu -->
-                <li class="nav-item @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category'  || $page == 'type' || $page == 'tag' || $page == 'jabatan' || $page == 'history_sop' || $page == 'bpm' || $page == 'bpmdivision' || $page == 'bukupedoman' || $page == 'subbab' || $page == 'bab' || $page == 'norm' || $page == 'ketentuan') active @endif">
+                <li class="nav-item @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category'  || $page == 'type' || $page == 'tag' || $page == 'jabatan' || $page == 'history_sop' || $page == 'bpm' || $page == 'bpmdivision' || $page == 'bukupedoman' || $page == 'subbab' || $page == 'bab' || $page == 'norm' || $page == 'ketentuan' || $page == 'normcategory') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                         <i class="fas fa-cube"></i>
                         <span>Master</span>
                     </a>
-                    <div id="collapseUtilities" class="collapse @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category' || $page == 'type' || $page == 'tag' || $page == 'history_sop' || $page == 'bpm' || $page == 'bpmdivision' || $page == 'bukupedoman' || $page == 'subbab' || $page == 'bab' || $page == 'norm' || $page == 'ketentuan') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                    <div id="collapseUtilities" class="collapse @if($page == 'blog' || $page == 'user' || $page == 'sop' || $page == 'category' || $page == 'type' || $page == 'tag' || $page == 'history_sop' || $page == 'bpm' || $page == 'bpmdivision' || $page == 'bukupedoman' || $page == 'subbab' || $page == 'bab' || $page == 'norm' || $page == 'ketentuan' || $page == 'normcategory') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Master Data Admin</h6>
                             @if(Auth::user()->role == 1)
@@ -177,6 +177,7 @@
                             <a class="collapse-item @if($page == 'jabatan') active @endif" href="{{route('jabatan.index')}}">Jabatan SOP</a>
                             <a class="collapse-item @if($page == 'sop') active @endif" href="{{route('sop.index')}}">SOP</a>
                             <a class="collapse-item @if($page == 'norm') active @endif" href="{{route('norm.index')}}">Norm</a>
+                            <a class="collapse-item @if($page == 'normcategory') active @endif" href="{{route('normcategory.index')}}">Kategori Norm</a>
                             <a class="collapse-item @if($page == 'ketentuan') active @endif" href="{{route('ketentuan.index')}}">Ketentuan</a>
                             <a class="collapse-item @if($page == 'bab') active @endif" href="{{route('bab.index')}}">Bab Buku Saku</a>
                             <a class="collapse-item @if($page == 'subbab') active @endif" href="{{route('subbab.index')}}">Sub Bab Buku Saku</a>

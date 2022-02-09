@@ -42,6 +42,14 @@
                                             class="form-control" value="{{old('title')}}" tabindex="1" id="title" maxlength="200" >
                                     </div>
                                     <div class="form-group mb-4 bmd-form-group">
+                                        <label>Kategori Norm <span class="red">*</span></label>
+                                        <select class="select2" name="norm_category" id="norm_category" class="form-control" style="width: 100%" required>   
+                                            @foreach($normcategory as $t)
+                                            <option value="{{$t->id}}">{{$t->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
                                         <label class="bmd-label-floating">Urutan <span class="red">*</span></label>
                                         <input name="sequence" type="number"
                                             class="form-control" value="{{old('sequence')}}" id="sequence">

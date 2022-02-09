@@ -45,6 +45,18 @@
                                     class="form-control" value="{{$norm->slug}}" tabindex="1" id="slug" maxlength="200" disabled="">
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
+                                    <label>Kategori Norm <span class="red">*</span></label>
+                                    <select class="select2" name="norm_category" id="norm_category" class="form-control" style="width: 100%" disabled> 
+                                        @foreach($normcategory as $t)
+                                        @if($norm->norm_category == $t->id)
+                                        <option value="{{$t->id}}" selected>{{$t->name}}</option>
+                                        @else
+                                        <option value="{{$t->id}}">{{$t->name}}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mb-4 bmd-form-group">
                                     <label>Publish Norm <span class="red">*</span></label>
                                     <select class="form-control" name="publish" disabled="">
                                         @if($norm->publish == 0)

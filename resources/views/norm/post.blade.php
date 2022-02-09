@@ -68,6 +68,7 @@
                     <div class="row">
 
                         <div class="col-md-12">
+                            <span class="badge badge-warning shadow"><i class="fas fa-tag"></i> {{$norm->category_name}}</span>
                             <p class="text-muted"> <i class="far fa-clock"></i> {{date_format($norm->updated_at,'d-m-Y H:i:s')}}</p>
                         </div>
 

@@ -4,17 +4,17 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Norm</h1>
+        <h1 class="h3 mb-0 text-gray-800">Kategori Norm</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Daftar Norm</b></h6>
-                    <a href="{{ route('norm.create') }}" class="btn btn-success btn-sm add">
-                        <i class="fa fa-plus"></i>
-                        <span>Tambah Norm</span>
+                    <h6><b>Daftar Kategori Norm</b></h6>
+                    <a href="{{ route('normcategory.create') }}" class="btn btn-success btn-sm add">
+                        <i class="fa fa-user-plus "></i>
+                        <span>Tambah Kategori Norm</span>
                     </a>
                 </div>
                 <div class="card-body">
@@ -23,33 +23,30 @@
                   @if ($message = Session::get('success'))
                   <div class="alert alert-success alert-dismissible" id="success-alert">
                       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                      <p>{{ $message }}</p>
+                      <p>{!! $message !!}</p>
                   </div>
                   @endif
                   @if ($message = Session::get('danger'))
                   <div class="alert alert-danger alert-dismissible" id="danger-alert">
                       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                      <p>{{ $message }}</p>
+                      <p>{!! $message !!}</p>
                   </div>
                   @endif
-                  <div id="norm-data">
+                  <div id="normcategory-data">
                     <div class="table-responsive">
-                        <table class="table" id="table-norm-data" width="100%">
+                        <table class="table" id="table-normcategory-data" width="100%">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th width="1%">
                                         No
                                     </th>
-                                    <th>
-                                        Judul
+                                    <th width="20%">
+                                        Nama
                                     </th>
-                                    <th>
-                                        Kategori
+                                    <th width="30%">
+                                        Deskripsi
                                     </th>
-                                    <th>
-                                        Status
-                                    </th>
-                                    <th class="text-right">
+                                    <th class="text-right" width="20%">
                                         Actions
                                     </th>
                                 </tr>
@@ -66,7 +63,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    var url_delete = "{{url('norm-delete')}}";
+    var url_delete = "{{url('normcategory-delete')}}";
     var base_url = "{{ url('/') }}";
 </script>
 
@@ -75,12 +72,12 @@
 @push('other-script')
 <script type="text/javascript">
     $(function () {
-        $('#table-norm-data').DataTable({
+        $('#table-normcategory-data').DataTable({
             processing: true,
             serverSide: true,
             "lengthMenu": [
-                [50,100, 200, 500, -1],
-                [50,100, 200, 500, 'All']
+                [10, 25, 50, 100],
+                [10, 25, 50, 100]
             ],
             language: {
                 'paginate': {
@@ -88,7 +85,15 @@
                   'next': '<span class="fas fa-angle-right"></span>'
                 }
               },
-            ajax: base_url+"/norm-data",
+            ajax: base_url+"/normcategory-data",
+            columnDefs: [
+                {
+                    render: function (data, type, full, meta) {
+                        return "<div class='text-wrap'>" + data + "</div>";
+                    },
+                    targets: 2
+                }
+             ],
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
@@ -96,36 +101,13 @@
                     searchable: false
                 },
                 {
-                    data: 'title',
-                    name: 'title',
-                    render: function (data, type, row) {
-                        // if(data !== null){
-                        //     return '<a target="__blank" href="'+base_url+'/norm-list/'+row.slug+'">'+data+'</a>';
-                        // }else{
-                        //     return '-';
-                        // }
-                        return data;           
-                    }
+                    data: 'name',
+                    name: 'name'
                 },
                 {
-                    data: 'category_name',
-                    name: 'category_name',
-                    render: function (data, type, row) {
-                        return '<span class="badge badge-warning shadow" style="zoom:120%">'+data+'</span>';          
-                    }
+                    data: 'description',
+                    name: 'description'
                 },
-                {
-                    data: 'publish',
-                    name: 'publish',
-                    render: function (data, type, row) {
-                        if(data == 1){
-                            return '<span class="badge badge-success shadow" style="zoom:120%">Publish</span>';
-                        }else{
-                            return '<span class="badge badge-warning shadow" style="zoom:120%">Draft</span>';
-                        }           
-                    }
-                },
-                
                 {
                     data: 'action',
                     name: 'action',
@@ -139,14 +121,14 @@
 
 
     $(document).ready(function () {
-        $("body").on("click", ".normDelete", function (e) {
+        $("body").on("click", ".normcategoryDelete", function (e) {
             e.preventDefault();
             var id = $(this).data("id");
             var token = $("meta[name='csrf-token']").attr("content");
             var url = e.target;
             swal({
                 title: 'Apakah Anda Yakin?',
-                text: 'Norm yang telah dihapus tidak dapat dikembalikan lagi!',
+                text: 'Kategori Norm yang telah dihapus tidak dapat dikembalikan lagi!',
                 icon: 'warning',
                 buttons: ["Cancel", "Yes!"],
             }).then(function (value) {
