@@ -31,12 +31,13 @@ Route::group(['middleware' => ['auth']], function() {
 	// Route::get("sop-list/{slug?}", "SopController@getSop")->name('get_sop.index')->where('slug', '(.*)');
 	Route::get("sop-list/{slug}", "SopController@getSop")->name('get_sop.index');
 	Route::get("sop-search", "SopController@getSearch")->name('sop_search.index');
-	Route::get("norm-search", "NormController@getSearch")->name('norm_search.index');
+	
 	Route::post("readsop", "SopController@readSop");
 });
 
 Route::group(['middleware' => ['karyawan']], function() {
 	// \UniSharp\LaravelFilemanager\Lfm::routes();
+
 	Route::get("content", "ContentController@index")->name('content.index');
 	Route::post("content", "ContentController@store")->name('content.store');
 
@@ -58,6 +59,7 @@ Route::group(['middleware' => ['karyawan']], function() {
 
 	Route::get("norm-list", "NormController@getListNorm")->name('norm_list.index');
 	Route::get("norm-list/{slug}", "NormController@getNorm")->name('get_norm.index');
+	Route::get("norm-search", "NormController@getSearch")->name('norm_search.index');
 
 	Route::get("ketentuan-list", "KetentuanController@getListKetentuan")->name('ketentuan_list.index');
 	Route::get("ketentuan-list/{slug}", "KetentuanController@getKetentuan")->name('get_ketentuan.index');

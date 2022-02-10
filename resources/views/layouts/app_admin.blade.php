@@ -97,7 +97,9 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <!-- <h6 class="collapse-header">Custom Components:</h6> -->
                             <a class="collapse-item @if($page == 'sop_list') active @endif" href="{{route('sop_list.index')}}">SOP</a>
+                            @if(Auth::user()->role !== 6)
                             <a class="collapse-item @if($page == 'norm_list') active @endif" href="{{route('norm_list.index')}}">Norm</a>
+                            @endif
                         </div>
                     </div>
                 </li>

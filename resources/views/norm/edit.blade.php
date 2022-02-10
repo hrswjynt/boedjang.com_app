@@ -55,6 +55,20 @@
                                         </select>
                                     </div>
                                     <div class="form-group mb-4 bmd-form-group">
+                                        <label>Izin Akses <span class="red">*</span></label>
+                                        <select class="form-control" name="role" required>
+                                            @if($norm->role == 0)
+                                            <option value="0" selected="">Semua</option>
+                                            <option value="1">Admin</option>
+                                            @endif
+
+                                            @if($norm->role == 1)
+                                            <option value="0">Semua</option>
+                                            <option value="1" selected="">Admin</option>
+                                            @endif
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
                                         <label>Publish Norm <span class="red">*</span></label>
                                         <select class="form-control" name="publish">
                                             @if($norm->publish == 0)

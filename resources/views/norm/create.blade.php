@@ -50,6 +50,13 @@
                                         </select>
                                     </div>
                                     <div class="form-group mb-4 bmd-form-group">
+                                        <label>Izin Akses<span class="red">*</span></label>
+                                        <select class="select2" name="role" id="role" class="form-control" style="width: 100%" required>   
+                                            <option value="0">Semua</option>
+                                            <option value="1">Admin</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
                                         <label class="bmd-label-floating">Urutan <span class="red">*</span></label>
                                         <input name="sequence" type="number"
                                             class="form-control" value="{{old('sequence')}}" id="sequence">

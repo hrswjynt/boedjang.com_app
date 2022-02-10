@@ -50,6 +50,7 @@ class NormController extends Controller
         $norm->slug = strtolower(str_replace(" ","-",$slug));
         $norm->title = $request->title;
         $norm->norm_category = $request->norm_category;
+        $norm->role = $request->role;
         $norm->content = $request->content;
         $norm->publish = 0;
         $norm->sequence = $request->sequence;
@@ -58,7 +59,7 @@ class NormController extends Controller
     }
 
     public function getData(){
-        $data = Norm::join('norm_category','norm_category.id','norm.norm_category')->select('norm.id','norm.title','norm.slug','norm.publish', 'norm_category.name as category_name')->get();
+        $data = Norm::join('norm_category','norm_category.id','norm.norm_category')->select('norm.id','norm.title','norm.slug','norm.publish', 'norm_category.name as category_name','norm.role')->get();
         return $this->datatable($data);
     }
 
@@ -108,6 +109,7 @@ class NormController extends Controller
         $norm->slug = strtolower(str_replace(" ","-",$slug));
         $norm->title = $request->title;
         $norm->norm_category = $request->norm_category;
+        $norm->role = $request->role;
         $norm->content = $request->content;
         $norm->publish = $request->publish;
         $norm->sequence = $request->sequence;

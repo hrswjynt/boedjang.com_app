@@ -49,6 +49,9 @@
                                     <th>
                                         Status
                                     </th>
+                                    <th>
+                                        Akses
+                                    </th>
                                     <th class="text-right">
                                         Actions
                                     </th>
@@ -125,7 +128,17 @@
                         }           
                     }
                 },
-                
+                {
+                    data: 'role',
+                    name: 'role',
+                    render: function (data, type, row) {
+                        if(data == 1){
+                            return '<span class="badge badge-secondary shadow" style="zoom:120%">Admin</span>';
+                        }else{
+                            return '<span class="badge badge-danger shadow" style="zoom:120%">Semua</span>';
+                        }           
+                    }
+                },
                 {
                     data: 'action',
                     name: 'action',
