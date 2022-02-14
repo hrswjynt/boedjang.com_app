@@ -59,7 +59,7 @@
                 <div class="card-body" style="margin-left: 10px">
                     <form class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2" action="{{route('ketentuan_search.index')}}" method="GET">
                             @csrf
-                        <input class="form-control" type="text" aria-label="Search"name="search" placeholder="Cari Norm" value="{{$search}}" style="margin:5px"/>
+                        <input class="form-control" type="text" aria-label="Search"name="search" placeholder="Cari Ketentuan" value="{{$search}}" style="margin:5px"/>
                         <button style="margin:5px" type="submit" class="btn btn-sm btn-primary form-control">Cari <i class="fas fa-search" aria-hidden="true"></i></button>
                     </form>
                     <hr>
