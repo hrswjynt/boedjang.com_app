@@ -131,7 +131,7 @@ class KetentuanController extends Controller
     public function getListKetentuan()
     {   
         $ketentuan = Ketentuan::orderBy('sequence', 'ASC')->where('publish',1)->get();
-        return view('ketentuan.home')->with('page','ketentuan_list')->with('ketentuan', $ketentuan);
+        return view('ketentuan.home')->with('page','ketentuan_list')->with('ketentuan', $ketentuan)->with('search', null);
     }
 
     public function getKetentuan($slug)
@@ -141,6 +141,16 @@ class KetentuanController extends Controller
             return redirect()->route('ketentuan_list.index')->with('danger','Ketentuan yang dicari tidak ditemukan.');
         }
         return view('ketentuan.post')->with('page','ketentuan_list')->with('ketentuan',$ketentuan);
+    }
+
+    public function getSearch(Request $request){
+        // dd($request->all());
+        $search = $request->search;
+
+        $ketentuan = Ketentuan::orderBy('sequence', 'ASC')->where('publish',1)->where('title','like','%'.$request->search.'%')->get();
+
+        return view('ketentuan.home')->with('page','ketentuan_list')->with('ketentuan', $ketentuan)
+                    ->with('search',$search);
     }
 
 }

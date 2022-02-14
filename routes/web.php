@@ -63,6 +63,7 @@ Route::group(['middleware' => ['karyawan']], function() {
 
 	Route::get("ketentuan-list", "KetentuanController@getListKetentuan")->name('ketentuan_list.index');
 	Route::get("ketentuan-list/{slug}", "KetentuanController@getKetentuan")->name('get_ketentuan.index');
+	Route::get("ketentuan-search", "KetentuanController@getSearch")->name('ketentuan_search.index');
 
 	Route::get("bukupedoman-list", "BukuPedomanController@getList")->name('bukupedoman_list.index');
 	Route::get("bukupedoman-list/{slug}", "BukuPedomanController@getBukuPedoman")->name('get_bukupedoman.index');

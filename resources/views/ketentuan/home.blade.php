@@ -57,7 +57,11 @@
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-body" style="margin-left: 10px">
-                    <h3 style="font-weight: 600">Daftar Isi</h3>
+                    <form class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2" action="{{route('ketentuan_search.index')}}" method="GET">
+                            @csrf
+                        <input class="form-control" type="text" aria-label="Search"name="search" placeholder="Cari Norm" value="{{$search}}" style="margin:5px"/>
+                        <button style="margin:5px" type="submit" class="btn btn-sm btn-primary form-control">Cari <i class="fas fa-search" aria-hidden="true"></i></button>
+                    </form>
                     <hr>
                         @if(count($ketentuan) > 0)
                             @foreach($ketentuan as $n)
