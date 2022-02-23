@@ -26,6 +26,7 @@ class FeedbackController extends Controller
         $atasan = Karyawan::where(function($query){
             $query->orWhere('Jabatan', 'like', '%Supervisor%');
             $query->orWhere('Jabatan', 'like', '%Manager%');
+            $query->orWhere('Jabatan', 'like', '%Manajer%');
             $query->orWhere('Jabatan', 'like', '%Direktur%');
         })->where('region',$karyawan->region)->where('Status', 'Aktif')->get();
         $feedback = DB::table('feedback')->join('feedback_kategori', 'feedback_kategori.id', 'feedback.kategori')
@@ -96,6 +97,7 @@ class FeedbackController extends Controller
         $atasan = Karyawan::where(function($query){
             $query->orWhere('Jabatan', 'like', '%Supervisor%');
             $query->orWhere('Jabatan', 'like', '%Manager%');
+            $query->orWhere('Jabatan', 'like', '%Manajer%');
             $query->orWhere('Jabatan', 'like', '%Direktur%');
         })->where('region',$karyawan->region)->where('Status', 'Aktif')->get();
         $date1= date("Y-m-d", strtotime("-1 month", strtotime(date('Y-m-01'))));
