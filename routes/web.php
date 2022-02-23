@@ -75,12 +75,19 @@ Route::group(['middleware' => ['karyawan']], function() {
 
 	Route::get("pengajuanformcuti", "CutiController@pengajuan")->name('formcuti.pengajuan');
     Route::post("formcuti-pengajuanpost", "CutiController@pengajuanPost")->name('formcuti.pengajuanpost');
-
     Route::get("formcuti", "CutiController@index")->name('formcuti.index');
 	Route::get("formcuti-data", "CutiController@getData");
+
+	Route::get("pengajuanfeedback", "FeedbackController@pengajuan")->name('feedback.pengajuan');
+    Route::post("feedback-pengajuanpost", "FeedbackController@pengajuanPost")->name('feedback.pengajuanpost');
+    Route::get("feedback", "FeedbackController@index")->name('feedback.index');
+	Route::get("feedback-data", "FeedbackController@getData");
 });
 
 Route::group(['middleware' => ['admin']], function() {
+	Route::get('laporanfeedback','FeedbackController@indexLaporan')->name('feedbacklaporan.index');
+	Route::get('laporanfeedback-search','FeedbackController@indexSearchLaporan')->name('feedbacklaporan.search');
+	
 	Route::get("user-data", "UserController@getData");
     Route::post('/user-delete/{id}', 'UserController@delete')->name('user.delete');
 

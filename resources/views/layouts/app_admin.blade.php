@@ -153,6 +153,12 @@
                         <span>Form Cuti</span>
                     </a>
                 </li>
+                <li class="nav-item @if($page == 'feedback') active @endif">
+                    <a class="nav-link" href="{{route('feedback.index')}}">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>Feedback Atasan</span>
+                    </a>
+                </li>
                 @endif
                 <!-- Divider -->
                 <hr class="sidebar-divider">
@@ -195,6 +201,12 @@
                 </li>
                 <!-- Nav Item - Pages Collapse Menu -->
                 @if(Auth::user()->role == 1)
+                <li class="nav-item @if($page == 'feedbacklaporan') active @endif">
+                    <a class="nav-link" href="{{route('feedbacklaporan.index')}}">
+                        <i class="fas fa-list-ul"></i>
+                        <span>Laporan Feedback</span>
+                    </a>
+                </li>
                 <li class="nav-item @if($page == 'content' || $page == 'social_media') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                         <i class="fas fa-fw fa-wrench"></i>
@@ -348,13 +360,13 @@
         <script src="{{ asset('admin/vendor/datatables/dataTables.bootstrap4.js') }}"></script>
         <script src="{{ asset('admin/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
-<!--         <script src="{{ asset('admin/vendor/datatables/dataTables.fixedHeader.min.js') }}"></script>
+        <script src="{{ asset('admin/vendor/datatables/dataTables.fixedHeader.min.js') }}"></script>
         <script src="{{ asset('admin/vendor/datatables/dataTables.buttons.min.js') }}"></script>
         <script src="{{ asset('admin/vendor/datatables/jszip.min.js') }}"></script>
         <script src="{{ asset('admin/vendor/datatables/pdfmake.min.js') }}"></script>
         <script src="{{ asset('admin/vendor/datatables/vfs_fonts.js') }}"></script>
         <script src="{{ asset('admin/vendor/datatables/buttons.html5.min.js') }}"></script>
-        <script src="{{ asset('admin/vendor/datatables/buttons.colVis.min.js') }}"></script> -->
+        <script src="{{ asset('admin/vendor/datatables/buttons.colVis.min.js') }}"></script>
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
         <script src="{{ asset('admin/vendor/select2/dist/js/select2.min.js')}}"></script>
