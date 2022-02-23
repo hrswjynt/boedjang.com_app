@@ -2,7 +2,7 @@
 @section('content')
 <style type="text/css">
     input[type='radio'] { 
-        /* transform: scale(2); */
+        transform: scale(1.7);
     }
     .form-check-input{
         margin: 5px;
@@ -16,6 +16,7 @@
     .bmd-label-floating{
         zoom: 90%;
     }
+    
 </style>
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -75,24 +76,27 @@
                                 </div>
                                 <hr>
                                 @endif
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" id="radio[{{$data->id}}-0" name="radio[{{$data->id}}]" value="" required style="zoom:1%">
+                                </div>
                                 <div class="form-group form-check-header">
                                     {{$j}}. {{$data->isi}}
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radio[{{$data->id}}]" value="4" required>
-                                    <label class="form-check-label" for="radio1">Sangat setuju</label>
+                                    <input class="form-check-input" type="radio" id="radio[{{$data->id}}-1" name="radio[{{$data->id}}]" value="4">
+                                    <label class="form-check-label" for="radio[{{$data->id}}-1">Sangat setuju</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radio[{{$data->id}}]" value="3">
-                                    <label class="form-check-label" for="radio_1">Setuju</label>
+                                    <input class="form-check-input" type="radio" id="radio[{{$data->id}}-2" name="radio[{{$data->id}}]" value="3">
+                                    <label class="form-check-label" for="radio[{{$data->id}}-2">Setuju</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radio[{{$data->id}}]" value="2">
-                                    <label class="form-check-label" for="radio_1">Tidak Setuju</label>
+                                    <input class="form-check-input" type="radio" id="radio[{{$data->id}}-3" name="radio[{{$data->id}}]" value="2">
+                                    <label class="form-check-label" for="radio[{{$data->id}}-3">Tidak Setuju</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radio[{{$data->id}}]" value="1">
-                                    <label class="form-check-label" for="radio_1">Sangat Tidak Setuju</label>
+                                    <input class="form-check-input" type="radio" id="radio[{{$data->id}}-4" name="radio[{{$data->id}}]" value="1">
+                                    <label class="form-check-label" for="radio[{{$data->id}}-4">Sangat Tidak Setuju</label>
                                 </div>
                             </div>
                             @php $i++;$j++; @endphp
@@ -111,24 +115,29 @@
                                     <textarea rows="5" name="alasan2" id="alasan2" class="form-control" required="">{!! old('alasan2') !!}</textarea>
                                     <label>3. Apa saran yang bisa anda berikan untuk atasan anda agar bisa menjadi lebih baik lagi kedepannya? </label>
                                     <textarea rows="5" name="alasan3" id="alasan3" class="form-control" required="">{!! old('alasan3') !!}</textarea>
+                                    
+                                    <hr>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" id="puas0" name="puas" value="" required style="zoom:1%">
+                                    </div>
                                     <div class="form-group form-check-header">
                                     4. Secara garis besar seberapa puas anda dengan kinerja atasan anda?
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="puas" value="Sangat Puas" required>
-                                        <label class="form-check-label" for="radio1">Sangat Puas</label>
+                                        <input class="form-check-input" type="radio" id="puas1" name="puas" value="Sangat Puas">
+                                        <label class="form-check-label" for="puas1">Sangat Puas</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="puas" value="Puas">
-                                        <label class="form-check-label" for="radio_1">Puas</label>
+                                        <input class="form-check-input" type="radio" id="puas2" name="puas" value="Puas">
+                                        <label class="form-check-label" for="puas2">Puas</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="puas" value="Tidak Puas">
-                                        <label class="form-check-label" for="radio_1">Tidak Puas</label>
+                                        <input class="form-check-input" type="radio" id="puas3" name="puas" value="Tidak Puas">
+                                        <label class="form-check-label" for="puas3">Tidak Puas</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="puas" value="Sangat Tidak Puas">
-                                        <label class="form-check-label" for="radio_1">Sangat Tidak Puas</label>
+                                        <input class="form-check-input" type="radio" id="puas4" name="puas" value="Sangat Tidak Puas">
+                                        <label class="form-check-label" for="puas4">Sangat Tidak Puas</label>
                                     </div>
                                 </div>
                             </div>
