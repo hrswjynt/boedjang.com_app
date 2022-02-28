@@ -82,9 +82,16 @@ Route::group(['middleware' => ['karyawan']], function() {
     Route::post("feedback-pengajuanpost", "FeedbackController@pengajuanPost")->name('feedback.pengajuanpost');
     Route::get("feedback", "FeedbackController@index")->name('feedback.index');
 	Route::get("feedback-data", "FeedbackController@getData");
+
+    Route::get("ticket", "TicketController@index")->name('ticket.index');
+	Route::get("ticket-data", "TicketController@getData");
+	Route::get("pengajuanticket", "TicketController@pengajuan")->name('ticket.pengajuan');
+    Route::post("ticket-pengajuanpost", "TicketController@pengajuanPost")->name('ticket.pengajuanpost');
 });
 
 Route::group(['middleware' => ['admin']], function() {
+	Route::get("laporanticket", "TicketController@laporanticket")->name('laporanticket.index');
+
 	Route::get('laporanfeedback','FeedbackController@indexLaporan')->name('feedbacklaporan.index');
 	Route::get('laporanfeedback-search','FeedbackController@indexSearchLaporan')->name('feedbacklaporan.search');
 	
