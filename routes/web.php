@@ -94,6 +94,7 @@ Route::group(['middleware' => ['admin']], function() {
 
 	Route::get('laporanfeedback','FeedbackController@indexLaporan')->name('feedbacklaporan.index');
 	Route::get('laporanfeedback-search','FeedbackController@indexSearchLaporan')->name('feedbacklaporan.search');
+	Route::post('/laporanfeedback-delete/{id}', 'FeedbackController@delete')->name('laporanfeedback.delete');
 	
 	Route::get("user-data", "UserController@getData");
     Route::post('/user-delete/{id}', 'UserController@delete')->name('user.delete');

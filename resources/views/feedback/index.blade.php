@@ -46,6 +46,9 @@
                                     <th width="10%">
                                         Outlet
                                     </th>
+                                    <th width="10%">
+                                        Atasan
+                                    </th>
                                     <th width="5%">
                                         Status
                                     </th>
@@ -97,9 +100,10 @@
                     'sClass': 'text-center',
                     render: function (data, type, row) {
                         var start_date = new Date(data);
-                        var sdate = String(start_date.getDate()).padStart(2, '0') + ' ';
-                        sdate += monthName(String(start_date.getMonth() + 1).padStart(2, '0'));
-                        sdate += ' ' + start_date.getFullYear();
+                        var sdate = String(start_date.getDate()).padStart(2, '0') + '/';
+                        sdate += (String(start_date.getMonth() + 1).padStart(2, '0'));
+                        sdate += '/' + start_date.getFullYear();
+                        sdate += ' ' + start_date.getHours() + ":" + start_date.getMinutes() + ":" + start_date.getSeconds();
                         return sdate;
                     }
                 },
@@ -112,13 +116,21 @@
                     }
                 },
                 {
+                    data: 'atasan_name',
+                    name: 'atasan_name',
+                    'sClass': 'text-center',
+                    render: function (data, type, row) {
+                        return data;
+                    }
+                },
+                {
                     data: 'outlet',
                     name: 'outlet',
                     'sClass': 'text-center',
                     render: function (data, type, row) {
                         return '<span class="badge badge-success" style="zoom:120%">Diterima</span>';          
                     }
-                }
+                },
             ]
         });
     });

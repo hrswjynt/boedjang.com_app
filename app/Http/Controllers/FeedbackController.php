@@ -28,6 +28,7 @@ class FeedbackController extends Controller
             $query->orWhere('Jabatan', 'like', '%Manager%');
             $query->orWhere('Jabatan', 'like', '%Manajer%');
             $query->orWhere('Jabatan', 'like', '%Direktur%');
+            $query->orWhere('Jabatan', 'like', '%Leader%');
         })->where('region',$karyawan->region)->where('Status', 'Aktif')->get();
         $feedback = DB::table('feedback')->join('feedback_kategori', 'feedback_kategori.id', 'feedback.kategori')
                                         ->select('feedback.*', 'feedback_kategori.nama as kategori_nama')
@@ -42,8 +43,20 @@ class FeedbackController extends Controller
         //     'tgl' => 'required',
         // ]);
         // dd($request->radio);
+        $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
+        $date1= date("Y-m-01 H:i:s", strtotime("-1 month", strtotime(date('Y-m-d H:i:s'))));
+        $date2= date('Y-m-t H:i:s');
+        $checkfeedback = FeedbackDataHeader::where('user', Auth::user()->id)
+                                        ->where('atasan',$request->atasan)
+                                        ->whereBetween('tgl', [$date1, $date2])
+                                        ->first();
+        // dd($checkfeedback);
+        if($checkfeedback !== null){
+            $message_type = 'danger';
+            $message = 'Data Feedback Atasan "'.$karyawan->NIP ." - ".$karyawan->NAMA .'" gagal ditambahkan. Karyawan telah mengisi data dengan atasan yang sama sebelumnya.';
+            return redirect()->route('feedback.index')->with($message_type,$message);
+        }
         DB::beginTransaction();
-        $karyawan = Karyawan::where('NIP',Auth::user()->username)->first(); 
         $header = new FeedbackDataHeader;
         $header->tgl = date('Y-m-d H:i:s');
         $header->user = Auth::user()->id;
@@ -83,7 +96,7 @@ class FeedbackController extends Controller
     }
 
     public function getData(){
-        $data = FeedbackDataHeader::join('users','users.id','feedback_data_header.user')->where('feedback_data_header.user',Auth::user()->id)->select('feedback_data_header.*', 'users.name')->get();
+        $data = FeedbackDataHeader::join('users','users.id','feedback_data_header.user')->join('users as atasan','atasan.username','feedback_data_header.atasan')->where('feedback_data_header.user',Auth::user()->id)->select('feedback_data_header.*', 'users.name','atasan.name as atasan_name')->get();
         return Datatables::of($data)
             ->addIndexColumn()
             ->make(true);
@@ -99,11 +112,12 @@ class FeedbackController extends Controller
             $query->orWhere('Jabatan', 'like', '%Manager%');
             $query->orWhere('Jabatan', 'like', '%Manajer%');
             $query->orWhere('Jabatan', 'like', '%Direktur%');
+            $query->orWhere('Jabatan', 'like', '%Leader%');
         })->where('region',$karyawan->region)->where('Status', 'Aktif')->get();
         $date1= date("Y-m-d", strtotime("-1 month", strtotime(date('Y-m-01'))));
         $date2= date('Y-m-t');
 
-        $data = DB::select(DB::raw("SELECT (CASE WHEN fdd.poin = 1 THEN 'Sangat Tidak Setuju' WHEN fdd.poin = 2 THEN 'Tidak Setuju' WHEN fdd.poin = 3 THEN 'Setuju' ELSE 'Sangat Setuju' END) as poin_nama, fdd.header_id, fdh.tgl, fdh.`user`, u.`name`, u.username as nip, fdh.outlet_name as outlet_nama, fdh.atasan, u2.`name` as atasan_nama, fdh.alasan1, fdh.alasan2, fdh.alasan3, fk.nama as kategori_nama, fdd.feedback as feedback_id, f.isi, fdd.poin, fdh.puas FROM feedback_data_detail fdd INNER JOIN feedback_data_header fdh ON fdd.header_id = fdh.id INNER JOIN feedback f on f.id = fdd.feedback INNER JOIN feedback_kategori fk on fk.id = f.kategori INNER JOIN users u on u.id = fdh.`user` INNER JOIN users u2 on u2.username = fdh.atasan where date(fdh.tgl) between '".$date1."' and '".$date2."' ORDER BY fdh.id"));
+        $data = DB::select(DB::raw("SELECT fdh.id,(CASE WHEN fdd.poin = 1 THEN 'Sangat Tidak Setuju' WHEN fdd.poin = 2 THEN 'Tidak Setuju' WHEN fdd.poin = 3 THEN 'Setuju' ELSE 'Sangat Setuju' END) as poin_nama, fdd.header_id, fdh.tgl, fdh.`user`, u.`name`, u.username as nip, fdh.outlet_name as outlet_nama, fdh.atasan, u2.`name` as atasan_nama, fdh.alasan1, fdh.alasan2, fdh.alasan3, fk.nama as kategori_nama, fdd.feedback as feedback_id, f.isi, fdd.poin, fdh.puas FROM feedback_data_detail fdd INNER JOIN feedback_data_header fdh ON fdd.header_id = fdh.id INNER JOIN feedback f on f.id = fdd.feedback INNER JOIN feedback_kategori fk on fk.id = f.kategori INNER JOIN users u on u.id = fdh.`user` INNER JOIN users u2 on u2.username = fdh.atasan where date(fdh.tgl) between '".$date1."' and '".$date2."' ORDER BY fdh.id"));
         // dd(($data));
         return view('feedbacklaporan.index')->with('page','feedbacklaporan')->with('atasan',$atasan)->with('feedback',$feedback)->with('data',$data)->with('date1',$date1)->with('date2',$date2);
     }
@@ -125,6 +139,31 @@ class FeedbackController extends Controller
         $data = DB::select(DB::raw("SELECT (CASE WHEN fdd.poin = 1 THEN 'Sangat Tidak Setuju' WHEN fdd.poin = 2 THEN 'Tidak Setuju' WHEN fdd.poin = 3 THEN 'Setuju' ELSE 'Sangat Setuju' END) as poin_nama, fdd.header_id, fdh.tgl, fdh.`user`, u.`name`, u.username as nip, fdh.outlet_name as outlet_nama, fdh.atasan, u2.`name` as atasan_nama, fdh.alasan1, fdh.alasan2, fdh.alasan3, fk.nama as kategori_nama, fdd.feedback as feedback_id, f.isi, fdd.poin FROM feedback_data_detail fdd INNER JOIN feedback_data_header fdh ON fdd.header_id = fdh.id INNER JOIN feedback f on f.id = fdd.feedback INNER JOIN feedback_kategori fk on fk.id = f.kategori INNER JOIN users u on u.id = fdh.`user` INNER JOIN users u2 on u2.username = fdh.atasan where date(fdh.tgl) between '".$startdate."' and '".$enddate."' ORDER BY fdh.id"));
 
         return view('feedbacklaporan.index')->with('page','feedbacklaporan')->with('atasan',$atasan)->with('feedback',$feedback)->with('data',$data)->with('date1',$startdate)->with('date2',$enddate);
+    }
+
+    public function delete($id){
+        DB::beginTransaction();
+        try{
+            $fdh = FeedbackDataHeader::find($id);
+            
+            $name = $fdh->id." ".$fdh->outlet_name;
+            // dd($fdd);
+            if(FeedbackDataDetail::where('header_id', $id)->delete()){
+                $fdh->delete();
+            }
+            
+            DB::commit();
+            return response()->json([
+                'message' => 'Feedback ID "'.$name.'" berhasil dihapus!',
+                'type'=> 'success',
+            ]);
+        } catch (\Exception $e) {
+            // DB::rollback();
+            return response()->json([
+                'message' => 'Feedback ID "'.$name.'" gagal dihapus!',
+                'type'=> 'danger',
+            ]);
+        }
     }
 
 }

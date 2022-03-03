@@ -62,6 +62,7 @@
                         <table class="table" id="table-feedback-data" width="100%" style="zoom:80%">
                             <thead>
                                 <tr>
+                                    <th width="1%">Action</th>
                                     <th>Tgl</th>
                                     <th>Karyawan</th>
                                     <th>Atasan</th>
@@ -79,6 +80,9 @@
                                 @foreach($data as $d)
                                 @if($i == 0)
                                 <tr>
+                                    <td>
+                                        <div class="btn-group"><a href="{{route('laporanfeedback.delete',$d->id)}}" class="btn btn-sm btn-danger btn-simple shadow feedbackDelete" title="Delete" data-id="{{$d->id}}"><i class="fa fa-trash"></i> Hapus</a></div>
+                                    </td>
                                     <td>{{$d->tgl}}</td>
                                     <td>{{$d->name}}</td>
                                     <td>{{$d->atasan_nama}}</td>
@@ -110,6 +114,9 @@
                                     <td style="zoom:80%">{{$data[$i-1]->puas}}</td>
                                 </tr> 
                                 <tr>
+                                <td>
+                                    <div class="btn-group"><a href="{{route('laporanfeedback.delete',$d->id)}}" class="btn btn-sm btn-danger btn-simple shadow feedbackDelete" title="Delete" data-id="{{$d->id}}"><i class="fa fa-trash"></i> Hapus</a></div>
+                                    </td>
                                     <td>{{$d->tgl}}</td>
                                     <td>{{$d->name}}</td>
                                     <td>{{$d->atasan_nama}}</td>
@@ -163,6 +170,53 @@
 
 @push('other-script')
 <script type="text/javascript">
+    var url_delete = "{{url('laporanfeedback-delete')}}";
+     $(document).ready(function () {
+        $("body").on("click", ".feedbackDelete", function (e) {
+            e.preventDefault();
+            var id = $(this).data("id");
+            var token = $("meta[name='csrf-token']").attr("content");
+            var url = e.target;
+            swal({
+                title: 'Apakah Anda Yakin?',
+                text: 'Feedback yang telah dihapus tidak dapat dikembalikan lagi!',
+                icon: 'warning',
+                buttons: ["Cancel", "Yes!"],
+            }).then(function (value) {
+                if (value) {
+                    $.ajax({
+                        url: url_delete + "/" + id,
+                        type: 'POST',
+                        data: {
+                            _token: token,
+                            id: id
+                        },
+                        success: function (response) {
+                            $("#success-delete").html('<div class="alert alert-'+response.type+' alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><p>' +
+                                response.message + '</p></div>');
+                            // $('.dataTable').each(function () {
+                            //     dt = $(this).dataTable();
+                            //     dt.fnDraw();
+                            // })
+                            $("#success-delete").fadeTo(3000, 500).slideUp(500, function () {
+                                $("#success-delete").slideUp(500);
+                                location.reload();
+                            });
+                        }
+                    });
+                    return false;
+                }
+            });
+        });
+
+    });
+
+    $("#success-alert").fadeTo(3000, 500).slideUp(500, function () {
+        $("#success-alert").slideUp(500);
+        location.reload();
+    });
+
+
     $('#table-feedback-data').DataTable({
         dom: "lBfrtip",
         buttons: [
@@ -186,5 +240,6 @@
             }
         },
     });
+    
 </script>
 @endpush

@@ -122,9 +122,10 @@
                     'sClass': 'text-center',
                     render: function (data, type, row) {
                         var start_date = new Date(data);
-                        var sdate = String(start_date.getDate()).padStart(2, '0') + ' ';
-                        sdate += monthName(String(start_date.getMonth() + 1).padStart(2, '0'));
-                        sdate += ' ' + start_date.getFullYear();
+                        var sdate = String(start_date.getDate()).padStart(2, '0') + '/';
+                        sdate += (String(start_date.getMonth() + 1).padStart(2, '0'));
+                        sdate += '/' + start_date.getFullYear();
+                        sdate += ' ' + start_date.getHours() + ":" + start_date.getMinutes() + ":" + start_date.getSeconds();
                         return sdate;
                     }
                 },

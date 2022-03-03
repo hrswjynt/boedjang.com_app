@@ -16,7 +16,7 @@ class FeedbackDataDetail extends Model
     public $timestamps = false;
     public $incrementing = true;
     protected $fillable = [
-        'id','feedback','poin'];
+        'id','header_id','feedback','poin'];
 
 }
 
