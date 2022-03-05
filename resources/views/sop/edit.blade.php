@@ -118,7 +118,7 @@
                                     </div>
                                     <div class="form-group mb-4 bmd-form-group">
                                         <label>Youtube Embed Link 2</label>
-                                        <input name="youtube" type="text"
+                                        <input name="youtube2" type="text"
                                             class="form-control" value="{{$sop->youtube2}}" id="youtube2" maxlength="250" >
                                     </div>
                                 </div>

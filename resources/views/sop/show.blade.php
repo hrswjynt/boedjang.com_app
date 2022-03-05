@@ -111,17 +111,17 @@
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label>Google Drive ID File </label>
                                     <input name="google_drive" type="text"
-                                        class="form-control" value="{{old('google_drive')}}" id="google_drive" maxlength="250" disabled="">
+                                        class="form-control" value="{{$sop->google_drive}}" id="google_drive" maxlength="250" disabled="">
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label>Youtube Embed Link 1</label>
                                     <input name="youtube" type="text"
-                                        class="form-control" value="{{old('youtube')}}" id="youtube" maxlength="250" disabled="">
+                                        class="form-control" value="{{$sop->youtube}}" id="youtube" maxlength="250" disabled="">
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label>Youtube Embed Link 2</label>
-                                    <input name="youtube" type="text"
-                                        class="form-control" value="{{old('youtube2')}}" id="youtube2" maxlength="250" disabled="">
+                                    <input name="youtube2" type="text"
+                                        class="form-control" value="{{$sop->youtube2}}" id="youtube2" maxlength="250" disabled="">
                                 </div>
                             </div>
                         </div>
