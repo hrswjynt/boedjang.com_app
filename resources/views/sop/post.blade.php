@@ -104,6 +104,11 @@
 
                         @if($sop->youtube !== null && $sop->youtube !== '')
                         <iframe width="480" height="360" src="https://www.youtube.com/embed/{{$sop->youtube}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="margin-left: auto;margin-right: auto;"></iframe>
+                        <br>
+                        @endif
+                        @if($sop->youtube2 !== null && $sop->youtube2 !== '')
+                        <iframe width="480" height="360" src="https://www.youtube.com/embed/{{$sop->youtube2}}" title="YouTube video player 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="margin-left: auto;margin-right: auto;"></iframe>
+                        <br>
                         @endif
                         <div class="col-md-12">
                             <br><br><br><br>

@@ -78,6 +78,7 @@ class SopController extends Controller
         $sop->content = $request->content;
         $sop->google_drive = $request->google_drive;
         $sop->youtube = $request->youtube;
+        $sop->youtube2 = $request->youtube2;
         $sop->gambar = $image_name;
         $sop->publish = 0;
         $sop->category_display = '';
@@ -221,6 +222,7 @@ class SopController extends Controller
         $sop->publish = $request->publish;
         $sop->google_drive = $request->google_drive;
         $sop->youtube = $request->youtube;
+        $sop->youtube2 = $request->youtube2;
         $sop->type = $request->type;
         $sop->jabatan_display = '';
         // $sop->jabatan = $request->jabatan;

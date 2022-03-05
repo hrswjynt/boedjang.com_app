@@ -83,9 +83,14 @@
                                             class="form-control" value="{{old('google_drive')}}" id="google_drive" maxlength="250" >
                                     </div>
                                     <div class="form-group mb-4 bmd-form-group">
-                                        <label>Youtube Embed </label>
+                                        <label>Youtube Embed Link 1</label>
                                         <input name="youtube" type="text"
                                             class="form-control" value="{{old('youtube')}}" id="youtube" maxlength="250" >
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label>Youtube Embed Link 2 </label>
+                                        <input name="youtube" type="text"
+                                            class="form-control" value="{{old('youtube2')}}" id="youtube2" maxlength="250" >
                                     </div>
                                 </div>
                             </div>
