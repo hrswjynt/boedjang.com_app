@@ -31,8 +31,14 @@ class CutiController extends Controller
         request()->validate([
             'tanggal_mulai' => 'required',
         ]);
+        $formcuti = FormCuti::where('nip', Auth::user()->username)->where('status', 'Menunggu')->first();
+        $karyawan = Karyawan::where('NIP', Auth::user()->username)->first();
+        if($formcuti !== null){
+            $message_type = 'danger';
+            $message = 'Data Cuti "'.$karyawan->NIP ." - ".$karyawan->NAMA .'" gagal ditambahkan. Data cuti sebelumnya belum di proses.';
+            return redirect()->route('formcuti.pengajuan')->with($message_type,$message);
+        }
         DB::beginTransaction();
-        $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
         $model = new FormCuti;
         $model->nip = $karyawan->NIP;
         $model->nama = $karyawan->NAMA;
