@@ -52,12 +52,12 @@ class CutiController extends Controller
             DB::rollback();
             $message_type = 'danger';
             $message = 'Data Cuti "'.$karyawan->NIP ." - ".$karyawan->NAMA .'" gagal ditambahkan.';
-            return redirect()->route('formcuti.pengajuan')->with($message_type,$message);
+            return redirect()->route('formcuti.index')->with($message_type,$message);
         }else{
             DB::commit();
             $message_type = 'success';
             $message = 'Data Cuti "'.$karyawan->NIP ." - ".$karyawan->NAMA  .'" berhasil ditambahkan.';
-            return redirect()->route('formcuti.pengajuan')->with($message_type,$message);
+            return redirect()->route('formcuti.index')->with($message_type,$message);
         }
         
     }
