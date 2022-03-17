@@ -36,7 +36,7 @@ class CutiController extends Controller
         if($formcuti !== null){
             $message_type = 'danger';
             $message = 'Data Cuti "'.$karyawan->NIP ." - ".$karyawan->NAMA .'" gagal ditambahkan. Data cuti sebelumnya belum di proses.';
-            return redirect()->route('formcuti.pengajuan')->with($message_type,$message);
+            return redirect()->route('formcuti.index')->with($message_type,$message);
         }
         DB::beginTransaction();
         $model = new FormCuti;
