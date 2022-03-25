@@ -83,14 +83,26 @@ Route::group(['middleware' => ['karyawan']], function() {
     Route::get("feedback", "FeedbackController@index")->name('feedback.index');
 	Route::get("feedback-data", "FeedbackController@getData");
 
+	// Route::resource('ticket','TicketController')->except(['destroy']);
     Route::get("ticket", "TicketController@index")->name('ticket.index');
+	Route::get("ticket/{id}", "TicketController@show")->name('ticket.show');
+	Route::get("ticketedit/{id}", "TicketController@edit")->name('ticket.edit');
+	Route::post("ticketupdate/{id}", "TicketController@update")->name('ticket.update');
+	Route::post('/ticket-delete/{id}', 'TicketController@delete')->name('ticket.delete');
 	Route::get("ticket-data", "TicketController@getData");
 	Route::get("pengajuanticket", "TicketController@pengajuan")->name('ticket.pengajuan');
     Route::post("ticket-pengajuanpost", "TicketController@pengajuanPost")->name('ticket.pengajuanpost');
+
+	Route::get("task-ticket", "TicketController@indexTask")->name('task-ticket.index');
+	Route::get("task-ticket/{id}", "TicketController@showTask")->name('task-ticket.show');
+	Route::get("task-ticket-data", "TicketController@getDataTask");
+	Route::get("taskticketedit/{id}", "TicketController@editTask")->name('task-ticket.edit');
+	Route::post("taskticketupdate/{id}", "TicketController@updateTask")->name('task-ticket.update');
 });
 
 Route::group(['middleware' => ['admin']], function() {
-	Route::get("laporanticket", "TicketController@laporanticket")->name('laporanticket.index');
+	Route::get("manajementicket", "TicketController@manajemenTicket")->name('manajementicket.index');
+	Route::get("manajementicket-data", "TicketController@getDataManajemenTicket");
 
 	Route::get('laporanfeedback','FeedbackController@indexLaporan')->name('feedbacklaporan.index');
 	Route::get('laporanfeedback-search','FeedbackController@indexSearchLaporan')->name('feedbacklaporan.search');

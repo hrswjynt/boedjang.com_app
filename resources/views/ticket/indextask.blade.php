@@ -4,18 +4,14 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Daftar Ticket Pengaduan Masalah</h1>
+        <h1 class="h3 mb-0 text-gray-800">Tugas Ticket</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>List Data Ticket</b></h6>
-                    <a href="{{ route('ticket.pengajuan') }}" class="btn btn-success btn-sm add">
-                        <i class="fa fa-plus "></i>
-                        <span>Buat Ticket</span>
-                    </a>
+                    <h6><b>List Data Tugas Ticket</b></h6>
                 </div>
                 <div class="card-body">
                   <div id="success-delete">
@@ -103,19 +99,8 @@
                 }
               },
             ajax: {
-                url: base_url+"/ticket-data",
-                // "dataSrc": function (data) {
-                //     if (data == 401){
-                //         window.location = "{{ route('dashboard') }}";
-                //     }
-                //     else{
-                //         return data;
-                //     }                           
-                // } 
+                url: base_url+"/task-ticket-data",
             },
-            // "drawCallback": function(data) {
-            //     console.log(data);
-            // },
             columns: [
                 {
                     data: 'DT_RowIndex',

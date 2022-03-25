@@ -13,7 +13,9 @@ use Auth;
 use DB;
 
 class HomeController extends Controller
-{
+{   
+    private $url = "https://api-tiket.sabangdigital.id";
+    // private $url = "http://192.168.100.32:1438";
     /**
      * Create a new controller instance.
      *
@@ -35,6 +37,64 @@ class HomeController extends Controller
             return redirect('sop-list');
         }
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
+        
+        if(Auth::user()->role == 1 || Auth::user()->role == 2 || $karyawan->Cabang == "HeadOffice"){
+            if(!Auth::user()->ticket){
+                $headers = [
+                    'Content-Type: application/json',
+                ];
+                $data = [
+                    "username" => Auth::user()->username,
+                    "fullname" => $karyawan->NAMA,
+                    "email" => Auth::user()->username."@boedjang.com",
+                    "password" => "boedjang.com".Auth::user()->username,
+                    "role" => 1,
+                    // "department_id" => "1",
+                ];
+                $dataString = json_encode($data);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $this->url.'/auth/signup');
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);  
+                $response = curl_exec($ch);
+                $res = json_decode($response);
+                // dd($res);
+                $loginticket = User::find(Auth::user()->id);
+                $loginticket->ticket = 1;
+                $loginticket->token = $res->data->access_token;
+                $loginticket->save();
+               
+            }else{
+                $headers = [
+                    'Content-Type: application/json',
+                ];
+                $data = [
+                    "email" => Auth::user()->username."@boedjang.com",
+                    "password" => "boedjang.com".Auth::user()->username,
+                ];
+                $dataString = json_encode($data);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $this->url.'/auth/signin');
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);  
+                $response = curl_exec($ch);
+                $res = json_decode($response);
+                // dd($res);
+                $loginticket = User::find(Auth::user()->id);
+                $loginticket->token = $res->data->access_token;
+                $loginticket->save();
+            }
+        }
+
+        // dd(Auth::user());
+
+
         if($karyawan !== null){
             $khusus = KaryawanKhusus::select('no_id')->get();
             $no_id = [];

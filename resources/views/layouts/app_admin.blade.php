@@ -156,12 +156,26 @@
                         <span>Form Cuti</span>
                     </a>
                 </li>
+                @if(Auth::user()->role == 1 || Auth::user()->role == 2 || $karyawan->Cabang == "HeadOffice")
+                <li class="nav-item @if($page == 'ticket' || $page == 'task_ticket' ) active @endif">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTicket" aria-expanded="true" aria-controls="collapseTicket">
+                        <i class="fas fa-clipboard-check"></i>
+                        <span>Ticket Saya</span>
+                    </a>
+                    <div id="collapseTicket" class="collapse @if($page == 'ticket' || $page == 'task_ticket') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item @if($page == 'ticket') active @endif" href="{{route('ticket.index')}}"> Daftar Ticket </a>
+                            <a class="collapse-item @if($page == 'task_ticket') active @endif" href="{{route('task-ticket.index')}}">Tugas Ticket</a>
+                        </div>
+                    </div>
+                </li>
                 {{-- <li class="nav-item @if($page == 'ticket') active @endif">
                     <a class="nav-link" href="{{route('ticket.index')}}">
-                        <i class="fas fa-clipboard"></i>
+                        <i class="fas fa-clipboard-check"></i>
                         <span>Ticket Pengaduan</span>
                     </a>
                 </li> --}}
+                @endif
                 <li class="nav-item @if($page == 'feedback') active @endif">
                     <a class="nav-link" href="{{route('feedback.index')}}">
                         <i class="fas fa-clipboard-list"></i>
@@ -244,12 +258,12 @@
                         <span>Laporan Feedback</span>
                     </a>
                 </li>
-                {{-- <li class="nav-item @if($page == 'laporanticket') active @endif">
-                    <a class="nav-link" href="{{route('laporanticket.index')}}">
+                <li class="nav-item @if($page == 'manajementicket') active @endif">
+                    <a class="nav-link" href="{{route('manajementicket.index')}}">
                         <i class="fas fa-book"></i>
-                        <span>Laporan Ticket</span>
+                        <span>Manajemen Ticket</span>
                     </a>
-                </li> --}}
+                </li>
                 <li class="nav-item @if($page == 'content' || $page == 'social_media') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                         <i class="fas fa-fw fa-wrench"></i>

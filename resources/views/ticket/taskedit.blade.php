@@ -3,15 +3,15 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Buat Ticket</h1>
+        <h1 class="h3 mb-0 text-gray-800">Edit Tugas Ticket</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 ">Ticket <b>{{Auth::user()->name}}</b></h6>
-                    <a href="{{ route('ticket.index') }}" class="btn btn-info btn-sm add">
+                    <h6 class="m-0 ">Edit Tugas Ticket <b>{{$ticket->code}}</b></h6>
+                    <a href="{{ route('task-ticket.index') }}" class="btn btn-info btn-sm add">
                         <i class="fa fa-arrow-left "></i>
                         <span class="span-display">Kembali</span>
                     </a>
@@ -29,69 +29,134 @@
                         <p>{{ $message }}</p>
                     </div>
                     @endif
-                    <form method="POST" action="{{route('ticket.pengajuanpost')}}" id="ticket_form">
+                    <form method="POST" action="{{url('taskticketupdate/'.$ticket->id)}}" id="ticket_form">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Department Asal<span class="red">*</span></label>
-                                    <select class="select2" name="from_department" id="from_department" class="form-control" style="width: 100%" required>   
+                                    <select class="select2" name="from_department" id="from_department" class="form-control" style="width: 100%" disabled>   
                                         @foreach($department as $d)
+                                        @if($d->id == $ticket->from_departments->id)
+                                        <option value="{{$d->id}}" selected>{{$d->name}}</option>
+                                        @else
                                         <option value="{{$d->id}}">{{$d->name}}</option>
+                                        @endif
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Department Tujuan<span class="red">*</span></label>
-                                    <select class="select2" name="for_department" id="for_department" class="form-control" style="width: 100%" required>   
+                                    <select class="select2" name="for_department" id="for_department" class="form-control" style="width: 100%" disabled>
                                         @foreach($department as $d)
+                                        @if($d->id == $ticket->for_departments->id)
+                                        <option value="{{$d->id}}" selected>{{$d->name}}</option>
+                                        @else
                                         <option value="{{$d->id}}">{{$d->name}}</option>
+                                        @endif
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Platform<span class="red">*</span></label>
-                                    <select class="select2" name="platform" id="platform" class="form-control" style="width: 100%" required>   
+                                    <select class="select2" name="platform" id="platform" class="form-control" style="width: 100%" disabled>
                                         @foreach($platform as $d)
+                                        @if($d->id == $ticket->platforms->id)
+                                        <option value="{{$d->id}}" selected>{{$d->name}}</option>
+                                        @else
                                         <option value="{{$d->id}}">{{$d->name}}</option>
+                                        @endif
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Kategori<span class="red">*</span></label>
-                                    <select class="select2" name="category" id="category" class="form-control" style="width: 100%" required>   
-                                        @foreach($category as $d)
+                                    <select class="select2" name="category" id="category" class="form-control" style="width: 100%" disabled>
+                                        @foreach($platform as $d)
+                                        @if($d->id == $ticket->categories->id)
+                                        <option value="{{$d->id}}" selected>{{$d->name}}</option>
+                                        @else
                                         <option value="{{$d->id}}">{{$d->name}}</option>
+                                        @endif
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Prioritas<span class="red">*</span></label>
-                                    <select class="select2" name="priority" id="priority" class="form-control" style="width: 100%" required>   
+                                    <select class="select2" name="priority" id="priority" class="form-control" style="width: 100%">
                                         @foreach($priority as $d)
+                                        @if($d->id == $ticket->priorities->id)
+                                        <option value="{{$d->id}}" selected>{{$d->name}}</option>
+                                        @else
                                         <option value="{{$d->id}}">{{$d->name}}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">Status<span class="red">*</span></label>
+                                    <select class="select2" name="status" id="status" class="form-control" style="width: 100%">
+                                        @foreach($status as $d)
+                                        @if($d->id == $ticket->statuses->id)
+                                        <option value="{{$d->id}}" selected>{{$d->name}}</option>
+                                        @else
+                                        <option value="{{$d->id}}">{{$d->name}}</option>
+                                        @endif
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                
                                 <div class="form-group mb-4 bmd-form-group">
-                                    <label class="bmd-label-floating">Nama </label>
-                                    <input name="nama" type="text" value="{{$karyawan->NAMA}}"
+                                    <label class="bmd-label-floating">Level<span class="red">*</span></label>
+                                    <select class="select2" name="level" id="level" class="form-control" style="width: 100%" required>
+                                    <option value="">Pilih Level</option>
+                                        @foreach($level as $d)
+                                        @if($ticket->levels !== null)
+                                        @if($d->id == $ticket->levels->id)
+                                        <option value="{{$d->id}}" selected>{{$d->name}}</option>
+                                        @else
+                                        <option value="{{$d->id}}">{{$d->name}}</option>
+                                        @endif
+                                        @else
+                                        <option value="{{$d->id}}">{{$d->name}}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">Delegasi<span class="red">*</span></label>
+                                    <select class="select2" name="for_user" id="for_user" class="form-control" style="width: 100%" disabled>
+                                    <option value="">Pilih Delegasi</option>
+                                        @foreach($userdata as $d)
+                                        @if($ticket->for_users !== null)
+                                        @if($d->id == $ticket->for_users->id)
+                                        <option value="{{$d->id}}" selected>{{$d->fullname}}</option>
+                                        @else
+                                        <option value="{{$d->id}}">{{$d->fullname}}</option>
+                                        @endif
+                                        @else
+                                        <option value="{{$d->id}}">{{$d->fullname}}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">Pembuat Ticket </label>
+                                    <input name="nama" type="text" value="{{$user->NAMA}}"
                                     class="form-control" id="nama" disabled>
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Judul Pengaduan <span class="red">*</span></label>
-                                    <input name="title" type="text" class="form-control" id="title" required="">
+                                    <input name="title" type="text" class="form-control" id="title" value="{{$ticket->title}}" disabled>
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Deskripsi <span class="red">*</span></label>
-                                    <textarea name="description" type="text" rows="3" class="form-control" id="description" required=""></textarea>
+                                    <textarea disabled name="description" type="text" rows="3" class="form-control" id="description">{!! $ticket->description !!}</textarea>
                                 </div>
                             </div>
                         </div>
-                        
-                            
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
                                 <button class="btn btn-primary save pull-right mb-3" type="button" id="btn-submit">
@@ -124,8 +189,8 @@
                 $('#btn-submit').hide();
                 $('#btn-submit-loading').show();
                 swal({
-                    title: "Apakah anda yakin akan membuat ticket?",
-                    text: 'Data ticket yang diajukan tidak dapat dirubah.', 
+                    title: "Apakah anda yakin akan mengupdate ticket?",
+                    text: 'Data ticket yang diajukan akan masuk ke database.', 
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -136,7 +201,7 @@
                     } else {
                         $('#btn-submit').show();
                         $('#btn-submit-loading').hide();
-                        swal("Proses Pembuatan Ticket Dibatalkan!", {
+                        swal("Update Ticket Dibatalkan!", {
                             icon: "error",
                         });
                     }
@@ -165,6 +230,12 @@
                     },
                     for_department: {
                         required: true
+                    },
+                    level: {
+                        required: true
+                    },
+                    for_user: {
+                        required: true
                     }
                 },
                 messages: {
@@ -182,6 +253,12 @@
                     },
                     for_department: {
                         required : 'Data Departemen Tujuan harus diisi',
+                    },
+                    level: {
+                        required : 'Data Level harus diisi',
+                    },
+                    for_user: {
+                        required : 'Data Delegasi harus diisi',
                     }
                 },
             })

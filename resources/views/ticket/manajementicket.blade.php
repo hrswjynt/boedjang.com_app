@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Daftar Ticket Pengaduan Masalah</h1>
+        <h1 class="h3 mb-0 text-gray-800">Manajemen Ticket Pengaduan Masalah</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
@@ -12,10 +12,6 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6><b>List Data Ticket</b></h6>
-                    <a href="{{ route('ticket.pengajuan') }}" class="btn btn-success btn-sm add">
-                        <i class="fa fa-plus "></i>
-                        <span>Buat Ticket</span>
-                    </a>
                 </div>
                 <div class="card-body">
                   <div id="success-delete">
@@ -82,6 +78,7 @@
 </div>
 <script type="text/javascript">
     var base_url = "{{ url('/') }}";
+    var url_delete = "{{url('ticket-delete')}}";
 </script>
 
 @endsection
@@ -103,7 +100,7 @@
                 }
               },
             ajax: {
-                url: base_url+"/ticket-data",
+                url: base_url+"/manajementicket-data",
                 // "dataSrc": function (data) {
                 //     if (data == 401){
                 //         window.location = "{{ route('dashboard') }}";
@@ -182,7 +179,7 @@
                     data: 'statuses',
                     name: 'statuses',
                     render: function (data, type, row) {
-                        return data.name; 
+                        return data.name;         
                     }
                 },
                 {
@@ -194,6 +191,49 @@
                 }
             ]
         });
+    });
+
+    $(document).ready(function () {
+        $("body").on("click", ".ticketDelete", function (e) {
+            e.preventDefault();
+            var id = $(this).data("id");
+            var token = $("meta[name='csrf-token']").attr("content");
+            var url = e.target;
+            swal({
+                title: 'Apakah Anda Yakin?',
+                text: 'Ticket yang telah dihapus tidak dapat dikembalikan lagi!',
+                icon: 'warning',
+                buttons: ["Cancel", "Yes!"],
+            }).then(function (value) {
+                if (value) {
+                    $.ajax({
+                        url: url_delete + "/" + id,
+                        type: 'POST',
+                        data: {
+                            _token: token,
+                            id: id
+                        },
+                        success: function (response) {
+                            $("#success-delete").html('<div class="alert alert-'+response.type+' alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><p>' +
+                                response.message + '</p></div>');
+                            $('.dataTable').each(function () {
+                                dt = $(this).dataTable();
+                                dt.fnDraw();
+                            })
+                            $("#success-delete").fadeTo(3000, 500).slideUp(500, function () {
+                                $("#success-delete").slideUp(500);
+                            });
+                        }
+                    });
+                    return false;
+                }
+            });
+        });
+
+    });
+
+    $("#success-alert").fadeTo(3000, 500).slideUp(500, function () {
+        $("#success-alert").slideUp(500);
     });
 </script>
 @endpush
