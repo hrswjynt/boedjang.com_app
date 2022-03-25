@@ -308,7 +308,7 @@ class TicketController extends Controller
         $res = json_decode($response);
         // dd($res);
         if(property_exists($res, 'statusCode')){
-            if($res->statusCode == 200){
+            if($res->statusCode == 200 || $res->statusCode == 302){
                 $table = $res->data;$table = $res->data;
             }else{
                 $table = [];
