@@ -48,7 +48,7 @@ class HomeController extends Controller
                     "fullname" => $karyawan->NAMA,
                     "email" => Auth::user()->username."@boedjang.com",
                     "password" => "boedjang.com".Auth::user()->username,
-                    "role" => 1,
+                    "role_id" => 1,
                     // "department_id" => "1",
                 ];
                 $dataString = json_encode($data);

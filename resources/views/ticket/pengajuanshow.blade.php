@@ -53,7 +53,7 @@
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Kategori </label>
                                     <select class="select2" name="category" id="category" class="form-control" style="width: 100%" disabled>
-                                        <option value="{{$ticket->platforms->id}}" selected>{{$ticket->platforms->name}}</option>
+                                        <option value="{{$ticket->categories->id}}" selected>{{$ticket->categories->name}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
