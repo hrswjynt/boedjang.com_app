@@ -2,6 +2,17 @@
 @section('content')
 <div class="container-fluid">
     <!-- Page Heading -->
+    <style>
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+        }
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+    </style>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Buat Ticket</h1>
     </div>
@@ -11,10 +22,6 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 ">Ticket <b>{{Auth::user()->name}}</b></h6>
-                    <a href="{{ route('ticket.index') }}" class="btn btn-info btn-sm add">
-                        <i class="fa fa-arrow-left "></i>
-                        <span class="span-display">Kembali</span>
-                    </a>
                 </div>
                 <div class="card-body">
                     @if ($message = Session::get('success'))
@@ -29,78 +36,76 @@
                         <p>{{ $message }}</p>
                     </div>
                     @endif
+                    <div class="progress" style="margin-bottom: 10px">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 50%" id="progress"></div>
+                    </div>
                     <form method="POST" action="{{route('ticket.pengajuanpost')}}" id="ticket_form">
                         @csrf
-                        <div class="row">
-                            <div class="col-md-6">
+                        <div id="department-process">
+                            <input type="hidden" name="from_department" value="{{$currentuserdepart}}">
+                            <div class="col-md-12">
                                 <div class="form-group mb-4 bmd-form-group">
-                                    <label class="bmd-label-floating">Department Asal<span class="red">*</span></label>
-                                    <select class="select2" name="from_department" id="from_department" class="form-control" style="width: 100%" required>   
-                                        @foreach($department as $d)
-                                        <option value="{{$d->id}}">{{$d->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group mb-4 bmd-form-group">
-                                    <label class="bmd-label-floating">Department Tujuan<span class="red">*</span></label>
+                                    <label class="bmd-label-floating">Kemana Tujuan Ticket Anda?</label>
                                     <select class="select2" name="for_department" id="for_department" class="form-control" style="width: 100%" required>   
                                         @foreach($department as $d)
                                         <option value="{{$d->id}}">{{$d->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group mb-4 bmd-form-group">
-                                    <label class="bmd-label-floating">Platform<span class="red">*</span></label>
-                                    <select class="select2" name="platform" id="platform" class="form-control" style="width: 100%" required>   
-                                        @foreach($platform as $d)
-                                        <option value="{{$d->id}}">{{$d->name}}</option>
-                                        @endforeach
-                                    </select>
+                            </div>
+                            <div class="row" style="text-align: center;">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary save pull-right mb-3" type="button" id="btn-process">
+                                        <i class="fas fa-arrow-right"></i>
+                                        <span>Proses</span>
+                                    </button>
+                                    <button class="btn btn-primary save pull-right mb-3" id="btn-process-loading" disabled="" style="display: none">
+                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                        <span> Proses</span>
+                                    </button>
                                 </div>
-                                <div class="form-group mb-4 bmd-form-group">
-                                    <label class="bmd-label-floating">Kategori<span class="red">*</span></label>
-                                    <select class="select2" name="category" id="category" class="form-control" style="width: 100%" required>   
-                                        @foreach($category as $d)
-                                        <option value="{{$d->id}}">{{$d->name}}</option>
-                                        @endforeach
-                                    </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12" id="data-process" style="display: none">
+                            <div class="row form-group mb-4 bmd-form-group">
+                                <div class="col">
+                                    <label class="bmd-label-floating">Nama </label>
+                                    <input name="nama" type="text" value="{{$karyawan->NAMA}}"
+                                    class="form-control" id="nama" disabled>
                                 </div>
-                                <div class="form-group mb-4 bmd-form-group">
+                                <div class="col">
                                     <label class="bmd-label-floating">Prioritas<span class="red">*</span></label>
-                                    <select class="select2" name="priority" id="priority" class="form-control" style="width: 100%" required>   
+                                    <select class="select2" name="priority" id="priority" class="form-control" style="width: 100%">
                                         @foreach($priority as $d)
                                         <option value="{{$d->id}}">{{$d->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
+                              </div>
+                            <div class="form-group mb-4 bmd-form-group">
+                                <label class="bmd-label-floating">Subject <span class="red">*</span></label>
+                                <input name="title" type="text" class="form-control" id="title" required="">
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-4 bmd-form-group">
-                                    <label class="bmd-label-floating">Nama </label>
-                                    <input name="nama" type="text" value="{{$karyawan->NAMA}}"
-                                    class="form-control" id="nama" disabled>
-                                </div>
-                                <div class="form-group mb-4 bmd-form-group">
-                                    <label class="bmd-label-floating">Judul Pengaduan <span class="red">*</span></label>
-                                    <input name="title" type="text" class="form-control" id="title" required="">
-                                </div>
-                                <div class="form-group mb-4 bmd-form-group">
-                                    <label class="bmd-label-floating">Deskripsi <span class="red">*</span></label>
-                                    <textarea name="description" type="text" rows="3" class="form-control" id="description" required=""></textarea>
-                                </div>
+                            <div class="form-group mb-4 bmd-form-group">
+                                <label class="bmd-label-floating">Deskripsi <span class="red">*</span></label>
+                                <textarea name="description" type="text" rows="3" class="form-control" id="description" required=""></textarea>
                             </div>
-                        </div>
-                        
-                            
-                        <div class="row" style="margin-top: 10px">
-                            <div class="col-md-12">
+                            <div style="margin-top: 10px">
+                                <button class="btn btn-success save pull-right mb-3" type="button" id="btn-process-back">
+                                    <i class="fas fa-arrow-left"></i>
+                                    <span>Kembali</span>
+                                </button>
+                                <button class="btn btn-success save pull-right mb-3" id="btn-process-back-loading" disabled="">
+                                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                    <span> Kembali</span>
+                                </button>
                                 <button class="btn btn-primary save pull-right mb-3" type="button" id="btn-submit">
-                                <i class="fas fa-file-upload"></i>
-                                <span>Ajukan</span>
+                                    <i class="fas fa-file-upload"></i>
+                                    <span>Ajukan</span>
                                 </button>
                                 <button class="btn btn-primary save pull-right mb-3" id="btn-submit-loading" disabled="">
-                                <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                <span> Ajukan</span>
+                                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                    <span> Ajukan</span>
                                 </button>
                             </div>
                         </div>
@@ -116,8 +121,38 @@
 @push('other-script')
 <script type="text/javascript">
     $(document).ready(function(){
-        $('#btn-submit').show();
+        $('#department-process').show();
+        $('#btn-process').show();
+        
+        $('#btn-process-back').show();
+        $('#btn-process-back-loading').hide();
         $('#btn-submit-loading').hide();
+        $('#data-process').hide();
+        $('#btn-process-loading').hide();
+
+        $("#btn-process").click(function(){
+            document.getElementById("progress").style.width = "100%";
+            $('#btn-process-back').show();
+            $('#btn-process').hide();
+            $('#btn-process-loading').show();
+            setTimeout(function () {
+                $('#department-process').hide();
+                $('#btn-process-loading').hide();
+                $('#data-process').show();
+            }, 500);
+        });
+
+        $("#btn-process-back").click(function(){
+            document.getElementById("progress").style.width = "50%";
+            $('#btn-process-back').hide();
+            $('#btn-process-back-loading').show();
+            $('#btn-process').show();
+            setTimeout(function () {
+                $('#data-process').hide();
+                $('#department-process').show();
+                $('#btn-process-back-loading').hide();
+            }, 500);
+        });
 
         $("#btn-submit").click(function(){
             if($("#ticket_form").valid()){

@@ -21,60 +21,6 @@ class TicketController extends Controller
 
     }
 
-    public function login(){
-        $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
-        
-        if(Auth::user()->role == 1 || Auth::user()->role == 2 || $karyawan->Cabang == "HeadOffice"){
-            if(!Auth::user()->ticket){
-                $headers = [
-                    'Content-Type: application/json',
-                ];
-                $data = [
-                    "username" => Auth::user()->username,
-                    "email" => Auth::user()->username."@boedjang.com",
-                    "password" => "boedjang.com".Auth::user()->username,
-                    // "role" => "1",
-                ];
-                $dataString = json_encode($data);
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $this->url.'/auth/signup');
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);  
-                $response = curl_exec($ch);
-                $res = json_decode($response);
-    
-                $loginticket = User::find(Auth::user()->id);
-                $loginticket->ticket = 1;
-                $loginticket->token = $res->data->access_token;
-                $loginticket->save();
-            }else{
-                $headers = [
-                    'Content-Type: application/json',
-                ];
-                $data = [
-                    "email" => Auth::user()->username."@boedjang.com",
-                    "password" => "boedjang.com".Auth::user()->username,
-                ];
-                $dataString = json_encode($data);
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $this->url.'/auth/signin');
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);  
-                $response = curl_exec($ch);
-                $res = json_decode($response);
-                $loginticket = User::find(Auth::user()->id);
-                $loginticket->token = $res->data->access_token;
-                $loginticket->save();
-            }
-        }
-    }
-
     public function pengajuan()
     {   
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
@@ -92,6 +38,16 @@ class TicketController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         $res = json_decode($response);
+
+        $ch2 = curl_init();
+        curl_setopt($ch2, CURLOPT_URL, $this->url.'/user/currentuser');
+        curl_setopt( $ch2, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch2, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+        $response2 = curl_exec($ch2);
+        $res2 = json_decode($response2);
+        // dd($res2);
         if(property_exists($res, 'statusCode')){
             if($res->statusCode == 401){
                 $res = null;
@@ -99,26 +55,39 @@ class TicketController extends Controller
                 $res = null;
             }
         }
+        if(property_exists($res2, 'statusCode')){
+            if($res2->statusCode == 401){
+                $res2 = null;
+            }else if($res->statusCode == 500){
+                $res2 = null;
+            }
+        }
+        curl_close ($ch);
+        curl_close ($ch2);
+        
         $data = $res->data;
+        $currentuser = $res2->data;
         if($res !== null){
             $department = $data->departments;
             $platform = $data->platforms;
             $category = $data->categories;
             $priority = $data->priorities;
         }
-        
-        
-
-        return view('ticket.pengajuan')->with('page','ticketpengajuan')
+        if($res2 !== null){
+            $currentuserdepart = $currentuser->departments->id;
+        } 
+        return view('ticket.pengajuan')->with('page','ticket')
                                         ->with('karyawan',$karyawan)
                                         ->with('department',$department)
                                         ->with('category',$category)
                                         ->with('priority',$priority)
+                                        ->with('currentuserdepart',$currentuserdepart)
                                         ->with('platform',$platform);
     }
 
     public function pengajuanpost(Request $request)
     {   
+        // dd($request->all());
         $user = User::where("username", Auth::user()->username)->first();
         $headers = [
             'Authorization: Bearer '.$user->token,
@@ -128,8 +97,8 @@ class TicketController extends Controller
             "code" => 'SABI#'.date('dmyHis'),
             "title" => $request->title,
             "description" => $request->description,
-            "platform_id" => $request->platform,
-            "category_id" => $request->category,
+            "platform_id" => 99,
+            "category_id" => 99,
             "priority_id" => $request->priority,
             "for_department" => $request->for_department,
             "from_department" => $request->from_department,
