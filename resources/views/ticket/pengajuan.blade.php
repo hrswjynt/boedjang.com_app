@@ -39,10 +39,9 @@
                     <div class="progress" style="margin-bottom: 10px">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 50%" id="progress"></div>
                     </div>
-                    <form method="POST" action="{{route('ticket.pengajuanpost')}}" id="ticket_form">
+                    <form method="POST" action="{{route('ticket.pengajuanpost')}}" id="ticket_form" enctype="multipart/form-data">
                         @csrf
                         <div id="department-process">
-                            <input type="hidden" name="from_department" value="{{$currentuserdepart}}">
                             <div class="col-md-12">
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Kemana Tujuan Ticket Anda?</label>
@@ -90,6 +89,17 @@
                                 <label class="bmd-label-floating">Deskripsi <span class="red">*</span></label>
                                 <textarea name="description" type="text" rows="3" class="form-control" id="description" required=""></textarea>
                             </div>
+                            <h5> 
+                                Attachment
+                                <button class="btn btn-success btn-sm" type="button" id="btn-add-attc">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm" type="button" id="btn-delete-attc">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </h5>
+                            <div id="attachment-data"></div>
+                            
                             <div style="margin-top: 10px">
                                 <button class="btn btn-success save pull-right mb-3" type="button" id="btn-process-back">
                                     <i class="fas fa-arrow-left"></i>
@@ -129,6 +139,17 @@
         $('#btn-submit-loading').hide();
         $('#data-process').hide();
         $('#btn-process-loading').hide();
+
+        $("#btn-add-attc").click(function(){
+            var add = '<div class="form-group mb-4 bmd-form-group attachment"><label>Attachment</label>'
+                    +'<input name="files[]" type="file" class="form-control" value="">'
+                    +'</div>';
+            $("#attachment-data").append(add);
+        });
+
+        $("#btn-delete-attc").click(function(){
+            $("#attachment-data").html('');
+        });
 
         $("#btn-process").click(function(){
             document.getElementById("progress").style.width = "100%";

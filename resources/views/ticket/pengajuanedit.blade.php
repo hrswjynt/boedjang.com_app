@@ -11,7 +11,7 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 ">Manajemen Ticket <b>{{$ticket->code}}</b></h6>
-                    <a href="{{ route('manajementicket.index') }}" class="btn btn-info btn-sm add">
+                    <a onclick="window.location=document.referrer" class="btn btn-info btn-sm add">
                         <i class="fa fa-arrow-left "></i>
                         <span class="span-display">Kembali</span>
                     </a>
@@ -156,7 +156,25 @@
                                     <textarea name="description" type="text" rows="3" class="form-control" id="description">{!! $ticket->description !!}</textarea>
                                 </div>
                             </div>
+                            @if(count($attachment) > 0)
+                            <div class="col-md-12">
+                                <div class="form-group mb-4 bmd-form-group">
+                                    <label class="bmd-label-floating">Attachment <span class="red">*</span></label>
+                                    <div class="row">
+                                    @foreach($attachment as $attach)
+                                    <div class="col-md-2">
+                                        <a href="https://media.boedjang.com/{{$attach->filename}}" target="__blank">
+                                            <img src="https://media.boedjang.com/{{$attach->filename}}" alt="attach" class="img-thumbnail shadow" style="padding:10px" onerror="this.onerror=null;this.src='{{asset('images/fileicon.jpg')}}';">
+                                        </a>
+                                        <p style="zoom: 70%;text-align:center">{{$attach->filename}}</p>
+                                    </div>
+                                    @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                         </div>
+                       
                         <div class="row" style="margin-top: 10px">
                             <div class="col-md-12">
                                 <button class="btn btn-primary save pull-right mb-3" type="button" id="btn-submit">

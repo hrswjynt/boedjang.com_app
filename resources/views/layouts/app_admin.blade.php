@@ -156,6 +156,16 @@
                         <span>Form Cuti</span>
                     </a>
                 </li>
+                
+                
+                <li class="nav-item @if($page == 'feedback') active @endif">
+                    <a class="nav-link" href="{{route('feedback.index')}}">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>Feedback Atasan</span>
+                    </a>
+                </li>
+                @endif
+
                 @if(Auth::user()->role == 1 || Auth::user()->role == 2 || $karyawan->Cabang == "HeadOffice")
                 <li class="nav-item @if($page == 'ticket' || $page == 'task_ticket' ) active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTicket" aria-expanded="true" aria-controls="collapseTicket">
@@ -169,18 +179,21 @@
                         </div>
                     </div>
                 </li>
-                {{-- <li class="nav-item @if($page == 'ticket') active @endif">
-                    <a class="nav-link" href="{{route('ticket.index')}}">
-                        <i class="fas fa-clipboard-check"></i>
-                        <span>Ticket Pengaduan</span>
-                    </a>
-                </li> --}}
                 @endif
-                <li class="nav-item @if($page == 'feedback') active @endif">
-                    <a class="nav-link" href="{{route('feedback.index')}}">
-                        <i class="fas fa-clipboard-list"></i>
-                        <span>Feedback Atasan</span>
+
+                <?php $user = DB::table('u1127775_boedjang.users')->where('id',Auth::user()->id)->first(); ?>
+                @if($user->ticket_role === 1)
+                <li class="nav-item @if($page == 'manajementicket' || $page == 'manajementicketdepart' ) active @endif">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManajemenTicket" aria-expanded="true" aria-controls="collapseManajemenTicket">
+                        <i class="fas fa-book"></i>
+                        <span>Ticket Department</span>
                     </a>
+                    <div id="collapseManajemenTicket" class="collapse @if($page == 'manajementicket' || $page == 'manajementicketdepart') show @endif" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item @if($page == 'manajementicket') active @endif" href="{{route('manajementicket.index')}}"> Daftar Ticket </a>
+                            <a class="collapse-item @if($page == 'manajementicketdepart') active @endif" href="{{route('manajementicketdepart.index')}}">Tugas Ticket </a>
+                        </div>
+                    </div>
                 </li>
                 @endif
                 <!-- Divider -->
@@ -258,12 +271,7 @@
                         <span>Laporan Feedback</span>
                     </a>
                 </li>
-                <li class="nav-item @if($page == 'manajementicket') active @endif">
-                    <a class="nav-link" href="{{route('manajementicket.index')}}">
-                        <i class="fas fa-book"></i>
-                        <span>Manajemen Ticket</span>
-                    </a>
-                </li>
+                
                 <li class="nav-item @if($page == 'content' || $page == 'social_media') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                         <i class="fas fa-fw fa-wrench"></i>
@@ -278,6 +286,8 @@
                     </div>
                 </li>
                 @endif
+                
+                <br><br><br><br>
                 <!-- Divider -->
                 <hr class="sidebar-divider d-none d-md-block">
                 @endif

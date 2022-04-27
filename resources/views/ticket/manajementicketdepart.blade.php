@@ -100,7 +100,7 @@
                 }
               },
             ajax: {
-                url: base_url+"/manajementicket-data",
+                url: base_url+"/manajementicketdepart-data",
                 // "dataSrc": function (data) {
                 //     if (data == 401){
                 //         window.location = "{{ route('dashboard') }}";

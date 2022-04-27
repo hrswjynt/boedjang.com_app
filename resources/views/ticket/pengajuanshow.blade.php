@@ -11,7 +11,7 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 ">Detail Ticket <b>{{$ticket->code}}</b></h6>
-                    <a onclick="history.back()" class="btn btn-info btn-sm add">
+                    <a onclick="window.location=document.referrer" class="btn btn-info btn-sm add">
                         <i class="fa fa-arrow-left "></i>
                         <span class="span-display">Kembali</span>
                     </a>
@@ -106,6 +106,23 @@
                                 </div>
                             </div>
                         </div>
+                        @if(count($ticket->attachments) > 0)
+                        <div class="col-md-12">
+                            <div class="form-group mb-4 bmd-form-group">
+                                <label class="bmd-label-floating">Attachment <span class="red">*</span></label>
+                                <div class="row">
+                                @foreach($ticket->attachments as $attach)
+                                <div class="col-md-2">
+                                    <a href="https://media.boedjang.com/{{$attach->filename}}" target="__blank">
+                                        <img src="https://media.boedjang.com/{{$attach->filename}}" alt="attach" class="img-thumbnail shadow" style="padding:10px" onerror="this.onerror=null;this.src='{{asset('images/fileicon.jpg')}}';">
+                                    </a>
+                                    <p style="zoom: 70%;text-align:center">{{$attach->filename}}</p>
+                                </div>
+                                @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                     </form>
                 </div>
             </div>
