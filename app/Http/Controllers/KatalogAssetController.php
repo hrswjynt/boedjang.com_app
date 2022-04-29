@@ -53,6 +53,11 @@ class KatalogAssetController extends Controller
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480'
         ]);
 
+        $cek = KatalogAsset::where('master_bahan', $request->master_bahan)->first();
+        if ($cek !== null) {
+            return redirect()->route('asset.index')->with('danger', 'Data Katalog gagal ditambahkan! Master Bahan sudah ada di katalog aset.');
+        }
+
         $bahan = DB::table('u1127775_finance.master_bahan')
             ->where('id', $request->master_bahan)
             ->where('region', 1)
@@ -60,10 +65,7 @@ class KatalogAssetController extends Controller
             ->where('is_deleted', 0)
             ->first();
         if ($bahan == null) {
-            return response()->json([
-                'message' => 'Data Katalog gagal ditambahkan! Master Bahan tidak ditemukan.',
-                'type' => 'danger',
-            ]);
+            return redirect()->route('asset.index')->with('danger', 'Data Katalog gagal ditambahkan! Master Bahan tidak ditemukan.');
         }
 
         $image_name = null;
@@ -153,6 +155,12 @@ class KatalogAssetController extends Controller
             'master_bahan' => 'required',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480'
         ]);
+
+        $cek = KatalogAsset::where('master_bahan', $request->master_bahan)->whereNotIn('id', [$asset->id])->first();
+        if ($cek !== null) {
+            return redirect()->route('asset.index')->with('danger', 'Data Katalog gagal diupdate! Master Bahan sudah ada di katalog aset.');
+        }
+
         $bahan = DB::table('u1127775_finance.master_bahan')
             ->where('id', $request->master_bahan)
             ->where('region', 1)
@@ -160,10 +168,7 @@ class KatalogAssetController extends Controller
             ->where('is_deleted', 0)
             ->first();
         if ($bahan == null) {
-            return response()->json([
-                'message' => 'Data Katalog gagal diupdate! Master Bahan tidak ditemukan.',
-                'type' => 'danger',
-            ]);
+            return redirect()->route('asset.index')->with('danger', 'Data Katalog gagal ditambahkan! Data Katalog gagal diupdate! Master Bahan tidak ditemukan..');
         }
         $image_name = null;
         if ($request->gambar !== null) {
