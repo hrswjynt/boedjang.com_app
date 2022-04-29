@@ -112,7 +112,7 @@
                                     <div class="row">
                                     @foreach($ticket->attachments as $attach)
                                     <div class="col-md-2">
-                                        <a href="{{$attach->filename}}" target="__blank">
+                                        <a href="{{$attach->filename}}" target="__blank" class="image-trigger">
                                             <img src="{{$attach->filename}}" alt="attach" class="img-thumbnail shadow" style="padding:10px" onerror="this.onerror=null;this.src='{{asset('images/fileicon.jpg')}}';">
                                         </a>
                                         <p style="zoom: 70%;text-align:center">{{$attach->filename}}</p>

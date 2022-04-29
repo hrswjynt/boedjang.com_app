@@ -163,7 +163,7 @@
                                     <div class="row">
                                     @foreach($attachment as $attach)
                                     <div class="col-md-2">
-                                        <a href="{{$attach->filename}}" target="__blank">
+                                        <a href="{{$attach->filename}}" target="__blank" class="image-trigger">
                                             <img src="{{$attach->filename}}" alt="attach" class="img-thumbnail shadow" style="padding:10px" onerror="this.onerror=null;this.src='{{asset('images/fileicon.jpg')}}';">
                                         </a>
                                         <p style="zoom: 70%;text-align:center">{{$attach->filename}}</p>
@@ -191,6 +191,15 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div id="views-wrapper">
+    <div class="views-background"></div>
+    <div class="views-content">
+        <div id="views-close"></div>
+        <div class="views-loader"></div>
+        <img class="views-image" src="">
     </div>
 </div>
 

@@ -442,6 +442,7 @@
         <script src="{{ asset('admin/vendor/sweetalert/sweetalert.min.js') }}"></script>
         <script src="{{ asset('admin/js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('admin/js/formatUang.js') }}"></script>
+        <script src="{{ asset('admin/js/views.min.js') }}"></script>
 
 
         <script src="{{ asset('admin/vendor/datatables/jquery.dataTables.js') }}"></script>
@@ -474,6 +475,19 @@
             });
 
             $('.select2').select2();
+
+            var views = [],
+                triggers = document.querySelectorAll('.image-trigger');
+            [].forEach.call(triggers, function(element, index) {
+                views[index] = new Views(element, {
+                    defaultTheme: true,
+                    prefix: 'light',
+                    loader: 'Loading...',
+                    anywhereToClose: true,
+                    openAnimationDuration: 0,
+                    closeAnimationDuration: 0
+                });
+            });
 
             $(document).ready(function () {
                 if ($(window).width() < 480){
