@@ -61,6 +61,10 @@ Route::group(['middleware' => ['karyawan']], function () {
 	Route::get("norm-list/{slug}", "NormController@getNorm")->name('get_norm.index');
 	Route::get("norm-search", "NormController@getSearch")->name('norm_search.index');
 
+	Route::get("asset-list", "KatalogAssetController@getListAsset")->name('asset_list.index');
+	Route::get("asset-list/{id}", "KatalogAssetController@getAsset")->name('get_asset.index');
+	Route::get("asset-search", "KatalogAssetController@getSearch")->name('asset_search.index');
+
 	Route::get("ketentuan-list", "KetentuanController@getListKetentuan")->name('ketentuan_list.index');
 	Route::get("ketentuan-list/{slug}", "KetentuanController@getKetentuan")->name('get_ketentuan.index');
 	Route::get("ketentuan-search", "KetentuanController@getSearch")->name('ketentuan_search.index');
@@ -126,6 +130,10 @@ Route::group(['middleware' => ['admin']], function () {
 	Route::get("normcategory-data", "NormCategoryController@getData");
 	Route::post('/normcategory-delete/{id}', 'NormCategoryController@delete')->name('normcategory.delete');
 
+	Route::resource('brand', 'BrandController')->except(['destroy']);
+	Route::get("brand-data", "BrandController@getData");
+	Route::post('/brand-delete/{id}', 'BrandController@delete')->name('brand.delete');
+
 	Route::resource('type', 'TypeController')->except(['destroy']);
 	Route::get("type-data", "TypeController@getData");
 	Route::post('/type-delete/{id}', 'TypeController@delete')->name('type.delete');
@@ -164,6 +172,10 @@ Route::group(['middleware' => ['admin']], function () {
 	Route::resource('bukupedoman', 'BukuPedomanController')->except(['destroy']);
 	Route::get("bukupedoman-data", "BukuPedomanController@getData");
 	Route::post('/bukupedoman-delete/{id}', 'BukuPedomanController@delete')->name('bukupedoman.delete');
+
+	Route::resource('asset', 'KatalogAssetController')->except(['destroy']);
+	Route::get("asset-data", "KatalogAssetController@getData");
+	Route::post('/asset-delete/{id}', 'KatalogAssetController@delete')->name('asset.delete');
 
 	Route::resource('norm', 'NormController')->except(['destroy']);
 	Route::get("norm-data", "NormController@getData");

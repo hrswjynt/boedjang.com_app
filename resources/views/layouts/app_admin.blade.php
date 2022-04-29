@@ -91,6 +91,13 @@
                 </li>
                 @endif
 
+                <li class="nav-item @if($page == 'asset_list') active @endif">
+                    <a class="nav-link" href="{{route('asset_list.index')}}">
+                        <i class="fas fa-cubes"></i>
+                        <span>Katalog Aset</span>
+                    </a>
+                </li>
+
                 <li class="nav-item @if($page == 'sop_list' || $page == 'norm_list') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                         <i class="fas fa-scroll"></i>
@@ -263,7 +270,22 @@
                         </div>
                     </div>
                 </li>
-                <!-- Nav Item - Pages Collapse Menu -->
+
+                <li class="nav-item @if($page == 'katalogasset' || $page == 'brand') active @endif">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities4" aria-expanded="true" aria-controls="collapseUtilities4">
+                        <i class="fas fa-cube"></i>
+                        <span>Master Aset</span>
+                    </a>
+                    <div id="collapseUtilities4" class="collapse @if($page == 'katalogasset' || $page == 'brand') show @endif" aria-labelledby="headingUtilities4" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            @if(Auth::user()->role == 1)
+                            <a class="collapse-item @if($page == 'brand') active @endif" href="{{route('brand.index')}}">Brand</a>
+                            <a class="collapse-item @if($page == 'katalogasset') active @endif" href="{{route('asset.index')}}">Katalog Aset</a>
+                            @endif
+                        </div>
+                    </div>
+                </li>
+
                 @if(Auth::user()->role == 1)
                 <li class="nav-item @if($page == 'feedbacklaporan') active @endif">
                     <a class="nav-link" href="{{route('feedbacklaporan.index')}}">

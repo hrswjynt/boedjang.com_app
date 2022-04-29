@@ -106,8 +106,8 @@ class HomeController extends Controller
                 // dd($res);
                 $loginticket = User::find(Auth::user()->id);
                 $loginticket->token = $res->data->access_token;
-                $loginticket->ticket_department = $res->data->departments->id;
-                $loginticket->ticket_department_name = $res->data->departments->name;
+                $loginticket->ticket_department = $res->data->departments !== null ? $res->data->departments->id : null;
+                $loginticket->ticket_department_name = $res->data->departments !== null ? $res->data->departments->name : null;
                 $loginticket->ticket_role = $res->data->roles->id;
                 $loginticket->save();
             }
