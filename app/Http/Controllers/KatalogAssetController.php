@@ -39,6 +39,7 @@ class KatalogAssetController extends Controller
         $bahan = DB::table('u1127775_finance.master_bahan')
             ->where('region', 1)
             ->whereIn('kode', [7, 8])
+            ->where('is_deleted', 0)
             ->get();
         return view('katalogasset.create')->with('page', 'katalogasset')->with('brand', $brand)->with('bahan', $bahan);
     }
@@ -56,6 +57,7 @@ class KatalogAssetController extends Controller
             ->where('id', $request->master_bahan)
             ->where('region', 1)
             ->whereIn('kode', [7, 8])
+            ->where('is_deleted', 0)
             ->first();
         if ($bahan == null) {
             return response()->json([
@@ -119,6 +121,7 @@ class KatalogAssetController extends Controller
         $bahan = DB::table('u1127775_finance.master_bahan')
             ->where('region', 1)
             ->whereIn('kode', [7, 8])
+            ->where('is_deleted', 0)
             ->get();
         return view('katalogasset.show')
             ->with('asset', $asset)
@@ -133,6 +136,7 @@ class KatalogAssetController extends Controller
         $bahan = DB::table('u1127775_finance.master_bahan')
             ->where('region', 1)
             ->whereIn('kode', [7, 8])
+            ->where('is_deleted', 0)
             ->get();
         return view('katalogasset.edit')
             ->with('page', 'katalogasset')
@@ -153,6 +157,7 @@ class KatalogAssetController extends Controller
             ->where('id', $request->master_bahan)
             ->where('region', 1)
             ->whereIn('kode', [7, 8])
+            ->where('is_deleted', 0)
             ->first();
         if ($bahan == null) {
             return response()->json([
