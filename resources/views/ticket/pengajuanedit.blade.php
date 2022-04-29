@@ -72,7 +72,7 @@
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Kategori<span class="red">*</span></label>
                                     <select class="select2" name="category" id="category" class="form-control" style="width: 100%">
-                                        @foreach($platform as $d)
+                                        @foreach($category as $d)
                                         @if($d->id == $ticket->categories->id)
                                         <option value="{{$d->id}}" selected>{{$d->name}}</option>
                                         @else
