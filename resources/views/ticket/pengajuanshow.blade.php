@@ -112,12 +112,28 @@
                                 <label class="bmd-label-floating">Attachment <span class="red">*</span></label>
                                 <div class="row">
                                 @foreach($ticket->attachments as $attach)
+                                <?php
+                                    $file = explode(".",$attach->filename);
+                                    $cek = 0;
+                                    if($file[3] == 'png' ||$file[3] == 'jpg' || $file[3] == 'jpeg' || $file[3] == 'gif' ||$file[3] == 'PNG' ||$file[3] == 'JPG' || $file[3] == 'JPEG' || $file[3] == 'GIF'){
+                                        $cek = 1;
+                                    }
+                                ?>
+                                @if($cek == 1)
                                 <div class="col-md-2">
                                     <a href="{{$attach->filename}}" target="__blank" class="image-trigger">
                                         <img src="{{$attach->filename}}" alt="attach" class="img-thumbnail shadow" style="padding:10px" onerror="this.onerror=null;this.src='{{asset('images/fileicon.jpg')}}';">
                                     </a>
                                     <p style="zoom: 70%;text-align:center">{{$attach->filename}}</p>
                                 </div>
+                                @else
+                                <div class="col-md-2">
+                                    <a href="{{$attach->filename}}" target="__blank">
+                                        <img src="{{asset('images/fileicon.jpg')}}" alt="attach" class="img-thumbnail shadow" style="padding:10px">
+                                    </a>
+                                    <p style="zoom: 70%;text-align:center"><b>Download</b> {{$attach->filename}}</p>
+                                </div>
+                                @endif
                                 @endforeach
                                 </div>
                             </div>
