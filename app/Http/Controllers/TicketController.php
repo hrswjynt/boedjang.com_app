@@ -695,7 +695,7 @@ class TicketController extends Controller
             // "description" => $request->description,
             // "platform_id" => $request->platform,
             // "category_id" => $request->category,
-            "priority_id" => $request->priority,
+            // "priority_id" => $request->priority,
             // "for_department" => $request->for_department,
             // "from_department" => $request->from_department,
             "status_id" => $request->status,

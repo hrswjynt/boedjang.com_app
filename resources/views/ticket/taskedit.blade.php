@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Prioritas<span class="red">*</span></label>
-                                    <select class="select2" name="priority" id="priority" class="form-control" style="width: 100%">
+                                    <select class="select2" name="priority" id="priority" class="form-control" style="width: 100%" disabled>
                                         @foreach($priority as $d)
                                         @if($d->id == $ticket->priorities->id)
                                         <option value="{{$d->id}}" selected>{{$d->name}}</option>
