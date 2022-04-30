@@ -35,7 +35,7 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Department Asal<span class="red">*</span></label>
-                                    <select class="select2" name="from_department" id="from_department" class="form-control" style="width: 100%">   
+                                    <select class="select2" name="from_department" id="from_department" class="form-control" style="width: 100%" @if(Auth::user()->ticket_role !== 1) disabled @endif>   
                                         @foreach($department as $d)
                                         @if($d->id == $ticket->from_departments->id)
                                         <option value="{{$d->id}}" selected>{{$d->name}}</option>
@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Department Tujuan<span class="red">*</span></label>
-                                    <select class="select2" name="for_department" id="for_department" class="form-control" style="width: 100%">
+                                    <select class="select2" name="for_department" id="for_department" class="form-control" style="width: 100%" @if(Auth::user()->ticket_role !== 1) disabled @endif>
                                         @foreach($department as $d)
                                         @if($d->id == $ticket->for_departments->id)
                                         <option value="{{$d->id}}" selected>{{$d->name}}</option>
@@ -127,7 +127,7 @@
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Delegasi<span class="red">*</span></label>
-                                    <select class="select2" name="for_user" id="for_user" class="form-control" style="width: 100%" required>
+                                    <select class="select2" name="for_user" id="for_user" class="form-control" style="width: 100%" @if(Auth::user()->ticket_role !== 1) disabled @endif>
                                         <option value="">Pilih Delegasi</option>
                                         @foreach($userdata as $d)
                                         
@@ -158,11 +158,11 @@
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Judul Pengaduan <span class="red">*</span></label>
-                                    <input name="title" type="text" class="form-control" id="title" value="{{$ticket->title}}">
+                                    <input name="title" type="text" class="form-control" id="title" value="{{$ticket->title}}" @if(Auth::user()->ticket_role !== 1) disabled @endif>
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Deskripsi <span class="red">*</span></label>
-                                    <textarea name="description" type="text" rows="3" class="form-control" id="description">{!! $ticket->description !!}</textarea>
+                                    <textarea name="description" type="text" rows="3" class="form-control" id="description" @if(Auth::user()->ticket_role !== 1) disabled @endif>{!! $ticket->description !!}</textarea>
                                 </div>
                             </div>
                             @if(count($attachment) > 0)
@@ -277,18 +277,9 @@
                     platform: {
                         required: true
                     },
-                    from_department: {
-                        required: true
-                    },
-                    for_department: {
-                        required: true
-                    },
                     level: {
                         required: true
                     },
-                    for_user: {
-                        required: true
-                    }
                 },
                 messages: {
                     category: {
@@ -300,18 +291,9 @@
                     platform: {
                         required : 'Data Platform harus diisi',
                     },
-                    from_department: {
-                        required : 'Data Departemen Asal harus diisi',
-                    },
-                    for_department: {
-                        required : 'Data Departemen Tujuan harus diisi',
-                    },
                     level: {
                         required : 'Data Level harus diisi',
                     },
-                    for_user: {
-                        required : 'Data Delegasi harus diisi',
-                    }
                 },
             })
         }

@@ -505,18 +505,29 @@ class TicketController extends Controller
             'Authorization: Bearer ' . $user->token,
             'Content-Type: application/json',
         ];
-        $data = [
-            "title" => $request->title,
-            "description" => $request->description,
-            "platform_id" => $request->platform,
-            "category_id" => $request->category,
-            "priority_id" => $request->priority,
-            "for_department" => $request->for_department,
-            "from_department" => $request->from_department,
-            "status_id" => $request->status,
-            "level_id" => $request->level,
-            'for_user' => $request->for_user,
-        ];
+        if(Auth::user()->ticket_role === 1){
+            $data = [
+                "title" => $request->title,
+                "description" => $request->description,
+                "platform_id" => $request->platform,
+                "category_id" => $request->category,
+                "priority_id" => $request->priority,
+                "for_department" => $request->for_department,
+                "from_department" => $request->from_department,
+                "status_id" => $request->status,
+                "level_id" => $request->level,
+                'for_user' => $request->for_user,
+            ];
+        }else{
+            $data = [
+                "platform_id" => $request->platform,
+                "category_id" => $request->category,
+                "priority_id" => $request->priority,
+                "status_id" => $request->status,
+                "level_id" => $request->level,
+            ];
+        }
+        
 
 
         try {
