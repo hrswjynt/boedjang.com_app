@@ -144,7 +144,7 @@
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Pembuat Ticket </label>
-                                    <input name="nama" type="text" value="{{$user->NAMA}}"
+                                    <input name="nama" type="text" value="{{$ticket->from_users->fullname}}"
                                     class="form-control" id="nama" disabled>
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">

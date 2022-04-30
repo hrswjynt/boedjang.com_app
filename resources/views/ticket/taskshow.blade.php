@@ -83,8 +83,8 @@
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Delegasi </label>
                                     <select class="select2" name="from_user" id="from_user" class="form-control" style="width: 100%" disabled>
-                                        @if($ticket->from_users !== null)
-                                        <option value="{{$ticket->from_users->id}}" selected>{{$ticket->from_users->fullname}}</option>
+                                        @if($ticket->for_users !== null)
+                                        <option value="{{$ticket->for_users->id}}" selected>{{$ticket->for_users->fullname}}</option>
                                         @else
                                         <option value="" selected>Belum Ditentukan</option>
                                         @endif
@@ -93,7 +93,7 @@
                                 
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Pembuat Ticket </label>
-                                    <input name="nama" type="text" value="{{$user->name}}"
+                                    <input name="nama" type="text" value="{{$ticket->from_users->fullname}}"
                                     class="form-control" id="nama" disabled>
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
