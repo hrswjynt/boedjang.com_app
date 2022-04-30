@@ -525,6 +525,7 @@ class TicketController extends Controller
                 "priority_id" => $request->priority,
                 "status_id" => $request->status,
                 "level_id" => $request->level,
+                'for_user' => $request->for_user,
             ];
         }
         

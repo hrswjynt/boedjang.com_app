@@ -127,7 +127,7 @@
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Delegasi<span class="red">*</span></label>
-                                    <select class="select2" name="for_user" id="for_user" class="form-control" style="width: 100%" @if(Auth::user()->ticket_role !== 1) disabled @endif>
+                                    <select class="select2" name="for_user" id="for_user" class="form-control" style="width: 100%">
                                         <option value="">Pilih Delegasi</option>
                                         @foreach($userdata as $d)
                                         
@@ -280,6 +280,9 @@
                     level: {
                         required: true
                     },
+                    for_user: {
+                        required: true
+                    }
                 },
                 messages: {
                     category: {
@@ -294,6 +297,9 @@
                     level: {
                         required : 'Data Level harus diisi',
                     },
+                    for_user: {
+                        required : 'Data Delegasi harus diisi',
+                    }
                 },
             })
         }
