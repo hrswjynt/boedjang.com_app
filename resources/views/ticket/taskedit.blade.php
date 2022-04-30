@@ -130,14 +130,23 @@
                                     <select class="select2" name="for_user" id="for_user" class="form-control" style="width: 100%" disabled>
                                     <option value="">Pilih Delegasi</option>
                                         @foreach($userdata as $d)
-                                        @if($ticket->for_users !== null)
+                                            
                                         @if($d->departments->id === $ticket->for_departments->id)
+                                        
+                                        @if($ticket->for_users !== null)
+                                        
+                                        
                                         @if($d->id == $ticket->for_users->id)
                                         <option value="{{$d->id}}" selected>{{$d->fullname}}</option>
                                         @else
                                         <option value="{{$d->id}}">{{$d->fullname}}</option>
                                         @endif
-                                        @endif
+                                        
+                                        @else
+                                        <option value="{{$d->id}}">{{$d->fullname}}</option>
+                                        @endif 
+                                        
+                                        
                                         @endif
                                         @endforeach
                                     </select>

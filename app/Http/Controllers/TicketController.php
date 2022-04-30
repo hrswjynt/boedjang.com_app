@@ -60,22 +60,24 @@ class TicketController extends Controller
         $fields = \request()->all();
 
         $output = [];
-        foreach ($fields['files'] as $key => $value) {
-            if (!is_array($value)) {
-                $output[] = [
-                    'name'     => 'files',
-                    'contents' => fopen($value->getPathname(), 'r'),
-                    'filename' => $value->getClientOriginalName()
-                ];
-                continue;
-            }
+        if(count($request->files) > 0){
+            foreach ($fields['files'] as $key => $value) {
+                if (!is_array($value)) {
+                    $output[] = [
+                        'name'     => 'files',
+                        'contents' => fopen($value->getPathname(), 'r'),
+                        'filename' => $value->getClientOriginalName()
+                    ];
+                    continue;
+                }
 
-            foreach ($value as $multiKey => $multiValue) {
-                $multiName = $key . '[' . $multiKey . ']' . (is_array($multiValue) ? '[' . key($multiValue) . ']' : '') . '';
-                $output[]  = [
-                    'name'     => 'files',
-                    'contents' => (is_array($multiValue) ? reset($multiValue) : $multiValue)
-                ];
+                foreach ($value as $multiKey => $multiValue) {
+                    $multiName = $key . '[' . $multiKey . ']' . (is_array($multiValue) ? '[' . key($multiValue) . ']' : '') . '';
+                    $output[]  = [
+                        'name'     => 'files',
+                        'contents' => (is_array($multiValue) ? reset($multiValue) : $multiValue)
+                    ];
+                }
             }
         }
 
