@@ -128,16 +128,17 @@
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label class="bmd-label-floating">Delegasi<span class="red">*</span></label>
                                     <select class="select2" name="for_user" id="for_user" class="form-control" style="width: 100%" required>
-                                    <option value="">Pilih Delegasi</option>
+                                        <option value="">Pilih Delegasi</option>
                                         @foreach($userdata as $d)
                                         @if($ticket->for_users !== null)
+                                        @if($d->departments->id === $ticket->for_departments->id)
                                         @if($d->id == $ticket->for_users->id)
                                         <option value="{{$d->id}}" selected>{{$d->fullname}}</option>
                                         @else
                                         <option value="{{$d->id}}">{{$d->fullname}}</option>
                                         @endif
-                                        @else
-                                        <option value="{{$d->id}}">{{$d->fullname}}</option>
+                                        @endif 
+
                                         @endif
                                         @endforeach
                                     </select>
