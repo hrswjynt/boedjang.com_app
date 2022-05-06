@@ -60,21 +60,33 @@ class HomeController extends Controller
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
                 $response = curl_exec($ch);
-                $res = json_decode($response);
-
-                if (property_exists($res, 'statusCode')) {
-                    if ($res->statusCode == 401) {
-                        $res = null;
-                    } else if ($res->statusCode == 500) {
+                if(curl_errno($ch)){
+                    curl_close($ch);
+                    $loginticket = User::find(Auth::user()->id);
+                    $loginticket->token = null;
+                    $loginticket->save();
+                }else{
+                    $res = json_decode($response);
+                    if (property_exists($res, 'statusCode')) {
+                        if ($res->statusCode == 401) {
+                            $res = null;
+                        } else if ($res->statusCode == 500) {
+                            $res = null;
+                        }
+                    }else{
                         $res = null;
                     }
+                    curl_close($ch);
+                    // dd($res);
+                    if($res !== null){
+                        $loginticket = User::find(Auth::user()->id);
+                        $loginticket->ticket = 1;
+                        $loginticket->token = $res->data->access_token;
+                        $loginticket->save();
+                    }
                 }
-                curl_close($ch);
-                // dd($res);
-                $loginticket = User::find(Auth::user()->id);
-                $loginticket->ticket = 1;
-                $loginticket->token = $res->data->access_token;
-                $loginticket->save();
+                
+                
             } else {
                 $headers = [
                     'Content-Type: application/json',
@@ -91,29 +103,35 @@ class HomeController extends Controller
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+                // curl_setopt($ch, CURLOPT_TIMEOUT, 20);
                 $response = curl_exec($ch);
-                $res = json_decode($response);
-                // dd($res);
-                if (property_exists($res, 'statusCode')) {
-                    if ($res->statusCode == 401) {
-                        $res = null;
-                    } else if ($res->statusCode == 500) {
-                        $res = null;
+                if(curl_errno($ch)){
+                    curl_close($ch);
+                    $loginticket = User::find(Auth::user()->id);
+                    $loginticket->token = null;
+                    $loginticket->save();
+                }else{
+                    $res = json_decode($response);
+                    // dd($res);
+                    if (property_exists($res, 'statusCode')) {
+                        if ($res->statusCode == 401) {
+                            $res = null;
+                        } else if ($res->statusCode == 500) {
+                            $res = null;
+                        }
                     }
-                }
-                curl_close($ch);
-
-                // dd($res);
-                $loginticket = User::find(Auth::user()->id);
-                $loginticket->token = $res->data->access_token;
-                $loginticket->ticket_department = $res->data->departments !== null ? $res->data->departments->id : null;
-                $loginticket->ticket_department_name = $res->data->departments !== null ? $res->data->departments->name : null;
-                $loginticket->ticket_role = $res->data->roles->id;
-                $loginticket->save();
+                    curl_close($ch);
+                    if($res != null){
+                        $loginticket = User::find(Auth::user()->id);
+                        $loginticket->token = $res->data->access_token;
+                        $loginticket->ticket_department = $res->data->departments !== null ? $res->data->departments->id : null;
+                        $loginticket->ticket_department_name = $res->data->departments !== null ? $res->data->departments->name : null;
+                        $loginticket->ticket_role = $res->data->roles->id;
+                        $loginticket->save();
+                    }
+                } 
             }
         }
-
-        // dd(Auth::user());
 
 
         if ($karyawan !== null) {

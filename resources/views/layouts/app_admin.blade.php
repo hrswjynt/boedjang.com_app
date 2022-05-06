@@ -173,7 +173,9 @@
                 </li>
                 @endif
 
-                @if(Auth::user()->role == 1 || Auth::user()->role == 2 || $karyawan->Cabang == "HeadOffice")
+                <?php $user = DB::table('u1127775_boedjang.users')->where('id',Auth::user()->id)->first(); ?>
+                
+                @if((Auth::user()->role == 1 || Auth::user()->role == 2 || $karyawan->Cabang == "HeadOffice") && $user->token !== null)
                 <li class="nav-item @if($page == 'ticket' || $page == 'task_ticket' ) active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTicket" aria-expanded="true" aria-controls="collapseTicket">
                         <i class="fas fa-clipboard-check"></i>
@@ -188,8 +190,7 @@
                 </li>
                 @endif
 
-                <?php $user = DB::table('u1127775_boedjang.users')->where('id',Auth::user()->id)->first(); ?>
-                @if($user->ticket_role === 1 || $user->ticket_role === 2)
+                @if(($user->ticket_role === 1 || $user->ticket_role === 2) && $user->token !== null)
                 <li class="nav-item @if($page == 'manajementicket' || $page == 'manajementicketdepart' ) active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManajemenTicket" aria-expanded="true" aria-controls="collapseManajemenTicket">
                         <i class="fas fa-book"></i>
