@@ -79,6 +79,17 @@
 <script type="text/javascript">
     $(function () {
         $('#table-asset-data').DataTable({
+            dom: "lBfrtip",
+            buttons: [
+            {
+                extend: "excelHtml5",
+                filename: "katalog-asset",
+                exportOptions: {
+                columns: ":visible",
+                },
+            },
+            "colvis",
+            ],
             processing: true,
             serverSide: true,
             "lengthMenu": [
@@ -96,7 +107,10 @@
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    render: function (data, type, row) {
+                        return data+'';
+                    }
                 },
                 {
                     data: 'brand_display',
@@ -130,7 +144,8 @@
                     name: 'harga_acuan',
                     render: function (data, type, row) {
                         if(data !== null){
-                            return new Intl.NumberFormat("id-ID", {style: "currency",currency: "IDR"}).format(data);
+                            return data+'';
+                            // return new Intl.NumberFormat("id-ID", {style: "currency",currency: "IDR"}).format(data);
                         }else{
                             return '-';
                         }           
@@ -141,7 +156,7 @@
                     name: 'sequence',
                     render: function (data, type, row) {
                         if(data !== null){
-                            return data;
+                            return data+'';
                         }else{
                             return '-';
                         }           
