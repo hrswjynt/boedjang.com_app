@@ -267,7 +267,7 @@ class KatalogAssetController extends Controller
         // dd($request->all());
         $search = null;
         $brand_select = null;
-        $asset = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')->select('katalog_asset.*')->orderBy('katalog_asset.sequence', 'ASC')->paginate(12);
+        $asset = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')->select('katalog_asset.*')->orderBy('katalog_asset.sequence', 'ASC')->groupBy('katalog_asset.id')->paginate(12);
         $brand = Brand::all();
 
         return view('katalogasset.home')->with('page', 'asset_list')->with('asset', $asset)->with('brand', $brand)->with('brand_select', $brand_select)->with('search', $search);
@@ -276,10 +276,11 @@ class KatalogAssetController extends Controller
     public function getAsset($id)
     {
         $asset = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')->select('katalog_asset.*')->orderBy('katalog_asset.sequence', 'ASC')->where('katalog_asset.id', $id)->first();
+        $brand = KatalogAssetRelation::join('brand', 'brand.id', 'katalog_asset_relation.id_brand')->select('brand.*')->where('id_katalog_asset', $id)->get();
         if ($asset == null) {
             return redirect()->route('asset_list.index')->with('danger', 'Katalog Aset yang dicari tidak ditemukan.');
         }
-        return view('katalogasset.post')->with('page', 'asset_list')->with('asset', $asset);
+        return view('katalogasset.post')->with('page', 'asset_list')->with('asset', $asset)->with('brand', $brand);
     }
 
     public function getSearch(Request $request)
@@ -301,6 +302,7 @@ class KatalogAssetController extends Controller
             ->where('katalog_asset.name', 'like', '%' . $request->search . '%')
             ->where('katalog_asset_relation.id_brand', 'like', $query_brand)
             ->orderBy('katalog_asset.sequence', 'ASC')
+            ->groupBy('katalog_asset.id')
             ->paginate(12);
 
         $brand = Brand::all();
