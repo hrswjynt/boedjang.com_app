@@ -112,7 +112,7 @@ class KetentuanController extends Controller
         try{
             $ketentuan = Ketentuan::find($id);
             $title = $ketentuan->title;
-            $noketentuanrm->delete();
+            $ketentuan->delete();
 
             DB::commit();
             return response()->json([
