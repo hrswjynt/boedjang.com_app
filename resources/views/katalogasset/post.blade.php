@@ -66,7 +66,9 @@
                     <div class="row">
 
                         <div class="col-md-12">
-                            <span class="badge badge-warning shadow"><i class="fas fa-star"></i> {{$asset->brand_name}}</span>
+                            @foreach($brand as $c)
+                            <span class="badge badge-warning shadow"><i class="fas fa-star"></i> {{$c->name}}</span>
+                            @endforeach
                             <p class="text-muted"> <i class="far fa-clock"></i> {{date_format($asset->updated_at,'d-m-Y H:i:s')}}</p>
                             @if($asset->gambar == null)
                             {{-- <img id="img" src="{{asset('images/noimage.png')}}" alt="katalog aset" style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 30px" /> --}}

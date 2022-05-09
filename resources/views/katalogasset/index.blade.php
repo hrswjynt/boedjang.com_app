@@ -99,11 +99,16 @@
                     searchable: false
                 },
                 {
-                    data: 'brand_name',
-                    name: 'brand_name',
+                    data: 'brand_display',
+                    name: 'brand_display',
                     render: function (data, type, row) {
+                        let display = '';
                         if(data !== null){
-                            return '<span class="badge badge-info shadow" style="zoom:120%">'+data+'</span>';
+                            var brands = data.split(";");
+                            brands.forEach(function(brand) {
+                                display += '<span class="badge badge-info shadow" style="zoom:100%;margin:5px">'+brand+'</span>'
+                            })
+                            return display;
                         }else{
                             return '-';
                         }           

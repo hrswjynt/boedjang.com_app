@@ -36,10 +36,10 @@
                             <div class="col-md-12">
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label>Brand<span class="red">*</span></label>
-                                    <select class="select2" name="brand" id="brand" class="form-control" style="width: 100%" disabled="">   
+                                    <select class="select2" name="brand[]" id="brand" multiple="multiple" class="form-control" style="width: 100%" disabled="">   
                                         @foreach($brand as $b)
-                                        @if($b->id == $asset->brand)
-                                        <option selected value="{{$b->id}}">{{$b->name}}</option>
+                                        @if(in_array($b->id,$relationbrand))
+                                        <option value="{{$b->id}}" selected="">{{$b->name}}</option>
                                         @else
                                         <option value="{{$b->id}}">{{$b->name}}</option>
                                         @endif

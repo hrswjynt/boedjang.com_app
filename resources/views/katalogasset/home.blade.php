@@ -77,6 +77,7 @@
                     <div class="row">
                         @if(count($asset) > 0)
                         @foreach($asset as $s)
+                        <?php $brand = explode(';',$s->brand_display);?>
                         <div class="col-md-3 d-flex align-items-stretch">
                             <div class="card mb-3 box-shadow" style="width: 100%">
                                 @if($s->gambar == null)
@@ -102,7 +103,9 @@
                                             @if($s->updated_at > date('Y-m-d H:m:s', strtotime("-10 days")))
                                             <span class="badge badge-success kecil"><i class="far fa-calendar-check"></i> Terbaru</span>
                                             @endif
-                                            <span class="badge badge-warning kecil"><i class="fas fa-star"></i></i> {{$s->brand_name}}</span>
+                                            @for($i=1;$i < count($brand);$i++)
+                                            <span class="badge badge-warning kecil"><i class="fas fa-star"></i> {{$brand[$i]}}</span>
+                                            @endfor
                                         </div>
                                     </div>
                                 </div>

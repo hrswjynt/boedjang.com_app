@@ -16,6 +16,6 @@ class KatalogAsset extends Model
     public $timestamps = true;
     public $incrementing = true;
     protected $fillable = [
-        'id', 'master_bahan', 'brand', 'gambar', 'created_at', 'updated_at', 'description', 'sequence', 'name', 'harga_acuan'
+        'id', 'master_bahan', 'brand_display', 'gambar', 'created_at', 'updated_at', 'description', 'sequence', 'name', 'harga_acuan'
     ];
 }

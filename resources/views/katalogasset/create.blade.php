@@ -38,7 +38,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group mb-4 bmd-form-group">
                                         <label>Brand<span class="red">*</span></label>
-                                        <select class="select2" name="brand" id="brand" class="form-control" style="width: 100%" required>   
+                                        <select class="select2" multiple="multiple" name="brand[]" id="brand" class="form-control" style="width: 100%" required>   
                                             @foreach($brand as $b)
                                             <option value="{{$b->id}}">{{$b->name}}</option>
                                             @endforeach

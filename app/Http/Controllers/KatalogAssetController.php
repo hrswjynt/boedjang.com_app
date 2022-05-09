@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Brand;
 use App\KatalogAsset;
+use App\KatalogAssetRelation;
 use DataTables;
 use Auth;
 use DB;
@@ -80,21 +81,32 @@ class KatalogAssetController extends Controller
         }
 
         $aset = new KatalogAsset();
-        $aset->brand = $request->brand;
+        // $aset->brand = $request->brand;
         $aset->master_bahan = $request->master_bahan;
         $aset->name = $bahan->item;
         $aset->harga_acuan = $bahan->harga_acuan;
         $aset->description = $request->description;
         $aset->sequence = $request->sequence;
         $aset->gambar = $image_name;
+        $aset->brand_display = '';
         $aset->save();
+
+        foreach ($request->brand as $brand) {
+            $relation = new KatalogAssetRelation;
+            $relation->id_katalog_asset = $aset->id;
+            $relation->id_brand = $brand;
+            $relation->save();
+
+            $aset->brand_display = $aset->brand_display . ';' . Brand::find($brand)->name;
+            $aset->save();
+        }
 
         return redirect()->route('asset.index')->with('success', 'Data Katalog Aset ' . $bahan->item . ' berhasil disimpan.');
     }
 
     public function getData()
     {
-        $data = KatalogAsset::join('brand', 'brand.id', 'katalog_asset.brand')->select('katalog_asset.*', 'brand.name as brand_name')->get();
+        $data = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')->select('katalog_asset.*')->orderBy('katalog_asset.sequence', 'ASC')->groupBy('katalog_asset.id')->get();
         return $this->datatable($data);
     }
 
@@ -125,10 +137,15 @@ class KatalogAssetController extends Controller
             ->whereIn('kode', [7, 8])
             ->where('is_deleted', 0)
             ->get();
+        $relationbrand = KatalogAssetRelation::where('id_katalog_asset', $asset->id)->get();
+        foreach ($relationbrand as $rb) {
+            $arrayrb[] = $rb->id_brand;
+        }
         return view('katalogasset.show')
             ->with('asset', $asset)
             ->with('page', 'katalogasset')
             ->with('bahan', $bahan)
+            ->with('relationbrand', $arrayrb)
             ->with('brand', $brand);
     }
 
@@ -140,10 +157,15 @@ class KatalogAssetController extends Controller
             ->whereIn('kode', [7, 8])
             ->where('is_deleted', 0)
             ->get();
+        $relationbrand = KatalogAssetRelation::where('id_katalog_asset', $asset->id)->get();
+        foreach ($relationbrand as $rb) {
+            $arrayrb[] = $rb->id_brand;
+        }
         return view('katalogasset.edit')
             ->with('page', 'katalogasset')
             ->with('asset', $asset)
             ->with('brand', $brand)
+            ->with('relationbrand', $arrayrb)
             ->with('bahan', $bahan);
     }
 
@@ -151,7 +173,7 @@ class KatalogAssetController extends Controller
     {
         // dd($request->all());
         $validatedData = $this->validate($request, [
-            'brand' => 'required',
+            // 'brand' => 'required',
             'master_bahan' => 'required',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480'
         ]);
@@ -180,7 +202,6 @@ class KatalogAssetController extends Controller
                 $constraint->aspectRatio();
             })->save($destinationPath . '/' . $image_name);
         }
-        $asset->brand = $request->brand;
         if ($image_name != null) {
             if ($asset->gambar !== null) {
                 $image_path = public_path('/images/aset/' . $asset->gambar);
@@ -195,7 +216,19 @@ class KatalogAssetController extends Controller
         $asset->harga_acuan = $bahan->harga_acuan;
         $asset->description = $request->description;
         $asset->sequence = $request->sequence;
+        $asset->brand_display = '';
         $asset->save();
+
+        KatalogAssetRelation::where('id_katalog_asset', $asset->id)->delete();
+        foreach ($request->brand as $brand) {
+            $relation = new KatalogAssetRelation;
+            $relation->id_katalog_asset = $asset->id;
+            $relation->id_brand = $brand;
+            $relation->save();
+
+            $asset->brand_display = $asset->brand_display . ';' . Brand::find($brand)->name;
+            $asset->save();
+        }
 
         return redirect()->route('asset.index')->with('success', 'Data Katalog Aset ' . $bahan->item . ' berhasil diupdate.');
     }
@@ -207,6 +240,7 @@ class KatalogAssetController extends Controller
             $asset = KatalogAsset::find($id);
             $gambar = $asset->gambar;
             $name = $asset->name;
+            KatalogAssetRelation::where("id_katalog_asset", $id)->delete();
             $asset->delete();
             if ($gambar !== null) {
                 $image_path = public_path('/images/aset/' . $gambar);
@@ -233,7 +267,7 @@ class KatalogAssetController extends Controller
         // dd($request->all());
         $search = null;
         $brand_select = null;
-        $asset = KatalogAsset::join('brand', 'brand.id', 'katalog_asset.brand')->select('katalog_asset.*', 'brand.name as brand_name')->orderBy('katalog_asset.sequence', 'ASC')->paginate(12);
+        $asset = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')->select('katalog_asset.*')->orderBy('katalog_asset.sequence', 'ASC')->paginate(12);
         $brand = Brand::all();
 
         return view('katalogasset.home')->with('page', 'asset_list')->with('asset', $asset)->with('brand', $brand)->with('brand_select', $brand_select)->with('search', $search);
@@ -241,8 +275,7 @@ class KatalogAssetController extends Controller
 
     public function getAsset($id)
     {
-        $asset = KatalogAsset::join('brand', 'brand.id', 'katalog_asset.brand')->where('katalog_asset.id', $id)
-            ->select('katalog_asset.*', 'brand.name as brand_name')->first();
+        $asset = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')->select('katalog_asset.*')->orderBy('katalog_asset.sequence', 'ASC')->where('katalog_asset.id', $id)->first();
         if ($asset == null) {
             return redirect()->route('asset_list.index')->with('danger', 'Katalog Aset yang dicari tidak ditemukan.');
         }
@@ -262,11 +295,13 @@ class KatalogAssetController extends Controller
             $brand_select = Brand::find($request->brand);
         }
 
-        $asset = KatalogAsset::join('brand', 'brand.id', 'katalog_asset.brand')
+        $asset = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')
+            ->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')
+            ->select('katalog_asset.*')
             ->where('katalog_asset.name', 'like', '%' . $request->search . '%')
+            ->where('katalog_asset_relation.id_brand', 'like', $query_brand)
             ->orderBy('katalog_asset.sequence', 'ASC')
-            ->where('katalog_asset.brand', 'like', $query_brand)
-            ->select('katalog_asset.*', 'brand.name as brand_name')->paginate(12);
+            ->paginate(12);
 
         $brand = Brand::all();
         return view('katalogasset.home')->with('page', 'asset_list')
