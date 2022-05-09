@@ -11,7 +11,7 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6><b>Tambah Katalog Aset</b></h6>
-                    <a onclick="window.location=document.referrer" class="btn btn-primary btn-sm add">
+                    <a href="{{route('asset.index')}}" class="btn btn-primary btn-sm add">
                         <i class="fa fa-arrow-left"></i>
                         <span>Kembali</span>
                     </a>
@@ -187,7 +187,7 @@
         $("#gambar").change(function() {
             var val = $(this).val();
             switch(val.substring(val.lastIndexOf('.') + 1).toLowerCase()){
-                case 'gif': case 'jpg': case 'png':
+                case 'gif': case 'jpg': case 'png': case 'jpeg': case 'JPG': case 'PNG':
                     $('#img').show();
                     readURL(this);
                     break;

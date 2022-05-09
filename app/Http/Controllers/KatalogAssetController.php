@@ -51,7 +51,7 @@ class KatalogAssetController extends Controller
         $validatedData = $this->validate($request, [
             'brand' => 'required',
             'master_bahan' => 'required',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480'
+            'gambar' => 'max:40480'
         ]);
 
         $cek = KatalogAsset::where('master_bahan', $request->master_bahan)->first();
@@ -175,7 +175,7 @@ class KatalogAssetController extends Controller
         $validatedData = $this->validate($request, [
             // 'brand' => 'required',
             'master_bahan' => 'required',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480'
+            'gambar' => 'max:40480'
         ]);
 
         $cek = KatalogAsset::where('master_bahan', $request->master_bahan)->whereNotIn('id', [$asset->id])->first();
