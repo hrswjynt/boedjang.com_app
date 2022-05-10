@@ -10,12 +10,20 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <div class="card-header py-3 d-flex flex-row justify-content-between">
                     <h6><b>Daftar Katalog Aset</b></h6>
-                    <a href="{{ route('asset.create') }}" class="btn btn-success btn-sm add">
-                        <i class="fa fa-plus"></i>
-                        <span>Tambah Aset</span>
-                    </a>
+                    
+                    <div>
+                        <a href="{{ route('asset.excel') }}" class="btn btn-success btn-sm add">
+                            <i class="fas fa-list-ul"></i>
+                            <span>Excel</span>
+                        </a>
+                        <a href="{{ route('asset.create') }}" class="btn btn-success btn-sm add">
+                            <i class="fa fa-plus"></i>
+                            <span>Tambah Aset</span>
+                        </a>
+                    </div>
+                    
                 </div>
                 <div class="card-body">
                   <div id="success-delete">
@@ -79,17 +87,6 @@
 <script type="text/javascript">
     $(function () {
         $('#table-asset-data').DataTable({
-            dom: "lBfrtip",
-            buttons: [
-            {
-                extend: "excelHtml5",
-                filename: "katalog-asset",
-                exportOptions: {
-                columns: ":visible",
-                },
-            },
-            "colvis",
-            ],
             processing: true,
             serverSide: true,
             "lengthMenu": [
@@ -144,8 +141,8 @@
                     name: 'harga_acuan',
                     render: function (data, type, row) {
                         if(data !== null){
-                            return data+'';
-                            // return new Intl.NumberFormat("id-ID", {style: "currency",currency: "IDR"}).format(data);
+                            // return data+'';
+                            return new Intl.NumberFormat("id-ID", {style: "currency",currency: "IDR"}).format(data);
                         }else{
                             return '-';
                         }           

@@ -34,6 +34,18 @@ class KatalogAssetController extends Controller
         return view('katalogasset.index')->with('page', 'katalogasset');
     }
 
+    public function excel()
+    {
+        $data = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')
+            ->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')
+            ->select('katalog_asset.*')
+            ->orderBy('katalog_asset.sequence', 'ASC')
+            ->groupBy('katalog_asset.id')
+            ->get();
+        $brand = Brand::all();
+        return view('katalogasset.excel')->with('page', 'katalogasset')->with('data', $data)->with('brand', $brand);
+    }
+
     public function create()
     {
         $brand = Brand::all();

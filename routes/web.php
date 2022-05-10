@@ -174,6 +174,7 @@ Route::group(['middleware' => ['admin']], function () {
 	Route::post('/bukupedoman-delete/{id}', 'BukuPedomanController@delete')->name('bukupedoman.delete');
 
 	Route::resource('asset', 'KatalogAssetController')->except(['destroy']);
+	Route::get("asset-excel", "KatalogAssetController@excel")->name('asset.excel');
 	Route::get("asset-data", "KatalogAssetController@getData");
 	Route::post('/asset-delete/{id}', 'KatalogAssetController@delete')->name('asset.delete');
 
