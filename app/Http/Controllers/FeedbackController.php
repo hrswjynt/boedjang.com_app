@@ -23,13 +23,14 @@ class FeedbackController extends Controller
     public function pengajuan()
     {   
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
-        $atasan = Karyawan::where(function($query){
-            $query->orWhere('Jabatan', 'like', '%Supervisor%');
-            $query->orWhere('Jabatan', 'like', '%Manager%');
-            $query->orWhere('Jabatan', 'like', '%Manajer%');
-            $query->orWhere('Jabatan', 'like', '%Direktur%');
-            $query->orWhere('Jabatan', 'like', '%Leader%');
-            $query->orWhere('Cabang', 'like', '%HeadOffice%');
+        // $atasan = Karyawan::where(function($query){
+        //     $query->orWhere('Jabatan', 'like', '%Supervisor%');
+        //     $query->orWhere('Jabatan', 'like', '%Manager%');
+        //     $query->orWhere('Jabatan', 'like', '%Manajer%');
+        //     $query->orWhere('Jabatan', 'like', '%Direktur%');
+        //     $query->orWhere('Jabatan', 'like', '%Leader%');
+        //     $query->orWhere('Cabang', 'like', '%HeadOffice%');
+        $atasan = Karyawan::where('Masa_kerja','>',3)->first();
         })->where('region',$karyawan->region)->whereNotIn('Status', ['Resign'])->get();
         $feedback = DB::table('feedback')->join('feedback_kategori', 'feedback_kategori.id', 'feedback.kategori')
                                         ->select('feedback.*', 'feedback_kategori.nama as kategori_nama')

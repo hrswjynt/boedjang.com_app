@@ -60,7 +60,7 @@ class TicketController extends Controller
         $fields = \request()->all();
 
         $output = [];
-        if(count($request->files) > 0){
+        if (count($request->files) > 0) {
             foreach ($fields['files'] as $key => $value) {
                 if (!is_array($value)) {
                     $output[] = [
@@ -505,7 +505,7 @@ class TicketController extends Controller
             'Authorization: Bearer ' . $user->token,
             'Content-Type: application/json',
         ];
-        if(Auth::user()->ticket_role === 1){
+        if (Auth::user()->ticket_role === 1) {
             $data = [
                 "title" => $request->title,
                 "description" => $request->description,
@@ -518,7 +518,7 @@ class TicketController extends Controller
                 "level_id" => $request->level,
                 'for_user' => $request->for_user,
             ];
-        }else{
+        } else {
             $data = [
                 "platform_id" => $request->platform,
                 "category_id" => $request->category,
@@ -528,7 +528,7 @@ class TicketController extends Controller
                 'for_user' => $request->for_user,
             ];
         }
-        
+
 
 
         try {
