@@ -123,6 +123,8 @@
                                     </td>
                                     <td>{{$d->tgl}}</td>
                                     <td>{{$d->name}}</td>
+                                    <td>{{$d->jabatan}}</td>
+                                    <td>{{$d->cabang}}</td>
                                     <td>{{$d->atasan_nama}}</td>
                                     <td style="zoom:80%">{{$d->poin_nama}}</td>
                                 @endif
