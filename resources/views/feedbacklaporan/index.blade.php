@@ -65,6 +65,8 @@
                                     <th width="1%">Action</th>
                                     <th>Tgl</th>
                                     <th>Karyawan</th>
+                                    <th>Jabatan</th>
+                                    <th>Outlet</th>
                                     <th>Atasan</th>
                                     @foreach($feedback as $f)
                                     <th class='text-wrap'>{{$f->isi}}</th>
@@ -85,6 +87,8 @@
                                     </td>
                                     <td>{{$d->tgl}}</td>
                                     <td>{{$d->name}}</td>
+                                    <td>{{$d->jabatan}}</td>
+                                    <td>{{$d->cabang}}</td>
                                     <td>{{$d->atasan_nama}}</td>
                                     <td style="zoom:80%">{{$d->poin_nama}}</td>
                                 

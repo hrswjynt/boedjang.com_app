@@ -105,21 +105,13 @@ class FeedbackController extends Controller
 
     public function indexLaporan()
     {
-        $karyawan = Karyawan::where('NIP', Auth::user()->username)->first();
         $feedback = DB::table('feedback')->get();
-        $atasan = Karyawan::where(function ($query) {
-            $query->orWhere('Jabatan', 'like', '%Supervisor%');
-            $query->orWhere('Jabatan', 'like', '%Manager%');
-            $query->orWhere('Jabatan', 'like', '%Manajer%');
-            $query->orWhere('Jabatan', 'like', '%Direktur%');
-            $query->orWhere('Jabatan', 'like', '%Leader%');
-        })->where('region', $karyawan->region)->where('Status', 'Aktif')->get();
         $date1 = date("Y-m-d", strtotime("-1 month", strtotime(date('Y-m-01'))));
         $date2 = date('Y-m-t');
 
-        $data = DB::select(DB::raw("SELECT fdh.id,(CASE WHEN fdd.poin = 1 THEN 'Sangat Tidak Setuju' WHEN fdd.poin = 2 THEN 'Tidak Setuju' WHEN fdd.poin = 3 THEN 'Setuju' ELSE 'Sangat Setuju' END) as poin_nama, fdd.header_id, fdh.tgl, fdh.`user`, u.`name`, u.username as nip, fdh.outlet_name as outlet_nama, fdh.atasan, u2.`name` as atasan_nama, fdh.alasan1, fdh.alasan2, fdh.alasan3, fk.nama as kategori_nama, fdd.feedback as feedback_id, f.isi, fdd.poin, fdh.puas FROM feedback_data_detail fdd INNER JOIN feedback_data_header fdh ON fdd.header_id = fdh.id INNER JOIN feedback f on f.id = fdd.feedback INNER JOIN feedback_kategori fk on fk.id = f.kategori INNER JOIN users u on u.id = fdh.`user` INNER JOIN users u2 on u2.username = fdh.atasan where date(fdh.tgl) between '" . $date1 . "' and '" . $date2 . "' ORDER BY fdh.id"));
+        $data = DB::select(DB::raw("SELECT fdh.id,(CASE WHEN fdd.poin = 1 THEN 'Sangat Tidak Setuju' WHEN fdd.poin = 2 THEN 'Tidak Setuju' WHEN fdd.poin = 3 THEN 'Setuju' ELSE 'Sangat Setuju' END) as poin_nama, fdd.header_id, fdh.tgl, fdh.`user`, u.`name`, u.username as nip, fdh.outlet_name as outlet_nama, fdh.atasan, u2.`name` as atasan_nama, fdh.alasan1, fdh.alasan2, fdh.alasan3, fk.nama as kategori_nama, fdd.feedback as feedback_id, f.isi, fdd.poin, fdh.puas, absen.Cabang as cabang, absen.Jabatan as jabatan FROM u1127775_boedjang.feedback_data_detail fdd INNER JOIN u1127775_boedjang.feedback_data_header fdh ON fdd.header_id = fdh.id INNER JOIN u1127775_boedjang.feedback f on f.id = fdd.feedback INNER JOIN u1127775_boedjang.feedback_kategori fk on fk.id = f.kategori INNER JOIN u1127775_boedjang.users u on u.id = fdh.`user` INNER JOIN u1127775_boedjang.users u2 on u2.username = fdh.atasan INNER JOIN u1127775_absensi.Absen as absen on absen.NIP = u.username where date(fdh.tgl) between '" . $date1 . "' and '" . $date2 . "' ORDER BY fdh.id"));
         // dd(($data));
-        return view('feedbacklaporan.index')->with('page', 'feedbacklaporan')->with('atasan', $atasan)->with('feedback', $feedback)->with('data', $data)->with('date1', $date1)->with('date2', $date2);
+        return view('feedbacklaporan.index')->with('page', 'feedbacklaporan')->with('feedback', $feedback)->with('data', $data)->with('date1', $date1)->with('date2', $date2);
     }
 
     public function indexSearchLaporan(Request $request)
