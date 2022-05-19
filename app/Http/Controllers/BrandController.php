@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\KatalogAssetRelation;
 use App\Brand;
-use App\KatalogAsset;
 use DataTables;
 use Auth;
 use DB;
@@ -100,7 +100,7 @@ class BrandController extends Controller
         DB::beginTransaction();
         $brand = Brand::find($id);
         $name = $brand->name;
-        if (KatalogAsset::where('brand', $id)->first() !== null) {
+        if (KatalogAssetRelation::where('id_brand', $id)->first() !== null) {
             return response()->json([
                 'message' => 'Brand "' . $name . '" gagal dihapus, Brand telah digunakan.',
                 'type' => 'danger',

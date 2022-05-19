@@ -207,10 +207,43 @@
                 <!-- Divider -->
                 <hr class="sidebar-divider">
                 <!-- Heading -->
-                @if(Auth::user()->role == 1 || Auth::user()->role == 3)
+                @if(Auth::user()->role == 4)
+                <div class="sidebar-heading">
+                    GA
+                </div>
+                <li class="nav-item @if($page == 'katalogasset' || $page == 'brand') active @endif">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities4" aria-expanded="true" aria-controls="collapseUtilities4">
+                        <i class="fas fa-cube"></i>
+                        <span>Master Aset</span>
+                    </a>
+                    <div id="collapseUtilities4" class="collapse @if($page == 'katalogasset' || $page == 'brand') show @endif" aria-labelledby="headingUtilities4" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            @if(Auth::user()->role == 1 || Auth::user()->role == 4)
+                            <a class="collapse-item @if($page == 'brand') active @endif" href="{{route('brand.index')}}">Brand</a>
+                            <a class="collapse-item @if($page == 'katalogasset') active @endif" href="{{route('asset.index')}}">Katalog Aset</a>
+                            @endif
+                        </div>
+                    </div>
+                </li>
+                @elseif(Auth::user()->role == 1 || Auth::user()->role == 3)
                 <div class="sidebar-heading">
                     Admin
                 </div>
+                <li class="nav-item @if($page == 'katalogasset' || $page == 'brand') active @endif">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities4" aria-expanded="true" aria-controls="collapseUtilities4">
+                        <i class="fas fa-cube"></i>
+                        <span>Master Aset</span>
+                    </a>
+                    <div id="collapseUtilities4" class="collapse @if($page == 'katalogasset' || $page == 'brand') show @endif" aria-labelledby="headingUtilities4" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            @if(Auth::user()->role == 1 || Auth::user()->role == 4)
+                            <a class="collapse-item @if($page == 'brand') active @endif" href="{{route('brand.index')}}">Brand</a>
+                            <a class="collapse-item @if($page == 'katalogasset') active @endif" href="{{route('asset.index')}}">Katalog Aset</a>
+                            @endif
+                        </div>
+                    </div>
+                </li>
+
                 <!-- Nav Item - Utilities Collapse Menu -->
                 <li class="nav-item @if($page == 'blog' || $page == 'user' || $page == 'tag' || $page == 'bpm' || $page == 'bpmdivision' || $page == 'bukupedoman') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
@@ -267,21 +300,6 @@
                             <h6 class="collapse-header">- Master Buku Saku -</h6>
                             <a class="collapse-item @if($page == 'bab') active @endif" href="{{route('bab.index')}}">Bab Buku Saku</a>
                             <a class="collapse-item @if($page == 'subbab') active @endif" href="{{route('subbab.index')}}">Sub Bab Buku Saku</a>
-                            @endif
-                        </div>
-                    </div>
-                </li>
-
-                <li class="nav-item @if($page == 'katalogasset' || $page == 'brand') active @endif">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities4" aria-expanded="true" aria-controls="collapseUtilities4">
-                        <i class="fas fa-cube"></i>
-                        <span>Master Aset</span>
-                    </a>
-                    <div id="collapseUtilities4" class="collapse @if($page == 'katalogasset' || $page == 'brand') show @endif" aria-labelledby="headingUtilities4" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            @if(Auth::user()->role == 1)
-                            <a class="collapse-item @if($page == 'brand') active @endif" href="{{route('brand.index')}}">Brand</a>
-                            <a class="collapse-item @if($page == 'katalogasset') active @endif" href="{{route('asset.index')}}">Katalog Aset</a>
                             @endif
                         </div>
                     </div>

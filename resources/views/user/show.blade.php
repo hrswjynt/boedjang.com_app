@@ -65,6 +65,7 @@
                                             <option value="5" selected="">Karyawan</option>
                                             <option value="3">Manager</option>
                                             <option value="2">SPV</option>
+                                            <option value="4">GA</option>
                                             <option value="1">Admin</option>
                                             <option value="6">Mitra Bakso</option>
                                             @endif
@@ -73,6 +74,16 @@
                                             <option value="5">Karyawan</option>
                                             <option value="3" selected="">Manager</option>
                                             <option value="2">SPV</option>
+                                            <option value="4">GA</option>
+                                            <option value="1">Admin</option>
+                                            <option value="6">Mitra Bakso</option>
+                                            @endif
+
+                                            @if($user->role == 4) 
+                                            <option value="5">Karyawan</option>
+                                            <option value="3">Manager</option>
+                                            <option value="2">SPV</option>
+                                            <option value="4" selected="">GA</option>
                                             <option value="1">Admin</option>
                                             <option value="6">Mitra Bakso</option>
                                             @endif
@@ -81,6 +92,7 @@
                                             <option value="5">Karyawan</option>
                                             <option value="3">Manager</option>
                                             <option value="2" selected="">SPV</option>
+                                            <option value="4">GA</option>
                                             <option value="1">Admin</option>
                                             <option value="6">Mitra Bakso</option>
                                             @endif
@@ -89,6 +101,7 @@
                                             <option value="5">Karyawan</option>
                                             <option value="3">Manager</option>
                                             <option value="2">SPV</option>
+                                            <option value="4">GA</option>
                                             <option value="1">Admin</option>
                                             <option value="6" selected="">Mitra Bakso</option>
                                             @endif
@@ -98,6 +111,7 @@
                                             <option value="5">Karyawan</option>
                                             <option value="3">Manager</option>
                                             <option value="2">SPV</option>
+                                            <option value="4">GA</option>
                                             <option value="1" selected="">Admin</option>
                                             <option value="6">Mitra Bakso</option>
                                             @endif
