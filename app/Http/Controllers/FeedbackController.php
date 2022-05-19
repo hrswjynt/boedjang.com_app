@@ -29,7 +29,7 @@ class FeedbackController extends Controller
         //     $query->orWhere('Jabatan', 'like', '%Direktur%');
         //     $query->orWhere('Jabatan', 'like', '%Leader%');
         //     $query->orWhere('Cabang', 'like', '%HeadOffice%');
-        $atasan = Karyawan::where('Masa_kerja', '>', 3)->where('region', $karyawan->region)->whereNotIn('Status', ['Resign'])->get();
+        $atasan = Karyawan::where('Masa_kerja', '>', 1)->where('region', $karyawan->region)->whereNotIn('Status', ['Resign'])->get();
         $feedback = DB::table('feedback')->join('feedback_kategori', 'feedback_kategori.id', 'feedback.kategori')
             ->select('feedback.*', 'feedback_kategori.nama as kategori_nama')
             ->get();
