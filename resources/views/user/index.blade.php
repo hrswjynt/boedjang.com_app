@@ -125,6 +125,8 @@
                             return 'Admin';
                         } else if(data == 2){
                             return 'SPV';
+                        } else if(data == 4){
+                            return 'GA';
                         } else if(data == 3){
                             return 'Manager';
                         }else if(data == 6){
