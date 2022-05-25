@@ -374,7 +374,7 @@ class KatalogAssetController extends Controller
             ->join('u1127775_boedjang.brand as b', 'b.id', 'kar.id_brand')
             ->join('u1127775_finance.master_bahan as mb', 'mb.id', 'ka.master_bahan')
             ->select('ka.*', 'mb.item as name', 'mb.harga_acuan', 'mb.gambar')
-            ->where('ka.name', 'like', '%' . $request->search . '%')
+            ->where('mb.item', 'like', '%' . $request->search . '%')
             ->where('kar.id_brand', 'like', $query_brand)
             ->orderBy('ka.sequence', 'ASC')
             ->groupBy('ka.id')
