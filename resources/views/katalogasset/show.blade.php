@@ -71,9 +71,9 @@
                                 <div class="form-group mb-4 bmd-form-group">
                                     <label>Gambar </label><br>
                                     @if($asset->gambar == null)
-                                    <img id="img" src="{{asset('images/noimage.png')}}" alt="your image" height="100%" style="margin-top: 10px;width: 20%;height: auto;" />
+                                    <img id="img" src="{{asset('images/noimage.png')}}" alt="your image" height="100%" style="margin-top: 10px;max-height: 300px;" />
                                     @else
-                                    <img id="img" src="{{asset('images/aset/'.$asset->gambar)}}" alt="your image" height="100%" style="margin-top: 10px;width: 60%;height: auto;"/>
+                                    <img id="img" src="https://finance.boedjang.com/assets/{{$asset->gambar}}" alt="image" style="margin-top: 10px;max-height: 300px;"/>
                                     @endif
                                 </div>
                                 <div class="form-group mb-4 bmd-form-group">

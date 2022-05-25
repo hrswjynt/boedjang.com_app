@@ -36,11 +36,13 @@ class KatalogAssetController extends Controller
 
     public function excel()
     {
-        $data = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')
-            ->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')
-            ->select('katalog_asset.*')
-            ->orderBy('katalog_asset.sequence', 'ASC')
-            ->groupBy('katalog_asset.id')
+        $data = DB::table('u1127775_boedjang.katalog_asset as ka')
+            ->leftJoin('u1127775_boedjang.katalog_asset_relation as kar', 'kar.id_katalog_asset', 'ka.id')
+            ->join('u1127775_boedjang.brand as b', 'b.id', 'kar.id_brand')
+            ->join('u1127775_finance.master_bahan as mb', 'mb.id', 'ka.master_bahan')
+            ->select('ka.*', 'mb.item', 'mb.harga_acuan', 'mb.gambar')
+            ->orderBy('ka.sequence', 'ASC')
+            ->groupBy('ka.id')
             ->get();
         $brand = Brand::all();
         return view('katalogasset.excel')->with('page', 'katalogasset')->with('data', $data)->with('brand', $brand);
@@ -63,7 +65,7 @@ class KatalogAssetController extends Controller
         $validatedData = $this->validate($request, [
             'brand' => 'required',
             'master_bahan' => 'required',
-            'gambar' => 'max:40480'
+            // 'gambar' => 'max:40480'
         ]);
 
         $cek = KatalogAsset::where('master_bahan', $request->master_bahan)->first();
@@ -81,25 +83,25 @@ class KatalogAssetController extends Controller
             return redirect()->route('asset.index')->with('danger', 'Data Katalog gagal ditambahkan! Master Bahan tidak ditemukan.');
         }
 
-        $image_name = null;
-        if ($request->gambar !== null) {
-            $image = $request->file('gambar');
-            $image_name = time() . 'aset.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/images/aset');
-            $resize_image = Image::make($image->getRealPath());
-            $resize_image->resize(null, 300, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $image_name);
-        }
+        // $image_name = null;
+        // if ($request->gambar !== null) {
+        //     $image = $request->file('gambar');
+        //     $image_name = time() . 'aset.' . $image->getClientOriginalExtension();
+        //     $destinationPath = public_path('/images/aset');
+        //     $resize_image = Image::make($image->getRealPath());
+        //     $resize_image->resize(null, 300, function ($constraint) {
+        //         $constraint->aspectRatio();
+        //     })->save($destinationPath . '/' . $image_name);
+        // }
 
         $aset = new KatalogAsset();
         // $aset->brand = $request->brand;
         $aset->master_bahan = $request->master_bahan;
-        $aset->name = $bahan->item;
-        $aset->harga_acuan = $bahan->harga_acuan;
-        $aset->description = $request->description;
+        // $aset->name = $bahan->item;
+        // $aset->harga_acuan = $bahan->harga_acuan;
+        // $aset->description = $request->description;
         $aset->sequence = $request->sequence;
-        $aset->gambar = $image_name;
+        // $aset->gambar = $image_name;
         $aset->brand_display = '';
         $aset->save();
 
@@ -118,7 +120,14 @@ class KatalogAssetController extends Controller
 
     public function getData()
     {
-        $data = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')->select('katalog_asset.*')->orderBy('katalog_asset.sequence', 'ASC')->groupBy('katalog_asset.id')->get();
+        $data = DB::table('u1127775_boedjang.katalog_asset as ka')
+            ->leftJoin('u1127775_boedjang.katalog_asset_relation as kar', 'kar.id_katalog_asset', 'ka.id')
+            ->join('u1127775_boedjang.brand as b', 'b.id', 'kar.id_brand')
+            ->join('u1127775_finance.master_bahan as mb', 'mb.id', 'ka.master_bahan')
+            ->select('ka.*', 'mb.item', 'mb.harga_acuan', 'mb.gambar')
+            ->orderBy('ka.sequence', 'ASC')
+            ->groupBy('ka.id')
+            ->get();
         return $this->datatable($data);
     }
 
@@ -143,6 +152,15 @@ class KatalogAssetController extends Controller
 
     public function show(KatalogAsset $asset)
     {
+        $data = DB::table('u1127775_boedjang.katalog_asset as ka')
+            ->leftJoin('u1127775_boedjang.katalog_asset_relation as kar', 'kar.id_katalog_asset', 'ka.id')
+            ->join('u1127775_boedjang.brand as b', 'b.id', 'kar.id_brand')
+            ->join('u1127775_finance.master_bahan as mb', 'mb.id', 'ka.master_bahan')
+            ->select('ka.*', 'mb.item', 'mb.harga_acuan', 'mb.gambar')
+            ->orderBy('ka.sequence', 'ASC')
+            ->groupBy('ka.id')
+            ->where('ka.id', $asset->id)
+            ->first();
         $brand = Brand::all();
         $bahan = DB::table('u1127775_finance.master_bahan')
             ->where('region', 1)
@@ -154,7 +172,7 @@ class KatalogAssetController extends Controller
             $arrayrb[] = $rb->id_brand;
         }
         return view('katalogasset.show')
-            ->with('asset', $asset)
+            ->with('asset', $data)
             ->with('page', 'katalogasset')
             ->with('bahan', $bahan)
             ->with('relationbrand', $arrayrb)
@@ -163,6 +181,15 @@ class KatalogAssetController extends Controller
 
     public function edit(KatalogAsset $asset)
     {
+        $data = DB::table('u1127775_boedjang.katalog_asset as ka')
+            ->leftJoin('u1127775_boedjang.katalog_asset_relation as kar', 'kar.id_katalog_asset', 'ka.id')
+            ->join('u1127775_boedjang.brand as b', 'b.id', 'kar.id_brand')
+            ->join('u1127775_finance.master_bahan as mb', 'mb.id', 'ka.master_bahan')
+            ->select('ka.*', 'mb.item', 'mb.harga_acuan', 'mb.gambar')
+            ->orderBy('ka.sequence', 'ASC')
+            ->groupBy('ka.id')
+            ->where('ka.id', $asset->id)
+            ->first();
         $brand = Brand::all();
         $bahan = DB::table('u1127775_finance.master_bahan')
             ->where('region', 1)
@@ -173,9 +200,10 @@ class KatalogAssetController extends Controller
         foreach ($relationbrand as $rb) {
             $arrayrb[] = $rb->id_brand;
         }
+        // dd($data);
         return view('katalogasset.edit')
             ->with('page', 'katalogasset')
-            ->with('asset', $asset)
+            ->with('asset', $data)
             ->with('brand', $brand)
             ->with('relationbrand', $arrayrb)
             ->with('bahan', $bahan);
@@ -187,7 +215,7 @@ class KatalogAssetController extends Controller
         $validatedData = $this->validate($request, [
             // 'brand' => 'required',
             'master_bahan' => 'required',
-            'gambar' => 'max:40480'
+            // 'gambar' => 'max:40480'
         ]);
 
         $cek = KatalogAsset::where('master_bahan', $request->master_bahan)->whereNotIn('id', [$asset->id])->first();
@@ -204,29 +232,29 @@ class KatalogAssetController extends Controller
         if ($bahan == null) {
             return redirect()->route('asset.index')->with('danger', 'Data Katalog gagal ditambahkan! Data Katalog gagal diupdate! Master Bahan tidak ditemukan..');
         }
-        $image_name = null;
-        if ($request->gambar !== null) {
-            $image = $request->file('gambar');
-            $image_name = time() . 'aset.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/images/aset');
-            $resize_image = Image::make($image->getRealPath());
-            $resize_image->resize(null, 300, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $image_name);
-        }
-        if ($image_name != null) {
-            if ($asset->gambar !== null) {
-                $image_path = public_path('/images/aset/' . $asset->gambar);
-                if (File::exists($image_path)) {
-                    File::delete($image_path);
-                }
-            }
-            $asset->gambar = $image_name;
-        }
+        // $image_name = null;
+        // if ($request->gambar !== null) {
+        //     $image = $request->file('gambar');
+        //     $image_name = time() . 'aset.' . $image->getClientOriginalExtension();
+        //     $destinationPath = public_path('/images/aset');
+        //     $resize_image = Image::make($image->getRealPath());
+        //     $resize_image->resize(null, 300, function ($constraint) {
+        //         $constraint->aspectRatio();
+        //     })->save($destinationPath . '/' . $image_name);
+        // }
+        // if ($image_name != null) {
+        //     if ($asset->gambar !== null) {
+        //         $image_path = public_path('/images/aset/' . $asset->gambar);
+        //         if (File::exists($image_path)) {
+        //             File::delete($image_path);
+        //         }
+        //     }
+        //     $asset->gambar = $image_name;
+        // }
         $asset->master_bahan = $request->master_bahan;
-        $asset->name = $bahan->item;
-        $asset->harga_acuan = $bahan->harga_acuan;
-        $asset->description = $request->description;
+        // $asset->name = $bahan->item;
+        // $asset->harga_acuan = $bahan->harga_acuan;
+        // $asset->description = $request->description;
         $asset->sequence = $request->sequence;
         $asset->brand_display = '';
         $asset->save();
@@ -250,16 +278,22 @@ class KatalogAssetController extends Controller
         DB::beginTransaction();
         try {
             $asset = KatalogAsset::find($id);
-            $gambar = $asset->gambar;
-            $name = $asset->name;
+            $bahan = DB::table('u1127775_finance.master_bahan')
+                ->where('id', $asset->master_bahan)
+                ->where('region', 1)
+                ->whereIn('kode', [7, 8])
+                ->where('is_deleted', 0)
+                ->first();
+            // $gambar = $asset->gambar;
+            $name = $bahan->item;
             KatalogAssetRelation::where("id_katalog_asset", $id)->delete();
             $asset->delete();
-            if ($gambar !== null) {
-                $image_path = public_path('/images/aset/' . $gambar);
-                if (File::exists($image_path)) {
-                    File::delete($image_path);
-                }
-            }
+            // if ($gambar !== null) {
+            //     $image_path = public_path('/images/aset/' . $gambar);
+            //     if (File::exists($image_path)) {
+            //         File::delete($image_path);
+            //     }
+            // }
             DB::commit();
             return response()->json([
                 'message' => 'Data Katalog Aset "' . $name . '" berhasil dihapus!',
@@ -279,7 +313,16 @@ class KatalogAssetController extends Controller
         // dd($request->all());
         $search = null;
         $brand_select = null;
-        $asset = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')->select('katalog_asset.*')->orderBy('katalog_asset.sequence', 'ASC')->groupBy('katalog_asset.id')->paginate(12);
+        // $asset = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')->select('katalog_asset.*')->orderBy('katalog_asset.sequence', 'ASC')->groupBy('katalog_asset.id')->paginate(12);
+        $asset = DB::table('u1127775_boedjang.katalog_asset as ka')
+            ->leftJoin('u1127775_boedjang.katalog_asset_relation as kar', 'kar.id_katalog_asset', 'ka.id')
+            ->join('u1127775_boedjang.brand as b', 'b.id', 'kar.id_brand')
+            ->join('u1127775_finance.master_bahan as mb', 'mb.id', 'ka.master_bahan')
+            ->select('ka.*', 'mb.item as name', 'mb.harga_acuan', 'mb.gambar')
+            ->orderBy('ka.sequence', 'ASC')
+            ->groupBy('ka.id')
+            ->paginate(12);
+        // dd($asset);
         $brand = Brand::all();
 
         return view('katalogasset.home')->with('page', 'asset_list')->with('asset', $asset)->with('brand', $brand)->with('brand_select', $brand_select)->with('search', $search);
@@ -287,7 +330,16 @@ class KatalogAssetController extends Controller
 
     public function getAsset($id)
     {
-        $asset = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')->select('katalog_asset.*')->orderBy('katalog_asset.sequence', 'ASC')->where('katalog_asset.id', $id)->first();
+        // $asset = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')->select('katalog_asset.*')->orderBy('katalog_asset.sequence', 'ASC')->where('katalog_asset.id', $id)->first();
+        $asset = DB::table('u1127775_boedjang.katalog_asset as ka')
+            ->leftJoin('u1127775_boedjang.katalog_asset_relation as kar', 'kar.id_katalog_asset', 'ka.id')
+            ->join('u1127775_boedjang.brand as b', 'b.id', 'kar.id_brand')
+            ->join('u1127775_finance.master_bahan as mb', 'mb.id', 'ka.master_bahan')
+            ->select('ka.*', 'mb.item as name', 'mb.harga_acuan', 'mb.gambar')
+            ->orderBy('ka.sequence', 'ASC')
+            ->groupBy('ka.id')
+            ->where('ka.id', $id)
+            ->first();
         $brand = KatalogAssetRelation::join('brand', 'brand.id', 'katalog_asset_relation.id_brand')->select('brand.*')->where('id_katalog_asset', $id)->get();
         if ($asset == null) {
             return redirect()->route('asset_list.index')->with('danger', 'Katalog Aset yang dicari tidak ditemukan.');
@@ -308,13 +360,24 @@ class KatalogAssetController extends Controller
             $brand_select = Brand::find($request->brand);
         }
 
-        $asset = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')
-            ->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')
-            ->select('katalog_asset.*')
-            ->where('katalog_asset.name', 'like', '%' . $request->search . '%')
-            ->where('katalog_asset_relation.id_brand', 'like', $query_brand)
-            ->orderBy('katalog_asset.sequence', 'ASC')
-            ->groupBy('katalog_asset.id')
+        // $asset = KatalogAsset::leftJoin('katalog_asset_relation', 'katalog_asset_relation.id_katalog_asset', 'katalog_asset.id')
+        //     ->join('brand', 'brand.id', 'katalog_asset_relation.id_brand')
+        //     ->select('katalog_asset.*')
+        //     ->where('katalog_asset.name', 'like', '%' . $request->search . '%')
+        //     ->where('katalog_asset_relation.id_brand', 'like', $query_brand)
+        //     ->orderBy('katalog_asset.sequence', 'ASC')
+        //     ->groupBy('katalog_asset.id')
+        //     ->paginate(12);
+
+        $asset = DB::table('u1127775_boedjang.katalog_asset as ka')
+            ->leftJoin('u1127775_boedjang.katalog_asset_relation as kar', 'kar.id_katalog_asset', 'ka.id')
+            ->join('u1127775_boedjang.brand as b', 'b.id', 'kar.id_brand')
+            ->join('u1127775_finance.master_bahan as mb', 'mb.id', 'ka.master_bahan')
+            ->select('ka.*', 'mb.item as name', 'mb.harga_acuan', 'mb.gambar')
+            ->where('ka.name', 'like', '%' . $request->search . '%')
+            ->where('kar.id_brand', 'like', $query_brand)
+            ->orderBy('ka.sequence', 'ASC')
+            ->groupBy('ka.id')
             ->paginate(12);
 
         $brand = Brand::all();

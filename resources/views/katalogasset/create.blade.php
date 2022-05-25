@@ -50,7 +50,7 @@
                                         <select class="select2" name="master_bahan" id="master_bahan" class="form-control" style="width: 100%" required>
                                             <option value="" data-harga="">Pilih Master Bahan</option>   
                                             @foreach($bahan as $b)
-                                            <option value="{{$b->id}}" data-harga={{$b->harga_acuan}}>{{$b->item}}</option>
+                                            <option value="{{$b->id}}" data-harga={{$b->harga_acuan}} data-gambar={{$b->gambar}}>{{$b->item}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -63,10 +63,10 @@
                                         <input name="sequence" type="number" class="form-control" value="0" id="sequence">
                                     </div>
                                     <div class="form-group mb-4 bmd-form-group">
-                                        <label>Gambar </label>
-                                        <input name="gambar" type="file"
-                                            class="form-control" value="" id="gambar" accept="image/*">
-                                        <img id="img" src="" alt="your image" style="margin-top: 10px;width: 60%;height: auto;"  />
+                                        <label>Gambar </label><br>
+                                        {{-- <input name="gambar" type="file"
+                                            class="form-control" value="" id="gambar" accept="image/*"> --}}
+                                        <img id="img" src="{{asset('images/noimage.png')}}" alt="your image" style="margin-top: 10px;max-height: 300px;" />
                                     </div>
                                     <div class="form-group mb-4 bmd-form-group">
                                         <label>Deskripsi <span class="red">*</span></label>
@@ -101,6 +101,7 @@
 <script type="text/javascript">
     var url_delete = "{{url('asset-delete')}}";
     var base_url = "{{ url('/') }}";
+    var no_image = "{{asset('images/noimage.png')}}";
 </script>
 <script type="module">
 
@@ -165,12 +166,19 @@
         $('#master_bahan').change(function(){
             var selected = $(this).find('option:selected');
             var harga = selected.data('harga');
+            var gambar = selected.data('gambar');
             $('#harga_acuan').val(new Intl.NumberFormat("id-ID", {style: "currency",currency: "IDR"}).format(harga));
+            if(gambar === null || gambar === ''){
+                $("#img").attr("src",no_image);
+            }else{
+                $("#img").attr("src",'https://finance.boedjang.com/assets'+gambar);
+            }
+            
         });
 
         $('#btn-submit').show();
         $('#btn-submit-loading').hide();
-        $('#img').hide();
+        // $('#img').hide();
 
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -200,17 +208,17 @@
             }
         });
 
-        var uploadField = document.getElementById("gambar");
+        // var uploadField = document.getElementById("gambar");
 
-        uploadField.onchange = function() {
-            if(this.files[0].size > 2097152){
-                swal("Data Gambar terlalu besar!", {
-                  icon: "error",
-                });
-               this.value = "";
-               $('#img').hide();
-            };
-        };
+        // uploadField.onchange = function() {
+        //     if(this.files[0].size > 2097152){
+        //         swal("Data Gambar terlalu besar!", {
+        //           icon: "error",
+        //         });
+        //        this.value = "";
+        //        $('#img').hide();
+        //     };
+        // };
 
         $("#btn-submit").click(function(){
             swal({

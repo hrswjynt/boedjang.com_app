@@ -89,7 +89,7 @@
                                 @else
                                 <div class="zoom2" style="width: 100%">
                                     <a href="{{url('asset-list/'.$s->id)}}" style="text-decoration: none;">
-                                        <img src="{{ asset('images/aset/'.$s->gambar) }}" style="height: 200px;width: 100%;object-fit: cover;border-bottom: 1px solid #DFE4E5;">
+                                        <img src="https://finance.boedjang.com/assets/{{$s->gambar}}" style="height: 200px;width: 100%;object-fit: cover;border-bottom: 1px solid #DFE4E5;">
                                     </a>
                                 </div>
                                 @endif
@@ -99,10 +99,10 @@
                                     <!-- <hr class="sidebar-divider"> -->
                                     <div style="bottom: 10px;text-align: center" class="justify-content-between">
                                         <div class="justify-content-between align-items-center">
-                                            <small class="text-muted kecil" style="background-color:#DFE4E5;margin-right: 10px">{{$s->updated_at->diffForHumans()}}</small>
+                                            {{-- <small class="text-muted kecil" style="background-color:#DFE4E5;margin-right: 10px">{{$s->updated_at->diffForHumans()}}</small>
                                             @if($s->updated_at > date('Y-m-d H:m:s', strtotime("-10 days")))
                                             <span class="badge badge-success kecil"><i class="far fa-calendar-check"></i> Terbaru</span>
-                                            @endif
+                                            @endif --}}
                                             @for($i=1;$i < count($brand);$i++)
                                             <span class="badge badge-warning kecil"><i class="fas fa-star"></i> {{$brand[$i]}}</span>
                                             @endfor

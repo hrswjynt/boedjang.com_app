@@ -126,8 +126,8 @@
                     }
                 },
                 {
-                    data: 'name',
-                    name: 'name',
+                    data: 'item',
+                    name: 'item',
                     render: function (data, type, row) {
                         if(data !== null){
                             return data;

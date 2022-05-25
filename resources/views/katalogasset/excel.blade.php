@@ -74,7 +74,7 @@
                                     
 
                                     <td>
-                                        {{$d->name}}
+                                        {{$d->item}}
                                     </td>
                                     <td>
                                         {{$d->harga_acuan}}

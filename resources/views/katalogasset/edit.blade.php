@@ -56,9 +56,9 @@
                                             <option value="" data-harga="">Pilih Master Bahan</option>   
                                             @foreach($bahan as $b)
                                             @if($b->id == $asset->master_bahan)
-                                            <option selected value="{{$b->id}}" data-harga={{$b->harga_acuan}}>{{$b->item}}</option>
+                                            <option selected value="{{$b->id}}" data-harga={{$b->harga_acuan}} data-gambar={{$b->gambar}}>{{$b->item}}</option>
                                             @else
-                                            <option value="{{$b->id}}" data-harga={{$b->harga_acuan}}>{{$b->item}}</option>
+                                            <option value="{{$b->id}}" data-harga={{$b->harga_acuan}} data-gambar={{$b->gambar}}>{{$b->item}}</option>
                                             @endif
                                             @endforeach
                                         </select>
@@ -72,13 +72,13 @@
                                         <input name="sequence" type="number" class="form-control" value="{{$asset->sequence}}" id="sequence">
                                     </div>
                                     <div class="form-group mb-4 bmd-form-group">
-                                        <label>Gambar </label>
-                                        <input name="gambar" type="file"
-                                            class="form-control" value="" id="gambar" accept="image/*">
+                                        <label>Gambar </label><br>
+                                        {{-- <input name="gambar" type="file"
+                                            class="form-control" value="" id="gambar" accept="image/*"> --}}
                                         @if($asset->gambar == null)
-                                        <img id="img" src="{{asset('images/noimage.png')}}" alt="your image" height="100%" style="margin-top: 10px;width: 20%;height: auto;" />
+                                        <img id="img" src="{{asset('images/noimage.png')}}" alt="your image" height="100%" style="margin-top: 10px;max-height: 300px;" />
                                         @else
-                                        <img id="img" src="{{asset('images/aset/'.$asset->gambar)}}" alt="your image" height="100%" style="margin-top: 10px;width: 60%;height: auto;"/>
+                                        <img id="img" src="https://finance.boedjang.com/assets/{{$asset->gambar}}" alt="image" style="margin-top: 10px;max-height: 300px;"/>
                                         @endif
                                     </div>
                                     <div class="form-group mb-4 bmd-form-group">
@@ -114,6 +114,7 @@
 <script type="text/javascript">
     var url_delete = "{{url('asset-delete')}}";
     var base_url = "{{ url('/') }}";
+    var no_image = "{{asset('images/noimage.png')}}";
 </script>
 <script type="text/javascript">
     CKEDITOR.replace('description', {
@@ -183,7 +184,14 @@
         $('#master_bahan').change(function(){
             var selected = $(this).find('option:selected');
             var harga = selected.data('harga');
+            var gambar = selected.data('gambar');
             $('#harga_acuan').val(new Intl.NumberFormat("id-ID", {style: "currency",currency: "IDR"}).format(harga));
+            if(gambar === null || gambar === ''){
+                $("#img").attr("src",no_image);
+            }else{
+                $("#img").attr("src",'https://finance.boedjang.com/assets'+gambar);
+            }
+            
         });
 
         
@@ -200,33 +208,33 @@
             }
         }
 
-        $("#gambar").change(function() {
-            var val = $(this).val();
-            switch(val.substring(val.lastIndexOf('.') + 1).toLowerCase()){
-                case 'gif': case 'jpg': case 'png': case 'jpeg': case 'JPG': case 'PNG':
-                    $('#img').show();
-                    readURL(this);
-                    break;
-                default:
-                    $(this).val('');
-                    swal("Error Upload", "Format file gambar tidak valid (png | jpg | jpeg)", "error");
-                    $('#gambar').val('');
-                    $('#img').hide();
-                    break;
-            }
-        });
+        // $("#gambar").change(function() {
+        //     var val = $(this).val();
+        //     switch(val.substring(val.lastIndexOf('.') + 1).toLowerCase()){
+        //         case 'gif': case 'jpg': case 'png': case 'jpeg': case 'JPG': case 'PNG':
+        //             $('#img').show();
+        //             readURL(this);
+        //             break;
+        //         default:
+        //             $(this).val('');
+        //             swal("Error Upload", "Format file gambar tidak valid (png | jpg | jpeg)", "error");
+        //             $('#gambar').val('');
+        //             $('#img').hide();
+        //             break;
+        //     }
+        // });
 
-        var uploadField = document.getElementById("gambar");
+        // var uploadField = document.getElementById("gambar");
 
-        uploadField.onchange = function() {
-            if(this.files[0].size > 2097152){
-                swal("Data Gambar terlalu besar!", {
-                  icon: "error",
-                });
-               this.value = "";
-               $('#img').hide();
-            };
-        };
+        // uploadField.onchange = function() {
+        //     if(this.files[0].size > 2097152){
+        //         swal("Data Gambar terlalu besar!", {
+        //           icon: "error",
+        //         });
+        //        this.value = "";
+        //        $('#img').hide();
+        //     };
+        // };
 
         $("#btn-submit").click(function(){
             swal({

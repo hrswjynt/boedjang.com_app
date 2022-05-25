@@ -69,11 +69,11 @@
                             @foreach($brand as $c)
                             <span class="badge badge-warning shadow"><i class="fas fa-star"></i> {{$c->name}}</span>
                             @endforeach
-                            <p class="text-muted"> <i class="far fa-clock"></i> {{date_format($asset->updated_at,'d-m-Y H:i:s')}}</p>
+                            <p class="text-muted"> <i class="far fa-clock"></i> {{date('d-m-Y H:i:s',strtotime($asset->updated_at))}}</p>
                             @if($asset->gambar == null)
                             {{-- <img id="img" src="{{asset('images/noimage.png')}}" alt="katalog aset" style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 30px" /> --}}
                             @else
-                            <img id="img" src="{{asset('images/aset/'.$asset->gambar)}}" alt="katalog aset" style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 30px"/>
+                            <img id="img" src="https://finance.boedjang.com/assets/{{$asset->gambar}}" alt="katalog aset" style="margin-left: auto;margin-right: auto;display: block;margin-bottom: 30px"/>
                             @endif
                         </div>
 
