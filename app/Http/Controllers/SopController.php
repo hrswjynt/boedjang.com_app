@@ -51,7 +51,7 @@ class SopController extends Controller
         // dd($request->all());
         $validatedData = $this->validate($request, [
             'title' => 'required',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480'
+            // 'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480'
         ]);
 
         $image_name = null;
