@@ -137,6 +137,7 @@
                 </li>
 
                 <?php $karyawan = DB::table('u1127775_absensi.Absen')->where('NIP',Auth::user()->username)->first(); ?>
+                @if($karyawan !== null)
                 @if(Auth::user()->role !== 5 || $karyawan->Cabang == "HeadOffice")
                 <li class="nav-item @if($page == 'bpm_list') active @endif">
                     <a class="nav-link" href="{{route('bpm_list.index')}}">
@@ -144,6 +145,7 @@
                         <span>BPM</span>
                     </a>
                 </li>
+                @endif
                 @endif
                 @endif
 
@@ -174,7 +176,7 @@
                 @endif
 
                 <?php $user = DB::table('u1127775_boedjang.users')->where('id',Auth::user()->id)->first(); ?>
-                
+                @if($karyawan !== null)
                 @if((Auth::user()->role == 1 || Auth::user()->role == 2 || $karyawan->Cabang == "HeadOffice") && $user->token !== null)
                 <li class="nav-item @if($page == 'ticket' || $page == 'task_ticket' ) active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTicket" aria-expanded="true" aria-controls="collapseTicket">
@@ -188,6 +190,7 @@
                         </div>
                     </div>
                 </li>
+                @endif
                 @endif
 
                 @if(($user->ticket_role === 1 || $user->ticket_role === 2) && $user->token !== null)
