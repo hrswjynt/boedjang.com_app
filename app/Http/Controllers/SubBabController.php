@@ -58,7 +58,7 @@ class SubBabController extends Controller
     }
 
     public function getData(){
-        $data = SubBab::leftJoin('bab','bab.id','sub_bab.bab')->select('sub_bab.id','sub_bab.title','sub_bab.slug','sub_bab.publish','sub_bab.bab','bab.name as bab_name')->orderBy('bab.sequence', 'ASC')->get();
+        $data = SubBab::leftJoin('bab','bab.id','sub_bab.bab')->select('sub_bab.id','sub_bab.title','sub_bab.slug','sub_bab.publish','sub_bab.bab','bab.name as bab_name')->orderBy('bab.sequence', 'ASC')->orderBy('sub_bab.sequence', 'ASC')->get();
         return $this->datatable($data);
     }
 
