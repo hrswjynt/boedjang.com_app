@@ -129,13 +129,6 @@
                         columns: ':visible'
                     }
                 },
-                {
-                    extend: 'pdfHtml5',
-                    filename: "potonganlain",
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
                 'colvis'
             ],
             columns: [
