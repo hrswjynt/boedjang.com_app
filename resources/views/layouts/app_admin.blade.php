@@ -46,7 +46,7 @@
             #loader {
                 position: absolute;
                 left: 50%;
-                top: 20%;
+                top: 300px;
                 z-index: 1;
                 width: 120px;
                 height: 120px;
@@ -563,7 +563,8 @@
             });
 
             $(document).ready(function () {
-                window.onscroll = function () { window.scrollTo(0, 0); };
+                window.scrollTo(0, 0);
+                disableScroll();
                 if ($(window).width() < 480){
                     $("body").addClass("sidebar-toggled");
                     $(".sidebar").addClass("toggled");
@@ -578,7 +579,49 @@
             function showPage() {
                 document.getElementById("loader").style.display = "none";
                 document.getElementById("wrapper").style.opacity = "1";
-                window.onscroll = function () { };
+                enableScroll();
+            }
+
+            // left: 37, up: 38, right: 39, down: 40,
+            // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+            var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
+            function preventDefault(e) {
+                e.preventDefault();
+            }
+
+            function preventDefaultForScrollKeys(e) {
+            if (keys[e.keyCode]) {
+                preventDefault(e);
+                return false;
+            }
+            }
+
+            // modern Chrome requires { passive: false } when adding event
+            var supportsPassive = false;
+            try {
+            window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+                get: function () { supportsPassive = true; } 
+            }));
+            } catch(e) {}
+
+            var wheelOpt = supportsPassive ? { passive: false } : false;
+            var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+
+            // call this to Disable
+            function disableScroll() {
+            window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+            window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+            window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+            window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+            }
+
+            // call this to Enable
+            function enableScroll() {
+            window.removeEventListener('DOMMouseScroll', preventDefault, false);
+            window.removeEventListener(wheelEvent, preventDefault, wheelOpt); 
+            window.removeEventListener('touchmove', preventDefault, wheelOpt);
+            window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
             }
         </script>
         <!-- Page level plugins -->
