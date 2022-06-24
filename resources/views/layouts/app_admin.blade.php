@@ -563,6 +563,7 @@
             });
 
             $(document).ready(function () {
+                window.onscroll = function () { window.scrollTo(0, 0); };
                 if ($(window).width() < 480){
                     $("body").addClass("sidebar-toggled");
                     $(".sidebar").addClass("toggled");
@@ -577,6 +578,7 @@
             function showPage() {
                 document.getElementById("loader").style.display = "none";
                 document.getElementById("wrapper").style.opacity = "1";
+                window.onscroll = function () { };
             }
         </script>
         <!-- Page level plugins -->
