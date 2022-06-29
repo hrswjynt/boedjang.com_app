@@ -15,6 +15,8 @@ use DB;
 use File;
 use Image;
 
+use function PHPSTORM_META\type;
+
 class BukuPedomanController extends Controller
 {
     /**
@@ -84,11 +86,13 @@ class BukuPedomanController extends Controller
             $bukupedoman->save();
         }
 
-        foreach ($request->sop as $sop) {
-            $relation = new BukuPedomanRelationSop;
-            $relation->id_buku_pedoman = $bukupedoman->id;
-            $relation->id_sop = $sop;
-            $relation->save();
+        if (count($request->sop) > 0) {
+            foreach ($request->sop as $sop) {
+                $relation = new BukuPedomanRelationSop;
+                $relation->id_buku_pedoman = $bukupedoman->id;
+                $relation->id_sop = $sop;
+                $relation->save();
+            }
         }
 
         return redirect()->route('bukupedoman.index')->with('success','Data Buku Pedoman '.$request->title.' berhasil disimpan.');
