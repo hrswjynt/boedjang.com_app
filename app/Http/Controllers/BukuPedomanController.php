@@ -88,7 +88,7 @@ class BukuPedomanController extends Controller
                 $bukupedoman->save();
             }
 
-            if (count($request->sop) > 0) {
+            if ($request->sop !== null) {
                 foreach ($request->sop as $sop) {
                     $relation = new BukuPedomanRelationSop;
                     $relation->id_buku_pedoman = $bukupedoman->id;
@@ -97,13 +97,11 @@ class BukuPedomanController extends Controller
                 }
             }
 
+            DB::commit();
+
             return redirect()->route('bukupedoman.index')->with('success','Data Buku Pedoman '.$request->title.' berhasil disimpan.');
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json([
-                'message' => 'Pedoman "' . $bukupedoman->title . '" gagal ditambahkan!',
-                'type' => 'danger',
-            ]);
         }
 
     }
