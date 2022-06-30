@@ -15,6 +15,8 @@ use DB;
 use File;
 use Image;
 
+use function PHPSTORM_META\type;
+
 class BukuPedomanController extends Controller
 {
     /**
@@ -51,47 +53,57 @@ class BukuPedomanController extends Controller
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480'
         ]);
 
-        $image_name = null;
-        if($request->gambar !== null){
-            $image = $request->file('gambar');
-            $image_name = time() . 'bukupedoman.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/images/bukupedoman');
-            $resize_image = Image::make($image->getRealPath());
-            // $resize_image->resize(null, null, function($constraint){
-            //     $constraint->aspectRatio();
-            // })->save($destinationPath . '/' . $image_name);
-            $resize_image->save($destinationPath . '/' . $image_name);
-        }
+        DB::beginTransaction();
+        try {
+            $image_name = null;
+            if($request->gambar !== null){
+                $image = $request->file('gambar');
+                $image_name = time() . 'bukupedoman.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('/images/bukupedoman');
+                $resize_image = Image::make($image->getRealPath());
+                // $resize_image->resize(null, null, function($constraint){
+                //     $constraint->aspectRatio();
+                // })->save($destinationPath . '/' . $image_name);
+                $resize_image->save($destinationPath . '/' . $image_name);
+            }
 
-        $bukupedoman = new BukuPedoman;
-        $slug = str_replace("/","",$request->title);
-        $bukupedoman->slug = strtolower(str_replace(" ","-",$slug));
-        $bukupedoman->title = $request->title;
-        $bukupedoman->content = $request->content;
-        $bukupedoman->gambar = $image_name;
-        $bukupedoman->publish = 0;
-        $bukupedoman->reader = $request->reader;
-        $bukupedoman->division_display = '';
-        $bukupedoman->save();
-
-        foreach ($request->division as $division) {
-            $relation = new BukuPedomanRelationDivision;
-            $relation->id_buku_pedoman = $bukupedoman->id;
-            $relation->id_division = $division;
-            $relation->save();
-
-            $bukupedoman->division_display = $bukupedoman->division_display.';'.BukuPedomanDivision::find($division)->name;
+            $bukupedoman = new BukuPedoman;
+            $slug = str_replace("/","",$request->title);
+            $bukupedoman->slug = strtolower(str_replace(" ","-",$slug));
+            $bukupedoman->title = $request->title;
+            $bukupedoman->content = $request->content;
+            $bukupedoman->gambar = $image_name;
+            $bukupedoman->publish = 0;
+            $bukupedoman->reader = $request->reader;
+            $bukupedoman->division_display = '';
             $bukupedoman->save();
+
+            foreach ($request->division as $division) {
+                $relation = new BukuPedomanRelationDivision;
+                $relation->id_buku_pedoman = $bukupedoman->id;
+                $relation->id_division = $division;
+                $relation->save();
+
+                $bukupedoman->division_display = $bukupedoman->division_display.';'.BukuPedomanDivision::find($division)->name;
+                $bukupedoman->save();
+            }
+
+            if ($request->sop !== null) {
+                foreach ($request->sop as $sop) {
+                    $relation = new BukuPedomanRelationSop;
+                    $relation->id_buku_pedoman = $bukupedoman->id;
+                    $relation->id_sop = $sop;
+                    $relation->save();
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('bukupedoman.index')->with('success','Data Buku Pedoman '.$request->title.' berhasil disimpan.');
+        } catch (\Exception $e) {
+            DB::rollback();
         }
 
-        foreach ($request->sop as $sop) {
-            $relation = new BukuPedomanRelationSop;
-            $relation->id_buku_pedoman = $bukupedoman->id;
-            $relation->id_sop = $sop;
-            $relation->save();
-        }
-
-        return redirect()->route('bukupedoman.index')->with('success','Data Buku Pedoman '.$request->title.' berhasil disimpan.');
     }
 
     public function getData(){
@@ -160,53 +172,64 @@ class BukuPedomanController extends Controller
         $validatedData = $this->validate($request, [
             'title'         => 'required',
         ]);
-        $image_name = null;
-        if($request->gambar !== null){
-            $image = $request->file('gambar');
-            $image_name = time() . 'bukupedoman.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/images/bukupedoman');
-            $resize_image = Image::make($image->getRealPath());
-            // $resize_image->resize(null, null, function($constraint){
-            //     $constraint->aspectRatio();
-            // })->save($destinationPath . '/' . $image_name);
-            $resize_image->save($destinationPath . '/' . $image_name);
-        }
-        $slug = str_replace("/","",$request->title);
-        $bukupedoman->slug = strtolower(str_replace(" ","-",$slug));
-        $bukupedoman->title = $request->title;
-        $bukupedoman->content = $request->content;
-        if($image_name != null){
-            if($bukupedoman->gambar !==null){
-                $image_path = public_path('/images/bukupedoman/'.$bukupedoman->gambar);
-                if(File::exists($image_path)) {
-                    File::delete($image_path);
+
+        DB::beginTransaction();
+        try {
+            $image_name = null;
+            if($request->gambar !== null){
+                $image = $request->file('gambar');
+                $image_name = time() . 'bukupedoman.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('/images/bukupedoman');
+                $resize_image = Image::make($image->getRealPath());
+                // $resize_image->resize(null, null, function($constraint){
+                //     $constraint->aspectRatio();
+                // })->save($destinationPath . '/' . $image_name);
+                $resize_image->save($destinationPath . '/' . $image_name);
+            }
+            $slug = str_replace("/","",$request->title);
+            $bukupedoman->slug = strtolower(str_replace(" ","-",$slug));
+            $bukupedoman->title = $request->title;
+            $bukupedoman->content = $request->content;
+            if($image_name != null){
+                if($bukupedoman->gambar !==null){
+                    $image_path = public_path('/images/bukupedoman/'.$bukupedoman->gambar);
+                    if(File::exists($image_path)) {
+                        File::delete($image_path);
+                    }
+                }
+                $bukupedoman->gambar = $image_name;
+            }
+            $bukupedoman->division_display = '';
+            $bukupedoman->publish = $request->publish;
+            $bukupedoman->reader = $request->reader;
+            $bukupedoman->save();
+
+            BukuPedomanRelationDivision::where('id_buku_pedoman',$bukupedoman->id)->delete();
+            foreach ($request->division as $division) {
+                $relation = new BukuPedomanRelationDivision;
+                $relation->id_buku_pedoman = $bukupedoman->id;
+                $relation->id_division = $division;
+                $relation->save();
+                $bukupedoman->division_display = $bukupedoman->division_display.';'.BukuPedomanDivision::find($division)->name;
+                $bukupedoman->save();
+            }
+            BukuPedomanRelationSop::where('id_buku_pedoman',$bukupedoman->id)->delete();
+
+            if ($request->sop !== null) {
+                foreach ($request->sop as $sop) {
+                    $relation = new BukuPedomanRelationSop;
+                    $relation->id_buku_pedoman = $bukupedoman->id;
+                    $relation->id_sop = $sop;
+                    $relation->save();
                 }
             }
-            $bukupedoman->gambar = $image_name;
-        }
-        $bukupedoman->division_display = '';
-        $bukupedoman->publish = $request->publish;
-        $bukupedoman->reader = $request->reader;
-        $bukupedoman->save();
 
-        BukuPedomanRelationDivision::where('id_buku_pedoman',$bukupedoman->id)->delete();
-        foreach ($request->division as $division) {
-            $relation = new BukuPedomanRelationDivision;
-            $relation->id_buku_pedoman = $bukupedoman->id;
-            $relation->id_division = $division;
-            $relation->save();
-            $bukupedoman->division_display = $bukupedoman->division_display.';'.BukuPedomanDivision::find($division)->name;
-            $bukupedoman->save();
-        }
-        BukuPedomanRelationSop::where('id_buku_pedoman',$bukupedoman->id)->delete();
-        foreach ($request->sop as $sop) {
-            $relation = new BukuPedomanRelationSop;
-            $relation->id_buku_pedoman = $bukupedoman->id;
-            $relation->id_sop = $sop;
-            $relation->save();
-        }
+            DB::commit();
 
-        return redirect()->route('bukupedoman.index')->with('success','Data Buku Pedoman '.$request->title.' berhasil diupdate.');
+            return redirect()->route('bukupedoman.index')->with('success','Data Buku Pedoman '.$request->title.' berhasil diupdate.');
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
    }
 
    public function delete($id){

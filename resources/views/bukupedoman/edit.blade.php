@@ -84,8 +84,8 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group mb-4 bmd-form-group">
-                                                            <label>SOP<span class="red">*</span></label>
-                                                            <select class="select2" multiple="multiple" name="sop[]" id="sop" class="form-control" style="width: 100%" required>   
+                                                            <label>SOP</label>
+                                                            <select class="select2" multiple="multiple" name="sop[]" id="sop" class="form-control" style="width: 100%">   
                                                                 @foreach($sop as $s)
                                                                 @if(in_array($s->id,$soprelate))
                                                                 <option value="{{$s->id}}" selected="">{{$s->title}}</option>
