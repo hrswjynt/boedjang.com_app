@@ -71,6 +71,15 @@
                                         <input name="email" type="email"
                                             class="form-control" value="{{$user->email}}" maxlength="100" >
                                     </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">NIK </label>
+                                        <input name="nik" type="text"
+                                            class="form-control" value="{{$karyawan->NIK}}" maxlength="100" >
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Alamat </label>
+                                        <textarea name="alamat" class="form-control" id="alamat" rows="2">{!! $karyawan->alamat !!}</textarea>
+                                    </div>
                                     @if(Auth::user()->role == 1)
                                     <div class="form-group mb-4 bmd-form-group">
                                         <label class="bmd-label-floating">Role <span class="red">*</span></label>

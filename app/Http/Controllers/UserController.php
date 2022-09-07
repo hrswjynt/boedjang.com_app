@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use App\Karyawan;
 use DataTables;
 use Auth;
 use DB;
@@ -128,8 +129,10 @@ class UserController extends Controller
     
     public function edit(User $user)
     {   
+        $karyawan = Karyawan::select('alamat', 'NIK')->where('NIP', $user->username)->first();
         if(Auth::user()->role == 1){
             return view('user.edit')->with('page','user')
+                                        ->with('karyawan',$karyawan)
                                         ->with('user', $user);
         }else{
             if(Auth::user()->id != $user->id){
@@ -138,6 +141,7 @@ class UserController extends Controller
                 return redirect()->route('dashboard')->with($message_type,$message);
             }
             return view('user.edit')->with('page','dashboard')
+                                        ->with('karyawan',$karyawan)
                                         ->with('user', $user);
         }
     }
@@ -165,6 +169,11 @@ class UserController extends Controller
                 return redirect()->route('dashboard')->with($message_type,$message);
             }
         }
+
+        $karyawan = Karyawan::where('NIP', $user->username)->first();
+        $karyawan->NIK = $request->nik;
+        $karyawan->alamat = $request->alamat;
+        $karyawan->save();
         
         $image_name = null;
         if($request->gambar !== null){
