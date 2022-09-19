@@ -74,7 +74,12 @@
                                     <div class="form-group mb-4 bmd-form-group">
                                         <label class="bmd-label-floating">NIK </label>
                                         <input name="nik" type="text"
-                                            class="form-control" value="{{$karyawan->NIK}}" maxlength="100" >
+                                            class="form-control" value="{{$karyawan->NIK}}">
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">No.HP </label>
+                                        <input name="no_hp" type="text"
+                                            class="form-control" value="{{$karyawan->No_HP}}">
                                     </div>
                                     <div class="form-group mb-4 bmd-form-group">
                                         <label class="bmd-label-floating">Alamat </label>

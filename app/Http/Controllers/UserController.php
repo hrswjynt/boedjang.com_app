@@ -129,7 +129,7 @@ class UserController extends Controller
     
     public function edit(User $user)
     {   
-        $karyawan = Karyawan::select('alamat', 'NIK')->where('NIP', $user->username)->first();
+        $karyawan = Karyawan::select('alamat', 'NIK', 'No_HP')->where('NIP', $user->username)->first();
         if(Auth::user()->role == 1){
             return view('user.edit')->with('page','user')
                                         ->with('karyawan',$karyawan)
@@ -173,6 +173,7 @@ class UserController extends Controller
         $karyawan = Karyawan::where('NIP', $user->username)->first();
         $karyawan->NIK = $request->nik;
         $karyawan->alamat = $request->alamat;
+        $karyawan->No_HP = $request->no_hp;
         $karyawan->save();
         
         $image_name = null;
