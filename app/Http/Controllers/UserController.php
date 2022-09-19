@@ -118,8 +118,9 @@ class UserController extends Controller
     
     public function show(User $user)
     {   
+        $karyawan = Karyawan::select('alamat', 'NIK', 'No_HP')->where('NIP', $user->username)->first();
         if(Auth::user()->role == 1){
-            return view('user.show')->with('user', $user)->with('page','user');
+            return view('user.show')->with('user', $user)->with('karyawan',$karyawan)->with('page','user');
         }else{
             $message_type = 'danger';
             $message = 'Tidak memiliki hak akses untuk mengedit Orang lain.';

@@ -59,6 +59,20 @@
                                             class="form-control" value="{{$user->email}}" maxlength="100" disabled="">
                                     </div>
                                     <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">NIK </label>
+                                        <input name="nik" type="text"
+                                            class="form-control" value="{{$karyawan->NIK}}" disabled>
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">No.HP </label>
+                                        <input name="no_hp" type="text"
+                                            class="form-control" value="{{$karyawan->No_HP}}" disabled>
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
+                                        <label class="bmd-label-floating">Alamat </label>
+                                        <textarea name="alamat" class="form-control" id="alamat" rows="2" disabled>{!! $karyawan->alamat !!}</textarea>
+                                    </div>
+                                    <div class="form-group mb-4 bmd-form-group">
                                         <label class="bmd-label-floating">Role <span class="red">*</span></label>
                                         <select class="form-control select2" name="role" disabled="" style="width: 100%">
                                             @if($user->role == 5) 
