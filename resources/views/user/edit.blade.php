@@ -78,12 +78,12 @@
                                 </div>
                                 <div class="form-group mb-3 bmd-form-group">
                                     <label class="bmd-label-floating">NIK </label>
-                                    <input name="nik" type="text" class="form-control" value="{{ $karyawan->NIK }}">
+                                    <input name="nik" type="text" class="form-control" value="{{ $karyawan->NIK }}" maxlength="30" required>
                                 </div>
                                 <div class="form-group mb-3 bmd-form-group">
                                     <label class="bmd-label-floating">No.HP </label>
                                     <input name="no_hp" type="text" class="form-control"
-                                        value="{{ $karyawan->No_HP }}">
+                                        value="{{ $karyawan->No_HP }}" maxlength="20" required>
                                 </div>
                                 <div class="form-group mb-3 bmd-form-group">
                                     <label class="bmd-label-floating">Alamat </label>
@@ -271,6 +271,14 @@
                         role: {
                             required: true
                         },
+                        nik: {
+                            required: true,
+                            maxlength: 30,
+                        },
+                        no_hp: {
+                            required: true,
+                            maxlength: 20,
+                        },
                     },
                     messages: {
                         name: {
@@ -283,6 +291,14 @@
                         },
                         role: {
                             required: 'Data Role harus diisi',
+                        },
+                        nik: {
+                            required: 'Data NIK harus diisi',
+                            maxlength: "Data NIK tidak boleh lebih dari 30 kata ",
+                        },
+                        no_hp: {
+                            required: 'Data No.HP harus diisi',
+                            maxlength: "Data No.HP tidak boleh lebih dari 20 kata ",
                         },
                     },
                 })
