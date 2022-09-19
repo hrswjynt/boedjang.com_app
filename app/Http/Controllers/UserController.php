@@ -189,12 +189,14 @@ class UserController extends Controller
         }
 
         $model = $user;
-        if($user->username != $request->username){
-            if(User::where('username',$request->username)->first() !== null){
-                DB::rollback();
-                $message_type = 'danger';
-                $message = 'Username yang digunakan tidak boleh sama dengan yang ada di database.';
-                return redirect()->route('user.edit',['user' => $model->id])->withInput()->with($message_type,$message);
+        if(Auth::user()->role == 1){
+            if($user->username != $request->username){
+                if(User::where('username',$request->username)->first() !== null){
+                    DB::rollback();
+                    $message_type = 'danger';
+                    $message = 'Username yang digunakan tidak boleh sama dengan yang ada di database.';
+                    return redirect()->route('user.edit',['user' => $model->id])->withInput()->with($message_type,$message);
+                }
             }
         }
         if($request->password != $request->password_confirm){
