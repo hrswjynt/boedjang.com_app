@@ -38,104 +38,104 @@ class HomeController extends Controller
         }
         $karyawan = Karyawan::where('NIP', Auth::user()->username)->first();
 
-        if (Auth::user()->role == 1 || Auth::user()->role == 2 || $karyawan->Cabang == "HeadOffice") {
-            if (!Auth::user()->ticket) {
-                $headers = [
-                    'Content-Type: application/json',
-                ];
-                $data = [
-                    "username" => Auth::user()->username,
-                    "fullname" => $karyawan->NAMA,
-                    "email" => Auth::user()->username . "@boedjang.com",
-                    "password" => "boedjang.com" . Auth::user()->username,
-                    "role_id" => 1,
-                    // "department_id" => "1",
-                ];
-                $dataString = json_encode($data);
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $this->url . '/auth/signup');
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-                $response = curl_exec($ch);
-                if (curl_errno($ch)) {
-                    curl_close($ch);
-                    $loginticket = User::find(Auth::user()->id);
-                    $loginticket->token = null;
-                    $loginticket->save();
-                } else {
-                    $res = json_decode($response);
-                    if ($res !== null) {
-                        if (property_exists($res, 'statusCode')) {
-                            if ($res->statusCode == 401) {
-                                $res = null;
-                            } else if ($res->statusCode == 500) {
-                                $res = null;
-                            }
-                        } else {
-                            $res = null;
-                        }
-                    }
+        // if (Auth::user()->role == 1 || Auth::user()->role == 2 || $karyawan->Cabang == "HeadOffice") {
+        //     if (!Auth::user()->ticket) {
+        //         $headers = [
+        //             'Content-Type: application/json',
+        //         ];
+        //         $data = [
+        //             "username" => Auth::user()->username,
+        //             "fullname" => $karyawan->NAMA,
+        //             "email" => Auth::user()->username . "@boedjang.com",
+        //             "password" => "boedjang.com" . Auth::user()->username,
+        //             "role_id" => 1,
+        //             // "department_id" => "1",
+        //         ];
+        //         $dataString = json_encode($data);
+        //         $ch = curl_init();
+        //         curl_setopt($ch, CURLOPT_URL, $this->url . '/auth/signup');
+        //         curl_setopt($ch, CURLOPT_POST, true);
+        //         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        //         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        //         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        //         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+        //         $response = curl_exec($ch);
+        //         if (curl_errno($ch)) {
+        //             curl_close($ch);
+        //             $loginticket = User::find(Auth::user()->id);
+        //             $loginticket->token = null;
+        //             $loginticket->save();
+        //         } else {
+        //             $res = json_decode($response);
+        //             if ($res !== null) {
+        //                 if (property_exists($res, 'statusCode')) {
+        //                     if ($res->statusCode == 401) {
+        //                         $res = null;
+        //                     } else if ($res->statusCode == 500) {
+        //                         $res = null;
+        //                     }
+        //                 } else {
+        //                     $res = null;
+        //                 }
+        //             }
 
-                    curl_close($ch);
-                    // dd($res);
-                    if ($res !== null) {
-                        $loginticket = User::find(Auth::user()->id);
-                        $loginticket->ticket = 1;
-                        $loginticket->token = $res->data->access_token;
-                        $loginticket->save();
-                    }
-                }
-            } else {
-                $headers = [
-                    'Content-Type: application/json',
-                ];
-                $data = [
-                    "email" => Auth::user()->username . "@boedjang.com",
-                    "password" => "boedjang.com" . Auth::user()->username,
-                ];
-                $dataString = json_encode($data);
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $this->url . '/auth/signin');
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-                // curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-                $response = curl_exec($ch);
-                if (curl_errno($ch)) {
-                    curl_close($ch);
-                    $loginticket = User::find(Auth::user()->id);
-                    $loginticket->token = null;
-                    $loginticket->save();
-                } else {
-                    $res = json_decode($response);
-                    // dd($res);
-                    if ($res !== null) {
-                        if (property_exists($res, 'statusCode')) {
-                            if ($res->statusCode == 401) {
-                                $res = null;
-                            } else if ($res->statusCode == 500) {
-                                $res = null;
-                            }
-                        }
-                    }
+        //             curl_close($ch);
+        //             // dd($res);
+        //             if ($res !== null) {
+        //                 $loginticket = User::find(Auth::user()->id);
+        //                 $loginticket->ticket = 1;
+        //                 $loginticket->token = $res->data->access_token;
+        //                 $loginticket->save();
+        //             }
+        //         }
+        //     } else {
+        //         $headers = [
+        //             'Content-Type: application/json',
+        //         ];
+        //         $data = [
+        //             "email" => Auth::user()->username . "@boedjang.com",
+        //             "password" => "boedjang.com" . Auth::user()->username,
+        //         ];
+        //         $dataString = json_encode($data);
+        //         $ch = curl_init();
+        //         curl_setopt($ch, CURLOPT_URL, $this->url . '/auth/signin');
+        //         curl_setopt($ch, CURLOPT_POST, true);
+        //         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        //         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        //         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        //         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+        //         // curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+        //         $response = curl_exec($ch);
+        //         if (curl_errno($ch)) {
+        //             curl_close($ch);
+        //             $loginticket = User::find(Auth::user()->id);
+        //             $loginticket->token = null;
+        //             $loginticket->save();
+        //         } else {
+        //             $res = json_decode($response);
+        //             // dd($res);
+        //             if ($res !== null) {
+        //                 if (property_exists($res, 'statusCode')) {
+        //                     if ($res->statusCode == 401) {
+        //                         $res = null;
+        //                     } else if ($res->statusCode == 500) {
+        //                         $res = null;
+        //                     }
+        //                 }
+        //             }
 
-                    curl_close($ch);
-                    if ($res != null) {
-                        $loginticket = User::find(Auth::user()->id);
-                        $loginticket->token = $res->data->access_token;
-                        $loginticket->ticket_department = $res->data->departments !== null ? $res->data->departments->id : null;
-                        $loginticket->ticket_department_name = $res->data->departments !== null ? $res->data->departments->name : null;
-                        $loginticket->ticket_role = $res->data->roles->id;
-                        $loginticket->save();
-                    }
-                }
-            }
-        }
+        //             curl_close($ch);
+        //             if ($res != null) {
+        //                 $loginticket = User::find(Auth::user()->id);
+        //                 $loginticket->token = $res->data->access_token;
+        //                 $loginticket->ticket_department = $res->data->departments !== null ? $res->data->departments->id : null;
+        //                 $loginticket->ticket_department_name = $res->data->departments !== null ? $res->data->departments->name : null;
+        //                 $loginticket->ticket_role = $res->data->roles->id;
+        //                 $loginticket->save();
+        //             }
+        //         }
+        //     }
+        // }
 
 
         if ($karyawan !== null) {
