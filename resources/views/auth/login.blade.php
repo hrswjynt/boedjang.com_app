@@ -127,23 +127,26 @@
                             </div>
                             <div class="text-center col-lg-6 p-3 m_small">
                                 <img class="img img-responsive" src="{{ asset('landing/assets/img/brand/logo1.png') }}"
-                                    style="height: 50px;margin-left: 5px" alt="" />
+                                    style="height: 40px;margin-left: 5px" alt="" />
                                 <img class="img img-responsive" src="{{ asset('landing/assets/img/brand/logo2.png') }}"
-                                    style="height: 50px;margin-left: 5px" alt="" />
+                                    style="height: 40px;margin-left: 5px" alt="" />
                                 <img class="img img-responsive" src="{{ asset('landing/assets/img/brand/logo3.png') }}"
-                                    style="height: 30px;margin-left: 5px" alt="" />
+                                    style="height: 25px;margin-left: 5px" alt="" />
                                 <img class="img img-responsive"
                                     src="{{ asset('landing/assets/img/brand/logo4.png') }}"
-                                    style="height: 40px;margin-left: 5px" alt="" />
+                                    style="height: 30px;margin-left: 5px" alt="" />
                                 <img class="img img-responsive"
                                     src="{{ asset('landing/assets/img/brand/logo5.png') }}"
-                                    style="height: 30px;margin-left: 5px" alt="" />
+                                    style="height: 25px;margin-left: 5px" alt="" />
                                 <img class="img img-responsive"
                                     src="{{ asset('landing/assets/img/brand/logo6.png') }}"
-                                    style="height: 50px;margin-left: 5px" alt="" />
+                                    style="height: 40px;margin-left: 5px" alt="" />
                                 <img class="img img-responsive"
                                     src="{{ asset('landing/assets/img/brand/logo7.png') }}"
-                                    style="height: 30px;margin-left: 5px" alt="" />
+                                    style="height: 25px;margin-left: 5px" alt="" />
+                                <img class="img img-responsive"
+                                    src="{{ asset('landing/assets/img/brand/logo8.png') }}"
+                                    style="height: 40px;margin-left: 5px" alt="" />
                             </div>
                             <div class="text-center col-lg-6 p-3 mobile m_small" style="color: white;">
                                 {!! DB::table('content')->where('type', 'footer')->first()->content !!}
