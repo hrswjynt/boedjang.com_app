@@ -44,7 +44,7 @@ class FeedbackController extends Controller
         // ]);
         // dd($request->radio);
         $karyawan = Karyawan::where('NIP', Auth::user()->username)->first();
-        $date1 = date("Y-m-01 H:i:s", strtotime("-1 month", strtotime(date('Y-m-d H:i:s'))));
+        $date1 = date("Y-m-01 H:i:s", strtotime("-1 day", strtotime(date('Y-m-d H:i:s'))));
         $date2 = date('Y-m-t H:i:s');
         $checkfeedback = FeedbackDataHeader::where('user', Auth::user()->id)
             ->where('atasan', $request->atasan)
