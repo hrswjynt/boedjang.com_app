@@ -135,12 +135,12 @@
                 </tr>
                 <tr>
                     <td width="60%" class="f9 txt-center bold b-none">
-                        BOEDJANG GRUP INDONESIA
+                        BOEDJANG GROUP INDONESIA
                     </td>
                 </tr>
                 <tr>
                     <td width="60%" class="f8 txt-center">
-                        Jl. Teuku Umar, Komplek Ruko Pontianak Mall, Pontianak
+                        Jl. D.A. Hadi No.1A, Akcaya, Pontianak Selatan
                     </td>
                     
                 </tr>
@@ -348,7 +348,7 @@
                                 }else{
                                     $mbpjs_tkrj = 0;
                                 }
-                                $totalpot = $d->P_masuk+$d->P_alfa_a+$d->P_izin+$d->P_sakit+$d->P_alfa_b+$d->P_plg_awal+$d->akm_alfa_a+$d->akm_alfa_b+$d->P_kasbon+$d->Angsuran+$mbpjs_ksht+$mbpjs_tkrj+$d->P_extra+$d->pot_lain+$d->P_no_absen; 
+                                $totalpot = $d->P_masuk+$d->P_pulang+$d->P_alfa_a+$d->P_izin+$d->P_sakit+$d->P_alfa_b+$d->P_plg_awal+$d->akm_alfa_a+$d->akm_alfa_b+$d->P_kasbon+$d->Angsuran+$mbpjs_ksht+$mbpjs_tkrj+$d->P_extra+$d->pot_lain+$d->P_no_absen; 
                             ?>
                             <tr class="bold">
                                 <td>TOTAL</td>
