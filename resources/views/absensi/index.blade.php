@@ -20,14 +20,14 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Absensi</h1>
+        <h1 class="h3 mb-0 text-gray-800">Presensi</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 ">Data Absensi <b>{{Auth::user()->name}}</b> </h6>
+                    <h6 class="m-0 ">Data Presensi <b>{{Auth::user()->name}}</b> </h6>
                     <?php
                         if(date('d') >= 16){
                             $date1 = date('Y-m-16');
@@ -157,7 +157,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary ">
-                <p style="color: white">Filter Absensi</p>
+                <p style="color: white">Filter Presensi</p>
                 <button type="button" class="close" data-dismiss="modal"><span style="color: white">&times;</span></button>
             </div>
             <div class="modal-body">
