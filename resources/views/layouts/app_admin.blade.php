@@ -94,7 +94,7 @@
         <!-- Page Wrapper -->
         <div id="wrapper" style="opacity:0.5;">
             <!-- Sidebar -->
-            <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="font-size: 22px">
+            <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar">
                 <!-- Sidebar - Brand -->
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('dashboard')}}" style="height: auto;padding: 10px">
                     <div class="sidebar-brand-icon">
