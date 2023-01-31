@@ -126,7 +126,7 @@
                 <li class="nav-item @if($page == 'absensi') active @endif">
                     <a class="nav-link" href="{{route('absensi.index')}}">
                         <i class="fas fa-address-book"></i>
-                        <span>Absensi</span>
+                        <span>Presensi</span>
                     </a>
                 </li>
                 <li class="nav-item @if($page == 'slipgaji') active @endif">
