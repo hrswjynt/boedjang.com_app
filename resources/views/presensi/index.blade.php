@@ -65,7 +65,7 @@
                                             <button id="click-photo" style="display: none;margin: 0 auto" type="button"
                                                 class="btn btn-success">Ambil Foto <i class="fas fa-camera"></i></button>
                                             <div id="dataurl-container" style="display: none;margin:3px">
-                                                <canvas id="canvas" width="320" height="240"></canvas>
+                                                <canvas id="canvas" style="margin: 0 auto;display:block"></canvas>
                                                 <textarea id="dataurl" readonly="" name="image" style="display: none"></textarea>
                                             </div>
                                         </div>
@@ -76,17 +76,21 @@
                                 <label for="ceklokasi" class="col-sm-2 col-form-label">Lokasi</label>
                                 <div class="col-md-8">
                                     <div id="lokasi"
-                                        style="height:490px; width: 100%; position: relative; overflow: hidden;"></div>
+                                        style="height:300px; width: 100%; position: relative; overflow: hidden;"></div>
                                     <div class="col-sm-8">
+                                        <p style="color:red" id="lokasides"></p>
                                         <input type="hidden" name="lokasi" require="required" id="ceklokasi"
                                             for="ceklokasi" placeholder="Latitude & Longitude" readonly>
                                     </div>
                                     <script type="text/javascript">
+                                        let x = document.getElementById("lokasides");
+
                                         function ambil_lokasi() {
                                             if (navigator.geolocation) {
-                                                navigator.geolocation.getCurrentPosition(showPosition);
+                                                navigator.geolocation.getCurrentPosition(showPosition, showError);
                                             } else {
-                                                x.innerHTML = "Geolocation is not supported by this browser.";
+                                                x.innerHTML = "Sistem Geolokasi tidak mendukung browser ini.";
+                                                document.getElementById("lokasi").style.display = "none";
                                             }
                                         }
 
@@ -110,27 +114,47 @@
                                             });
                                         }
 
+                                        function showError(error) {
+                                            switch (error.code) {
+                                                case error.PERMISSION_DENIED:
+                                                    x.innerHTML = "Pengguna menolak mengizinkan akses geolokasi pada browser, segera izinkan ulang akses geolokasi."
+                                                    document.getElementById("lokasi").style.display = "none";
+                                                    break;
+                                                case error.POSITION_UNAVAILABLE:
+                                                    x.innerHTML = "Tidak terdapat informasi pada lokasi."
+                                                    document.getElementById("lokasi").style.display = "none";
+                                                    break;
+                                                case error.TIMEOUT:
+                                                    x.innerHTML = "Permintaan akses mendapatkan lokasi pengguna sudah kadaluarsa."
+                                                    document.getElementById("lokasi").style.display = "none";
+                                                    break;
+                                                case error.UNKNOWN_ERROR:
+                                                    x.innerHTML = "Terjadi Kesalahan yang tidak diketahui."
+                                                    document.getElementById("lokasi").style.display = "none";
+                                                    break;
+                                            }
+                                        }
+
                                         window.ambil_lokasi = ambil_lokasi;
                                     </script>
 
                                     <script type="text/javascript"
                                         src="https://maps.google.com/maps/api/js?key=AIzaSyAiI2CrDJpf0FtqYif4IfVgu8xXdjTb_mc&callback=ambil_lokasi">
                                     </script>
-
-                                    <div class="form-group row">
-                                        <label for="absen" class="col-sm-2 col-form-label">Absen</label>
-                                        <div class="col-sm-10">
-                                            <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="jenis" value="1"
-                                                    class="custom-control-input" id="masuk" checked>
-                                                <label class="custom-control-label" for="masuk">Masuk</label>
-                                            </div>
-                                            <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="jenis" value="2"
-                                                    class="custom-control-input" id="pulang">
-                                                <label class="custom-control-label" for="pulang">Pulang</label>
-                                            </div>
-                                        </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="absen" class="col-sm-2 col-form-label">Absen</label>
+                                <div class="col-sm-10">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" name="jenis" value="1"
+                                            class="custom-control-input" id="masuk" checked>
+                                        <label class="custom-control-label" for="masuk">Masuk</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" name="jenis" value="2"
+                                            class="custom-control-input" id="pulang">
+                                        <label class="custom-control-label" for="pulang">Pulang</label>
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +196,6 @@
 
         camera_button.addEventListener('click', async function() {
             let stream = null;
-
             try {
                 stream = await navigator.mediaDevices.getUserMedia({
                     video: true,
@@ -182,9 +205,7 @@
                 alert(error.message);
                 return;
             }
-
             video.srcObject = stream;
-
             video.style.display = 'block';
             camera_button.style.display = 'none';
             click_button.style.display = 'block';
@@ -203,40 +224,35 @@
             $('#btn-submit-loading').hide();
 
             $("#btn-submit").click(function() {
-
-
-            });
-
-            $("#btn-submit").click(function() {
                 $('#btn-submit').hide();
                 $('#btn-submit-loading').show();
-                if(document.getElementsByName("image")[0].value === ''){
+                if (document.getElementsByName("image")[0].value === '') {
                     $('#btn-submit').show();
                     $('#btn-submit-loading').hide();
                     swal("Proses Presensi online dibatalkan, gambar foto harus dimasukkan", {
                         icon: "error",
                     });
-                }else{
+                } else {
                     swal({
-                        title: "Apakah anda yakin akan melakukan presensi online?",
-                        text: 'Data presensi akan dimasukkan ke dalam database.',
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                    })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            $("#presensi_form").submit();
-                        } else {
-                            $('#btn-submit').show();
-                            $('#btn-submit-loading').hide();
-                            swal("Proses Presensi online dibatalkan", {
-                                icon: "error",
-                            });
-                        }
-                    });
+                            title: "Apakah anda yakin akan melakukan presensi online?",
+                            text: 'Data presensi akan dimasukkan ke dalam database.',
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                $("#presensi_form").submit();
+                            } else {
+                                $('#btn-submit').show();
+                                $('#btn-submit-loading').hide();
+                                swal("Proses Presensi online dibatalkan", {
+                                    icon: "error",
+                                });
+                            }
+                        });
                 }
-                
+
             });
 
         });

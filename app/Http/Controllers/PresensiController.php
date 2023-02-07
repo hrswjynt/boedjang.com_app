@@ -53,6 +53,4 @@ class PresensiController extends Controller
         return redirect()->route('absensi.index')->with('success','Data presensi '.$karyawan->NAMA.' berhasil disimpan.');
     }
     
-
-
 }
