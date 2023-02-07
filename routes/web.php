@@ -50,6 +50,9 @@ Route::group(['middleware' => ['karyawan']], function () {
 	Route::get("slipgaji", "SlipGajiController@index")->name('slipgaji.index');
 	Route::post("slipgaji", "SlipGajiController@store")->name('slipgaji.store');
 
+	Route::get("presensi", "PresensiController@index")->name('presensi.index');
+	Route::post("presensi", "PresensiController@store")->name('presensi.store');
+
 	Route::get("bpm-list", "BpmController@getList")->name('bpm_list.index');
 	Route::get("bpm-list/{slug}", "BpmController@getBpm")->name('get_bpm.index');
 	Route::get("bpm-search", "BpmController@getSearch")->name('bpm_search.index');

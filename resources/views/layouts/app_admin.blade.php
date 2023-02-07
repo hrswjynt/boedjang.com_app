@@ -123,10 +123,16 @@
                         <span>Data Diri</span>
                     </a>
                 </li>
+                <li class="nav-item @if($page == 'presensi') active @endif">
+                    <a class="nav-link" href="{{route('presensi.index')}}">
+                        <i class="fas fa-user-clock"></i>
+                        <span>Presensi Online</span>
+                    </a>
+                </li>
                 <li class="nav-item @if($page == 'absensi') active @endif">
                     <a class="nav-link" href="{{route('absensi.index')}}">
                         <i class="fas fa-address-book"></i>
-                        <span>Presensi</span>
+                        <span>Data Presensi</span>
                     </a>
                 </li>
                 <li class="nav-item @if($page == 'slipgaji') active @endif">
