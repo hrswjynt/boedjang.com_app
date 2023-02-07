@@ -101,16 +101,16 @@
                                                 lng: position.coords.longitude
                                             };
                                             const map = new google.maps.Map(document.getElementById("lokasi"), {
-                                                zoom: 16,
+                                                zoom: 20,
                                                 center: myLatLng,
-
+                                                disableDefaultUI: true,
+                                                zoomControl: true,
                                             });
 
                                             new google.maps.Marker({
                                                 position: myLatLng,
                                                 map,
                                                 title: "Hello",
-                                                optimized: true
                                             });
                                         }
 
