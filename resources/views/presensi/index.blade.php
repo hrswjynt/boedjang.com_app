@@ -65,7 +65,7 @@
                                             <button id="click-photo" style="display: none;margin: 0 auto" type="button"
                                                 class="btn btn-success">Ambil Foto <i class="fas fa-camera"></i></button>
                                             <div id="dataurl-container" style="display: none;margin-top:10px">
-                                                <canvas id="canvas" style="margin: 0 auto;display:block" class="img-thumbnail"></canvas>
+                                                <canvas id="canvas" width="180" height="260" style="margin: 0 auto;display:block" class="img-thumbnail"></canvas>
                                                 <textarea id="dataurl" readonly="" name="image" style="display: none"></textarea>
                                             </div>
                                         </div>
