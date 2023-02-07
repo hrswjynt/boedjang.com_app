@@ -34,7 +34,7 @@ class PresensiController extends Controller
         list($type, $data) = explode(';', $img);
         list(, $data)      = explode(',', $data);
         $data = base64_decode($data);
-        $destinationPath = public_path('/images/profile');
+        $destinationPath = public_path('/images/presensi');
         $resize_image = Image::make($data);
         $resize_image->save($destinationPath . '/' . $fileName);
         $coor = explode(',&,', $request->lokasi);
