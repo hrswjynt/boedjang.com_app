@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Karyawan;
+use App\AttLogCenter;
+use App\AttLogMesin;
 use App\PresensiOnline;
 use Auth;
 use DB;
@@ -21,14 +23,27 @@ class PresensiController extends Controller
     public function index(Request $request)
     {   
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
-        return view('presensi.index')->with('page','presensi')->with('karyawan',$karyawan);
+        $cek_masuk = PresensiOnline::getPresensi(1)->first();
+        $cek_pulang = PresensiOnline::getPresensi(2)->first();
+        return view('presensi.index')->with('page','presensi')->with('karyawan',$karyawan)->with('cek_masuk',$cek_masuk)->with('cek_pulang',$cek_pulang);
     }
 
     public function store(Request $request)
     {   
         // dd($request->all());
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
-
+        $cek_masuk = PresensiOnline::getPresensi(1)->first();
+        $cek_pulang = PresensiOnline::getPresensi(2)->first();
+        if($request->jenis === 1 || $request->jenis === '1'){
+            if($cek_masuk !== null){
+                return redirect()->route('absensi.index')->with('danger','Gagal input presensi online, data presensi masuk hari ini '.$karyawan->NAMA.' telah ada di database.');
+            }
+        }else if($request->jenis === 2 || $request->jenis === '2'){
+            if($cek_pulang !== null){
+                return redirect()->route('absensi.index')->with('danger','Gagal input presensi online, data presensi keluar hari ini '.$karyawan->NAMA.' telah ada di database.');
+            }
+        }
+        
         $img = $request->image;
         $fileName = $karyawan->NIP.uniqid() . '.png';
         list($type, $data) = explode(';', $img);
@@ -39,6 +54,7 @@ class PresensiController extends Controller
         $resize_image->save($destinationPath . '/' . $fileName);
         $coor = explode(',&,', $request->lokasi);
         // dd($coor);
+
         $presensi = new PresensiOnline;
         $presensi->date = date('Y-m-d H:i:s');
         $presensi->ip = $request->ip;
@@ -48,7 +64,16 @@ class PresensiController extends Controller
         $presensi->longitude = $coor[1];
         $presensi->jenis_absen = $request->jenis;
         $presensi->status = 1;
-        $presensi->save();
+        if($presensi->save()){
+            if($presensi->status == 1){
+                $log = new AttLogMesin;
+                $log->sn = 'presensi_online';
+                $log->scan_date = $presensi->date;
+                $log->pin = $presensi->nip;
+                $log->save();
+            }
+        }
+        
 
         return redirect()->route('absensi.index')->with('success','Data presensi '.$karyawan->NAMA.' berhasil disimpan.');
     }

@@ -123,12 +123,14 @@
                         <span>Data Diri</span>
                     </a>
                 </li>
+                @if(Auth::user()->presensi_online)
                 <li class="nav-item @if($page == 'presensi') active @endif">
                     <a class="nav-link" href="{{route('presensi.index')}}">
                         <i class="fas fa-user-clock"></i>
                         <span>Presensi Online</span>
                     </a>
                 </li>
+                @endif
                 <li class="nav-item @if($page == 'absensi') active @endif">
                     <a class="nav-link" href="{{route('absensi.index')}}">
                         <i class="fas fa-address-book"></i>

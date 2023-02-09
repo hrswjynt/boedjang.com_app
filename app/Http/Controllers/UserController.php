@@ -223,6 +223,7 @@ class UserController extends Controller
         }
         if(Auth::user()->role == 1){
             $model->role = $request->role;
+            $model->presensi_online = $request->presensi_online;
         }
         // dd(Auth::user()->role !== 4);
         if(Auth::user()->role == 1){

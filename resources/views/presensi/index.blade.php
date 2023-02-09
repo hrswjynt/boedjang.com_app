@@ -76,7 +76,7 @@
                                 <label for="ceklokasi" class="col-sm-2 col-form-label">Lokasi</label>
                                 <div class="col-md-8">
                                     <div id="lokasi"
-                                        style="height:300px; width: 100%; position: relative; overflow: hidden;"></div>
+                                        style="height:300px; width: 100%; position: relative; overflow: hidden;" class="img-thumbnail"></div>
                                     <div class="col-sm-8">
                                         <p style="color:red" id="lokasides"></p>
                                         <input type="hidden" name="lokasi" require="required" id="ceklokasi"
@@ -182,11 +182,13 @@
 @push('other-script')
     <script type="text/javascript">
         $.getJSON('https://ipapi.co/json/', function(data) {
-            console.log(JSON.stringify(data, null, 2));
+            // console.log(JSON.stringify(data, null, 2));
             document.getElementById("dataip").value = data.ip;
         });
 
         const base_url = "{{ url('/') }}";
+        const cek_masuk = <?php echo json_encode($cek_masuk); ?>;
+        const cek_pulang = <?php echo json_encode($cek_pulang); ?>;
         let camera_button = document.querySelector("#start-camera");
         let video = document.querySelector("#video");
         let click_button = document.querySelector("#click-photo");
@@ -224,6 +226,21 @@
             $('#btn-submit-loading').hide();
 
             $("#btn-submit").click(function() {
+                if($("#masuk").prop("checked")){
+                    if(cek_masuk !== null){
+                        swal("Proses dibatalkan, data presensi masuk hari ini telah ada di database. ", {
+                            icon: "error",
+                        });
+                        return false;
+                    }
+                }else{
+                    if(cek_pulang !== null){
+                        swal("Proses dibatalkan, data presensi pulang hari ini telah ada di database. ", {
+                            icon: "error",
+                        });
+                        return false;
+                    }
+                }
                 $('#btn-submit').hide();
                 $('#btn-submit-loading').show();
                 if (document.getElementsByName("image")[0].value === '') {
@@ -254,7 +271,6 @@
                 }
 
             });
-
         });
     </script>
 @endpush

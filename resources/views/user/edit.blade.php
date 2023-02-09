@@ -91,6 +91,22 @@
                                 </div>
                                 @if (Auth::user()->role == 1)
                                     <div class="form-group mb-3 bmd-form-group">
+                                        <label class="bmd-label-floating">Presensi Online <span class="red">*</span></label>
+                                        <select class="form-control select2" name="presensi_online" style="width: 100%">
+                                            <option value="1" @if($user->presensi_online) selected="" 
+                                                @endif>Aktif</option>
+                                            <option value="0" @if(!$user->presensi_online) selected="" 
+                                                @endif>Tidak Aktif</option>
+                                        </select>
+                                    </div>
+                                @else
+                                    <div class="form-group mb-3 bmd-form-group">
+                                        <label class="bmd-label-floating">Presensi Online <span class="red">*</span></label>
+                                        <input type="text" class="form-control" disabled @if($user->presensi_online) value="Aktif" @else value="Tidak Aktif" @endif>
+                                    </div>
+                                @endif
+                                @if (Auth::user()->role == 1)
+                                    <div class="form-group mb-3 bmd-form-group">
                                         <label class="bmd-label-floating">Role <span class="red">*</span></label>
                                         <select class="form-control select2" name="role" style="width: 100%">
                                             @if ($user->role == 5)
