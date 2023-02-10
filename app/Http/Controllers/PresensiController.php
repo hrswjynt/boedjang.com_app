@@ -26,7 +26,7 @@ class PresensiController extends Controller
     }
 
     public function getData(){
-        $data = PresensiOnline::where('nip',Auth::user()->username)->get();
+        $data = PresensiOnline::where('nip',Auth::user()->username)->orderBy('date', 'DESC')->get();
         return Datatables::of($data)
             ->addIndexColumn()
             ->make(true);
@@ -74,7 +74,6 @@ class PresensiController extends Controller
         $presensi->gambar = $fileName;
         $presensi->latitude = $coor[0];
         $presensi->longitude = $coor[1];
-        $presensi->jenis_absen = $request->jenis;
         $presensi->region = $karyawan->region;
         $presensi->cabang = $karyawan->Cabang;
         $presensi->status = 0;
@@ -89,7 +88,7 @@ class PresensiController extends Controller
         }
         
 
-        return redirect()->route('absensi.index')->with('success','Data presensi '.$karyawan->NAMA.' berhasil disimpan.');
+        return redirect()->route('presensi.table')->with('success','Data presensi '.$karyawan->NAMA.' berhasil disimpan.');
     }
     
 }
