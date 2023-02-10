@@ -50,9 +50,6 @@ Route::group(['middleware' => ['karyawan']], function () {
 	Route::get("slipgaji", "SlipGajiController@index")->name('slipgaji.index');
 	Route::post("slipgaji", "SlipGajiController@store")->name('slipgaji.store');
 
-	Route::get("presensi", "PresensiController@index")->name('presensi.index');
-	Route::post("presensi", "PresensiController@store")->name('presensi.store');
-
 	Route::get("bpm-list", "BpmController@getList")->name('bpm_list.index');
 	Route::get("bpm-list/{slug}", "BpmController@getBpm")->name('get_bpm.index');
 	Route::get("bpm-search", "BpmController@getSearch")->name('bpm_search.index');
@@ -79,6 +76,11 @@ Route::group(['middleware' => ['karyawan']], function () {
 	Route::get("item-list", "ItemController@getList")->name('item_list.index');
 	Route::get("item-list/{slug}", "ItemController@getItem")->name('get_item.index');
 	Route::get("item-search", "ItemController@getSearch")->name('item_search.index');
+
+	Route::get("presensi", "PresensiController@index")->name('presensi.index');
+	Route::post("presensi", "PresensiController@store")->name('presensi.store');
+	Route::get("presensi-table", "PresensiController@table")->name('presensi.table');
+	Route::get("presensi-data", "PresensiController@getData");
 
 	Route::get("pengajuanformcuti", "CutiController@pengajuan")->name('formcuti.pengajuan');
 	Route::post("formcuti-pengajuanpost", "CutiController@pengajuanPost")->name('formcuti.pengajuanpost');

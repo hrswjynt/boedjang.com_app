@@ -20,11 +20,23 @@ class PresensiController extends Controller
 
     }
 
+    public function table()
+    {   
+        return view('presensi.table')->with('page','presensi');
+    }
+
+    public function getData(){
+        $data = PresensiOnline::where('nip',Auth::user()->username)->get();
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->make(true);
+    }
+
     public function index(Request $request)
     {   
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
-        $cek_masuk = PresensiOnline::getPresensi(1)->first();
-        $cek_pulang = PresensiOnline::getPresensi(2)->first();
+        $cek_masuk = null;
+        $cek_pulang = null;
         return view('presensi.index')->with('page','presensi')->with('karyawan',$karyawan)->with('cek_masuk',$cek_masuk)->with('cek_pulang',$cek_pulang);
     }
 
@@ -32,17 +44,17 @@ class PresensiController extends Controller
     {   
         // dd($request->all());
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
-        $cek_masuk = PresensiOnline::getPresensi(1)->first();
-        $cek_pulang = PresensiOnline::getPresensi(2)->first();
-        if($request->jenis === 1 || $request->jenis === '1'){
-            if($cek_masuk !== null){
-                return redirect()->route('absensi.index')->with('danger','Gagal input presensi online, data presensi masuk hari ini '.$karyawan->NAMA.' telah ada di database.');
-            }
-        }else if($request->jenis === 2 || $request->jenis === '2'){
-            if($cek_pulang !== null){
-                return redirect()->route('absensi.index')->with('danger','Gagal input presensi online, data presensi keluar hari ini '.$karyawan->NAMA.' telah ada di database.');
-            }
-        }
+        // $cek_masuk = PresensiOnline::getPresensi(1)->first();
+        // $cek_pulang = PresensiOnline::getPresensi(2)->first();
+        // if($request->jenis === 1 || $request->jenis === '1'){
+        //     if($cek_masuk !== null){
+        //         return redirect()->route('absensi.index')->with('danger','Gagal input presensi online, data presensi masuk hari ini '.$karyawan->NAMA.' telah ada di database.');
+        //     }
+        // }else if($request->jenis === 2 || $request->jenis === '2'){
+        //     if($cek_pulang !== null){
+        //         return redirect()->route('absensi.index')->with('danger','Gagal input presensi online, data presensi keluar hari ini '.$karyawan->NAMA.' telah ada di database.');
+        //     }
+        // }
         
         $img = $request->image;
         $fileName = $karyawan->NIP.uniqid() . '.png';
@@ -63,7 +75,9 @@ class PresensiController extends Controller
         $presensi->latitude = $coor[0];
         $presensi->longitude = $coor[1];
         $presensi->jenis_absen = $request->jenis;
-        $presensi->status = 1;
+        $presensi->region = $karyawan->region;
+        $presensi->cabang = $karyawan->Cabang;
+        $presensi->status = 0;
         if($presensi->save()){
             if($presensi->status == 1){
                 $log = new AttLogMesin;

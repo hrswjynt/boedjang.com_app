@@ -101,7 +101,7 @@
                                                 lng: position.coords.longitude
                                             };
                                             const map = new google.maps.Map(document.getElementById("lokasi"), {
-                                                zoom: 20,
+                                                zoom: 18,
                                                 center: myLatLng,
                                                 disableDefaultUI: true,
                                                 zoomControl: true,
@@ -143,21 +143,7 @@
                                     </script>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="absen" class="col-sm-2 col-form-label">Absen</label>
-                                <div class="col-sm-10">
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" name="jenis" value="1"
-                                            class="custom-control-input" id="masuk" checked>
-                                        <label class="custom-control-label" for="masuk">Masuk</label>
-                                    </div>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" name="jenis" value="2"
-                                            class="custom-control-input" id="pulang">
-                                        <label class="custom-control-label" for="pulang">Pulang</label>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <div class="row" style="margin-top: 10px">
                                 <div class="col-md-12">
                                     <button class="btn btn-success save pull-right mb-3" type="button" id="btn-submit">

@@ -125,7 +125,7 @@
                 </li>
                 @if(Auth::user()->presensi_online)
                 <li class="nav-item @if($page == 'presensi') active @endif">
-                    <a class="nav-link" href="{{route('presensi.index')}}">
+                    <a class="nav-link" href="{{route('presensi.table')}}">
                         <i class="fas fa-user-clock"></i>
                         <span>Presensi Online</span>
                     </a>

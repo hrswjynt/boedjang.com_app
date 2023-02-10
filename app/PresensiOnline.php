@@ -17,8 +17,8 @@ class PresensiOnline extends Model
     public $timestamps = false;
     public $incrementing = true;
     protected $fillable = [
-        'id','date','nip','ip',
-        'gambar','latitude','longitude','jenis_absen','status'];
+        'date','nip','ip',
+        'gambar','latitude','longitude','jenis_absen','status', 'region', 'cabang'];
 
 
     public function scopeGetPresensi($query, $jenis_absen)
