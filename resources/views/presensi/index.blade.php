@@ -51,109 +51,106 @@
                                         id="nama" placeholder="Nama" readonly value="{{ $karyawan->NAMA }}">
                                 </div>
                             </div>
+                            {{-- <label for="ceklokasi" class="col-sm-12 col-form-label">Lokasi</label> --}}
+                            <div class="col-md-12">
+                                <div id="lokasi" style="height:300px; width: 100%; position: relative; overflow: hidden;"
+                                    class="img-thumbnail"></div>
+                                <div class="col-sm-8">
+                                    <p style="color:red" id="lokasides"></p>
+                                    <input type="hidden" name="lokasi" require="required" id="ceklokasi" for="ceklokasi"
+                                        placeholder="Latitude & Longitude" readonly>
+                                </div>
+                                <script type="text/javascript">
+                                    let x = document.getElementById("lokasides");
 
-                            <div class="form-group row">
-                                <label for="pict" class="col-sm-2 col-form-label">Foto Presensi</label>
-                                <div class="col-sm-10">
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <button id="start-camera" type="button" class="btn btn-warning"
-                                                style="display: block;margin: 0 auto">Aktifkan Camera <i
-                                                    class="fas fa-camera"></i></button>
-                                            <video id="video" autoplay=""
-                                                style="display: none;margin: 3px" class="img-thumbnail"></video>
-                                            <button id="click-photo" style="display: none;margin: 0 auto" type="button"
-                                                class="btn btn-success">Ambil Foto <i class="fas fa-camera"></i></button>
-                                            <div id="dataurl-container" style="display: none;margin-top:10px">
-                                                <canvas id="canvas" width="200" height="270" style="margin: 0 auto;display:block" class="img-thumbnail"></canvas>
-                                                <textarea id="dataurl" readonly="" name="image" style="display: none"></textarea>
-                                            </div>
+                                    function ambil_lokasi() {
+                                        if (navigator.geolocation) {
+                                            navigator.geolocation.getCurrentPosition(showPosition, showError);
+                                        } else {
+                                            x.innerHTML = "Sistem Geolokasi tidak mendukung browser ini.";
+                                            document.getElementById("lokasi").style.display = "none";
+                                        }
+                                    }
+
+                                    function showPosition(position) {
+                                        document.getElementById("ceklokasi").value = [position.coords.latitude, '&', position.coords.longitude];
+                                        const myLatLng = {
+                                            lat: position.coords.latitude,
+                                            lng: position.coords.longitude
+                                        };
+                                        const map = new google.maps.Map(document.getElementById("lokasi"), {
+                                            zoom: 18,
+                                            center: myLatLng,
+                                            disableDefaultUI: true,
+                                            zoomControl: true,
+                                        });
+
+                                        new google.maps.Marker({
+                                            position: myLatLng,
+                                            map,
+                                            title: "Hello",
+                                        });
+                                    }
+
+                                    function showError(error) {
+                                        switch (error.code) {
+                                            case error.PERMISSION_DENIED:
+                                                x.innerHTML =
+                                                    "<p>Pengguna menolak mengizinkan akses geolokasi pada browser, segera izinkan ulang akses geolokasi.</p>"+
+                                                    "<p>Dengan cara klik tombol gembok pada browser (di dekat url), lalu klik 'Permissions', dan centang permission Location sehingga menjadi allowed/diizinkan.</p>"
+                                                document.getElementById("lokasi").style.display = "none";
+                                                break;
+                                            case error.POSITION_UNAVAILABLE:
+                                                x.innerHTML = "Tidak terdapat informasi pada lokasi."
+                                                document.getElementById("lokasi").style.display = "none";
+                                                break;
+                                            case error.TIMEOUT:
+                                                x.innerHTML = "Permintaan akses mendapatkan lokasi pengguna sudah kadaluarsa."
+                                                document.getElementById("lokasi").style.display = "none";
+                                                break;
+                                            case error.UNKNOWN_ERROR:
+                                                x.innerHTML = "Terjadi Kesalahan yang tidak diketahui."
+                                                document.getElementById("lokasi").style.display = "none";
+                                                break;
+                                        }
+                                    }
+
+                                    window.ambil_lokasi = ambil_lokasi;
+                                </script>
+
+                                <script type="text/javascript"
+                                    src="https://maps.google.com/maps/api/js?key=AIzaSyAiI2CrDJpf0FtqYif4IfVgu8xXdjTb_mc&callback=ambil_lokasi">
+                                </script>
+                            </div>
+                            {{-- <label for="pict" class="col-sm-12 col-form-label">Foto Presensi</label> --}}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button id="start-camera" type="button" class="btn btn-warning btn-block"
+                                            style="display: block;margin: 0 auto">Aktifkan Camera <i
+                                                class="fas fa-camera"></i></button>
+                                        <video id="video" autoplay="" style="display: none;margin: 3px"
+                                            class="img-thumbnail"></video>
+                                        <button id="click-photo" style="display: none;margin: 0 auto" type="button"
+                                            class="btn btn-success btn-block">Ambil Foto <i class="fas fa-camera"></i></button>
+                                        <div id="dataurl-container" style="display: none;margin-top:10px">
+                                            <canvas id="canvas" width="200" height="270"
+                                                style="margin: 0 auto;display:block" class="img-thumbnail"></canvas>
+                                            <textarea id="dataurl" readonly="" name="image" style="display: none"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="ceklokasi" class="col-sm-2 col-form-label">Lokasi</label>
-                                <div class="col-md-8">
-                                    <div id="lokasi"
-                                        style="height:300px; width: 100%; position: relative; overflow: hidden;" class="img-thumbnail"></div>
-                                    <div class="col-sm-8">
-                                        <p style="color:red" id="lokasides"></p>
-                                        <input type="hidden" name="lokasi" require="required" id="ceklokasi"
-                                            for="ceklokasi" placeholder="Latitude & Longitude" readonly>
-                                    </div>
-                                    <script type="text/javascript">
-                                        let x = document.getElementById("lokasides");
 
-                                        function ambil_lokasi() {
-                                            if (navigator.geolocation) {
-                                                navigator.geolocation.getCurrentPosition(showPosition, showError);
-                                            } else {
-                                                x.innerHTML = "Sistem Geolokasi tidak mendukung browser ini.";
-                                                document.getElementById("lokasi").style.display = "none";
-                                            }
-                                        }
-
-                                        function showPosition(position) {
-                                            document.getElementById("ceklokasi").value = [position.coords.latitude, '&', position.coords.longitude];
-                                            const myLatLng = {
-                                                lat: position.coords.latitude,
-                                                lng: position.coords.longitude
-                                            };
-                                            const map = new google.maps.Map(document.getElementById("lokasi"), {
-                                                zoom: 18,
-                                                center: myLatLng,
-                                                disableDefaultUI: true,
-                                                zoomControl: true,
-                                            });
-
-                                            new google.maps.Marker({
-                                                position: myLatLng,
-                                                map,
-                                                title: "Hello",
-                                            });
-                                        }
-
-                                        function showError(error) {
-                                            switch (error.code) {
-                                                case error.PERMISSION_DENIED:
-                                                    x.innerHTML = "Pengguna menolak mengizinkan akses geolokasi pada browser, segera izinkan ulang akses geolokasi."
-                                                    document.getElementById("lokasi").style.display = "none";
-                                                    break;
-                                                case error.POSITION_UNAVAILABLE:
-                                                    x.innerHTML = "Tidak terdapat informasi pada lokasi."
-                                                    document.getElementById("lokasi").style.display = "none";
-                                                    break;
-                                                case error.TIMEOUT:
-                                                    x.innerHTML = "Permintaan akses mendapatkan lokasi pengguna sudah kadaluarsa."
-                                                    document.getElementById("lokasi").style.display = "none";
-                                                    break;
-                                                case error.UNKNOWN_ERROR:
-                                                    x.innerHTML = "Terjadi Kesalahan yang tidak diketahui."
-                                                    document.getElementById("lokasi").style.display = "none";
-                                                    break;
-                                            }
-                                        }
-
-                                        window.ambil_lokasi = ambil_lokasi;
-                                    </script>
-
-                                    <script type="text/javascript"
-                                        src="https://maps.google.com/maps/api/js?key=AIzaSyAiI2CrDJpf0FtqYif4IfVgu8xXdjTb_mc&callback=ambil_lokasi">
-                                    </script>
-                                </div>
-                            </div>
-                            
-                            <div class="row" style="margin-top: 10px">
+                            <div class="row" style="margin-top: 10px; display: none" id="buttonsubmit">
                                 <div class="col-md-12">
-                                    <button class="btn btn-success save pull-right mb-3" type="button" id="btn-submit">
+                                    <button class="btn btn-primary save pull-right mb-3 btn-block" type="button"
+                                        id="btn-submit">
                                         <i class="fas fa-file-upload"></i>
-                                        <span>Proses</span>
+                                        <span>Presensi</span>
                                     </button>
-                                    <button class="btn btn-success save pull-right mb-3" id="btn-submit-loading"
+                                    <button class="btn btn-primary save pull-right mb-3 btn-block" id="btn-submit-loading"
                                         disabled="">
                                         <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                        <span> Proses</span>
+                                        <span> Presensi</span>
                                     </button>
                                 </div>
                             </div>
@@ -173,13 +170,13 @@
         });
 
         const base_url = "{{ url('/') }}";
-        const cek_masuk = <?php echo json_encode($cek_masuk); ?>;
-        const cek_pulang = <?php echo json_encode($cek_pulang); ?>;
+        const cek_spam = <?php echo json_encode($cek_spam); ?>;
         let camera_button = document.querySelector("#start-camera");
         let video = document.querySelector("#video");
         let click_button = document.querySelector("#click-photo");
         let canvas = document.querySelector("#canvas");
         let dataurl = document.querySelector("#dataurl");
+        let buttonsbumit = document.querySelector("#buttonsubmit");
         let dataurl_container = document.querySelector("#dataurl-container");
 
         camera_button.addEventListener('click', async function() {
@@ -190,7 +187,11 @@
                     audio: false
                 });
             } catch (error) {
-                alert(error.message);
+                swal({
+                    title: "Pengguna menolak mengizinkan akses Camera pada browser, segera izinkan ulang akses Camera.",
+                    text: "Dengan cara klik tombol gembok pada browser (di dekat url), lalu klik 'Permissions', dan centang permission Camera sehingga menjadi allowed/diizinkan.",
+                    icon: "warning",
+                });
                 return;
             }
             video.srcObject = stream;
@@ -205,6 +206,7 @@
 
             dataurl.value = image_data_url;
             dataurl_container.style.display = 'block';
+            buttonsbumit.style.display = 'block';
         });
 
         $(document).ready(function() {
@@ -212,20 +214,11 @@
             $('#btn-submit-loading').hide();
 
             $("#btn-submit").click(function() {
-                if($("#masuk").prop("checked")){
-                    if(cek_masuk !== null){
-                        swal("Proses dibatalkan, data presensi masuk hari ini telah ada di database. ", {
-                            icon: "error",
-                        });
-                        return false;
-                    }
-                }else{
-                    if(cek_pulang !== null){
-                        swal("Proses dibatalkan, data presensi pulang hari ini telah ada di database. ", {
-                            icon: "error",
-                        });
-                        return false;
-                    }
+                if (cek_spam) {
+                    swal("Proses dibatalkan, data presensi online terdeteksi spam.", {
+                        icon: "error",
+                    });
+                    return false;
                 }
                 $('#btn-submit').hide();
                 $('#btn-submit-loading').show();

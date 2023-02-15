@@ -35,9 +35,15 @@ class PresensiController extends Controller
     public function index(Request $request)
     {   
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
-        $cek_masuk = null;
-        $cek_pulang = null;
-        return view('presensi.index')->with('page','presensi')->with('karyawan',$karyawan)->with('cek_masuk',$cek_masuk)->with('cek_pulang',$cek_pulang);
+        $data = PresensiOnline::where('nip',Auth::user()->username)
+                                ->whereDate('date', date('Y-m-d'))
+                                ->where('status', 0)
+                                ->count();
+        $cek_spam = false;
+        if($data > 3){
+            $cek_spam = true;
+        }
+        return view('presensi.index')->with('page','presensi')->with('karyawan',$karyawan)->with('cek_spam',$cek_spam);
     }
 
     public function store(Request $request)
