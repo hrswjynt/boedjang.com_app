@@ -8,6 +8,7 @@ use App\Karyawan;
 use App\AttLogCenter;
 use App\AttLogMesin;
 use App\PresensiOnline;
+use App\Outlet;
 use Auth;
 use DB;
 use Image;
@@ -50,6 +51,7 @@ class PresensiController extends Controller
     {   
         // dd($request->all());
         $karyawan = Karyawan::where('NIP',Auth::user()->username)->first();
+        $outlet = Outlet::where('nama', $karyawan->Cabang)->first();
         // $cek_masuk = PresensiOnline::getPresensi(1)->first();
         // $cek_pulang = PresensiOnline::getPresensi(2)->first();
         // if($request->jenis === 1 || $request->jenis === '1'){
@@ -61,7 +63,6 @@ class PresensiController extends Controller
         //         return redirect()->route('absensi.index')->with('danger','Gagal input presensi online, data presensi keluar hari ini '.$karyawan->NAMA.' telah ada di database.');
         //     }
         // }
-        
         $img = $request->image;
         $fileName = $karyawan->NIP.uniqid() . '.png';
         list($type, $data) = explode(';', $img);
@@ -74,7 +75,7 @@ class PresensiController extends Controller
         // dd($coor);
 
         $presensi = new PresensiOnline;
-        $presensi->date = date('Y-m-d H:i:s');
+        $presensi->date = date("Y-m-d H:i:s", strtotime("-".$outlet->toleransi." minutes"));
         $presensi->ip = $request->ip;
         $presensi->nip = $karyawan->NIP;
         $presensi->gambar = $fileName;
@@ -83,6 +84,12 @@ class PresensiController extends Controller
         $presensi->region = $karyawan->region;
         $presensi->cabang = $karyawan->Cabang;
         $presensi->status = 0;
+        if($outlet->ip !== null){
+            if(substr($outlet->ip, 0, 6) == substr($request->ip, 0, 6)){
+                $presensi->status = 1;
+            }
+        }
+        
         if($presensi->save()){
             if($presensi->status == 1){
                 $log = new AttLogMesin;

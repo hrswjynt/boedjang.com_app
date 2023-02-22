@@ -19,6 +19,6 @@ class Outlet extends Model
     protected $fillable = [
         'nama','koderegion','alamat',
         'no_hp','email','no_mesin',
-        'kode','namaregion'
+        'kode','namaregion','ip','toleransi'
     ];
 }
