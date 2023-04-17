@@ -2,9 +2,8 @@
 @section('content')
 <style type="text/css">
     img {
-        max-width: 100%;
         height: auto !important;
-        border: 3px solid #3BBEEC;
+        /* border: 3px solid #3BBEEC; */
         margin:5px;
         margin-left: auto;
         margin-right: auto;
@@ -13,7 +12,7 @@
       border-collapse: collapse;
       border-spacing: 0;
       width: 100% !important;
-      border: 2px solid #3BBEEC;
+      border: none;
     }
 
     th, td {
@@ -65,17 +64,15 @@
                             <span>Kembali</span>
                         </a>
                     </div>
-                    <div class="row">
+                    <div class="row" style="overflow-x:auto;">
 
                         <div class="col-md-12">
                             <span class="badge badge-warning shadow"><i class="fas fa-tag"></i> {{$bab->name}}</span>
                             <p class="text-muted"> <i class="far fa-clock"></i> {{date_format($subbab->updated_at,'d-m-Y H:i:s')}}</p>
                         </div>
 
-                        <div class="col-md-12" style="overflow-x:auto;">
-                            <hr>
+                        <div class="col-md-12">
                             {!! $subbab->content !!}
-                            <hr>
                         </div>
 
                         <div class="col-md-12">

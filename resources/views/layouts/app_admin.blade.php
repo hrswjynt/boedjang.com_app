@@ -170,12 +170,12 @@
                 </li>
 
                 @if(Auth::user()->role !== 6)
-                <li class="nav-item @if($page == 'bukusaku_list') active @endif">
+                <li class="nav-item @if($page == 'bukusaku_list' || $page == 'ketentuan_list') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
                         <i class="fas fa-book-open"></i>
                         <span>Rule</span>
                     </a>
-                    <div id="collapseFour" class="collapse @if($page == 'bukusaku_list') show @endif" aria-labelledby="headingFour" data-parent="#accordionSidebar">
+                    <div id="collapseFour" class="collapse @if($page == 'bukusaku_list' || $page == 'ketentuan_list') show @endif" aria-labelledby="headingFour" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <!-- <h6 class="collapse-header">Custom Components:</h6> -->
                             <a class="collapse-item @if($page == 'bukusaku_list') active @endif" href="{{route('bukusaku_list.index')}}">Buku Saku</a>
