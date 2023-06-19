@@ -76,6 +76,7 @@
                                     <input name="email" type="email" class="form-control" value="{{ $user->email }}"
                                         maxlength="100">
                                 </div>
+                                @if($karyawan !== null)
                                 <div class="form-group mb-3 bmd-form-group">
                                     <label class="bmd-label-floating">NIK </label>
                                     <input name="nik" type="text" class="form-control" value="{{ $karyawan->NIK }}" maxlength="30" required>
@@ -104,6 +105,7 @@
                                         <label class="bmd-label-floating">Presensi Online <span class="red">*</span></label>
                                         <input type="text" class="form-control" disabled @if($user->presensi_online) value="Aktif" @else value="Tidak Aktif" @endif>
                                     </div>
+                                @endif
                                 @endif
                                 @if (Auth::user()->role == 1)
                                     <div class="form-group mb-3 bmd-form-group">
