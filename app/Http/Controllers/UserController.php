@@ -172,10 +172,12 @@ class UserController extends Controller
         }
 
         $karyawan = Karyawan::where('NIP', $user->username)->first();
-        $karyawan->NIK = $request->nik;
-        $karyawan->alamat = $request->alamat;
-        $karyawan->No_HP = $request->no_hp;
-        $karyawan->save();
+        if($karyawan !== null){
+            $karyawan->NIK = $request->nik;
+            $karyawan->alamat = $request->alamat;
+            $karyawan->No_HP = $request->no_hp;
+            $karyawan->save();
+        }
         
         $image_name = null;
         if($request->gambar !== null){
