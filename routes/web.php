@@ -228,7 +228,7 @@ Route::group(['middleware' => ['admin']], function () {
 	Route::post('kompetensibagian-delete/{id}', 'KompetensiBagianController@delete')->name('kompetensibagian.delete');
 
 	Route::resource('kompetensi', 'KompetensiController');
-	Route::get('kompetensi-data', 'kompetensiController@getData');
+	Route::get('kompetensi-data', 'KompetensiController@getData');
 	Route::post('kompetensi-delete/{id}', 'KompetensiController@delete')->name('kompetensi.delete');
 
 	Route::resource('kompetensimatrix', 'KompetensiMatrixController');
