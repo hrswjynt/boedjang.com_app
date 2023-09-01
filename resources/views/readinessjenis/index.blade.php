@@ -4,15 +4,15 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Jenis Kompetensi</h1>
+            <h1 class="h3 mb-0 text-gray-800">Jenis Readiness</h1>
         </div>
         <!-- Content Row -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6><b>Daftar Jenis Kompetensi</b></h6>
-                        <a href="{{ route('kompetensijenis.create') }}" class="btn btn-success btn-sm add">
+                        <h6><b>Daftar Jenis Readiness</b></h6>
+                        <a href="{{ route('readinessjenis.create') }}" class="btn btn-success btn-sm add">
                             <i class="fa fa-plus "></i>
                             <span>Tambah Jenis</span>
                         </a>
@@ -32,9 +32,9 @@
                                 <p>{!! $message !!}</p>
                             </div>
                         @endif
-                        <div id="kompetensijenis-data">
+                        <div id="readinessjenis-data">
                             <div class="table-responsive">
-                                <table class="table" id="table-jenis-kompetensi" width="100%">
+                                <table class="table" id="table-jenis-readiness" width="100%">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -55,7 +55,7 @@
         </div>
     </div>
     <script type="text/javascript">
-        var url_delete = "{{ url('kompetensijenis-delete') }}";
+        var url_delete = "{{ url('readinessjenis-delete') }}";
         var base_url = "{{ url('/') }}";
     </script>
 @endsection
@@ -63,7 +63,7 @@
 @push('other-script')
     <script type="text/javascript">
         $(function() {
-            $('#table-jenis-kompetensi').DataTable({
+            $('#table-jenis-readiness').DataTable({
                 processing: true,
                 serverSide: true,
                 "lengthMenu": [
@@ -76,7 +76,7 @@
                         'next': '<span class="fas fa-angle-right"></span>'
                     }
                 },
-                ajax: base_url + "/kompetensijenis-data",
+                ajax: base_url + "/readinessjenis-data",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -87,7 +87,7 @@
                         data: 'nama',
                     },
                     {
-                        data: 'kompetensi_kategori'
+                        data: 'readiness_kategori'
                     },
                     {
                         data: 'action',
@@ -101,14 +101,14 @@
         });
 
         $(document).ready(function() {
-            $("body").on("click", ".kompetensijenisDelete", function(e) {
+            $("body").on("click", ".readinessjenisDelete", function(e) {
                 e.preventDefault();
                 var id = $(this).data("id");
                 var token = $("meta[name='csrf-token']").attr("content");
                 var url = e.target;
                 swal({
                     title: 'Apakah Anda Yakin?',
-                    text: 'Jenis Kompetensi yang telah dihapus tidak dapat dikembalikan lagi!',
+                    text: 'Jenis Readiness yang telah dihapus tidak dapat dikembalikan lagi!',
                     icon: 'warning',
                     buttons: ["Cancel", "Yes!"],
                 }).then(function(value) {

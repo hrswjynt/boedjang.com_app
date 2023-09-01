@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Kompetensi;
-use App\KompetensiBagian;
-use App\KompetensiKategori;
+use App\ReadinessKompetensi;
+use App\ReadinessBagian;
+use App\ReadinessKategori;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
-class KompetensiController extends Controller
+class ReadinessKompetensiController extends Controller
 {
     public function index()
     {
         if (Auth::user()->role == 1) {
-            return view('kompetensi.index')
-                ->with('page', 'kompetensi');
+            return view('readinesskompetensi.index')
+                ->with('page', 'readinesskompetensi');
         } else {
             $message_type = 'danger';
             $message = 'Tidak memiliki hak akses untuk melihat data.';
@@ -27,15 +27,15 @@ class KompetensiController extends Controller
 
     public function getData()
     {
-        $data = Kompetensi::select(
-            'kompetensi.id AS id',
-            'kompetensi_bagian.kode AS kode',
-            'kompetensi.nomor AS nomor',
-            'kompetensi.kompetensi AS kompetensi',
-            'kompetensi_bagian.nama AS kompetensi_bagian',
-            'kompetensi.tipe'
+        $data = ReadinessKompetensi::select(
+            'readiness_kompetensi.id AS id',
+            'readiness_bagian.kode AS kode',
+            'readiness_kompetensi.nomor AS nomor',
+            'readiness_kompetensi.kompetensi AS kompetensi',
+            'readiness_bagian.nama AS readiness_bagian',
+            'readiness_kompetensi.tipe'
         )
-            ->join('kompetensi_bagian', 'kompetensi_bagian.id', 'kompetensi.kompetensi_bagian')
+            ->join('readiness_bagian', 'readiness_bagian.id', 'readiness_kompetensi.readiness_bagian')
             ->get();
         return $this->datatable($data);
     }
@@ -45,8 +45,8 @@ class KompetensiController extends Controller
         return DataTables::of($data)
             ->addColumn('action', function ($data) {
                 $action = '<div class="btn-group">';
-                $action .= '<a class="btn btn-sm btn-warning btn-simple shadow" href="' . route("kompetensi.edit", $data->id) . '" title="Edit"><i class="fa fa-edit"></i></a>';
-                $action .= '<a href="' . route("kompetensi.delete", $data->id) . '" class="btn btn-sm btn-danger btn-simple kompetensiDelete shadow" title="Hapus" data-id="' . $data->id . '"><i class="fa fa-trash"></i></a>';
+                $action .= '<a class="btn btn-sm btn-warning btn-simple shadow" href="' . route("readinesskompetensi.edit", $data->id) . '" title="Edit"><i class="fa fa-edit"></i></a>';
+                $action .= '<a href="' . route("readinesskompetensi.delete", $data->id) . '" class="btn btn-sm btn-danger btn-simple readinesskompetensiDelete shadow" title="Hapus" data-id="' . $data->id . '"><i class="fa fa-trash"></i></a>';
                 $action .= '</div>';
 
                 return $action;
@@ -59,10 +59,10 @@ class KompetensiController extends Controller
     public function create()
     {
         if (Auth::user()->role == 1) {
-            $kategori = KompetensiKategori::with('jenis.bagian')->get();
+            $kategori = ReadinessKategori::with('jenis.bagian')->get();
 
-            return view('kompetensi.create')
-                ->with('page', 'kompetensi')
+            return view('readinesskompetensi.create')
+                ->with('page', 'readinesskompetensi')
                 ->with('kategori', $kategori);
 
             // $bagian = KompetensiBagian::all();
@@ -86,32 +86,32 @@ class KompetensiController extends Controller
                 'nomor' => [
                     'required',
                     'numeric',
-                    Rule::unique('kompetensi')
+                    Rule::unique('readiness_kompetensi')
                         ->where(function ($q) use ($request) {
-                            $q->where('kompetensi_bagian', $request->kompetensi_bagian);
+                            $q->where('readiness_bagian', $request->readiness_bagian);
                         })
                 ],
                 'kompetensi' => 'required|string',
-                'kompetensi_bagian' => 'required|numeric',
+                'readiness_bagian' => 'required|numeric',
                 'tipe' => 'required|numeric'
             ]);
 
-            $model = new Kompetensi;
+            $model = new ReadinessKompetensi;
             $model->nomor = $request->nomor;
             $model->kompetensi = $request->kompetensi;
-            $model->kompetensi_bagian = $request->kompetensi_bagian;
+            $model->readiness_bagian = $request->readiness_bagian;
             $model->tipe = $request->tipe;
             $model->save();
 
             DB::commit();
             $message_type = 'success';
-            $message = 'Kompetensi berhasil dibuat.';
-            return redirect()->route('kompetensi.index')->with($message_type, $message);
+            $message = 'Kompetensi readiness berhasil dibuat.';
+            return redirect()->route('readinesskompetensi.index')->with($message_type, $message);
         } catch (\Throwable $th) {
             DB::rollback();
             $message_type = 'danger';
-            $message = 'Kompetensi gagal dibuat.';
-            return redirect()->route('kompetensi.create')->with($message_type, $message);
+            $message = 'Kompetensi readiness gagal dibuat.';
+            return redirect()->route('readinesskompetensi.create')->withInput()->with($message_type, $message);
         }
     }
 
@@ -123,23 +123,23 @@ class KompetensiController extends Controller
     public function edit($id)
     {
         if (Auth::user()->role == 1) {
-            $kategori = KompetensiKategori::with('jenis.bagian')->get();
-            $kompetensi = Kompetensi::select(
-                'kompetensi.id AS id',
-                'kompetensi.nomor AS nomor',
-                'kompetensi.kompetensi AS kompetensi',
-                'kompetensi_jenis.kompetensi_kategori AS kompetensi_kategori',
-                'kompetensi_bagian.kompetensi_jenis AS kompetensi_jenis',
-                'kompetensi.kompetensi_bagian AS kompetensi_bagian',
-                'kompetensi.tipe AS tipe'
+            $kategori = ReadinessKategori::with('jenis.bagian')->get();
+            $kompetensi = ReadinessKompetensi::select(
+                'readiness_kompetensi.id AS id',
+                'readiness_kompetensi.nomor AS nomor',
+                'readiness_kompetensi.kompetensi AS kompetensi',
+                'readiness_jenis.readiness_kategori AS readiness_kategori',
+                'readiness_bagian.readiness_jenis AS readiness_jenis',
+                'readiness_kompetensi.readiness_bagian AS readiness_bagian',
+                'readiness_kompetensi.tipe AS tipe'
             )
-                ->join('kompetensi_bagian', 'kompetensi_bagian.id', 'kompetensi.kompetensi_bagian')
-                ->join('kompetensi_jenis', 'kompetensi_jenis.id', 'kompetensi_bagian.kompetensi_jenis')
-                ->where('kompetensi.id', $id)
+                ->join('readiness_bagian', 'readiness_bagian.id', 'readiness_kompetensi.readiness_bagian')
+                ->join('readiness_jenis', 'readiness_jenis.id', 'readiness_bagian.readiness_jenis')
+                ->where('readiness_kompetensi.id', $id)
                 ->first();
 
-            return view('kompetensi.edit')
-                ->with('page', 'kompetensi')
+            return view('readinesskompetensi.edit')
+                ->with('page', 'readinesskompetensi')
                 ->with('kategori', $kategori)
                 ->with('kompetensi', $kompetensi);
 
@@ -167,33 +167,33 @@ class KompetensiController extends Controller
                 'nomor' => [
                     'required',
                     'numeric',
-                    Rule::unique('kompetensi')
+                    Rule::unique('readiness_kompetensi')
                         ->ignore($id)
                         ->where(function ($q) use ($request) {
-                            $q->where('kompetensi_bagian', $request->kompetensi_bagian);
+                            $q->where('readiness_bagian', $request->readiness_bagian);
                         })
                 ],
                 'kompetensi' => 'required|string',
-                'kompetensi_bagian' => 'required|numeric',
+                'readiness_bagian' => 'required|numeric',
                 'tipe' => 'required|numeric'
             ]);
 
-            $model = Kompetensi::find($id);
+            $model = ReadinessKompetensi::find($id);
             $model->nomor = $request->nomor;
             $model->kompetensi = $request->kompetensi;
-            $model->kompetensi_bagian = $request->kompetensi_bagian;
+            $model->readiness_bagian = $request->readiness_bagian;
             $model->tipe = $request->tipe;
             $model->save();
 
             DB::commit();
             $message_type = 'success';
-            $message = 'Kompetensi berhasil diubah.';
-            return redirect()->route('kompetensi.index')->with($message_type, $message);
+            $message = 'Kompetensi readiness berhasil diubah.';
+            return redirect()->route('readinesskompetensi.index')->with($message_type, $message);
         } catch (\Throwable $th) {
             DB::rollback();
             $message_type = 'danger';
-            $message = 'Kompetensi gagal diubah.';
-            return redirect()->route('kompetensi.edit', $id)->with($message_type, $message);
+            $message = 'Kompetensi readiness gagal diubah.';
+            return redirect()->route('readinesskompetensi.edit', $id)->withInput()->with($message_type, $message);
         }
     }
 
@@ -201,23 +201,23 @@ class KompetensiController extends Controller
     {
         DB::beginTransaction();
         try {
-            $kompetensi = Kompetensi::find($id);
+            $readinessKompetensi = ReadinessKompetensi::find($id);
 
             if (Auth::user()->role == 1) {
-                $kompetensi->delete();
+                $readinessKompetensi->delete();
             } else {
                 throw new \Exception("Tidak memiliki hak akses untuk menghapus data.");
             }
 
             DB::commit();
             return response()->json([
-                'message' => 'Kompetensi berhasil dihapus.',
+                'message' => 'Kompetensi readiness berhasil dihapus.',
                 'type' => 'success',
             ]);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json([
-                'message' => 'Kompetensi gagal dihapus.',
+                'message' => 'Kompetensi readiness gagal dihapus.',
                 'type' => 'danger',
             ]);
         }

@@ -4,15 +4,15 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Kategori Kompetensi</h1>
+            <h1 class="h3 mb-0 text-gray-800">Kategori Readiness</h1>
         </div>
         <!-- Content Row -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6><b>Daftar Kategori Kompetensi</b></h6>
-                        <a href="{{ route('kompetensikategori.create') }}" class="btn btn-success btn-sm add">
+                        <h6><b>Daftar Kategori Readiness</b></h6>
+                        <a href="{{ route('readinesskategori.create') }}" class="btn btn-success btn-sm add">
                             <i class="fa fa-plus "></i>
                             <span>Tambah Kategori</span>
                         </a>
@@ -34,7 +34,7 @@
                         @endif
                         <div id="user-data">
                             <div class="table-responsive">
-                                <table class="table" id="table-kategori-kompetensi" width="100%">
+                                <table class="table" id="table-kategori-readiness" width="100%">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -54,7 +54,7 @@
         </div>
     </div>
     <script type="text/javascript">
-        var url_delete = "{{ url('kompetensikategori-delete') }}";
+        var url_delete = "{{ url('readinesskategori-delete') }}";
         var base_url = "{{ url('/') }}";
     </script>
 @endsection
@@ -62,7 +62,7 @@
 @push('other-script')
     <script type="text/javascript">
         $(function() {
-            $('#table-kategori-kompetensi').DataTable({
+            $('#table-kategori-readiness').DataTable({
                 processing: true,
                 serverSide: true,
                 "lengthMenu": [
@@ -75,7 +75,7 @@
                         'next': '<span class="fas fa-angle-right"></span>'
                     }
                 },
-                ajax: base_url + "/kompetensikategori-data",
+                ajax: base_url + "/readinesskategori-data",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -97,14 +97,14 @@
         });
 
         $(document).ready(function() {
-            $("body").on("click", ".kompetensikategoriDelete", function(e) {
+            $("body").on("click", ".readinesskategoriDelete", function(e) {
                 e.preventDefault();
                 var id = $(this).data("id");
                 var token = $("meta[name='csrf-token']").attr("content");
                 var url = e.target;
                 swal({
                     title: 'Apakah Anda Yakin?',
-                    text: 'Kategori Kompetensi yang telah dihapus tidak dapat dikembalikan lagi!',
+                    text: 'Kategori Readiness yang telah dihapus tidak dapat dikembalikan lagi!',
                     icon: 'warning',
                     buttons: ["Cancel", "Yes!"],
                 }).then(function(value) {

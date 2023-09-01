@@ -5,11 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class KompetensiKategori extends Model
+class ReadinessKategori extends Model
 {
     use Notifiable;
 
-    protected $table = 'kompetensi_kategori';
+    protected $table = 'readiness_kategori';
     protected $primaryKey = 'id';
     public $timestamps = false;
     public $incrementing = true;
@@ -19,6 +19,6 @@ class KompetensiKategori extends Model
 
     public function jenis()
     {
-        return $this->hasMany(KompetensiJenis::class, 'kompetensi_kategori', 'id');
+        return $this->hasMany(ReadinessJenis::class, 'readiness_kategori', 'id');
     }
 }

@@ -4,15 +4,15 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Kategori Kompetensi</h1>
+            <h1 class="h3 mb-0 text-gray-800">Kategori Readiness</h1>
         </div>
         <!-- Content Row -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6><b>Edit Kategori</b></h6>
-                        <a href="{{ route('kompetensikategori.index') }}" class="btn btn-info btn-sm add">
+                        <h6><b>Tambah Kategori</b></h6>
+                        <a href="{{ route('readinesskategori.index') }}" class="btn btn-info btn-sm add">
                             <i class="fa fa-arrow-left "></i>
                             <span>Kembali</span>
                         </a>
@@ -32,10 +32,8 @@
                                 <p>{{ $message }}</p>
                             </div>
                         @endif
-                        <form method="POST" action="{{ route('kompetensikategori.update', $kategori->id) }}"
-                            id="kompetensikategori_form">
+                        <form method="POST" action="{{ route('readinesskategori.store') }}" id="readinesskategori_form">
                             @csrf
-                            @method('PUT')
                             <div class="container-fluid mt-3">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -43,7 +41,7 @@
                                             <label class="bmd-label-floating">Nama Kategori <span
                                                     class="red">*</span></label>
                                             <input name="nama" type="text" class="form-control"
-                                                value="{{ $kategori->nama }}" id="nama" maxlength="100">
+                                                value="{{ old('nama') }}" id="nama" maxlength="100">
                                         </div>
                                     </div>
                                 </div>
@@ -81,25 +79,25 @@
 
             $("#btn-submit").click(function() {
                 swal({
-                        title: "Apakah anda yakin akan mengubah data kategori kompetensi?",
-                        text: 'Data yang diubah dapat merubah data pada database.',
+                        title: "Apakah anda yakin akan menambah data kategori readiness?",
+                        text: 'Data yang ditambahkan dapat merubah data pada database.',
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
                     })
                     .then((willDelete) => {
                         if (willDelete) {
-                            $("#kompetensikategori_form").submit()
+                            $("#readinesskategori_form").submit()
                         } else {
-                            swal("Proses Pengubahan Data Kategori Kompetensi Dibatalkan!", {
+                            swal("Proses Penambahan Data Kategori Readiness Dibatalkan!", {
                                 icon: "error",
                             });
                         }
                     });
             });
 
-            $("#kompetensikategori_form").submit(function() {
-                if ($("#kompetensikategori_form").valid()) {
+            $("#readinesskategori_form").submit(function() {
+                if ($("#readinesskategori_form").valid()) {
                     $('#btn-submit').hide();
                     $('#btn-submit-loading').show();
                 } else {
@@ -107,8 +105,8 @@
                 }
             });
 
-            if ($("#kompetensikategori_form").length > 0) {
-                $("#kompetensikategori_form").validate({
+            if ($("#readinesskategori_form").length > 0) {
+                $("#readinesskategori_form").validate({
                     rules: {
                         name: {
                             required: true,

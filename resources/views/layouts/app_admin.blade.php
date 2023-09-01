@@ -474,27 +474,39 @@
                     </div>
                 </li>
 
-                <li class="nav-item @if ($page == 'kompetensikategori' || $page == 'kompetensijenis' || $page == 'kompetensibagian' || $page == 'kompetensi' || $page == 'kompetensimatrix') active @endif">
+                <li class="nav-item @if (
+                    $page == 'readinesskategori' ||
+                        $page == 'readinessjenis' ||
+                        $page == 'readinessbagian' ||
+                        $page == 'readinesskompetensi' ||
+                        $page == 'readinessmatrix') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                        data-target="#kompetensiCollapseUtilities" aria-expanded="true" aria-controls="kompetensiCollapseUtilities">
+                        data-target="#kompetensiCollapseUtilities" aria-expanded="true"
+                        aria-controls="kompetensiCollapseUtilities">
                         <i class="fas fa-cube"></i>
-                        <span>Master Kompetensi</span>
+                        <span>Master Readiness Matrix</span>
                     </a>
-                    <div id="kompetensiCollapseUtilities" class="collapse @if ($page == 'kompetensikategori' || $page == 'kompetensijenis' || $page == 'kompetensibagian' || $page == 'kompetensi' || $page == 'kompetensimatrix') show @endif"
+                    <div id="kompetensiCollapseUtilities"
+                        class="collapse @if (
+                            $page == 'readinesskategori' ||
+                                $page == 'readinessjenis' ||
+                                $page == 'readinessbagian' ||
+                                $page == 'readinesskompetensi' ||
+                                $page == 'readinessmatrix') show @endif"
                         aria-labelledby="headingUtilities3" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">- Master Kompetensi -</h6>
+                            <h6 class="collapse-header">- Master Readiness -</h6>
                             @if (Auth::user()->role == 1)
-                                <a class="collapse-item @if ($page == 'kompetensikategori') active @endif"
-                                    href="{{ route('kompetensikategori.index') }}">Kategori</a>
-                                <a class="collapse-item @if ($page == 'kompetensijenis') active @endif"
-                                    href="{{ route('kompetensijenis.index') }}">Jenis</a>
-                                <a class="collapse-item @if ($page == 'kompetensibagian') active @endif"
-                                    href="{{ route('kompetensibagian.index') }}">Bagian</a>
-                                <a class="collapse-item @if ($page == 'kompetensi') active @endif"
-                                    href="{{ route('kompetensi.index') }}">Kompetensi</a>
-                                <a class="collapse-item @if ($page == 'kompetensimatrix') active @endif"
-                                    href="{{ route('kompetensimatrix.index') }}">Matrix</a>
+                                <a class="collapse-item @if ($page == 'readinesskategori') active @endif"
+                                    href="{{ route('readinesskategori.index') }}">Kategori</a>
+                                <a class="collapse-item @if ($page == 'readinessjenis') active @endif"
+                                    href="{{ route('readinessjenis.index') }}">Jenis</a>
+                                <a class="collapse-item @if ($page == 'readinessbagian') active @endif"
+                                    href="{{ route('readinessbagian.index') }}">Bagian</a>
+                                <a class="collapse-item @if ($page == 'readinesskompetensi') active @endif"
+                                    href="{{ route('readinesskompetensi.index') }}">Kompetensi</a>
+                                {{-- <a class="collapse-item @if ($page == 'readinessmatrix') active @endif"
+                                    href="{{ route('readinessmatrix.index') }}">Matrix</a> --}}
                             @endif
                         </div>
                     </div>

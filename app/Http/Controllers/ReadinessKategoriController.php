@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\KompetensiKategori;
+use App\ReadinessKategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
-class KompetensiKategoriController extends Controller
+class ReadinessKategoriController extends Controller
 {
     public function index()
     {
         if (Auth::user()->role == 1) {
-            return view('kompetensikategori.index')->with('page', 'kompetensikategori');
+            return view('readinesskategori.index')->with('page', 'readinesskategori');
         } else {
             $message_type = 'danger';
             $message = 'Tidak memiliki hak akses untuk melihat data.';
@@ -23,7 +23,7 @@ class KompetensiKategoriController extends Controller
 
     public function getData()
     {
-        $data = KompetensiKategori::all();
+        $data = ReadinessKategori::all();
         return $this->datatable($data);
     }
 
@@ -32,8 +32,8 @@ class KompetensiKategoriController extends Controller
         return DataTables::of($data)
             ->addColumn('action', function ($data) {
                 $action = '<div class="btn-group">';
-                $action .= '<a class="btn btn-sm btn-warning btn-simple shadow" href="' . route("kompetensikategori.edit", $data->id) . '" title="Edit"><i class="fa fa-edit"></i></a>';
-                $action .= '<a href="' . route("kompetensikategori.delete", $data->id) . '" class="btn btn-sm btn-danger btn-simple kompetensikategoriDelete shadow" title="Hapus" data-id="' . $data->id . '"><i class="fa fa-trash"></i></a>';
+                $action .= '<a class="btn btn-sm btn-warning btn-simple shadow" href="' . route("readinesskategori.edit", $data->id) . '" title="Edit"><i class="fa fa-edit"></i></a>';
+                $action .= '<a href="' . route("readinesskategori.delete", $data->id) . '" class="btn btn-sm btn-danger btn-simple readinesskategoriDelete shadow" title="Hapus" data-id="' . $data->id . '"><i class="fa fa-trash"></i></a>';
                 $action .= '</div>';
 
                 return $action;
@@ -46,7 +46,7 @@ class KompetensiKategoriController extends Controller
     public function create()
     {
         if (Auth::user()->role == 1) {
-            return view('kompetensikategori.create')->with('page', 'kompetensikategori');
+            return view('readinesskategori.create')->with('page', 'readinesskategori');
         } else {
             $message_type = 'danger';
             $message = 'Tidak memiliki hak akses untuk menambah data.';
@@ -63,19 +63,19 @@ class KompetensiKategoriController extends Controller
                 'nama' => 'required|string'
             ]);
 
-            $model = new KompetensiKategori;
+            $model = new ReadinessKategori;
             $model->nama = $request->nama;
             $model->save();
 
             DB::commit();
             $message_type = 'success';
-            $message = 'Kategori kompetensi berhasil dibuat.';
-            return redirect()->route('kompetensikategori.index')->with($message_type, $message);
+            $message = 'Kategori readiness berhasil dibuat.';
+            return redirect()->route('readinesskategori.index')->with($message_type, $message);
         } catch (\Throwable $th) {
             DB::rollback();
             $message_type = 'danger';
-            $message = 'Kategori kompetensi gagal dibuat.';
-            return redirect()->route('kompetensikategori.create')->with($message_type, $message);
+            $message = 'Kategori readiness gagal dibuat.';
+            return redirect()->route('readinesskategori.create')->with($message_type, $message);
         }
     }
 
@@ -86,8 +86,8 @@ class KompetensiKategoriController extends Controller
     public function edit($id)
     {
         if (Auth::user()->role == 1) {
-            $kategori = KompetensiKategori::find($id);
-            return view('kompetensikategori.edit')->with('page', 'kompetensikategori')->with('kategori', $kategori);
+            $kategori = ReadinessKategori::find($id);
+            return view('readinesskategori.edit')->with('page', 'readinesskategori')->with('kategori', $kategori);
         } else {
             $message_type = 'danger';
             $message = 'Tidak memiliki hak akses untuk mengubah data.';
@@ -104,19 +104,19 @@ class KompetensiKategoriController extends Controller
                 'nama' => 'required|string'
             ]);
 
-            $model = KompetensiKategori::find($id);
+            $model = ReadinessKategori::find($id);
             $model->nama = $request->nama;
             $model->save();
 
             DB::commit();
             $message_type = 'success';
-            $message = 'Kategori kompetensi berhasil diubah.';
-            return redirect()->route('kompetensikategori.index')->with($message_type, $message);
+            $message = 'Kategori readiness berhasil diubah.';
+            return redirect()->route('readinesskategori.index')->with($message_type, $message);
         } catch (\Throwable $th) {
             DB::rollback();
             $message_type = 'danger';
-            $message = 'Kategori kompetensi gagal diubah.';
-            return redirect()->route('kompetensikategori.edit', $id)->with($message_type, $message);
+            $message = 'Kategori readiness gagal diubah.';
+            return redirect()->route('readinesskategori.edit', $id)->with($message_type, $message);
         }
     }
 
@@ -124,23 +124,23 @@ class KompetensiKategoriController extends Controller
     {
         DB::beginTransaction();
         try {
-            $kompetensiKategori = KompetensiKategori::find($id);
+            $readinessKategori = ReadinessKategori::find($id);
 
             if (Auth::user()->role == 1) {
-                $kompetensiKategori->delete();
+                $readinessKategori->delete();
             } else {
                 throw new \Exception("Tidak memiliki hak akses untuk menghapus data.");
             }
 
             DB::commit();
             return response()->json([
-                'message' => 'Kategori Kompetensi berhasil dihapus.',
+                'message' => 'Kategori Readiness berhasil dihapus.',
                 'type' => 'success',
             ]);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json([
-                'message' => 'Kategori Kompetensi gagal dihapus.',
+                'message' => 'Kategori Readiness gagal dihapus.',
                 'type' => 'danger',
             ]);
         }

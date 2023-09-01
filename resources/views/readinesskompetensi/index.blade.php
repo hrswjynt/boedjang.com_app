@@ -4,17 +4,17 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Bagian Kompetensi</h1>
+            <h1 class="h3 mb-0 text-gray-800">Kompetensi Readiness</h1>
         </div>
         <!-- Content Row -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6><b>Daftar Bagian Kompetensi</b></h6>
-                        <a href="{{ route('kompetensibagian.create') }}" class="btn btn-success btn-sm add">
+                        <h6><b>Daftar Kompetensi Readiness</b></h6>
+                        <a href="{{ route('readinesskompetensi.create') }}" class="btn btn-success btn-sm add">
                             <i class="fa fa-plus "></i>
-                            <span>Tambah Bagian</span>
+                            <span>Tambah Kompetensi</span>
                         </a>
                     </div>
                     <div class="card-body">
@@ -32,15 +32,16 @@
                                 <p>{!! $message !!}</p>
                             </div>
                         @endif
-                        <div id="kompetensibagian-data">
+                        <div id="readinesskompetensi-data">
                             <div class="table-responsive">
-                                <table class="table" id="table-bagian-kompetensi" width="100%">
+                                <table class="table" id="table-kompetensi-readiness" width="100%">
                                     <thead>
                                         <tr>
                                             <th>No</th>
                                             <th>Kode</th>
-                                            <th>Nama</th>
-                                            <th>Jenis</th>
+                                            <th>Kompetensi</th>
+                                            <th>Bagian</th>
+                                            <th>Tipe</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -56,7 +57,7 @@
         </div>
     </div>
     <script type="text/javascript">
-        var url_delete = "{{ url('kompetensibagian-delete') }}";
+        var url_delete = "{{ url('readinesskompetensi-delete') }}";
         var base_url = "{{ url('/') }}";
     </script>
 @endsection
@@ -64,7 +65,7 @@
 @push('other-script')
     <script type="text/javascript">
         $(function() {
-            $('#table-bagian-kompetensi').DataTable({
+            $('#table-kompetensi-readiness').DataTable({
                 processing: true,
                 serverSide: true,
                 "lengthMenu": [
@@ -77,21 +78,42 @@
                         'next': '<span class="fas fa-angle-right"></span>'
                     }
                 },
-                ajax: base_url + "/kompetensibagian-data",
+                ajax: base_url + "/readinesskompetensi-data",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
                         orderable: false,
                         searchable: false
                     },
+                    // {
+                    //     data: 'nomor',
+                    // },
                     {
-                        data: 'kode'
+                        data: (data) => `${data.kode}.${data.nomor.toString().padStart(2, '0')}`
                     },
                     {
-                        data: 'nama',
+                        data: 'kompetensi',
                     },
                     {
-                        data: 'kompetensi_jenis'
+                        data: 'readiness_bagian',
+                    },
+                    {
+                        data: 'tipe',
+                        render: (data) => {
+                            switch (data) {
+                                case 1:
+                                    return 'Knowledge (K)'
+
+                                case 2:
+                                    return 'Skill (S)'
+
+                                case 3:
+                                    return 'Behavior (B)'
+
+                                default:
+                                    return 'Tidak Diketahui'
+                            }
+                        }
                     },
                     {
                         data: 'action',
@@ -105,14 +127,14 @@
         });
 
         $(document).ready(function() {
-            $("body").on("click", ".kompetensibagianDelete", function(e) {
+            $("body").on("click", ".readinesskompetensiDelete", function(e) {
                 e.preventDefault();
                 var id = $(this).data("id");
                 var token = $("meta[name='csrf-token']").attr("content");
                 var url = e.target;
                 swal({
                     title: 'Apakah Anda Yakin?',
-                    text: 'Bagian Kompetensi yang telah dihapus tidak dapat dikembalikan lagi!',
+                    text: 'Kompetensi readiness yang telah dihapus tidak dapat dikembalikan lagi!',
                     icon: 'warning',
                     buttons: ["Cancel", "Yes!"],
                 }).then(function(value) {

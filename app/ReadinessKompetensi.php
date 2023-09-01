@@ -4,21 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Kompetensi extends Model
+class ReadinessKompetensi extends Model
 {
-    protected $table = 'kompetensi';
+    protected $table = 'readiness_kompetensi';
     protected $primaryKey = 'id';
     public $timestamps = false;
     public $incrementing = true;
     protected $fillable = [
         'nomor',
         'kompetensi',
-        'kompetensi_bagian',
+        'readiness_bagian',
         'tipe',
     ];
 
     public function bagian()
     {
-        return $this->belongsTo(KompetensiBagian::class, 'kompetensi_bagain', 'id');
+        return $this->belongsTo(ReadinessBagian::class, 'readiness_bagain', 'id');
     }
 }

@@ -215,21 +215,21 @@ Route::group(['middleware' => ['admin']], function () {
 	Route::get("subbab-data", "SubBabController@getData");
 	Route::post('/subbab-delete/{id}', 'SubBabController@delete')->name('subbab.delete');
 
-	Route::resource('kompetensikategori', 'KompetensiKategoriController');
-	Route::get('kompetensikategori-data', 'KompetensiKategoriController@getData');
-	Route::post('kompetensikategori-delete/{id}', 'KompetensiKategoriController@delete')->name('kompetensikategori.delete');
+	Route::resource('readinesskategori', 'ReadinessKategoriController');
+	Route::get('readinesskategori-data', 'ReadinessKategoriController@getData');
+	Route::post('readinesskategori-delete/{id}', 'ReadinessKategoriController@delete')->name('readinesskategori.delete');
 
-	Route::resource('kompetensijenis', 'KompetensiJenisController');
-	Route::get('kompetensijenis-data', 'KompetensiJenisController@getData');
-	Route::post('kompetensijenis-delete/{id}', 'KompetensiJenisController@delete')->name('kompetensijenis.delete');
+	Route::resource('readinessjenis', 'ReadinessJenisController');
+	Route::get('readinessjenis-data', 'ReadinessJenisController@getData');
+	Route::post('readinessjenis-delete/{id}', 'ReadinessJenisController@delete')->name('readinessjenis.delete');
 
-	Route::resource('kompetensibagian', 'KompetensiBagianController');
-	Route::get('kompetensibagian-data', 'KompetensiBagianController@getData');
-	Route::post('kompetensibagian-delete/{id}', 'KompetensiBagianController@delete')->name('kompetensibagian.delete');
+	Route::resource('readinessbagian', 'ReadinessBagianController');
+	Route::get('readinessbagian-data', 'ReadinessBagianController@getData');
+	Route::post('readinessbagian-delete/{id}', 'ReadinessBagianController@delete')->name('readinessbagian.delete');
 
-	Route::resource('kompetensi', 'KompetensiController');
-	Route::get('kompetensi-data', 'KompetensiController@getData');
-	Route::post('kompetensi-delete/{id}', 'KompetensiController@delete')->name('kompetensi.delete');
+	Route::resource('readinesskompetensi', 'ReadinessKompetensiController');
+	Route::get('readinesskompetensi-data', 'ReadinessKompetensiController@getData');
+	Route::post('readinesskompetensi-delete/{id}', 'ReadinessKompetensiController@delete')->name('readinesskompetensi.delete');
 
-	Route::resource('kompetensimatrix', 'KompetensiMatrixController');
+	// Route::resource('kompetensimatrix', 'KompetensiMatrixController');
 });

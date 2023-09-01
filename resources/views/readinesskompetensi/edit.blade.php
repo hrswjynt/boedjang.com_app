@@ -4,15 +4,15 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Kompetensi</h1>
+            <h1 class="h3 mb-0 text-gray-800">Kompetensi Readiness</h1>
         </div>
         <!-- Content Row -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6><b>Tambah Kompetensi</b></h6>
-                        <a href="{{ route('kompetensi.index') }}" class="btn btn-info btn-sm add">
+                        <h6><b>Edit Kompetensi Readiness</b></h6>
+                        <a href="{{ route('readinesskompetensi.index') }}" class="btn btn-info btn-sm add">
                             <i class="fa fa-arrow-left "></i>
                             <span>Kembali</span>
                         </a>
@@ -32,50 +32,59 @@
                                 <p>{{ $message }}</p>
                             </div>
                         @endif
-                        <form method="POST" action="{{ route('kompetensi.store') }}" id="kompetensi_form">
+                        <form method="POST" action="{{ route('readinesskompetensi.update', $kompetensi->id) }}"
+                            id="readinesskompetensi_form">
                             @csrf
+                            @method('PUT')
                             <div class="container-fluid mt-3">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Nomor<span class="red">*</span></label>
                                             <input name="nomor" type="text" class="form-control"
-                                                value="{{ old('nomor') }}" id="nomor" maxlength="11">
+                                                value="{{ $kompetensi->nomor }}" id="nomor" maxlength="11">
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Kompetensi<span
                                                     class="red">*</span></label>
-                                            {{-- <input name="kompetensi" type="text" class="form-control"
-                                                value="{{ old('kompetensi') }}" id="kompetensi" maxlength="255"> --}}
-                                            <textarea name="kompetensi" id="kompetensi" class="form-control" cols="30" rows="3">{{ old('kompetensi') }}</textarea>
+                                            <textarea name="kompetensi" id="kompetensi" class="form-control" cols="30" rows="3">{{ $kompetensi->kompetensi }}</textarea>
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Kategori Kompetensi <span
                                                     class="red">*</span></label>
-                                            <select id="kompetensi_kategori" class="form-control select2"
-                                                name="kompetensi_kategori" style="width: 100%">
+                                            <select id="readiness_kategori" class="form-control select2"
+                                                name="readiness_kategori" style="width: 100%">
                                                 {{-- @foreach ($bagian as $b)
-                                                    <option value="{{ $b->id }}">{{ $b->nama }}</option>
+                                                    <option value="{{ $b->id }}"
+                                                        {{ $b->id == $kompetensi->readiness_bagian ? 'selected' : '' }}>
+                                                        {{ $b->nama }}
+                                                    </option>
                                                 @endforeach --}}
                                             </select>
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Jenis Kompetensi <span
                                                     class="red">*</span></label>
-                                            <select id="kompetensi_jenis" class="form-control select2"
-                                                name="kompetensi_jenis" style="width: 100%">
+                                            <select id="readiness_jenis" class="form-control select2" name="readiness_jenis"
+                                                style="width: 100%">
                                                 {{-- @foreach ($bagian as $b)
-                                                    <option value="{{ $b->id }}">{{ $b->nama }}</option>
+                                                    <option value="{{ $b->id }}"
+                                                        {{ $b->id == $kompetensi->readiness_bagian ? 'selected' : '' }}>
+                                                        {{ $b->nama }}
+                                                    </option>
                                                 @endforeach --}}
                                             </select>
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Bagian Kompetensi <span
                                                     class="red">*</span></label>
-                                            <select id="kompetensi_bagian" class="form-control select2"
-                                                name="kompetensi_bagian" style="width: 100%">
+                                            <select id="readiness_bagian" class="form-control select2"
+                                                name="readiness_bagian" style="width: 100%">
                                                 {{-- @foreach ($bagian as $b)
-                                                    <option value="{{ $b->id }}">{{ $b->nama }}</option>
+                                                    <option value="{{ $b->id }}"
+                                                        {{ $b->id == $kompetensi->readiness_bagian ? 'selected' : '' }}>
+                                                        {{ $b->nama }}
+                                                    </option>
                                                 @endforeach --}}
                                             </select>
                                         </div>
@@ -84,17 +93,17 @@
                                             <br>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="tipe" id="tipe_1"
-                                                    value="1" checked>
+                                                    value="1" {{ $kompetensi->tipe == 1 ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="tipe_1">Knowledge (K)</label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="tipe" id="tipe_2"
-                                                    value="2">
+                                                    value="2" {{ $kompetensi->tipe == 2 ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="tipe_2">Skill (S)</label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="tipe" id="tipe_3"
-                                                    value="3">
+                                                    value="3" {{ $kompetensi->tipe == 3 ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="tipe_3">Behavior (B)</label>
                                             </div>
                                         </div>
@@ -135,25 +144,25 @@
 
             $("#btn-submit").click(function() {
                 swal({
-                        title: "Apakah anda yakin akan menambah data kompetensi?",
-                        text: 'Data yang ditambahkan dapat merubah data pada database.',
+                        title: "Apakah anda yakin akan mengubah data kompetensi readiness?",
+                        text: 'Data yang diubah dapat merubah data pada database.',
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
                     })
                     .then((willDelete) => {
                         if (willDelete) {
-                            $("#kompetensi_form").submit()
+                            $("#readinesskompetensi_form").submit()
                         } else {
-                            swal("Proses Penambahan Data Kompetensi Dibatalkan!", {
+                            swal("Proses Pengubahan Data Kompetensi Readiness Dibatalkan!", {
                                 icon: "error",
                             });
                         }
                     });
             });
 
-            $("#kompetensi_form").submit(function() {
-                if ($("#kompetensi_form").valid()) {
+            $("#readinesskompetensi_form").submit(function() {
+                if ($("#readinesskompetensi_form").valid()) {
                     $('#btn-submit').hide();
                     $('#btn-submit-loading').show();
                 } else {
@@ -161,8 +170,8 @@
                 }
             });
 
-            if ($("#kompetensi_form").length > 0) {
-                $("#kompetensi_form").validate({
+            if ($("#readinesskompetensi_form").length > 0) {
+                $("#readinesskompetensi_form").validate({
                     rules: {
                         nomor: {
                             required: true,
@@ -172,7 +181,7 @@
                             required: true,
                             maxlength: 255,
                         },
-                        kompetensi_bagian: {
+                        readiness_bagian: {
                             required: true
                         },
                         tipe: {
@@ -188,7 +197,7 @@
                             required: 'Data Nama harus diisi',
                             maxlength: "Data Nama tidak boleh lebih dari 100 kata",
                         },
-                        kompetensi_bagian: {
+                        readiness_bagian: {
                             required: 'Data Bagian harus diisi',
                         },
                         tipe: {
@@ -203,16 +212,19 @@
                     {
                         id: '{{ $k->id }}',
                         nama: '{{ $k->nama }}',
+                        selected: {{ $k->id == $kompetensi->readiness_kategori ? 'true' : 'false' }},
                         jenis: [
                             @foreach ($k->jenis as $j)
                                 {
                                     id: '{{ $j->id }}',
+                                    selected: {{ $j->id == $kompetensi->readiness_jenis ? 'true' : 'false' }},
                                     nama: '{{ $j->nama }}',
                                     bagian: [
                                         @foreach ($j->bagian as $b)
                                             {
                                                 id: '{{ $b->id }}',
                                                 nama: '{{ $b->nama }}',
+                                                selected: {{ $b->id == $kompetensi->readiness_bagian ? 'true' : 'false' }},
                                             },
                                         @endforeach
                                     ]
@@ -223,34 +235,40 @@
                 @endforeach
             ]
 
-            $('#kompetensi_kategori').empty()
+            $('#readiness_kategori').empty()
             kategori.forEach(function(e, i) {
-                $('#kompetensi_kategori').append(`<option value="${e.id}">${e.nama}</option>`)
+                $('#readiness_kategori').append(
+                    `<option value="${e.id}" ${e.selected ? 'selected' : ''}>${e.nama}</option>`)
             })
 
-            $('#kompetensi_kategori').on('change', function() {
-                $('#kompetensi_jenis').empty()
-                kategori.find((jenis) => jenis.id == $('#kompetensi_kategori').val()).jenis.forEach(
+            $('#readiness_kategori').on('change', function() {
+                $('#readiness_jenis').empty()
+                kategori.find((jenis) => jenis.id == $('#readiness_kategori').val()).jenis.forEach(
                     function(e, i) {
-                        $('#kompetensi_jenis').append(`<option value="${e.id}">${e.nama}</option>`)
+                        $('#readiness_jenis').append(
+                            `<option value="${e.id}" ${e.selected ? 'selected' : ''}>${e.nama}</option>`
+                        )
                     })
             })
 
-            $('#kompetensi_jenis').on('change', function() {
-                $('#kompetensi_bagian').empty()
+            $('#readiness_jenis').on('change', function() {
+                $('#readiness_bagian').empty()
 
                 kategori
-                    .find((jenis) => jenis.id == $('#kompetensi_kategori').val())
+                    .find((jenis) => jenis.id == $('#readiness_kategori').val())
                     .jenis
-                    .find((bagian) => bagian.id == $('#kompetensi_jenis').val())
+                    .find((bagian) => bagian.id == $('#readiness_jenis').val())
                     .bagian
                     .forEach(function(e, i) {
-                        $('#kompetensi_bagian').append(`<option value="${e.id}">${e.nama}</option>`)
+                        $('#readiness_bagian').append(
+                            `<option value="${e.id}" ${e.selected ? 'selected' : ''}>${e.nama}</option>`
+                        )
                     })
             })
 
-            $('#kompetensi_kategori').trigger('change')
-            $('#kompetensi_jenis').trigger('change')
+            $('#readiness_kategori').trigger('change')
+            $('#readiness_jenis').trigger('change')
+
         });
     </script>
 @endpush

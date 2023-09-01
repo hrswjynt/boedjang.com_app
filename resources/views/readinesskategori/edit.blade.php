@@ -4,15 +4,15 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Jenis Kompetensi</h1>
+            <h1 class="h3 mb-0 text-gray-800">Kategori Readiness</h1>
         </div>
         <!-- Content Row -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6><b>Edit Jenis Kompetensi</b></h6>
-                        <a href="{{ route('kompetensijenis.index') }}" class="btn btn-info btn-sm add">
+                        <h6><b>Edit Kategori</b></h6>
+                        <a href="{{ route('readinesskategori.index') }}" class="btn btn-info btn-sm add">
                             <i class="fa fa-arrow-left "></i>
                             <span>Kembali</span>
                         </a>
@@ -32,30 +32,18 @@
                                 <p>{{ $message }}</p>
                             </div>
                         @endif
-                        <form method="POST" action="{{ route('kompetensijenis.update', $jenis->id) }}"
-                            id="kompetensijenis_form">
+                        <form method="POST" action="{{ route('readinesskategori.update', $kategori->id) }}"
+                            id="readinesskategori_form">
                             @csrf
                             @method('PUT')
                             <div class="container-fluid mt-3">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group mb-4 bmd-form-group">
-                                            <label class="bmd-label-floating">Nama<span class="red">*</span></label>
-                                            <input name="nama" type="text" class="form-control"
-                                                value="{{ $jenis->nama }}" id="nama" maxlength="100">
-                                        </div>
-                                        <div class="form-group mb-4 bmd-form-group">
-                                            <label class="bmd-label-floating">Kategori Kompetensi <span
+                                            <label class="bmd-label-floating">Nama Kategori <span
                                                     class="red">*</span></label>
-                                            <select class="form-control select2" name="kompetensi_kategori"
-                                                style="width: 100%">
-                                                @foreach ($kategori as $k)
-                                                    <option value="{{ $k->id }}"
-                                                        {{ $k->id == $jenis->kompetensi_kategori ? 'selected' : '' }}>
-                                                        {{ $k->nama }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                            <input name="nama" type="text" class="form-control"
+                                                value="{{ $kategori->nama }}" id="nama" maxlength="100">
                                         </div>
                                     </div>
                                 </div>
@@ -93,7 +81,7 @@
 
             $("#btn-submit").click(function() {
                 swal({
-                        title: "Apakah anda yakin akan mengubah data jenis kompetensi?",
+                        title: "Apakah anda yakin akan mengubah data kategori readiness?",
                         text: 'Data yang diubah dapat merubah data pada database.',
                         icon: "warning",
                         buttons: true,
@@ -101,17 +89,17 @@
                     })
                     .then((willDelete) => {
                         if (willDelete) {
-                            $("#kompetensijenis_form").submit()
+                            $("#readinesskategori_form").submit()
                         } else {
-                            swal("Proses Pengubahan Data Jenis Kompetensi Dibatalkan!", {
+                            swal("Proses Pengubahan Data Kategori Readiness Dibatalkan!", {
                                 icon: "error",
                             });
                         }
                     });
             });
 
-            $("#kompetensijenis_form").submit(function() {
-                if ($("#kompetensijenis_form").valid()) {
+            $("#readinesskategori_form").submit(function() {
+                if ($("#readinesskategori_form").valid()) {
                     $('#btn-submit').hide();
                     $('#btn-submit-loading').show();
                 } else {
@@ -119,24 +107,18 @@
                 }
             });
 
-            if ($("#kompetensijenis_form").length > 0) {
-                $("#kompetensijenis_form").validate({
+            if ($("#readinesskategori_form").length > 0) {
+                $("#readinesskategori_form").validate({
                     rules: {
-                        nama: {
+                        name: {
                             required: true,
                             maxlength: 100,
                         },
-                        kompetensi_kategori: {
-                            required: true
-                        },
                     },
                     messages: {
-                        nama: {
-                            required: 'Data Nama harus diisi',
-                            maxlength: "Data Nama tidak boleh lebih dari 100 kata",
-                        },
-                        kompetensi_kategori: {
-                            required: 'Data Kategori harus diisi',
+                        name: {
+                            required: 'Data Nama Kategori harus diisi',
+                            maxlength: "Data Nama Kategori tidak boleh lebih dari 100 karakter",
                         },
                     },
                 })

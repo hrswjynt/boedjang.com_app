@@ -4,24 +4,24 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class KompetensiJenis extends Model
+class ReadinessJenis extends Model
 {
-    protected $table = 'kompetensi_jenis';
+    protected $table = 'readiness_jenis';
     protected $primaryKey = 'id';
     public $timestamps = false;
     public $incrementing = true;
     protected $fillable = [
         'nama',
-        'kompetensi_kategori'
+        'readiness_kategori'
     ];
 
     public function kategori()
     {
-        return $this->belongsTo(KompetensiKategori::class, 'kompetensi_kategori', 'id');
+        return $this->belongsTo(ReadinessKategori::class, 'readiness_kategori', 'id');
     }
 
     public function bagian()
     {
-        return $this->hasMany(KompetensiBagian::class, 'kompetensi_jenis', 'id');
+        return $this->hasMany(ReadinessBagian::class, 'readiness_jenis', 'id');
     }
 }

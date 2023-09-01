@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\KompetensiJenis;
-use App\KompetensiKategori;
+use App\ReadinessJenis;
+use App\ReadinessKategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
-class KompetensiJenisController extends Controller
+class ReadinessJenisController extends Controller
 {
     public function index()
     {
         if (Auth::user()->role == 1) {
-            return view('kompetensijenis.index')
-                ->with('page', 'kompetensijenis');
+            return view('readinessjenis.index')
+                ->with('page', 'readinessjenis');
         } else {
             $message_type = 'danger';
             $message = 'Tidak memiliki hak akses untuk melihat data.';
@@ -25,12 +25,12 @@ class KompetensiJenisController extends Controller
 
     public function getData()
     {
-        $data = KompetensiJenis::select(
-            'kompetensi_jenis.id AS id',
-            'kompetensi_jenis.nama AS nama',
-            'kompetensi_kategori.nama AS kompetensi_kategori',
+        $data = ReadinessJenis::select(
+            'readiness_jenis.id AS id',
+            'readiness_jenis.nama AS nama',
+            'readiness_kategori.nama AS readiness_kategori',
         )
-            ->join('kompetensi_kategori', 'kompetensi_kategori.id', 'kompetensi_jenis.kompetensi_kategori')
+            ->join('readiness_kategori', 'readiness_kategori.id', 'readiness_jenis.readiness_kategori')
             ->get();
         return $this->datatable($data);
     }
@@ -40,8 +40,8 @@ class KompetensiJenisController extends Controller
         return DataTables::of($data)
             ->addColumn('action', function ($data) {
                 $action = '<div class="btn-group">';
-                $action .= '<a class="btn btn-sm btn-warning btn-simple shadow" href="' . route("kompetensijenis.edit", $data->id) . '" title="Edit"><i class="fa fa-edit"></i></a>';
-                $action .= '<a href="' . route("kompetensijenis.delete", $data->id) . '" class="btn btn-sm btn-danger btn-simple kompetensijenisDelete shadow" title="Hapus" data-id="' . $data->id . '"><i class="fa fa-trash"></i></a>';
+                $action .= '<a class="btn btn-sm btn-warning btn-simple shadow" href="' . route("readinessjenis.edit", $data->id) . '" title="Edit"><i class="fa fa-edit"></i></a>';
+                $action .= '<a href="' . route("readinessjenis.delete", $data->id) . '" class="btn btn-sm btn-danger btn-simple readinessjenisDelete shadow" title="Hapus" data-id="' . $data->id . '"><i class="fa fa-trash"></i></a>';
                 $action .= '</div>';
 
                 return $action;
@@ -54,10 +54,10 @@ class KompetensiJenisController extends Controller
     public function create()
     {
         if (Auth::user()->role == 1) {
-            $kategori = KompetensiKategori::all();
+            $kategori = ReadinessKategori::all();
 
-            return view('kompetensijenis.create')
-                ->with('page', 'kompetensijenis')
+            return view('readinessjenis.create')
+                ->with('page', 'readinessjenis')
                 ->with('kategori', $kategori);
         } else {
             $message_type = 'danger';
@@ -73,23 +73,23 @@ class KompetensiJenisController extends Controller
 
             request()->validate([
                 'nama' => 'required|string',
-                'kompetensi_kategori' => 'required|numeric'
+                'readiness_kategori' => 'required|numeric'
             ]);
 
-            $model = new KompetensiJenis;
+            $model = new ReadinessJenis;
             $model->nama = $request->nama;
-            $model->kompetensi_kategori = $request->kompetensi_kategori;
+            $model->readiness_kategori = $request->readiness_kategori;
             $model->save();
 
             DB::commit();
             $message_type = 'success';
-            $message = 'Jenis kompetensi berhasil dibuat.';
-            return redirect()->route('kompetensijenis.index')->with($message_type, $message);
+            $message = 'Jenis readiness berhasil dibuat.';
+            return redirect()->route('readinessjenis.index')->with($message_type, $message);
         } catch (\Throwable $th) {
             DB::rollback();
             $message_type = 'danger';
-            $message = 'Jenis kompetensi gagal dibuat.';
-            return redirect()->route('kompetensijenis.create')->with($message_type, $message);
+            $message = 'Jenis readiness gagal dibuat.';
+            return redirect()->route('readinessjenis.create')->with($message_type, $message);
         }
     }
 
@@ -101,12 +101,12 @@ class KompetensiJenisController extends Controller
     public function edit($id)
     {
         if (Auth::user()->role == 1) {
-            $kategori = KompetensiKategori::all();
-            $jenis = KompetensiJenis::find($id);
+            $kategori = ReadinessKategori::all();
+            $jenis = ReadinessJenis::find($id);
 
 
-            return view('kompetensijenis.edit')
-                ->with('page', 'kompetensijenis')
+            return view('readinessjenis.edit')
+                ->with('page', 'readinessjenis')
                 ->with('kategori', $kategori)
                 ->with('jenis', $jenis);
         } else {
@@ -123,23 +123,23 @@ class KompetensiJenisController extends Controller
 
             request()->validate([
                 'nama' => 'required|string',
-                'kompetensi_kategori' => 'required|numeric'
+                'readiness_kategori' => 'required|numeric'
             ]);
 
-            $model = KompetensiJenis::find($id);
+            $model = ReadinessJenis::find($id);
             $model->nama = $request->nama;
-            $model->kompetensi_kategori = $request->kompetensi_kategori;
+            $model->readiness_kategori = $request->readiness_kategori;
             $model->save();
 
             DB::commit();
             $message_type = 'success';
-            $message = 'Jenis kompetensi berhasil diubah.';
-            return redirect()->route('kompetensijenis.index')->with($message_type, $message);
+            $message = 'Jenis readiness berhasil diubah.';
+            return redirect()->route('readinessjenis.index')->with($message_type, $message);
         } catch (\Throwable $th) {
             DB::rollback();
             $message_type = 'danger';
-            $message = 'Jenis kompetensi gagal diubah.';
-            return redirect()->route('kompetensijenis.edit', $id)->with($message_type, $message);
+            $message = 'Jenis readiness gagal diubah.';
+            return redirect()->route('readinessjenis.edit', $id)->with($message_type, $message);
         }
     }
 
@@ -147,23 +147,23 @@ class KompetensiJenisController extends Controller
     {
         DB::beginTransaction();
         try {
-            $kompetensijenis = KompetensiJenis::find($id);
+            $readinessjenis = ReadinessJenis::find($id);
 
             if (Auth::user()->role == 1) {
-                $kompetensijenis->delete();
+                $readinessjenis->delete();
             } else {
                 throw new \Exception("Tidak memiliki hak akses untuk menghapus data.");
             }
 
             DB::commit();
             return response()->json([
-                'message' => 'Jenis Kompetensi berhasil dihapus.',
+                'message' => 'Jenis Readiness berhasil dihapus.',
                 'type' => 'success',
             ]);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json([
-                'message' => 'Jenis Kompetensi gagal dihapus.',
+                'message' => 'Jenis Readiness gagal dihapus.',
                 'type' => 'danger',
             ]);
         }

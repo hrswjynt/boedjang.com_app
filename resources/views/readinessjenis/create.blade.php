@@ -4,15 +4,15 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Bagian Kompetensi</h1>
+            <h1 class="h3 mb-0 text-gray-800">Jenis Readiness</h1>
         </div>
         <!-- Content Row -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6><b>Tambah Bagian Kompetensi</b></h6>
-                        <a href="{{ route('kompetensibagian.index') }}" class="btn btn-info btn-sm add">
+                        <h6><b>Tambah Jenis Readiness</b></h6>
+                        <a href="{{ route('readinessjenis.index') }}" class="btn btn-info btn-sm add">
                             <i class="fa fa-arrow-left "></i>
                             <span>Kembali</span>
                         </a>
@@ -32,39 +32,24 @@
                                 <p>{{ $message }}</p>
                             </div>
                         @endif
-                        <form method="POST" action="{{ route('kompetensibagian.store') }}" id="kompetensibagian_form">
+                        <form method="POST" action="{{ route('readinessjenis.store') }}" id="readinessjenis_form">
                             @csrf
                             <div class="container-fluid mt-3">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="form-group mb-4 bmd-form-group">
-                                            <label class="bmd-label-floating">Kode<span class="red">*</span></label>
-                                            <input name="kode" type="text" class="form-control"
-                                                value="{{ old('kode') }}" id="kode" maxlength="100">
-                                        </div>
                                         <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Nama<span class="red">*</span></label>
                                             <input name="nama" type="text" class="form-control"
                                                 value="{{ old('nama') }}" id="nama" maxlength="100">
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
-                                            <label class="bmd-label-floating">Kategori Kompetensi <span
+                                            <label class="bmd-label-floating">Kategori Readiness <span
                                                     class="red">*</span></label>
-                                            <select id="kompetensi_kategori" class="form-control select2"
-                                                name="kompetensi_kategori" style="width: 100%">
-                                                {{-- @foreach ($jenis as $j)
-                                                    <option value="{{ $j->id }}">{{ $j->nama }}</option>
-                                                @endforeach --}}
-                                            </select>
-                                        </div>
-                                        <div class="form-group mb-4 bmd-form-group">
-                                            <label class="bmd-label-floating">Jenis Kompetensi <span
-                                                    class="red">*</span></label>
-                                            <select id="kompetensi_jenis" class="form-control select2"
-                                                name="kompetensi_jenis" style="width: 100%">
-                                                {{-- @foreach ($jenis as $j)
-                                                    <option value="{{ $j->id }}">{{ $j->nama }}</option>
-                                                @endforeach --}}
+                                            <select class="form-control select2" name="readiness_kategori"
+                                                style="width: 100%">
+                                                @foreach ($kategori as $k)
+                                                    <option value="{{ $k->id }}">{{ $k->nama }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -103,7 +88,7 @@
 
             $("#btn-submit").click(function() {
                 swal({
-                        title: "Apakah anda yakin akan menambah data bagian kompetensi?",
+                        title: "Apakah anda yakin akan menambah data jenis readiness?",
                         text: 'Data yang ditambahkan dapat merubah data pada database.',
                         icon: "warning",
                         buttons: true,
@@ -111,17 +96,17 @@
                     })
                     .then((willDelete) => {
                         if (willDelete) {
-                            $("#kompetensibagian_form").submit()
+                            $("#readinessjenis_form").submit()
                         } else {
-                            swal("Proses Penambahan Data Bagian Kompetensi Dibatalkan!", {
+                            swal("Proses Penambahan Data Jenis Readiness Dibatalkan!", {
                                 icon: "error",
                             });
                         }
                     });
             });
 
-            $("#kompetensibagian_form").submit(function() {
-                if ($("#kompetensibagian_form").valid()) {
+            $("#readinessjenis_form").submit(function() {
+                if ($("#readinessjenis_form").valid()) {
                     $('#btn-submit').hide();
                     $('#btn-submit-loading').show();
                 } else {
@@ -129,68 +114,29 @@
                 }
             });
 
-            if ($("#kompetensibagian_form").length > 0) {
-                $("#kompetensibagian_form").validate({
+            if ($("#readinessjenis_form").length > 0) {
+                $("#readinessjenis_form").validate({
                     rules: {
-                        kode: {
-                            required: true,
-                            maxlength: 10,
-                        },
                         nama: {
                             required: true,
                             maxlength: 100,
                         },
-                        kompetensi_jenis: {
+                        readiness_kategori: {
                             required: true
                         },
                     },
                     messages: {
-                        kode: {
-                            required: 'Data Kode harus diisi',
-                            maxlength: "Data Kode tidak boleh lebih dari 100 kata",
-                        },
                         nama: {
                             required: 'Data Nama harus diisi',
                             maxlength: "Data Nama tidak boleh lebih dari 100 kata",
                         },
-                        kompetensi_jenis: {
-                            required: 'Data Jenis harus diisi',
+                        readiness_kategori: {
+                            required: 'Data Kategori harus diisi',
                         },
                     },
                 })
             }
 
-            const kategori = [
-                @foreach ($kategori as $k)
-                    {
-                        id: '{{ $k->id }}',
-                        nama: '{{ $k->nama }}',
-                        jenis: [
-                            @foreach ($k->jenis as $j)
-                                {
-                                    id: '{{ $j->id }}',
-                                    nama: '{{ $j->nama }}',
-                                },
-                            @endforeach
-                        ]
-                    },
-                @endforeach
-            ]
-
-            $('#kompetensi_kategori').empty()
-            kategori.forEach(function(e, i) {
-                $('#kompetensi_kategori').append(`<option value="${e.id}">${e.nama}</option>`)
-            })
-
-            $('#kompetensi_kategori').on('change', function() {
-                $('#kompetensi_jenis').empty()
-                kategori.find((jenis) => jenis.id == $('#kompetensi_kategori').val()).jenis.forEach(
-                    function(e, i) {
-                        $('#kompetensi_jenis').append(`<option value="${e.id}">${e.nama}</option>`)
-                    })
-            })
-
-            $('#kompetensi_kategori').trigger('change')
         });
     </script>
 @endpush
