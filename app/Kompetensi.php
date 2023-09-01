@@ -16,4 +16,9 @@ class Kompetensi extends Model
         'kompetensi_bagian',
         'tipe',
     ];
+
+    public function bagian()
+    {
+        return $this->belongsTo(KompetensiBagian::class, 'kompetensi_bagain', 'id');
+    }
 }

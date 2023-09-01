@@ -6,6 +6,7 @@ use App\Kompetensi;
 use App\KompetensiBagian;
 use App\KompetensiKategori;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -82,7 +83,14 @@ class KompetensiController extends Controller
             DB::beginTransaction();
 
             request()->validate([
-                'nomor' => 'required|numeric',
+                'nomor' => [
+                    'required',
+                    'numeric',
+                    Rule::unique('kompetensi')
+                        ->where(function ($q) use ($request) {
+                            $q->where('kompetensi_bagian', $request->kompetensi_bagian);
+                        })
+                ],
                 'kompetensi' => 'required|string',
                 'kompetensi_bagian' => 'required|numeric',
                 'tipe' => 'required|numeric'
@@ -115,13 +123,33 @@ class KompetensiController extends Controller
     public function edit($id)
     {
         if (Auth::user()->role == 1) {
-            $bagian = KompetensiBagian::all();
-            $kompetensi = Kompetensi::find($id);
+            $kategori = KompetensiKategori::with('jenis.bagian')->get();
+            $kompetensi = Kompetensi::select(
+                'kompetensi.id AS id',
+                'kompetensi.nomor AS nomor',
+                'kompetensi.kompetensi AS kompetensi',
+                'kompetensi_jenis.kompetensi_kategori AS kompetensi_kategori',
+                'kompetensi_bagian.kompetensi_jenis AS kompetensi_jenis',
+                'kompetensi.kompetensi_bagian AS kompetensi_bagian',
+                'kompetensi.tipe AS tipe'
+            )
+                ->join('kompetensi_bagian', 'kompetensi_bagian.id', 'kompetensi.kompetensi_bagian')
+                ->join('kompetensi_jenis', 'kompetensi_jenis.id', 'kompetensi_bagian.kompetensi_jenis')
+                ->where('kompetensi.id', $id)
+                ->first();
 
             return view('kompetensi.edit')
                 ->with('page', 'kompetensi')
-                ->with('bagian', $bagian)
+                ->with('kategori', $kategori)
                 ->with('kompetensi', $kompetensi);
+
+            // $bagian = KompetensiBagian::all();
+            // $kompetensi = Kompetensi::find($id);
+
+            // return view('kompetensi.edit')
+            //     ->with('page', 'kompetensi')
+            //     ->with('bagian', $bagian)
+            //     ->with('kompetensi', $kompetensi);
         } else {
             $message_type = 'danger';
             $message = 'Tidak memiliki hak akses untuk mengubah data.';
@@ -135,7 +163,16 @@ class KompetensiController extends Controller
             DB::beginTransaction();
 
             request()->validate([
-                'nomor' => 'required|numeric|unique:kompetensi,nomor,' . $id,
+
+                'nomor' => [
+                    'required',
+                    'numeric',
+                    Rule::unique('kompetensi')
+                        ->ignore($id)
+                        ->where(function ($q) use ($request) {
+                            $q->where('kompetensi_bagian', $request->kompetensi_bagian);
+                        })
+                ],
                 'kompetensi' => 'required|string',
                 'kompetensi_bagian' => 'required|numeric',
                 'tipe' => 'required|numeric'

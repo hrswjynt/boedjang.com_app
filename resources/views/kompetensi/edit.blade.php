@@ -42,25 +42,50 @@
                                         <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Nomor<span class="red">*</span></label>
                                             <input name="nomor" type="text" class="form-control"
-                                                value="{{ $kompetensi->nomor }}" id="nomor" maxlength="100">
+                                                value="{{ $kompetensi->nomor }}" id="nomor" maxlength="11">
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Kompetensi<span
                                                     class="red">*</span></label>
-                                            <input name="kompetensi" type="text" class="form-control"
-                                                value="{{ $kompetensi->kompetensi }}" id="kompetensi" maxlength="100">
+                                            <textarea name="kompetensi" id="kompetensi" class="form-control" cols="30" rows="3">{{ $kompetensi->kompetensi }}</textarea>
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
-                                            <label class="bmd-label-floating">Bagian Kompetensi <span
+                                            <label class="bmd-label-floating">Kategori Kompetensi <span
                                                     class="red">*</span></label>
-                                            <select class="form-control select2" name="kompetensi_bagian"
-                                                style="width: 100%">
-                                                @foreach ($bagian as $b)
+                                            <select id="kompetensi_kategori" class="form-control select2"
+                                                name="kompetensi_kategori" style="width: 100%">
+                                                {{-- @foreach ($bagian as $b)
                                                     <option value="{{ $b->id }}"
                                                         {{ $b->id == $kompetensi->kompetensi_bagian ? 'selected' : '' }}>
                                                         {{ $b->nama }}
                                                     </option>
-                                                @endforeach
+                                                @endforeach --}}
+                                            </select>
+                                        </div>
+                                        <div class="form-group mb-4 bmd-form-group">
+                                            <label class="bmd-label-floating">Jenis Kompetensi <span
+                                                    class="red">*</span></label>
+                                            <select id="kompetensi_jenis" class="form-control select2"
+                                                name="kompetensi_jenis" style="width: 100%">
+                                                {{-- @foreach ($bagian as $b)
+                                                    <option value="{{ $b->id }}"
+                                                        {{ $b->id == $kompetensi->kompetensi_bagian ? 'selected' : '' }}>
+                                                        {{ $b->nama }}
+                                                    </option>
+                                                @endforeach --}}
+                                            </select>
+                                        </div>
+                                        <div class="form-group mb-4 bmd-form-group">
+                                            <label class="bmd-label-floating">Bagian Kompetensi <span
+                                                    class="red">*</span></label>
+                                            <select id="kompetensi_bagian" class="form-control select2"
+                                                name="kompetensi_bagian" style="width: 100%">
+                                                {{-- @foreach ($bagian as $b)
+                                                    <option value="{{ $b->id }}"
+                                                        {{ $b->id == $kompetensi->kompetensi_bagian ? 'selected' : '' }}>
+                                                        {{ $b->nama }}
+                                                    </option>
+                                                @endforeach --}}
                                             </select>
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
@@ -86,7 +111,8 @@
                                 </div>
                                 <div class="row" style="margin-top: 10px">
                                     <div class="col-md-12">
-                                        <button class="btn btn-success save pull-right mb-3" type="button" id="btn-submit">
+                                        <button class="btn btn-success save pull-right mb-3" type="button"
+                                            id="btn-submit">
                                             <i class="fa fa-save"></i>
                                             <span>Simpan</span>
                                         </button>
@@ -153,7 +179,7 @@
                         },
                         kompetensi: {
                             required: true,
-                            maxlength: 100,
+                            maxlength: 255,
                         },
                         kompetensi_bagian: {
                             required: true
@@ -180,6 +206,68 @@
                     },
                 })
             }
+
+            const kategori = [
+                @foreach ($kategori as $k)
+                    {
+                        id: '{{ $k->id }}',
+                        nama: '{{ $k->nama }}',
+                        selected: {{ $k->id == $kompetensi->kompetensi_kategori ? 'true' : 'false' }},
+                        jenis: [
+                            @foreach ($k->jenis as $j)
+                                {
+                                    id: '{{ $j->id }}',
+                                    selected: {{ $j->id == $kompetensi->kompetensi_jenis ? 'true' : 'false' }},
+                                    nama: '{{ $j->nama }}',
+                                    bagian: [
+                                        @foreach ($j->bagian as $b)
+                                            {
+                                                id: '{{ $b->id }}',
+                                                nama: '{{ $b->nama }}',
+                                                selected: {{ $b->id == $kompetensi->kompetensi_bagian ? 'true' : 'false' }},
+                                            },
+                                        @endforeach
+                                    ]
+                                },
+                            @endforeach
+                        ]
+                    },
+                @endforeach
+            ]
+
+            $('#kompetensi_kategori').empty()
+            kategori.forEach(function(e, i) {
+                $('#kompetensi_kategori').append(
+                    `<option value="${e.id}" ${e.selected ? 'selected' : ''}>${e.nama}</option>`)
+            })
+
+            $('#kompetensi_kategori').on('change', function() {
+                $('#kompetensi_jenis').empty()
+                kategori.find((jenis) => jenis.id == $('#kompetensi_kategori').val()).jenis.forEach(
+                    function(e, i) {
+                        $('#kompetensi_jenis').append(
+                            `<option value="${e.id}" ${e.selected ? 'selected' : ''}>${e.nama}</option>`
+                        )
+                    })
+            })
+
+            $('#kompetensi_jenis').on('change', function() {
+                $('#kompetensi_bagian').empty()
+
+                kategori
+                    .find((jenis) => jenis.id == $('#kompetensi_kategori').val())
+                    .jenis
+                    .find((bagian) => bagian.id == $('#kompetensi_jenis').val())
+                    .bagian
+                    .forEach(function(e, i) {
+                        $('#kompetensi_bagian').append(
+                            `<option value="${e.id}" ${e.selected ? 'selected' : ''}>${e.nama}</option>`
+                        )
+                    })
+            })
+
+            $('#kompetensi_kategori').trigger('change')
+            $('#kompetensi_jenis').trigger('change')
 
         });
     </script>

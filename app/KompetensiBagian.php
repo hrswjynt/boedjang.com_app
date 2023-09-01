@@ -20,4 +20,9 @@ class KompetensiBagian extends Model
     {
         return $this->belongsTo(KompetensiJenis::class, 'kompetensi_jenis', 'id');
     }
+
+    public function kompetensi()
+    {
+        return $this->hasMany(Kompetensi::class, 'kompetensi_bagian', 'id');
+    }
 }

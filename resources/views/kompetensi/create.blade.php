@@ -40,13 +40,14 @@
                                         <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Nomor<span class="red">*</span></label>
                                             <input name="nomor" type="text" class="form-control"
-                                                value="{{ old('nomor') }}" id="nomor" maxlength="100">
+                                                value="{{ old('nomor') }}" id="nomor" maxlength="11">
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Kompetensi<span
                                                     class="red">*</span></label>
-                                            <input name="kompetensi" type="text" class="form-control"
-                                                value="{{ old('kompetensi') }}" id="kompetensi" maxlength="100">
+                                            {{-- <input name="kompetensi" type="text" class="form-control"
+                                                value="{{ old('kompetensi') }}" id="kompetensi" maxlength="255"> --}}
+                                            <textarea name="kompetensi" id="kompetensi" class="form-control" cols="30" rows="3">{{ old('kompetensi') }}</textarea>
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Kategori Kompetensi <span
@@ -169,7 +170,7 @@
                         },
                         kompetensi: {
                             required: true,
-                            maxlength: 100,
+                            maxlength: 255,
                         },
                         kompetensi_bagian: {
                             required: true
