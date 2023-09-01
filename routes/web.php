@@ -214,4 +214,22 @@ Route::group(['middleware' => ['admin']], function () {
 	Route::resource('subbab', 'SubBabController')->except(['destroy']);
 	Route::get("subbab-data", "SubBabController@getData");
 	Route::post('/subbab-delete/{id}', 'SubBabController@delete')->name('subbab.delete');
+
+	Route::resource('kompetensikategori', 'KompetensiKategoriController');
+	Route::get('kompetensikategori-data', 'KompetensiKategoriController@getData');
+	Route::post('kompetensikategori-delete/{id}', 'KompetensiKategoriController@delete')->name('kompetensikategori.delete');
+
+	Route::resource('kompetensijenis', 'KompetensiJenisController');
+	Route::get('kompetensijenis-data', 'KompetensiJenisController@getData');
+	Route::post('kompetensijenis-delete/{id}', 'KompetensiJenisController@delete')->name('kompetensijenis.delete');
+
+	Route::resource('kompetensibagian', 'KompetensiBagianController');
+	Route::get('kompetensibagian-data', 'KompetensiBagianController@getData');
+	Route::post('kompetensibagian-delete/{id}', 'KompetensiBagianController@delete')->name('kompetensibagian.delete');
+
+	Route::resource('kompetensi', 'KompetensiController');
+	Route::get('kompetensi-data', 'kompetensiController@getData');
+	Route::post('kompetensi-delete/{id}', 'KompetensiController@delete')->name('kompetensi.delete');
+
+	Route::resource('kompetensimatrix', 'KompetensiMatrixController');
 });
