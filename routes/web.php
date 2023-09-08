@@ -231,5 +231,10 @@ Route::group(['middleware' => ['admin']], function () {
 	Route::get('readinesskompetensi-data', 'ReadinessKompetensiController@getData');
 	Route::post('readinesskompetensi-delete/{id}', 'ReadinessKompetensiController@delete')->name('readinesskompetensi.delete');
 
-	// Route::resource('kompetensimatrix', 'KompetensiMatrixController');
+	Route::resource('readinessmatrix', 'ReadinessMatrixController');
+	Route::get('readinessmatrix-data', 'ReadinessMatrixController@getData');
+	Route::post('readinessmatrix-delete/{id}', 'ReadinessMatrixController@delete')->name('readinessmatrix.delete');
+
+	Route::resource('readinessmatrixatasan', 'ReadinessMatrixAtasanController');
+	Route::get('readinessmatrixatasan-data', 'ReadinessMatrixAtasanController@getData');
 });

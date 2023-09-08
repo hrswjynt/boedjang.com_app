@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','username','role','gambar', 'presensi_online'
+        'name', 'email', 'password', 'username', 'role', 'gambar', 'presensi_online'
     ];
 
     /**
@@ -36,4 +36,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function matrix()
+    {
+        return $this->hasMany(ReadinessMatrix::class, 'staff', 'id');
+    }
 }

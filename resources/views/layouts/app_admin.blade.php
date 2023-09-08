@@ -280,6 +280,22 @@
             @endif
 
 
+            <li class="nav-item @if ($page == 'readinessmatrix') active @endif">
+                <a class="nav-link" href="{{ route('readinessmatrix.index') }}">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Readiness Matrix</span>
+                </a>
+            </li>
+
+
+            <li class="nav-item @if ($page == 'readinessmatrixatasan') active @endif">
+                <a class="nav-link" href="{{ route('readinessmatrixatasan.index') }}">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Readiness Matrix Atasan</span>
+                </a>
+            </li>
+
+
             <?php $user = DB::table('u1127775_boedjang.users')
                 ->where('id', Auth::user()->id)
                 ->first(); ?>
@@ -478,8 +494,7 @@
                     $page == 'readinesskategori' ||
                         $page == 'readinessjenis' ||
                         $page == 'readinessbagian' ||
-                        $page == 'readinesskompetensi' ||
-                        $page == 'readinessmatrix') active @endif">
+                        $page == 'readinesskompetensi') active @endif">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse"
                         data-target="#kompetensiCollapseUtilities" aria-expanded="true"
                         aria-controls="kompetensiCollapseUtilities">
@@ -491,8 +506,7 @@
                             $page == 'readinesskategori' ||
                                 $page == 'readinessjenis' ||
                                 $page == 'readinessbagian' ||
-                                $page == 'readinesskompetensi' ||
-                                $page == 'readinessmatrix') show @endif"
+                                $page == 'readinesskompetensi') show @endif"
                         aria-labelledby="headingUtilities3" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">- Master Readiness -</h6>
@@ -505,8 +519,6 @@
                                     href="{{ route('readinessbagian.index') }}">Bagian</a>
                                 <a class="collapse-item @if ($page == 'readinesskompetensi') active @endif"
                                     href="{{ route('readinesskompetensi.index') }}">Kompetensi</a>
-                                {{-- <a class="collapse-item @if ($page == 'readinessmatrix') active @endif"
-                                    href="{{ route('readinessmatrix.index') }}">Matrix</a> --}}
                             @endif
                         </div>
                     </div>

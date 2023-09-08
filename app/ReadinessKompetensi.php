@@ -21,4 +21,14 @@ class ReadinessKompetensi extends Model
     {
         return $this->belongsTo(ReadinessBagian::class, 'readiness_bagain', 'id');
     }
+
+    public function matrix()
+    {
+        return $this->hasOne(ReadinessMatrix::class, 'readiness_kompetensi', 'id');
+    }
+
+    public function matrixes()
+    {
+        return $this->hasMany(ReadinessMatrix::class, 'readiness_kompetensi', 'id');
+    }
 }
