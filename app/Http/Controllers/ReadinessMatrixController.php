@@ -56,10 +56,10 @@ class ReadinessMatrixController extends Controller
                 'readiness_kompetensi.kompetensi',
                 'readiness_kompetensi.readiness_bagian',
                 'readiness_kompetensi.tipe',
-                'readiness_matrix.staff_valid',
             )
-                ->join('readiness_matrix', 'readiness_matrix.readiness_kompetensi', 'readiness_kompetensi.id')
-                ->where('readiness_matrix.staff', Auth::user()->id);
+                ->with(['matrix' => function ($q) {
+                    $q->where('readiness_matrix.staff', Auth::user()->id);
+                }]);
         }])
             ->get();
 
@@ -77,16 +77,6 @@ class ReadinessMatrixController extends Controller
     {
         try {
             DB::beginTransaction();
-
-            // $mats = ReadinessMatrix::whereHas('kompetensi', function ($q) use ($request) {
-            //     $q->where('readiness_bagian', $request->readiness_bagian);
-            // })
-            //     ->where('staff', Auth::user()->id)
-            //     ->get();
-
-            // foreach ($mats as $mat) {
-            //     $mat->delete();
-            // }
 
             $komp = ReadinessKompetensi::where('readiness_bagian', $request->readiness_bagian)
                 ->pluck('id');
@@ -106,31 +96,11 @@ class ReadinessMatrixController extends Controller
                     $model->staff = Auth::user()->id;
                 }
 
-                $model->staff_valid = in_array($kompetensi, $request->kompetensi) ? 1 : 0;
+                $model->staff_valid = in_array($kompetensi, $request->kompetensi ?? []) ? 1 : 0;
                 $model->staff_valid_date = date('Y-m-d H:i:s');
                 $model->atasan = User::where('username', $request->atasan)->first()->id;
                 $model->save();
             }
-
-            // foreach ($request->kompetensi as $kompetensi) {
-            //     $model = ReadinessMatrix::where('readiness_kompetensi', $kompetensi)
-            //         ->whereHas('kompetensi', function ($q) use ($request) {
-            //             $q->where('readiness_bagian', $request->readiness_bagian);
-            //         })
-            //         ->where('staff', Auth::user()->id)
-            //         ->first();
-
-
-            //     if (!$model) {
-            //         $model = new ReadinessMatrix;
-            //     }
-
-            //     $model->readiness_kompetensi = $kompetensi;
-            //     $model->staff = Auth::user()->id;
-            //     $model->staff_valid = 1;
-            //     $model->staff_valid_date = date('Y-m-d H:i:s');
-            //     $model->save();
-            // }
 
             DB::commit();
             $message_type = 'success';
@@ -148,19 +118,7 @@ class ReadinessMatrixController extends Controller
     public function show($id)
     {
         $bagian = ReadinessBagian::with(['kompetensi.matrix' => function ($matrix) {
-            $matrix->select(
-                'readiness_matrix.id',
-                'readiness_matrix.readiness_kompetensi AS readiness_kompetensi',
-                'staff.name AS staff_name',
-                'atasan.name AS atasan_name',
-                'readiness_matrix.atasan_valid AS atasan_valid',
-                'readiness_matrix.atasan_valid_date AS atasan_valid_date',
-
-            )
-                ->leftJoin('users AS staff', 'staff.id', 'readiness_matrix.staff')
-                ->leftJoin('users AS atasan', 'atasan.id', 'readiness_matrix.atasan')
-                ->where('staff', Auth::user()->id)
-                ->first();
+            $matrix->where('readiness_matrix.staff', Auth::user()->id);
         }])
             ->whereHas('kompetensi.matrix', function ($q) {
                 $q->where('staff', Auth::user()->id);

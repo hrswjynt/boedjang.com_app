@@ -1,6 +1,13 @@
 @extends('layouts.app_admin')
 
 @section('content')
+    <style>
+        input[type="checkbox"] {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    </style>
+
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -32,12 +39,19 @@
                                 <p>{{ $message }}</p>
                             </div>
                         @endif
-                        <form method="POST" action="{{ route('readinessmatrixatasan.update', $staff) }}"
+                        <form method="POST" action="{{ route('readinessmatrixatasan.update', $staff->id) }}"
                             id="readinessmatrixatasan_form">
                             @csrf
                             @method('PUT')
                             <div class="container-fluid mt-3">
                                 <div class="row">
+                                    <div class="col-3 p-2">
+                                        <span class="font-weight-bold text-secondary">Staff</span>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control mb-3" value="{{ $staff->name }}"
+                                            readonly>
+                                    </div>
 
                                     @foreach ($bagian as $b)
                                         <div class="col-12">
@@ -50,7 +64,6 @@
                                                         <th>Tipe</th>
                                                         <th>Staff</th>
                                                         <th>Atasan Lapangan</th>
-                                                        <th>Validator</th>
                                                     </tr>
                                                     @foreach ($b->kompetensi as $kompetensi)
                                                         <tr>
@@ -90,9 +103,6 @@
                                                                     value="{{ $kompetensi->matrix->id }}"
                                                                     {{ !!$kompetensi->matrix->atasan_valid ? 'checked' : '' }}
                                                                     {{ !$kompetensi->matrix->staff_valid ? 'disabled' : '' }}>
-                                                            </td>
-                                                            <td>
-                                                                <span></span>
                                                             </td>
                                                         </tr>
                                                     @endforeach

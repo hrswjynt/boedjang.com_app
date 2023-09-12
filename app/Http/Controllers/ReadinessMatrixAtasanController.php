@@ -62,6 +62,8 @@ class ReadinessMatrixAtasanController extends Controller
 
     public function edit($id)
     {
+        $staff = User::find($id);
+
         $bagian = ReadinessBagian::with(['kompetensi.matrix' => function ($q) use ($id) {
             $q->where('staff', $id);
         }])
@@ -73,7 +75,7 @@ class ReadinessMatrixAtasanController extends Controller
         return view('readinessmatrixatasan.edit')
             ->with('page', 'readinessmatrixatasan')
             ->with('bagian', $bagian)
-            ->with('staff', $id);
+            ->with('staff', $staff);
     }
 
     public function update(Request $request, $id)

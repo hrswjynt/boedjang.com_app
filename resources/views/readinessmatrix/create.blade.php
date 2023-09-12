@@ -1,6 +1,13 @@
 @extends('layouts.app_admin')
 
 @section('content')
+    <style>
+        input[type="checkbox"] {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    </style>
+
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -159,7 +166,7 @@
                     },
                     messages: {
                         atasan: {
-                            required: 'Kategori harus dipilih.'
+                            required: 'Atasan harus dipilih.'
                         },
                         readiness_kategori: {
                             required: 'Kategori harus dipilih.'
@@ -197,7 +204,8 @@
                                                             kompetensi: '{{ $k->kompetensi }}',
                                                             nomor: '{{ $k->nomor }}',
                                                             tipe: {{ $k->tipe }},
-                                                            valid: {{ $k->staff_valid }},
+                                                            valid: {{ $k->matrix ? $k->matrix->staff_valid : 0 }},
+                                                            valid_atasan: {{ $k->matrix ? $k->matrix->atasan_valid : 0 }}
                                                         },
                                                     @endforeach
                                                 ]
@@ -324,6 +332,7 @@
                     checkInput.name = `kompetensi[]`
                     checkInput.value = k.id
                     checkInput.checked = !!k.valid
+                    checkInput.disabled = !!k.valid_atasan
                     check.append(checkInput)
                     tr.append(check)
 
