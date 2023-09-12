@@ -65,7 +65,15 @@ class ReadinessMatrixController extends Controller
 
         $karyawan = Karyawan::where('NIP', Auth::user()->username)->first();
 
-        $atasan = Karyawan::where('region', $karyawan->region)->whereNotIn('Status', ['Resign'])->get();
+        $atasan = Karyawan::select('NIP', 'NAMA', 'Jabatan')->where('region', $karyawan->region)
+            ->whereNotIn('Status', ['Resign'])
+            ->where(function ($q) {
+                $q->where('Jabatan', 'like', '%leader%')
+                    ->orWhere('Jabatan', 'like', '%manager%')
+                    ->orWhere('Jabatan', 'like', '%manajer%')
+                    ->orWhere('Jabatan', 'like', '%supervisor%');
+            })
+            ->get();
 
         return view('readinessmatrix.create')
             ->with('page', 'readinessmatrix')
