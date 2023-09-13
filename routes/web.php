@@ -237,4 +237,7 @@ Route::group(['middleware' => ['admin']], function () {
 
 	Route::resource('readinessmatrixatasan', 'ReadinessMatrixAtasanController');
 	Route::get('readinessmatrixatasan-data', 'ReadinessMatrixAtasanController@getData');
+
+	Route::resource('readinessvalidator', 'ReadinessValidatorController');
+	Route::get('readinessvalidator-data', 'ReadinessValidatorController@getData');
 });

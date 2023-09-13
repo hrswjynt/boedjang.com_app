@@ -40,6 +40,7 @@
                                             <th>No</th>
                                             <th>Nama</th>
                                             <th>Divalidasi</th>
+                                            <th>Nilai</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -100,6 +101,23 @@
                             }, 0)
 
                             return `${validated}/${all}`;
+                        }
+                    },
+                    {
+                        data: (data) => {
+                            let validated = data.matrix.reduce((a, data) => {
+                                if (data.atasan_valid == 1) {
+                                    return a + 1;
+                                } else {
+                                    return a;
+                                }
+                            }, 0)
+
+                            let all = data.matrix.reduce((a, data) => {
+                                return a + 1;
+                            }, 0)
+
+                            return `${Math.round((validated / all * 100) * 100) / 100}%`;
                         }
                     },
                     {

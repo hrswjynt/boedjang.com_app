@@ -36,7 +36,7 @@
                             @csrf
                             <div class="container-fluid mt-3">
 
-                                <div class="row">
+                                <div class="row gy-4">
                                     @foreach ($bagian as $b)
                                         <div class="col-12">
                                             <div class="table-responsive">
@@ -46,20 +46,22 @@
                                                         <th>Kompetensi</th>
                                                         <th>Staff</th>
                                                         <th>Atasan</th>
-                                                        <th>Tanggal Atasan</th>
                                                     </tr>
                                                     @foreach ($b->kompetensi as $i => $k)
                                                         <tr>
                                                             <td>{{ $i + 1 }}</td>
                                                             <td class="text-left">{{ $k->kompetensi }}</td>
-                                                            <td>
-                                                                {{ $k->matrix ? $k->matrix->staff_name : '' }}
+                                                            <td class="font-weight-bold h5">
+                                                                {{ $k->matrix ? ($k->matrix->staff_valid ? '√' : '') : '' }}
                                                             </td>
                                                             <td>
-                                                                {{ $k->matrix ? $k->matrix->atasan_name : '' }}
-                                                            </td>
-                                                            <td>
-                                                                {{ $k->matrix ? $k->matrix->atasan_valid_date : '' }}
+                                                                <span class="font-weight-bold h5">
+                                                                    {{ $k->matrix ? ($k->matrix->atasan_valid ? '√' : 'χ') : '' }}
+                                                                </span>
+                                                                <br>
+                                                                <span>
+                                                                    ({{ $k->matrix ? date('Y-m-d', strtotime($k->matrix->atasan_valid_date)) : '' }})
+                                                                </span>
                                                             </td>
                                                         </tr>
                                                     @endforeach

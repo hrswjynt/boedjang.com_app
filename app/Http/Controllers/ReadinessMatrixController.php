@@ -69,6 +69,7 @@ class ReadinessMatrixController extends Controller
             ->whereNotIn('Status', ['Resign'])
             ->where(function ($q) {
                 $q->where('Jabatan', 'like', '%leader%')
+                    ->orWhere('NIP', '221219002')
                     ->orWhere('Jabatan', 'like', '%manager%')
                     ->orWhere('Jabatan', 'like', '%manajer%')
                     ->orWhere('Jabatan', 'like', '%supervisor%');
@@ -97,26 +98,23 @@ class ReadinessMatrixController extends Controller
                     ->where('staff', Auth::user()->id)
                     ->first();
 
-
                 if (!$model) {
                     $model = new ReadinessMatrix;
                     $model->readiness_kompetensi = $kompetensi;
                     $model->staff = Auth::user()->id;
                 }
 
-                $model->staff_valid = in_array($kompetensi, $request->kompetensi ?? []) ? 1 : 0;
+                $model->staff_valid = $model->staff_valid ? $model->staff_valid : (in_array($kompetensi, $request->kompetensi) ? 1 : 0);
                 $model->staff_valid_date = date('Y-m-d H:i:s');
                 $model->atasan = User::where('username', $request->atasan)->first()->id;
                 $model->save();
             }
-
             DB::commit();
             $message_type = 'success';
             $message = 'Data readiness berhasil ditambah.';
             return redirect()->route('readinessmatrix.index')->with($message_type, $message);
         } catch (\Throwable $th) {
             DB::rollback();
-            dd($th);
             $message_type = 'danger';
             $message = 'Data readiness gagal ditambah.';
             return redirect()->route('readinessmatrix.create')->withInput()->with($message_type, $message);

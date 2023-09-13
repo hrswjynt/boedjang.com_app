@@ -46,6 +46,13 @@
                                     <tbody>
 
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th class="text-center" colspan="2">Total</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -77,6 +84,32 @@
                     }
                 },
                 ajax: base_url + "/readinessmatrix-data",
+                footerCallback: function(row, data, start, end, display) {
+                    const api = this.api();
+
+                    let avg = data.reduce((a, e) => {
+                        const checked = e.kompetensi.reduce((a, kompetensi) => {
+                            if (kompetensi.matrixes[0]) {
+                                if (kompetensi.matrixes[0].atasan_valid == 1) {
+                                    return a + 1
+                                }
+                                return a
+                            } else {
+                                return a
+                            }
+                        }, 0)
+
+                        const total = e.kompetensi.length
+
+                        return a + (checked / total)
+                    }, 0)
+
+                    avg /= data.length
+                    avg *= 100
+
+                    api.column(2).footer().innerHTML =
+                        `${Math.round(avg * 100) / 100}%`;
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -85,6 +118,7 @@
                     },
                     {
                         data: 'nama',
+                        className: 'text-left',
                     },
                     {
                         data: (data) => {
@@ -99,8 +133,7 @@
                                 }
                             }, 0)
 
-                            return `${checked}/${data.kompetensi.length}`
-                            // return checked / data.kompetensi.length * 100
+                            return `${Math.round((checked/data.kompetensi.length * 100) * 100) / 100}%`
                         }
                     },
                     {

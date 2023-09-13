@@ -503,7 +503,8 @@
                     </a>
                     <div id="kompetensiCollapseUtilities"
                         class="collapse @if (
-                            $page == 'readinesskategori' ||
+                            $page == 'readinessvalidator' ||
+                                $page == 'readinesskategori' ||
                                 $page == 'readinessjenis' ||
                                 $page == 'readinessbagian' ||
                                 $page == 'readinesskompetensi') show @endif"
@@ -511,6 +512,8 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">- Master Readiness -</h6>
                             @if (Auth::user()->role == 1)
+                                <a class="collapse-item @if ($page == 'readinessvalidator') active @endif"
+                                    href="{{ route('readinessvalidator.index') }}">Validasi Readiness</a>
                                 <a class="collapse-item @if ($page == 'readinesskategori') active @endif"
                                     href="{{ route('readinesskategori.index') }}">Kategori</a>
                                 <a class="collapse-item @if ($page == 'readinessjenis') active @endif"

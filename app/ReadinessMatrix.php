@@ -27,6 +27,11 @@ class ReadinessMatrix extends Model
         return $this->belongsTo(User::class, 'staff', 'id');
     }
 
+    public function validator()
+    {
+        return $this->hasOne(ReadinessValidator::class, 'readiness_matrix', 'id');
+    }
+
     public function userAtasan()
     {
         return $this->belongsTo(User::class, 'atasan', 'id');
