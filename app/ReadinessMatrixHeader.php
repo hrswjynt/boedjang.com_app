@@ -14,7 +14,8 @@ class ReadinessMatrixHeader extends Model
         'date',
         'atasan',
         'staff',
-        'bagian'
+        'bagian',
+        'catatan'
     ];
 
     public function matrix()

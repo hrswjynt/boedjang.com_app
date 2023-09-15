@@ -92,21 +92,6 @@ class ReadinessMatrixAtasanController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $staff = User::find($id);
-
-        $bagian = ReadinessBagian::with(['kompetensi.matrix' => function ($q) use ($id) {
-            $q->where('staff', $id);
-        }])
-            ->whereHas('kompetensi.matrix', function ($q) use ($id) {
-                $q->where('staff', $id);
-            })
-            ->where('id', $request->bagian)
-            ->get();
-
-        return view('readinessmatrixatasan.edit')
-            ->with('page', 'readinessmatrixatasan')
-            ->with('bagian', $bagian)
-            ->with('staff', $staff);
     }
 
     public function update(Request $request, $id)
@@ -118,6 +103,8 @@ class ReadinessMatrixAtasanController extends Controller
                 'atasan_valid' => null,
                 'atasan_valid_date' => null
             ]);
+
+            ReadinessMatrixHeader::find($id)->update(['catatan' => $request->catatan]);
 
             foreach ($request->valid as $matrix_id) {
                 $matrix = ReadinessMatrix::find($matrix_id);

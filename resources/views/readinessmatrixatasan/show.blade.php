@@ -46,13 +46,19 @@
                             <div class="container-fluid mt-3">
                                 <div class="row">
                                     <input type="hidden" name="header" value="{{ $matrixHeader->id }}">
-                                    <div class="col-3 p-2">
+                                    <div class="col-3">
                                         <span class="font-weight-bold text-secondary">Staff</span>
                                     </div>
-
                                     <div class="col-9">
                                         <input type="text" class="form-control mb-3"
                                             value="{{ $matrixHeader->dataStaff->name }}" readonly>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <span class="font-weight-bold text-secondary">Catatan</span>
+                                    </div>
+                                    <div class="col-9 mb-4">
+                                        <textarea name="catatan" class="form-control" cols="30" rows="5">{{ $matrixHeader->catatan }}</textarea>
                                     </div>
 
                                     <div class="col-12">
