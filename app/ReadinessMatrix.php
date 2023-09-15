@@ -8,7 +8,7 @@ class ReadinessMatrix extends Model
 {
     protected $table = 'readiness_matrix';
     protected $primaryKey = 'id';
-    public $timestamps = true;
+    public $timestamps = false;
     public $incrementing = true;
     protected $fillable = [
         'readiness_kompetensi',

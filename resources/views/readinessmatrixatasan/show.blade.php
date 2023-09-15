@@ -11,7 +11,7 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Readiness Matrix Atasan</h1>
+            <h1 class="h3 mb-0 text-gray-800">Readiness Matrix</h1>
         </div>
         <!-- Content Row -->
         <div class="row">
@@ -39,78 +39,85 @@
                                 <p>{{ $message }}</p>
                             </div>
                         @endif
-                        <form method="POST" action="{{ route('readinessmatrixatasan.update', $staff->id) }}"
+                        <form method="POST" action="{{ route('readinessmatrixatasan.update', $matrixHeader->id) }}"
                             id="readinessmatrixatasan_form">
                             @csrf
                             @method('PUT')
                             <div class="container-fluid mt-3">
                                 <div class="row">
+                                    <input type="hidden" name="header" value="{{ $matrixHeader->id }}">
                                     <div class="col-3 p-2">
                                         <span class="font-weight-bold text-secondary">Staff</span>
                                     </div>
+
                                     <div class="col-9">
-                                        <input type="text" class="form-control mb-3" value="{{ $staff->name }}"
-                                            readonly>
+                                        <input type="text" class="form-control mb-3"
+                                            value="{{ $matrixHeader->dataStaff->name }}" readonly>
                                     </div>
 
-                                    @foreach ($bagian as $b)
-                                        <input type="hidden" name="bagian" value="{{ $b->id }}">
-                                        <div class="col-12">
-                                            <div class="table-responsive">
-                                                <table id="table-{{ str_replace(' ', '-', strtolower($b->nama)) }}"
-                                                    class="table">
+                                    <div class="col-12">
+                                        <div class="table-responsive">
+                                            <table
+                                                id="table-{{ str_replace(' ', '-', strtolower($matrixHeader->dataBagian->nama)) }}"
+                                                class="table">
+                                                <thead>
                                                     <tr>
                                                         <th>No</th>
-                                                        <th>{{ $b->nama . ' (' . $b->kode . ')' }}</th>
+                                                        <th>
+                                                            {{ $matrixHeader->dataBagian->nama . ' (' . $matrixHeader->dataBagian->kode . ')' }}
+                                                        </th>
                                                         <th>Tipe</th>
-                                                        <th>Staff</th>
-                                                        <th>Atasan Lapangan</th>
+                                                        <th>Checked</th>
+                                                        <th>Validasi</th>
                                                     </tr>
-                                                    @foreach ($b->kompetensi as $kompetensi)
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($matrixHeader->matrix as $i => $matrix)
                                                         <tr>
-                                                            <td>{{ $b->kode . '.' . str_pad($kompetensi->nomor, 2, 0, STR_PAD_LEFT) }}
-                                                            </td>
-                                                            <td>{{ $kompetensi->kompetensi }}</td>
-                                                            @php
-                                                                switch ($kompetensi->tipe) {
-                                                                    case 1:
-                                                                        $kom = 'K';
-                                                                        break;
-                                                                
-                                                                    case 2:
-                                                                        $kom = 'S';
-                                                                        break;
-                                                                
-                                                                    case 3:
-                                                                        $kom = 'B';
-                                                                        break;
-                                                                
-                                                                    default:
-                                                                        $kom = 'Tidak valid';
-                                                                        break;
-                                                                }
-                                                            @endphp
+                                                            <td>{{ $i + 1 }}</td>
                                                             <td>
+                                                                {{ $matrix->kompetensi }}
+                                                            </td>
+                                                            <td>
+                                                                @php
+                                                                    switch ($matrix->tipe) {
+                                                                        case '1':
+                                                                            $kom = 'K';
+                                                                            break;
+                                                                    
+                                                                        case '2':
+                                                                            $kom = 'K';
+                                                                            break;
+                                                                    
+                                                                        case '3':
+                                                                            $kom = 'K';
+                                                                            break;
+                                                                    
+                                                                        default:
+                                                                            $kom = '';
+                                                                            break;
+                                                                    }
+                                                                @endphp
                                                                 {{ $kom }}
                                                             </td>
                                                             <td>
                                                                 <input type="checkbox" name="staff[]"
-                                                                    value="{{ $kompetensi->matrix->id }}"
-                                                                    {{ !!$kompetensi->matrix->staff_valid ? 'checked' : '' }}
+                                                                    value="{{ $matrix->id }}"
+                                                                    @if ($matrix->staff_valid) checked @endif
                                                                     disabled>
                                                             </td>
                                                             <td>
-                                                                <input type="checkbox" name="atasan[]"
-                                                                    value="{{ $kompetensi->matrix->id }}"
-                                                                    {{ !!$kompetensi->matrix->atasan_valid ? 'checked' : '' }}
-                                                                    {{ !$kompetensi->matrix->staff_valid ? 'disabled' : '' }}>
+                                                                <input type="checkbox" name="valid[]"
+                                                                    value="{{ $matrix->id }}"
+                                                                    @if ($matrix->atasan_valid) checked @endif
+                                                                    @if (!$matrix->staff_valid_date) disabled @endif>
                                                             </td>
                                                         </tr>
                                                     @endforeach
-                                                </table>
-                                            </div>
+                                                </tbody>
+                                            </table>
                                         </div>
-                                    @endforeach
+                                    </div>
                                 </div>
 
                                 <div class="row" style="margin-top: 10px">
@@ -127,7 +134,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -147,8 +153,8 @@
 
             $("#btn-submit").click(function() {
                 swal({
-                        title: "Apakah anda yakin akan memvalidasi data readiness?",
-                        text: 'Data yang validasi dapat merubah data pada database.',
+                        title: "Apakah anda yakin akan memvalidasi data readiness staff?",
+                        text: 'Data yang diubah dapat merubah data pada database.',
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,
@@ -157,7 +163,7 @@
                         if (willDelete) {
                             $("#readinessmatrixatasan_form").submit()
                         } else {
-                            swal("Proses Pemvalidasian Data Readiness Dibatalkan!", {
+                            swal("Proses Validasi Readiness Staff Dibatalkan!", {
                                 icon: "error",
                             });
                         }

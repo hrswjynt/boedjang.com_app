@@ -1,6 +1,13 @@
 @extends('layouts.app_admin')
 
 @section('content')
+    <style>
+        input[type="checkbox"] {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    </style>
+
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -32,84 +39,93 @@
                                 <p>{{ $message }}</p>
                             </div>
                         @endif
-                        <form method="POST" action="{{ route('readinessmatrix.update', $kategori->id) }}"
+                        <form method="POST" action="{{ route('readinessmatrix.update', $matrixHeader->id) }}"
                             id="readinessmatrix_form">
                             @csrf
                             @method('PUT')
                             <div class="container-fluid mt-3">
                                 <div class="row">
-                                    @foreach ($kategori->jenis as $jenis)
-                                        <div class="col-12">
-                                            <h4 class="font-weight-bold">{{ $jenis->nama }}</h4>
-                                            <hr>
-                                        </div>
-                                        @foreach ($jenis->bagian as $indexBagian => $bagian)
-                                            <div class="col-12">
-                                                <h5 class="font-weight-bold">
-                                                    {{ $indexBagian + 1 }}. {{ $bagian->nama }}
-                                                </h5>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="table-responsive">
-                                                    <table id="table-{{ str_replace(' ', '-', strtolower($bagian->nama)) }}"
-                                                        class="table">
+                                    <div class="col-3 p-2">
+                                        <span class="font-weight-bold text-secondary">Atasan</span>
+                                    </div>
+
+                                    <div class="col-9">
+                                        <input type="text" class="form-control mb-3"
+                                            value="{{ $matrixHeader->dataAtasan->name }}" readonly>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="table-responsive">
+                                            <table
+                                                id="table-{{ str_replace(' ', '-', strtolower($matrixHeader->dataBagian->nama)) }}"
+                                                class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>
+                                                            {{ $matrixHeader->dataBagian->nama . ' (' . $matrixHeader->dataBagian->kode . ')' }}
+                                                        </th>
+                                                        <th>Tipe</th>
+                                                        <th>Checked</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($matrixHeader->matrix as $i => $matrix)
                                                         <tr>
-                                                            <th>No</th>
-                                                            <th>{{ $bagian->nama . ' (' . $bagian->kode . ')' }}</th>
-                                                            <th>Tipe</th>
-                                                            <th>Staff</th>
-                                                            <th>Atasan Lapangan</th>
-                                                            <th>Validator</th>
-                                                        </tr>
-                                                        @foreach ($bagian->kompetensi as $kompetensi)
-                                                            <tr>
-                                                                <td>{{ $bagian->kode . '.' . str_pad($kompetensi->nomor, 2, 0, STR_PAD_LEFT) }}
-                                                                </td>
-                                                                <td>{{ $kompetensi->kompetensi }}</td>
+                                                            <td>{{ $i + 1 }}</td>
+                                                            <td>
+                                                                {{ $matrix->kompetensi }}
+                                                            </td>
+                                                            <td>
                                                                 @php
-                                                                    switch ($kompetensi->tipe) {
-                                                                        case 1:
+                                                                    switch ($matrix->tipe) {
+                                                                        case '1':
                                                                             $kom = 'K';
                                                                             break;
                                                                     
-                                                                        case 2:
-                                                                            $kom = 'S';
+                                                                        case '2':
+                                                                            $kom = 'K';
                                                                             break;
                                                                     
-                                                                        case 3:
-                                                                            $kom = 'B';
+                                                                        case '3':
+                                                                            $kom = 'K';
                                                                             break;
                                                                     
                                                                         default:
-                                                                            $kom = 'Tidak valid';
+                                                                            $kom = '';
                                                                             break;
                                                                     }
                                                                 @endphp
-                                                                <td>
-                                                                    {{ $kom }}
-                                                                </td>
-                                                                <td>
-                                                                    <input type="checkbox" name="" id="">
-                                                                </td>
-                                                                <td>
-                                                                    <input type="checkbox" name="" id="">
-                                                                </td>
-                                                                <td>
+                                                                {{ $kom }}
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="kompetensi[]"
+                                                                    value="{{ $matrix->id }}"
+                                                                    @if ($matrix->staff_valid) checked @endif
+                                                                    @if ($matrix->atasan_valid_date) disabled @endif>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <hr>
-                                            </div>
-                                        @endforeach
-                                    @endforeach
+                                <div class="row" style="margin-top: 10px">
+                                    <div class="col-md-12">
+                                        <button class="btn btn-success save pull-right mb-3" type="button" id="btn-submit">
+                                            <i class="fa fa-save"></i>
+                                            <span>Simpan</span>
+                                        </button>
+                                        <button class="btn btn-success save pull-right mb-3" id="btn-submit-loading"
+                                            disabled="">
+                                            <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                            <span> Simpan</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>

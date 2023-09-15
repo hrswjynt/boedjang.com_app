@@ -1,6 +1,13 @@
 @extends('layouts.app_admin')
 
 @section('content')
+    <style>
+        input[type="checkbox"] {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    </style>
+
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -37,38 +44,99 @@
                             <div class="container-fluid mt-3">
 
                                 <div class="row gy-4">
-                                    @foreach ($bagian as $b)
-                                        <div class="col-12">
-                                            <div class="table-responsive">
-                                                <table class="table">
-                                                    <tr>
-                                                        <th>No</th>
-                                                        <th>Kompetensi</th>
-                                                        <th>Staff</th>
-                                                        <th>Atasan</th>
-                                                    </tr>
-                                                    @foreach ($b->kompetensi as $i => $k)
-                                                        <tr>
-                                                            <td>{{ $i + 1 }}</td>
-                                                            <td class="text-left">{{ $k->kompetensi }}</td>
-                                                            <td class="font-weight-bold h5">
-                                                                {{ $k->matrix ? ($k->matrix->staff_valid ? '√' : '') : '' }}
-                                                            </td>
-                                                            <td>
-                                                                <span class="font-weight-bold h5">
-                                                                    {{ $k->matrix ? ($k->matrix->atasan_valid ? '√' : 'χ') : '' }}
-                                                                </span>
-                                                                <br>
-                                                                <span>
-                                                                    ({{ $k->matrix ? date('Y-m-d', strtotime($k->matrix->atasan_valid_date)) : '' }})
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </table>
+                                    <form method="POST" action="{{ route('readinessmatrix.update', $matrixHeader->id) }}"
+                                        id="readinessmatrix_form">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="container-fluid mt-3">
+                                            <div class="row">
+                                                <div class="col-12 p-1">
+                                                    <span class="font-weight-bold text-secondary">Atasan</span>
+                                                </div>
+
+                                                <div class="col-12 p-2">
+                                                    <input type="text" class="form-control mb-3"
+                                                        value="{{ $matrixHeader->dataAtasan->name }}" readonly>
+                                                </div>
+
+                                                <div class="col-12 p-1">
+                                                    <span class="font-weight-bold text-secondary">Catatan</span>
+                                                </div>
+
+                                                <div class="col-12 p-2">
+                                                    <input type="text" class="form-control mb-3"
+                                                        value="{{ $matrixHeader->catatan }}" readonly>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="table-responsive">
+                                                        <table
+                                                            id="table-{{ str_replace(' ', '-', strtolower($matrixHeader->dataBagian->nama)) }}"
+                                                            class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>No</th>
+                                                                    <th>
+                                                                        {{ $matrixHeader->dataBagian->nama . ' (' . $matrixHeader->dataBagian->kode . ')' }}
+                                                                    </th>
+                                                                    <th>Tipe</th>
+                                                                    <th>Checked</th>
+                                                                    <th>Valid</th>
+                                                                    <th>Tanggal Valid</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($matrixHeader->matrix as $i => $matrix)
+                                                                    <tr>
+                                                                        <td>{{ $i + 1 }}</td>
+                                                                        <td>
+                                                                            {{ $matrix->kompetensi }}
+                                                                        </td>
+                                                                        <td>
+                                                                            @php
+                                                                                switch ($matrix->tipe) {
+                                                                                    case '1':
+                                                                                        $kom = 'K';
+                                                                                        break;
+                                                                                
+                                                                                    case '2':
+                                                                                        $kom = 'K';
+                                                                                        break;
+                                                                                
+                                                                                    case '3':
+                                                                                        $kom = 'K';
+                                                                                        break;
+                                                                                
+                                                                                    default:
+                                                                                        $kom = '';
+                                                                                        break;
+                                                                                }
+                                                                            @endphp
+                                                                            {{ $kom }}
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="checkbox" name="staff[]"
+                                                                                value="{{ $matrix->id }}"
+                                                                                @if ($matrix->staff_valid) checked @endif
+                                                                                disabled>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="checkbox" name="atasan[]"
+                                                                                value="{{ $matrix->id }}"
+                                                                                @if ($matrix->atasan_valid) checked @endif
+                                                                                disabled>
+                                                                        </td>
+                                                                        <td>{{ $matrix->atasan_valid_date }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                             </div>
+
                                         </div>
-                                    @endforeach
+                                    </form>
                                 </div>
 
                             </div>

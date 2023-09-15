@@ -38,7 +38,9 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Tgl</th>
                                             <th>Nama</th>
+                                            <th>Bagian</th>
                                             <th>Divalidasi</th>
                                             <th>Nilai</th>
                                             <th class="text-right">Actions</th>
@@ -84,41 +86,22 @@
                         searchable: false
                     },
                     {
-                        data: 'name',
+                        data: 'date',
+                        render: (data) => data.split(' ')[0]
+
                     },
                     {
-                        data: (data) => {
-                            let validated = data.matrix.reduce((a, data) => {
-                                if (data.atasan_valid == 1) {
-                                    return a + 1;
-                                } else {
-                                    return a;
-                                }
-                            }, 0)
-
-                            let all = data.matrix.reduce((a, data) => {
-                                return a + 1;
-                            }, 0)
-
-                            return `${validated}/${all}`;
-                        }
+                        data: 'staff_name'
                     },
                     {
-                        data: (data) => {
-                            let validated = data.matrix.reduce((a, data) => {
-                                if (data.atasan_valid == 1) {
-                                    return a + 1;
-                                } else {
-                                    return a;
-                                }
-                            }, 0)
-
-                            let all = data.matrix.reduce((a, data) => {
-                                return a + 1;
-                            }, 0)
-
-                            return `${Math.round((validated / all * 100) * 100) / 100}%`;
-                        }
+                        data: 'bagian_nama',
+                    },
+                    {
+                        data: data => `${data.atasan_checked}/${data.staff_checked}`,
+                    },
+                    {
+                        data: (data) =>
+                            `${Math.round((data.atasan_checked / data.total * 100) * 100) / 100}%`
                     },
                     {
                         data: 'action',

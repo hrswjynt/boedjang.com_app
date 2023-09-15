@@ -33,56 +33,6 @@
                             </div>
                         @endif
                         <div class="row">
-                            {{-- filter time --}}
-                            <div class="col-3 p-2 mb-3">
-                                <span class="font-weight-bold text-secondary">Periode</span>
-                            </div>
-                            <div class="col-9 mb-3">
-                                <div class="input-group">
-                                    <input type="number" name="year" id="year" class="form-control"
-                                        value="{{ date('Y') }}">
-                                    <select name="month" id="month" class="form-control">
-                                        <option value="1" @if (date('m') == 1) selected @endif>
-                                            Januari
-                                        </option>
-                                        <option value="2" @if (date('m') == 2) selected @endif>
-                                            Februari
-                                        </option>
-                                        <option value="3" @if (date('m') == 3) selected @endif>
-                                            Maret
-                                        </option>
-                                        <option value="4" @if (date('m') == 4) selected @endif>
-                                            April
-                                        </option>
-                                        <option value="5" @if (date('m') == 5) selected @endif>
-                                            Mei
-                                        </option>
-                                        <option value="6" @if (date('m') == 6) selected @endif>
-                                            Juni
-                                        </option>
-                                        <option value="7" @if (date('m') == 7) selected @endif>
-                                            Juli
-                                        </option>
-                                        <option value="8" @if (date('m') == 8) selected @endif>
-                                            Agustus
-                                        </option>
-                                        <option value="9" @if (date('m') == 9) selected @endif>
-                                            September
-                                        </option>
-                                        <option value="10" @if (date('m') == 10) selected @endif>
-                                            Oktober
-                                        </option>
-                                        <option value="11" @if (date('m') == 11) selected @endif>
-                                            November
-                                        </option>
-                                        <option value="12" @if (date('m') == 12) selected @endif>
-                                            Desember
-                                        </option>
-                                    </select>
-                                    <div class="btn btn-primary ml-2">Submit</div>
-                                </div>
-                            </div>
-
                             {{-- table --}}
                             <div class="col-12">
                                 <div id="readinessvalidator-data">
@@ -91,10 +41,12 @@
                                             <thead>
                                                 <tr>
                                                     <th>No</th>
+                                                    <th>Tgl</th>
                                                     <th>Nama</th>
                                                     <th>Bagian</th>
                                                     <th>Divalidasi</th>
                                                     <th>Nilai</th>
+                                                    <th>Nilai HC</th>
                                                     <th class="text-right">Actions</th>
                                                 </tr>
                                             </thead>
@@ -141,19 +93,28 @@
                         searchable: false
                     },
                     {
-                        data: 'user_name',
+                        data: 'date',
+                        render: (data) => data.split(' ')[0]
+                    },
+                    {
+                        data: 'staff_name',
                     },
                     {
                         data: 'bagian_nama'
                     },
                     {
                         data: (data) => {
-                            return `${data.checked_staff}/${data.checked_atasan}`;
+                            return `${data.hc_valid}/${data.atasan_checked}`;
                         }
                     },
                     {
                         data: (data) => {
-                            return `${Math.round((data.checked_staff / data.total * 100) * 100) / 100}%`;
+                            return `${Math.round((data.atasan_checked / data.total * 100) * 100) / 100}%`;
+                        }
+                    },
+                    {
+                        data: (data) => {
+                            return `${Math.round((data.hc_valid / data.total * 100) * 100) / 100}%`;
                         }
                     },
                     {

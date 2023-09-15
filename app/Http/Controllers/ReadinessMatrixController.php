@@ -8,6 +8,7 @@ use App\ReadinessBagian;
 use App\ReadinessMatrix;
 use App\ReadinessKategori;
 use App\ReadinessKompetensi;
+use App\ReadinessMatrixHeader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -22,14 +23,26 @@ class ReadinessMatrixController extends Controller
 
     public function getData()
     {
-        $bagian = ReadinessBagian::with(['kompetensi.matrixes' => function ($matrix) {
-            $matrix->where('staff', Auth::user()->id);
-        }])
-            ->whereHas('kompetensi.matrixes', function ($matrix) {
-                $matrix->where('staff', Auth::user()->id);
-            })
+        $matrix = ReadinessMatrixHeader::select(
+            'readiness_matrix_header.id AS id',
+            'readiness_matrix_header.date AS date',
+            'atasan.id AS atasan_id',
+            'atasan.name AS atasan_name',
+            'rb.id AS bagian_id',
+            'rb.nama AS bagian_nama',
+            DB::raw("CAST(SUM(rm.staff_valid) AS int) AS staff_checked"),
+            DB::raw("COALESCE(CAST(SUM(rm.atasan_valid) AS int), 0) AS atasan_checked"),
+            DB::raw("COUNT(*) AS total"),
+        )
+            ->join('readiness_matrix AS rm', 'rm.readiness_matrix_header', 'readiness_matrix_header.id')
+            ->join('readiness_bagian AS rb', 'rb.id', 'readiness_matrix_header.bagian')
+            ->join('users AS staff', 'staff.id', 'readiness_matrix_header.staff')
+            ->join('users AS atasan', 'atasan.id', 'readiness_matrix_header.atasan')
+            ->where('staff', Auth::user()->id)
+            ->groupBy('readiness_matrix_header.id')
             ->get();
-        return $this->datatable($bagian);
+
+        return $this->datatable($matrix);
     }
 
     public function datatable($data)
@@ -38,6 +51,7 @@ class ReadinessMatrixController extends Controller
             ->addColumn('action', function ($data) {
                 $action = '<div class="btn-group">';
                 $action .= '<a class="btn btn-sm btn-info btn-simple shadow" href="' . route("readinessmatrix.show", $data->id) . '" title="Info"><i class="fa fa-search"></i></a>';
+                $action .= '<a class="btn btn-sm btn-warning btn-simple shadow" href="' . route("readinessmatrix.edit", $data->id) . '" title="Edit"><i class="fa fa-edit"></i></a>';
                 $action .= '</div>';
 
                 return $action;
@@ -56,10 +70,7 @@ class ReadinessMatrixController extends Controller
                 'readiness_kompetensi.kompetensi',
                 'readiness_kompetensi.readiness_bagian',
                 'readiness_kompetensi.tipe',
-            )
-                ->with(['matrix' => function ($q) {
-                    $q->where('readiness_matrix.staff', Auth::user()->id);
-                }]);
+            );
         }])
             ->get();
 
@@ -87,34 +98,34 @@ class ReadinessMatrixController extends Controller
         try {
             DB::beginTransaction();
 
-            $komp = ReadinessKompetensi::where('readiness_bagian', $request->readiness_bagian)
+            $kompetensi = ReadinessKompetensi::where('readiness_bagian', $request->readiness_bagian)
                 ->pluck('id');
 
-            foreach ($komp as $kompetensi) {
-                $model = ReadinessMatrix::where('readiness_kompetensi', $kompetensi)
-                    ->whereHas('kompetensi', function ($q) use ($request) {
-                        $q->where('readiness_bagian', $request->readiness_bagian);
-                    })
-                    ->where('staff', Auth::user()->id)
-                    ->first();
+            $matrixHeader = new ReadinessMatrixHeader;
+            $matrixHeader->date = date('Y-m-d H:i:s');
+            $matrixHeader->atasan = User::where('username', $request->atasan)->first()->id;
+            $matrixHeader->staff = Auth::user()->id;
+            $matrixHeader->bagian = $request->readiness_bagian;
+            $matrixHeader->save();
 
-                if (!$model) {
-                    $model = new ReadinessMatrix;
-                    $model->readiness_kompetensi = $kompetensi;
-                    $model->staff = Auth::user()->id;
-                }
-
-                $model->staff_valid = $model->staff_valid ? $model->staff_valid : (in_array($kompetensi, $request->kompetensi) ? 1 : 0);
-                $model->staff_valid_date = date('Y-m-d H:i:s');
-                $model->atasan = User::where('username', $request->atasan)->first()->id;
-                $model->save();
+            foreach ($kompetensi as $k) {
+                $matrix = new ReadinessMatrix;
+                $matrix->readiness_matrix_header = $matrixHeader->id;
+                $matrix->readiness_kompetensi = $k;
+                $matrix->staff_valid = in_array($k, $request->kompetensi) ? 1 : 0;
+                $matrix->staff_valid_date = in_array($k, $request->kompetensi) ? date('Y-m-d H:i:s') : null;
+                $matrix->atasan_valid = null;
+                $matrix->atasan_valid_date = null;
+                $matrix->save();
             }
+
             DB::commit();
             $message_type = 'success';
             $message = 'Data readiness berhasil ditambah.';
             return redirect()->route('readinessmatrix.index')->with($message_type, $message);
         } catch (\Throwable $th) {
             DB::rollback();
+            dd($th);
             $message_type = 'danger';
             $message = 'Data readiness gagal ditambah.';
             return redirect()->route('readinessmatrix.create')->withInput()->with($message_type, $message);
@@ -123,43 +134,71 @@ class ReadinessMatrixController extends Controller
 
     public function show($id)
     {
-        $bagian = ReadinessBagian::with(['kompetensi.matrix' => function ($matrix) {
-            $matrix->where('readiness_matrix.staff', Auth::user()->id);
-        }])
-            ->whereHas('kompetensi.matrix', function ($q) {
-                $q->where('staff', Auth::user()->id);
-            })
-            ->where('readiness_bagian.id', $id)
-            ->get();
+        $matrixHeader = ReadinessMatrixHeader::with([
+            'matrix' => function ($matrix) {
+                $matrix->select(
+                    'readiness_matrix.*',
+                    'readiness_kompetensi.tipe',
+                    'readiness_kompetensi.kompetensi'
+                )
+                    ->join('readiness_kompetensi', 'readiness_kompetensi.id', 'readiness_matrix.readiness_kompetensi');
+            },
+            'dataBagian',
+            'dataAtasan'
+        ])
+            ->first();
 
         return view('readinessmatrix.show')
             ->with('page', 'readinessmatrix')
-            ->with('bagian', $bagian);
+            ->with('matrixHeader', $matrixHeader);
     }
 
     public function edit($id)
     {
-        $kategori = ReadinessKategori::with([
-            'jenis' => function ($jenis) {
-                $jenis->with([
-                    'bagian' => function ($bagian) {
-                        $bagian->with('kompetensi')
-                            ->whereHas('kompetensi');
-                    }
-                ])
-                    ->whereHas('bagian');
-            }
+
+        $matrixHeader = ReadinessMatrixHeader::with([
+            'matrix' => function ($matrix) {
+                $matrix->select(
+                    'readiness_matrix.*',
+                    'readiness_kompetensi.tipe',
+                    'readiness_kompetensi.kompetensi'
+                )
+                    ->join('readiness_kompetensi', 'readiness_kompetensi.id', 'readiness_matrix.readiness_kompetensi');
+            },
+            'dataBagian',
+            'dataAtasan'
         ])
-            ->find($id);
+            ->where('id', $id)
+            ->first();
 
         return view('readinessmatrix.edit')
             ->with('page', 'readinessmatrix')
-            ->with('kategori', $kategori);
+            ->with('matrixHeader', $matrixHeader);
     }
 
     public function update(Request $request, $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            ReadinessMatrix::where('readiness_matrix_header', $id)->update(['staff_valid' => 0, 'staff_valid_date' => null]);
+
+            foreach ($request->kompetensi as $kompetensi) {
+                $matrix = ReadinessMatrix::find($kompetensi);
+                $matrix->staff_valid = 1;
+                $matrix->staff_valid_date = date('Y-m-d H:i:s');
+                $matrix->save();
+            }
+
+            DB::commit();
+            $message_type = 'success';
+            $message = 'Data readiness berhasil diubah.';
+            return redirect()->route('readinessmatrix.index')->with($message_type, $message);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            $message_type = 'danger';
+            $message = 'Data readiness gagal diubah.';
+            return redirect()->route('readinessmatrix.edit', $id)->withInput()->with($message_type, $message);
+        }
     }
 
     public function delete($id)

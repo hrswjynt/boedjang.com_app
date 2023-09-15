@@ -59,27 +59,18 @@
                                             <label class="bmd-label-floating">Kategori <span class="red">*</span></label>
                                             <select id="readiness_kategori" class="form-control select2"
                                                 name="readiness_kategori" style="width: 100%">
-                                                {{-- @foreach ($bagian as $b)
-                                                    <option value="{{ $b->id }}">{{ $b->nama }}</option>
-                                                @endforeach --}}
                                             </select>
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Jenis <span class="red">*</span></label>
                                             <select id="readiness_jenis" class="form-control select2" name="readiness_jenis"
                                                 style="width: 100%">
-                                                {{-- @foreach ($bagian as $b)
-                                                    <option value="{{ $b->id }}">{{ $b->nama }}</option>
-                                                @endforeach --}}
                                             </select>
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Bagian <span class="red">*</span></label>
                                             <select id="readiness_bagian" class="form-control select2"
                                                 name="readiness_bagian" style="width: 100%">
-                                                {{-- @foreach ($bagian as $b)
-                                                    <option value="{{ $b->id }}">{{ $b->nama }}</option>
-                                                @endforeach --}}
                                             </select>
                                         </div>
                                     </div>
@@ -204,8 +195,6 @@
                                                             kompetensi: '{{ $k->kompetensi }}',
                                                             nomor: '{{ $k->nomor }}',
                                                             tipe: {{ $k->tipe }},
-                                                            valid: {{ $k->matrix ? $k->matrix->staff_valid : 0 }},
-                                                            valid_atasan: {{ $k->matrix ? $k->matrix->atasan_valid : 0 }}
                                                         },
                                                     @endforeach
                                                 ]
@@ -226,23 +215,36 @@
 
             $('#readiness_kategori').on('change', function() {
                 $('#readiness_jenis').empty()
-                kategori.find((jenis) => jenis.id == $('#readiness_kategori').val()).jenis.forEach(
-                    function(e, i) {
-                        $('#readiness_jenis').append(`<option value="${e.id}">${e.nama}</option>`)
-                    })
+                const jenis = kategori.find((jenis) => jenis.id == $('#readiness_kategori').val()).jenis
+
+                if (jenis) {
+                    jenis.forEach(
+                        function(e, i) {
+                            $('#readiness_jenis').append(`<option value="${e.id}">${e.nama}</option>`)
+                        }
+                    )
+                }
+
+                $('#readiness_jenis').trigger('change');
             })
 
             $('#readiness_jenis').on('change', function() {
                 $('#readiness_bagian').empty()
 
-                kategori
+                const bagian = kategori
                     .find((jenis) => jenis.id == $('#readiness_kategori').val())
                     .jenis
                     .find((bagian) => bagian.id == $('#readiness_jenis').val())
                     .bagian
-                    .forEach(function(e, i) {
-                        $('#readiness_bagian').append(`<option value="${e.id}">${e.nama}</option>`)
-                    })
+
+                if (bagian) {
+                    bagian
+                        .forEach(function(e, i) {
+                            $('#readiness_bagian').append(`<option value="${e.id}">${e.nama}</option>`)
+                        })
+                }
+
+                $('#readiness_bagian').trigger('change');
             })
 
             $('#readiness_bagian').on('change', function() {
@@ -255,92 +257,91 @@
                     .bagian
                     .find((bagian) => bagian.id == $('#readiness_bagian').val())
 
-                const container = document.getElementById('table-bagian');
+                if (bagian) {
+                    const container = document.getElementById('table-bagian');
 
-                const responsive = document.createElement('div');
-                responsive.classList = 'table-responsive';
+                    const responsive = document.createElement('div');
+                    responsive.classList = 'table-responsive';
 
-                const table = document.createElement('table');
-                table.id = 'table-bagian';
-                table.classList = 'table';
+                    const table = document.createElement('table');
+                    table.id = 'table-bagian';
+                    table.classList = 'table';
 
-                const trHead = document.createElement('tr')
+                    const trHead = document.createElement('tr')
 
-                const thNo = document.createElement('th');
-                thNo.textContent = 'No'
-                trHead.append(thNo)
+                    const thNo = document.createElement('th');
+                    thNo.textContent = 'No'
+                    trHead.append(thNo)
 
-                const thKode = document.createElement('th');
-                thKode.textContent = 'Kode'
-                trHead.append(thKode)
+                    const thKode = document.createElement('th');
+                    thKode.textContent = 'Kode'
+                    trHead.append(thKode)
 
-                const thKompetensi = document.createElement('th');
-                thKompetensi.textContent = `${bagian.nama} (${bagian.kode})`
-                trHead.append(thKompetensi)
+                    const thKompetensi = document.createElement('th');
+                    thKompetensi.textContent = `${bagian.nama} (${bagian.kode})`
+                    trHead.append(thKompetensi)
 
-                const thTipe = document.createElement('th');
-                thTipe.textContent = 'Tipe'
-                trHead.append(thTipe)
+                    const thTipe = document.createElement('th');
+                    thTipe.textContent = 'Tipe'
+                    trHead.append(thTipe)
 
-                const thCheck = document.createElement('th');
-                thCheck.textContent = 'Check'
-                trHead.append(thCheck)
+                    const thCheck = document.createElement('th');
+                    thCheck.textContent = 'Check'
+                    trHead.append(thCheck)
 
-                table.append(trHead)
+                    table.append(trHead)
 
-                bagian.kompetensi.forEach((k, kI) => {
-                    const tr = document.createElement('tr');
+                    bagian.kompetensi.forEach((k, kI) => {
+                        const tr = document.createElement('tr');
 
-                    const no = document.createElement('td');
-                    no.textContent = kI + 1;
-                    tr.append(no)
+                        const no = document.createElement('td');
+                        no.textContent = kI + 1;
+                        tr.append(no)
 
-                    const kode = document.createElement('td');
-                    kode.textContent = `${bagian.kode}.${k.nomor.padStart(2, '0')}`
-                    tr.append(kode)
+                        const kode = document.createElement('td');
+                        kode.textContent = `${bagian.kode}.${k.nomor.padStart(2, '0')}`
+                        tr.append(kode)
 
-                    const kompetensi = document.createElement('td');
-                    kompetensi.classList = 'text-left';
-                    kompetensi.textContent = k.kompetensi;
-                    tr.append(kompetensi)
+                        const kompetensi = document.createElement('td');
+                        kompetensi.classList = 'text-left';
+                        kompetensi.textContent = k.kompetensi;
+                        tr.append(kompetensi)
 
-                    let tipeChar
-                    switch (k.tipe) {
-                        case 1:
-                            tipeChar = 'K'
-                            break;
+                        let tipeChar
+                        switch (k.tipe) {
+                            case 1:
+                                tipeChar = 'K'
+                                break;
 
-                        case 2:
-                            tipeChar = 'S'
-                            break;
+                            case 2:
+                                tipeChar = 'S'
+                                break;
 
-                        case 3:
-                            tipeChar = 'B'
-                            break;
+                            case 3:
+                                tipeChar = 'B'
+                                break;
 
-                        default:
-                            tipeChar = 'Tidak valid'
-                            break;
-                    }
-                    const tipe = document.createElement('td');
-                    tipe.textContent = tipeChar
-                    tr.append(tipe)
+                            default:
+                                tipeChar = 'Tidak valid'
+                                break;
+                        }
+                        const tipe = document.createElement('td');
+                        tipe.textContent = tipeChar
+                        tr.append(tipe)
 
-                    const check = document.createElement('td');
-                    const checkInput = document.createElement('input');
-                    checkInput.type = 'checkbox';
-                    checkInput.name = `kompetensi[]`
-                    checkInput.value = k.id
-                    checkInput.checked = !!k.valid
-                    checkInput.disabled = !!k.valid_atasan
-                    check.append(checkInput)
-                    tr.append(check)
+                        const check = document.createElement('td');
+                        const checkInput = document.createElement('input');
+                        checkInput.type = 'checkbox';
+                        checkInput.name = `kompetensi[]`
+                        checkInput.value = k.id
+                        check.append(checkInput)
+                        tr.append(check)
 
-                    table.append(tr)
-                })
-
-                responsive.append(table)
-                container.append(responsive)
+                        table.append(tr)
+                    })
+                    responsive.append(table)
+                    container.append(responsive)
+                }
             })
 
             $('#readiness_kategori').trigger('change');
