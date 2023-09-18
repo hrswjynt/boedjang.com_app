@@ -74,9 +74,15 @@ class ReadinessMatrixAtasanController extends Controller
                 $matrix->select(
                     'readiness_matrix.*',
                     'readiness_kompetensi.tipe',
-                    'readiness_kompetensi.kompetensi'
+                    'readiness_kompetensi.nomor',
+                    'readiness_kompetensi.kompetensi',
+                    'readiness_validator.date AS validator_date',
+                    'readiness_validator.readiness_matrix',
+                    'readiness_validator.validator',
                 )
-                    ->join('readiness_kompetensi', 'readiness_kompetensi.id', 'readiness_matrix.readiness_kompetensi');
+                    ->join('readiness_kompetensi', 'readiness_kompetensi.id', 'readiness_matrix.readiness_kompetensi')
+                    ->leftJoin('readiness_validator', 'readiness_validator.readiness_matrix', 'readiness_matrix.id')
+                    ->orderBy('readiness_kompetensi.nomor');
             },
             'dataBagian',
             'dataStaff',
@@ -99,10 +105,12 @@ class ReadinessMatrixAtasanController extends Controller
         try {
             DB::beginTransaction();
 
-            ReadinessMatrix::where('readiness_matrix_header', $id)->update([
-                'atasan_valid' => null,
-                'atasan_valid_date' => null
-            ]);
+            ReadinessMatrix::where('readiness_matrix_header', $id)
+                ->whereDoesntHave('validator')
+                ->update([
+                    'atasan_valid' => null,
+                    'atasan_valid_date' => null
+                ]);
 
             ReadinessMatrixHeader::find($id)->update(['catatan' => $request->catatan]);
 

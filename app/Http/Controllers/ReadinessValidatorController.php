@@ -79,27 +79,7 @@ class ReadinessValidatorController extends Controller
 
     public function store(Request $request)
     {
-        // try {
-        //     DB::beginTransaction();
-
-        //     foreach ($request->validator as $validator) {
-        //         $model = new ReadinessValidator;
-        //         $model->date = date('Y-m-d H:i:s');
-        //         $model->readiness_matrix = $validator;
-        //         $model->validator = Auth::user()->id;
-        //         $model->save();
-        //     }
-
-        //     DB::commit();
-        //     $message_type = 'success';
-        //     $message = 'Data readiness berhasil divalidasi.';
-        //     return redirect()->route('readinessvalidator.index')->with($message_type, $message);
-        // } catch (\Throwable $th) {
-        //     DB::rollback();
-        //     $message_type = 'danger';
-        //     $message = 'Data readiness gagal divalidasi.';
-        //     return redirect()->route('readinessvalidator.show', [$request->staff, 'bagian' => $request->bagian])->withInput()->with($message_type, $message);
-        // }
+        //
     }
 
     public function show(Request $request, $id)

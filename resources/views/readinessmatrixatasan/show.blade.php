@@ -116,7 +116,7 @@
                                                                 <input type="checkbox" name="valid[]"
                                                                     value="{{ $matrix->id }}"
                                                                     @if ($matrix->atasan_valid) checked @endif
-                                                                    @if (!$matrix->staff_valid_date) disabled @endif>
+                                                                    @if (!$matrix->staff_valid_date || $matrix->validator) disabled @endif>
                                                             </td>
                                                         </tr>
                                                     @endforeach
