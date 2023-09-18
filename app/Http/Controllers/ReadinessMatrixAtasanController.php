@@ -106,7 +106,7 @@ class ReadinessMatrixAtasanController extends Controller
 
             ReadinessMatrixHeader::find($id)->update(['catatan' => $request->catatan]);
 
-            foreach ($request->valid as $matrix_id) {
+            foreach ($request->valid ?? [] as $matrix_id) {
                 $matrix = ReadinessMatrix::find($matrix_id);
                 $matrix->atasan_valid = 1;
                 $matrix->atasan_valid_date = date('Y-m-d H:i:s');
@@ -119,6 +119,7 @@ class ReadinessMatrixAtasanController extends Controller
             return redirect()->route('readinessmatrixatasan.index')->with($message_type, $message);
         } catch (\Throwable $th) {
             DB::rollback();
+            dd($th);
             $message_type = 'danger';
             $message = 'Data readiness gagal divalidasi.';
             return redirect()->route('readinessmatrixatasan.show', $id)->withInput()->with($message_type, $message);

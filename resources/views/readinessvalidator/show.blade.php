@@ -63,6 +63,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>No</th>
+                                                        <th>Kode</th>
                                                         <th>
                                                             {{ $matrixHeader->dataBagian->nama . ' (' . $matrixHeader->dataBagian->kode . ')' }}
                                                         </th>
@@ -76,6 +77,8 @@
                                                     @foreach ($matrixHeader->matrix as $i => $matrix)
                                                         <tr>
                                                             <td>{{ $i + 1 }}</td>
+                                                            <td>{{ $matrixHeader->dataBagian->kode }}.{{ str_pad($matrix->nomor, 2, 0, STR_PAD_LEFT) }}
+                                                            </td>
                                                             <td>
                                                                 {{ $matrix->kompetensi }}
                                                             </td>

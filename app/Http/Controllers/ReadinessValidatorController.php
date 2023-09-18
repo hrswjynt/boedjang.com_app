@@ -79,27 +79,27 @@ class ReadinessValidatorController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            DB::beginTransaction();
+        // try {
+        //     DB::beginTransaction();
 
-            foreach ($request->validator as $validator) {
-                $model = new ReadinessValidator;
-                $model->date = date('Y-m-d H:i:s');
-                $model->readiness_matrix = $validator;
-                $model->validator = Auth::user()->id;
-                $model->save();
-            }
+        //     foreach ($request->validator as $validator) {
+        //         $model = new ReadinessValidator;
+        //         $model->date = date('Y-m-d H:i:s');
+        //         $model->readiness_matrix = $validator;
+        //         $model->validator = Auth::user()->id;
+        //         $model->save();
+        //     }
 
-            DB::commit();
-            $message_type = 'success';
-            $message = 'Data readiness berhasil divalidasi.';
-            return redirect()->route('readinessvalidator.index')->with($message_type, $message);
-        } catch (\Throwable $th) {
-            DB::rollback();
-            $message_type = 'danger';
-            $message = 'Data readiness gagal divalidasi.';
-            return redirect()->route('readinessvalidator.show', [$request->staff, 'bagian' => $request->bagian])->withInput()->with($message_type, $message);
-        }
+        //     DB::commit();
+        //     $message_type = 'success';
+        //     $message = 'Data readiness berhasil divalidasi.';
+        //     return redirect()->route('readinessvalidator.index')->with($message_type, $message);
+        // } catch (\Throwable $th) {
+        //     DB::rollback();
+        //     $message_type = 'danger';
+        //     $message = 'Data readiness gagal divalidasi.';
+        //     return redirect()->route('readinessvalidator.show', [$request->staff, 'bagian' => $request->bagian])->withInput()->with($message_type, $message);
+        // }
     }
 
     public function show(Request $request, $id)
@@ -109,13 +109,15 @@ class ReadinessValidatorController extends Controller
                 $matrix->select(
                     'readiness_matrix.*',
                     'readiness_kompetensi.tipe',
+                    'readiness_kompetensi.nomor',
                     'readiness_kompetensi.kompetensi',
                     'readiness_validator.date AS validator_date',
                     'readiness_validator.readiness_matrix',
                     'readiness_validator.validator',
                 )
                     ->join('readiness_kompetensi', 'readiness_kompetensi.id', 'readiness_matrix.readiness_kompetensi')
-                    ->leftJoin('readiness_validator', 'readiness_validator.readiness_matrix', 'readiness_matrix.id');
+                    ->leftJoin('readiness_validator', 'readiness_validator.readiness_matrix', 'readiness_matrix.id')
+                    ->orderBy('readiness_kompetensi.nomor');
             },
             'dataBagian',
             'dataStaff',
@@ -144,7 +146,7 @@ class ReadinessValidatorController extends Controller
                 $q->where('readiness_matrix_header', $id);
             })->delete();
 
-            foreach ($request->hc as $matrix_id) {
+            foreach ($request->hc ?? [] as $matrix_id) {
                 $matrixValidator = new ReadinessValidator;
                 $matrixValidator->date = date('Y-m-d H:i:s');
                 $matrixValidator->readiness_matrix = $matrix_id;

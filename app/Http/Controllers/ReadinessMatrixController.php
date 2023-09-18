@@ -146,6 +146,7 @@ class ReadinessMatrixController extends Controller
             'dataBagian',
             'dataAtasan'
         ])
+            ->where('id', $id)
             ->first();
 
         return view('readinessmatrix.show')
@@ -180,9 +181,11 @@ class ReadinessMatrixController extends Controller
     {
         try {
             DB::beginTransaction();
-            ReadinessMatrix::where('readiness_matrix_header', $id)->update(['staff_valid' => 0, 'staff_valid_date' => null]);
+            ReadinessMatrix::where('readiness_matrix_header', $id)
+                ->whereNull('atasan_valid')
+                ->update(['staff_valid' => 0, 'staff_valid_date' => null]);
 
-            foreach ($request->kompetensi as $kompetensi) {
+            foreach ($request->kompetensi ?? [] as $kompetensi) {
                 $matrix = ReadinessMatrix::find($kompetensi);
                 $matrix->staff_valid = 1;
                 $matrix->staff_valid_date = date('Y-m-d H:i:s');
