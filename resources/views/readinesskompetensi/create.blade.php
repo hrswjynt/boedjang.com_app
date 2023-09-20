@@ -43,9 +43,6 @@
                                                     class="red">*</span></label>
                                             <select id="readiness_kategori" class="form-control select2"
                                                 name="readiness_kategori" style="width: 100%">
-                                                {{-- @foreach ($bagian as $b)
-                                                    <option value="{{ $b->id }}">{{ $b->nama }}</option>
-                                                @endforeach --}}
                                             </select>
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
@@ -53,9 +50,6 @@
                                                     class="red">*</span></label>
                                             <select id="readiness_jenis" class="form-control select2" name="readiness_jenis"
                                                 style="width: 100%">
-                                                {{-- @foreach ($bagian as $b)
-                                                    <option value="{{ $b->id }}">{{ $b->nama }}</option>
-                                                @endforeach --}}
                                             </select>
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">
@@ -63,9 +57,6 @@
                                                     class="red">*</span></label>
                                             <select id="readiness_bagian" class="form-control select2"
                                                 name="readiness_bagian" style="width: 100%">
-                                                {{-- @foreach ($bagian as $b)
-                                                    <option value="{{ $b->id }}">{{ $b->nama }}</option>
-                                                @endforeach --}}
                                             </select>
                                         </div>
                                         <div class="form-group mb-4 bmd-form-group">

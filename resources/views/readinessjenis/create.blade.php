@@ -38,11 +38,6 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group mb-4 bmd-form-group">
-                                            <label class="bmd-label-floating">Nama<span class="red">*</span></label>
-                                            <input name="nama" type="text" class="form-control"
-                                                value="{{ old('nama') }}" id="nama" maxlength="100">
-                                        </div>
-                                        <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Kategori Readiness <span
                                                     class="red">*</span></label>
                                             <select class="form-control select2" name="readiness_kategori"
@@ -51,6 +46,11 @@
                                                     <option value="{{ $k->id }}">{{ $k->nama }}</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                        <div class="form-group mb-4 bmd-form-group">
+                                            <label class="bmd-label-floating">Nama<span class="red">*</span></label>
+                                            <input name="nama" type="text" class="form-control"
+                                                value="{{ old('nama') }}" id="nama" maxlength="100">
                                         </div>
                                     </div>
                                 </div>

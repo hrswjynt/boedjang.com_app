@@ -38,6 +38,20 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group mb-4 bmd-form-group">
+                                            <label class="bmd-label-floating">Kategori Readiness <span
+                                                    class="red">*</span></label>
+                                            <select id="readiness_kategori" class="form-control select2"
+                                                name="readiness_kategori" style="width: 100%">
+                                            </select>
+                                        </div>
+                                        <div class="form-group mb-4 bmd-form-group">
+                                            <label class="bmd-label-floating">Jenis Readiness <span
+                                                    class="red">*</span></label>
+                                            <select id="readiness_jenis" class="form-control select2" name="readiness_jenis"
+                                                style="width: 100%">
+                                            </select>
+                                        </div>
+                                        <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Kode<span class="red">*</span></label>
                                             <input name="kode" type="text" class="form-control"
                                                 value="{{ old('kode') }}" id="kode" maxlength="100">
@@ -46,26 +60,6 @@
                                             <label class="bmd-label-floating">Nama<span class="red">*</span></label>
                                             <input name="nama" type="text" class="form-control"
                                                 value="{{ old('nama') }}" id="nama" maxlength="100">
-                                        </div>
-                                        <div class="form-group mb-4 bmd-form-group">
-                                            <label class="bmd-label-floating">Kategori Readiness <span
-                                                    class="red">*</span></label>
-                                            <select id="readiness_kategori" class="form-control select2"
-                                                name="readiness_kategori" style="width: 100%">
-                                                {{-- @foreach ($jenis as $j)
-                                                    <option value="{{ $j->id }}">{{ $j->nama }}</option>
-                                                @endforeach --}}
-                                            </select>
-                                        </div>
-                                        <div class="form-group mb-4 bmd-form-group">
-                                            <label class="bmd-label-floating">Jenis Readiness <span
-                                                    class="red">*</span></label>
-                                            <select id="readiness_jenis" class="form-control select2" name="readiness_jenis"
-                                                style="width: 100%">
-                                                {{-- @foreach ($jenis as $j)
-                                                    <option value="{{ $j->id }}">{{ $j->nama }}</option>
-                                                @endforeach --}}
-                                            </select>
                                         </div>
                                     </div>
                                 </div>
