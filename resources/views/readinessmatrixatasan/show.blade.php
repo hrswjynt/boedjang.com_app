@@ -58,7 +58,7 @@
                                         <span class="font-weight-bold text-secondary">Catatan</span>
                                     </div>
                                     <div class="col-9 mb-4">
-                                        <textarea name="catatan" class="form-control" cols="30" rows="5">{{ $matrixHeader->catatan }}</textarea>
+                                        <textarea name="catatan" class="form-control" cols="30" rows="3">{{ $matrixHeader->catatan }}</textarea>
                                     </div>
 
                                     <div class="col-12">

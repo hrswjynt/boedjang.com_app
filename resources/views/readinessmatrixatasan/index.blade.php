@@ -91,10 +91,12 @@
 
                     },
                     {
-                        data: 'staff_name'
+                        data: 'staff_name',
+                        className: 'text-left'
                     },
                     {
                         data: 'bagian_nama',
+                        className: 'text-left'
                     },
                     {
                         data: data => `${data.atasan_checked}/${data.staff_checked}`,
