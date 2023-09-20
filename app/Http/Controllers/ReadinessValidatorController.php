@@ -50,7 +50,6 @@ class ReadinessValidatorController extends Controller
             ->join('readiness_bagian AS rb', 'rb.id', 'readiness_matrix_header.bagian')
             ->join('users AS staff', 'staff.id', 'readiness_matrix_header.staff')
             ->join('users AS atasan', 'atasan.id', 'readiness_matrix_header.atasan')
-            ->where('atasan', Auth::user()->id)
             ->groupBy('readiness_matrix_header.id')
             ->get();
 
@@ -125,6 +124,10 @@ class ReadinessValidatorController extends Controller
             ReadinessValidator::whereHas('matrix', function ($q) use ($id) {
                 $q->where('readiness_matrix_header', $id);
             })->delete();
+
+            $matrixHeader = ReadinessMatrixHeader::find($id);
+            $matrixHeader->catatan = $request->catatan;
+            $matrixHeader->save();
 
             foreach ($request->hc ?? [] as $matrix_id) {
                 $matrixValidator = new ReadinessValidator;

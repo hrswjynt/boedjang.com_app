@@ -52,7 +52,15 @@
 
                                     <div class="col-9">
                                         <input type="text" class="form-control mb-3"
-                                            value="{{ $matrixHeader->dataStaff->name }}" readonly>
+                                            value="{{ $matrixHeader->dataAtasan->name }}" readonly>
+                                    </div>
+
+                                    <div class="col-3 p-2">
+                                        <span class="font-weight-bold text-secondary">Catatan</span>
+                                    </div>
+
+                                    <div class="col-9 mb-4">
+                                        <textarea name="catatan" class="form-control" cols="30" rows="3">{{ $matrixHeader->catatan }}</textarea>
                                     </div>
 
                                     <div class="col-12">
