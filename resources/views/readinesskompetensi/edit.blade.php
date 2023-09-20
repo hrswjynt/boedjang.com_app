@@ -40,16 +40,6 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group mb-4 bmd-form-group">
-                                            <label class="bmd-label-floating">Nomor<span class="red">*</span></label>
-                                            <input name="nomor" type="text" class="form-control"
-                                                value="{{ $kompetensi->nomor }}" id="nomor" maxlength="11">
-                                        </div>
-                                        <div class="form-group mb-4 bmd-form-group">
-                                            <label class="bmd-label-floating">Kompetensi<span
-                                                    class="red">*</span></label>
-                                            <textarea name="kompetensi" id="kompetensi" class="form-control" cols="30" rows="3">{{ $kompetensi->kompetensi }}</textarea>
-                                        </div>
-                                        <div class="form-group mb-4 bmd-form-group">
                                             <label class="bmd-label-floating">Kategori Kompetensi <span
                                                     class="red">*</span></label>
                                             <select id="readiness_kategori" class="form-control select2"
@@ -106,6 +96,16 @@
                                                     value="3" {{ $kompetensi->tipe == 3 ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="tipe_3">Behavior (B)</label>
                                             </div>
+                                        </div>
+                                        <div class="form-group mb-4 bmd-form-group">
+                                            <label class="bmd-label-floating">Nomor<span class="red">*</span></label>
+                                            <input name="nomor" type="text" class="form-control"
+                                                value="{{ $kompetensi->nomor }}" id="nomor" maxlength="11">
+                                        </div>
+                                        <div class="form-group mb-4 bmd-form-group">
+                                            <label class="bmd-label-floating">Kompetensi<span
+                                                    class="red">*</span></label>
+                                            <textarea name="kompetensi" id="kompetensi" class="form-control" cols="30" rows="3">{{ $kompetensi->kompetensi }}</textarea>
                                         </div>
                                     </div>
                                 </div>
