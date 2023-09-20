@@ -33,6 +33,13 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get("sop-search", "SopController@getSearch")->name('sop_search.index');
 
 	Route::post("readsop", "SopController@readSop");
+
+	Route::resource('readinessmatrix', 'ReadinessMatrixController');
+	Route::get('readinessmatrix-data', 'ReadinessMatrixController@getData');
+	Route::post('readinessmatrix-delete/{id}', 'ReadinessMatrixController@delete')->name('readinessmatrix.delete');
+
+	Route::resource('readinessmatrixatasan', 'ReadinessMatrixAtasanController');
+	Route::get('readinessmatrixatasan-data', 'ReadinessMatrixAtasanController@getData');
 });
 
 Route::group(['middleware' => ['karyawan']], function () {
@@ -230,13 +237,6 @@ Route::group(['middleware' => ['admin']], function () {
 	Route::resource('readinesskompetensi', 'ReadinessKompetensiController');
 	Route::get('readinesskompetensi-data', 'ReadinessKompetensiController@getData');
 	Route::post('readinesskompetensi-delete/{id}', 'ReadinessKompetensiController@delete')->name('readinesskompetensi.delete');
-
-	Route::resource('readinessmatrix', 'ReadinessMatrixController');
-	Route::get('readinessmatrix-data', 'ReadinessMatrixController@getData');
-	Route::post('readinessmatrix-delete/{id}', 'ReadinessMatrixController@delete')->name('readinessmatrix.delete');
-
-	Route::resource('readinessmatrixatasan', 'ReadinessMatrixAtasanController');
-	Route::get('readinessmatrixatasan-data', 'ReadinessMatrixAtasanController@getData');
 
 	Route::resource('readinessvalidator', 'ReadinessValidatorController');
 	Route::get('readinessvalidator-data', 'ReadinessValidatorController@getData');
