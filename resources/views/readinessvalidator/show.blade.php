@@ -98,11 +98,11 @@
                                                                             break;
                                                                     
                                                                         case '2':
-                                                                            $kom = 'K';
+                                                                            $kom = 'S';
                                                                             break;
                                                                     
                                                                         case '3':
-                                                                            $kom = 'K';
+                                                                            $kom = 'B';
                                                                             break;
                                                                     
                                                                         default:
