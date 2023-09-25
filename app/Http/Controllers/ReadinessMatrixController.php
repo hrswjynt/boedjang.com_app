@@ -70,7 +70,8 @@ class ReadinessMatrixController extends Controller
                 'readiness_kompetensi.kompetensi',
                 'readiness_kompetensi.readiness_bagian',
                 'readiness_kompetensi.tipe',
-            );
+            )
+                ->orderBy('readiness_kompetensi.nomor', 'ASC');
         }])
             ->get();
 
@@ -78,12 +79,12 @@ class ReadinessMatrixController extends Controller
 
         $atasan = Karyawan::select('NIP', 'NAMA', 'Jabatan')->where('region', $karyawan->region)
             ->whereNotIn('Status', ['Resign'])
-            ->where(function ($q) {
+            ->where(function ($q) use ($karyawan) {
                 $q->where('Jabatan', 'like', '%leader%')
-                    ->orWhere('NIP', '221219002')
                     ->orWhere('Jabatan', 'like', '%manager%')
                     ->orWhere('Jabatan', 'like', '%manajer%')
-                    ->orWhere('Jabatan', 'like', '%supervisor%');
+                    ->orWhere('Jabatan', 'like', '%supervisor%')
+                    ->whereNot('NIP', $karyawan->NIP);
             })
             ->get();
 
@@ -141,7 +142,8 @@ class ReadinessMatrixController extends Controller
                     'readiness_kompetensi.tipe',
                     'readiness_kompetensi.kompetensi'
                 )
-                    ->join('readiness_kompetensi', 'readiness_kompetensi.id', 'readiness_matrix.readiness_kompetensi');
+                    ->join('readiness_kompetensi', 'readiness_kompetensi.id', 'readiness_matrix.readiness_kompetensi')
+                    ->orderBy('readiness_kompetensi.nomor', 'ASC');
             },
             'dataBagian',
             'dataAtasan'
@@ -164,7 +166,8 @@ class ReadinessMatrixController extends Controller
                     'readiness_kompetensi.tipe',
                     'readiness_kompetensi.kompetensi'
                 )
-                    ->join('readiness_kompetensi', 'readiness_kompetensi.id', 'readiness_matrix.readiness_kompetensi');
+                    ->join('readiness_kompetensi', 'readiness_kompetensi.id', 'readiness_matrix.readiness_kompetensi')
+                    ->orderBy('readiness_kompetensi.nomor', 'ASC');
             },
             'dataBagian',
             'dataAtasan'
