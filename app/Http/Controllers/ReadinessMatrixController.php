@@ -83,9 +83,9 @@ class ReadinessMatrixController extends Controller
                 $q->where('Jabatan', 'like', '%leader%')
                     ->orWhere('Jabatan', 'like', '%manager%')
                     ->orWhere('Jabatan', 'like', '%manajer%')
-                    ->orWhere('Jabatan', 'like', '%supervisor%')
-                    ->orWhere('NIP', '!=', $karyawan->NIP);
+                    ->orWhere('Jabatan', 'like', '%supervisor%');
             })
+            ->where('NIP', '!=', $karyawan->NIP)
             ->get();
 
         return view('readinessmatrix.create')
