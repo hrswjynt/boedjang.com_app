@@ -84,7 +84,7 @@ class ReadinessMatrixController extends Controller
                     ->orWhere('Jabatan', 'like', '%manager%')
                     ->orWhere('Jabatan', 'like', '%manajer%')
                     ->orWhere('Jabatan', 'like', '%supervisor%')
-                    ->whereNot('NIP', $karyawan->NIP);
+                    ->orWhere('NIP', '!=', $karyawan->NIP);
             })
             ->get();
 
