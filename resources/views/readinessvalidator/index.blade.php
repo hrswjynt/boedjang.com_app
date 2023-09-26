@@ -16,6 +16,13 @@
                             <i class="fa fa-plus "></i>
                             <span>Tambah Data</span>
                         </a> --}}
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="readiness-status" value="1"
+                                @if ($readiness_status->status == 1) checked @endif>
+                            <label class="custom-control-label" for="readiness-status">Buka Pengisian Readiness
+                                Matrix
+                            </label>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div id="success-delete">
@@ -127,6 +134,32 @@
                 ]
             });
         });
+
+        $('#readiness-status').on('click', function() {
+            var token = $("meta[name='csrf-token']").attr("content");
+            $.ajax({
+                url: base_url + '/readinessvalidator-status',
+                type: 'POST',
+                data: {
+                    _token: token,
+                    status: +!!$('#readiness-status:checked').val()
+                },
+                success: function(response) {
+                    $("#success-delete").html('<div class="alert alert-' + response.type +
+                        ' alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><p>' +
+                        response.message + '</p></div>');
+                    $('.dataTable').each(function() {
+                        dt = $(this).dataTable();
+                        dt.fnDraw();
+                    })
+                    $("#success-delete").fadeTo(3000, 500).slideUp(500, function() {
+                        $("#success-delete").slideUp(500);
+                    });
+                    $('#readiness-status').prop('checked', !!response.status)
+                    location.reload()
+                }
+            });
+        })
 
         $(document).ready(function() {
 

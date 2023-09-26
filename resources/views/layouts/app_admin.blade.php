@@ -1,3 +1,8 @@
+@php
+    use App\ReadinessStatus;
+    $status = ReadinessStatus::first()->status;
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -278,22 +283,22 @@
                     </a>
                 </li>
             @endif
+            @if (!!$status)
+                <li class="nav-item @if ($page == 'readinessmatrix') active @endif">
+                    <a class="nav-link" href="{{ route('readinessmatrix.index') }}">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>Readiness Matrix</span>
+                    </a>
+                </li>
+                <li class="nav-item @if ($page == 'readinessmatrixatasan') active @endif">
+                    <a class="nav-link" href="{{ route('readinessmatrixatasan.index') }}">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>Readiness Matrix Atasan</span>
+                    </a>
+                </li>
+            @endif
 
 
-            <li class="nav-item @if ($page == 'readinessmatrix') active @endif">
-                <a class="nav-link" href="{{ route('readinessmatrix.index') }}">
-                    <i class="fas fa-clipboard-list"></i>
-                    <span>Readiness Matrix</span>
-                </a>
-            </li>
-
-
-            <li class="nav-item @if ($page == 'readinessmatrixatasan') active @endif">
-                <a class="nav-link" href="{{ route('readinessmatrixatasan.index') }}">
-                    <i class="fas fa-clipboard-list"></i>
-                    <span>Readiness Matrix Atasan</span>
-                </a>
-            </li>
 
 
             <?php $user = DB::table('u1127775_boedjang.users')

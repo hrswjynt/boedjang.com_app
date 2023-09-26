@@ -240,4 +240,5 @@ Route::group(['middleware' => ['admin']], function () {
 
 	Route::resource('readinessvalidator', 'ReadinessValidatorController');
 	Route::get('readinessvalidator-data', 'ReadinessValidatorController@getData');
+	Route::post('readinessvalidator-status', 'ReadinessValidatorController@setReadinessStatus');
 });

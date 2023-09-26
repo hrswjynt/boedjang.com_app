@@ -9,6 +9,7 @@ use App\ReadinessMatrix;
 use App\ReadinessValidator;
 use Illuminate\Http\Request;
 use App\ReadinessMatrixHeader;
+use App\ReadinessStatus;
 use Illuminate\Foundation\Console\Presets\React;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -19,13 +20,44 @@ class ReadinessValidatorController extends Controller
 {
     public function index()
     {
+        $readinessStatus = ReadinessStatus::first();
+
         if (Auth::user()->role == 1) {
             return view('readinessvalidator.index')
-                ->with('page', 'readinessvalidator');
+                ->with('page', 'readinessvalidator')
+                ->with('readiness_status', $readinessStatus);
         } else {
             $message_type = 'danger';
             $message = 'Tidak memiliki hak akses untuk melihat data.';
             return redirect()->route('dashboard')->with($message_type, $message);
+        }
+    }
+
+    public function setReadinessStatus()
+    {
+        DB::beginTransaction();
+        try {
+            $readinessStatus = ReadinessStatus::first();
+            $readinessStatus->status = request()->status;
+            $readinessStatus->save();
+            if (!!request()->status) {
+                $status = 'dibuka';
+            } else {
+                $status = 'ditutup';
+            }
+            DB::commit();
+            return response()->json([
+                'message' => 'Pengisian readiness matrix berhasil ' . $status,
+                'type' => 'success',
+                'status' => !!request()->status,
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Pengisian readiness matrix gagal ' . $status,
+                'type' => 'danger',
+                'status' => +!request()->status,
+            ]);
         }
     }
 
