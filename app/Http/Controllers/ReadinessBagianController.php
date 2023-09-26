@@ -26,8 +26,15 @@ class ReadinessBagianController extends Controller
 
     public function getData()
     {
-        $data = ReadinessBagian::select('readiness_bagian.id AS id', 'readiness_bagian.kode', 'readiness_bagian.nama AS nama', 'readiness_jenis.nama AS readiness_jenis')
+        $data = ReadinessBagian::select(
+            'readiness_bagian.id AS id',
+            'readiness_bagian.kode',
+            'readiness_bagian.nama AS nama',
+            'readiness_jenis.nama AS readiness_jenis',
+            'readiness_kategori.nama AS readiness_kategori'
+        )
             ->join('readiness_jenis', 'readiness_jenis.id', 'readiness_bagian.readiness_jenis')
+            ->join('readiness_kategori', 'readiness_kategori.id', 'readiness_jenis.readiness_kategori')
             ->get();
         return $this->datatable($data);
     }

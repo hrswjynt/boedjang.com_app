@@ -231,6 +231,7 @@
                             `<option value="${e.id}" ${e.selected ? 'selected' : ''}>${e.nama}</option>`
                         )
                     })
+            $('#readiness_jenis').trigger('change')
             })
 
             $('#readiness_jenis').on('change', function() {
@@ -249,8 +250,6 @@
             })
 
             $('#readiness_kategori').trigger('change')
-            $('#readiness_jenis').trigger('change')
-
         });
     </script>
 @endpush

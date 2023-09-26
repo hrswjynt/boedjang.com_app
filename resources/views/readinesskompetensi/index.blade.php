@@ -40,8 +40,10 @@
                                             <th>No</th>
                                             <th>Kode</th>
                                             <th>Kompetensi</th>
-                                            <th>Bagian</th>
                                             <th>Tipe</th>
+                                            <th>Bagian</th>
+                                            <th>Jenis</th>
+                                            <th>Kategori</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -95,9 +97,6 @@
                         data: 'kompetensi',
                     },
                     {
-                        data: 'readiness_bagian',
-                    },
-                    {
                         data: 'tipe',
                         render: (data) => {
                             switch (data) {
@@ -114,6 +113,15 @@
                                     return 'Tidak Diketahui'
                             }
                         }
+                    },
+                    {
+                        data: 'readiness_bagian',
+                    },
+                    {
+                        data: 'readiness_jenis'
+                    },
+                    {
+                        data: 'readiness_kategori'
                     },
                     {
                         data: 'action',

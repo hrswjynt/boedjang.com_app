@@ -41,6 +41,7 @@
                                             <th>Kode</th>
                                             <th>Nama</th>
                                             <th>Jenis</th>
+                                            <th>Kategori</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -92,6 +93,9 @@
                     },
                     {
                         data: 'readiness_jenis'
+                    },
+                    {
+                        data: 'readiness_kategori'
                     },
                     {
                         data: 'action',

@@ -33,9 +33,13 @@ class ReadinessKompetensiController extends Controller
             'readiness_kompetensi.nomor AS nomor',
             'readiness_kompetensi.kompetensi AS kompetensi',
             'readiness_bagian.nama AS readiness_bagian',
+            'readiness_jenis.nama AS readiness_jenis',
+            'readiness_kategori.nama AS readiness_kategori',
             'readiness_kompetensi.tipe'
         )
             ->join('readiness_bagian', 'readiness_bagian.id', 'readiness_kompetensi.readiness_bagian')
+            ->join('readiness_jenis', 'readiness_jenis.id', 'readiness_bagian.readiness_jenis')
+            ->join('readiness_kategori', 'readiness_kategori.id', 'readiness_jenis.readiness_kategori')
             ->get();
         return $this->datatable($data);
     }
@@ -64,12 +68,6 @@ class ReadinessKompetensiController extends Controller
             return view('readinesskompetensi.create')
                 ->with('page', 'readinesskompetensi')
                 ->with('kategori', $kategori);
-
-            // $bagian = KompetensiBagian::all();
-
-            // return view('kompetensi.create')
-            //     ->with('page', 'kompetensi')
-            //     ->with('bagian', $bagian);
         } else {
             $message_type = 'danger';
             $message = 'Tidak memiliki hak akses untuk menambah data.';
@@ -92,6 +90,8 @@ class ReadinessKompetensiController extends Controller
                         })
                 ],
                 'kompetensi' => 'required|string',
+                'readiness_kategori' => 'required|numeric',
+                'readiness_jenis' => 'required|numeric',
                 'readiness_bagian' => 'required|numeric',
                 'tipe' => 'required|numeric'
             ]);
