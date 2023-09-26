@@ -6,6 +6,7 @@ use App\ReadinessJenis;
 use App\ReadinessBagian;
 use App\ReadinessKategori;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -82,7 +83,14 @@ class ReadinessBagianController extends Controller
             DB::beginTransaction();
 
             request()->validate([
-                'kode' => 'required|string|unique:readiness_bagian,kode',
+                'kode' => [
+                    'required',
+                    'string',
+                    Rule::unique('readiness_bagian', 'kode')
+                        ->where(function ($q) use ($request) {
+                            $q->where('readiness_jenis', $request->readiness_jenis);
+                        })
+                ],
                 'nama' => 'required|string',
                 'readiness_jenis' => 'required|numeric'
             ]);
@@ -129,14 +137,6 @@ class ReadinessBagianController extends Controller
                 ->with('page', 'readinessbagian')
                 ->with('kategori', $kategori)
                 ->with('bagian', $bagian);
-
-            // $jenis = KompetensiJenis::all();
-            // $bagian = KompetensiBagian::find($id);
-
-            // return view('kompetensibagian.edit')
-            //     ->with('page', 'kompetensibagian')
-            //     ->with('jenis', $jenis)
-            //     ->with('bagian', $bagian);
         } else {
             $message_type = 'danger';
             $message = 'Tidak memiliki hak akses untuk mengubah data.';
@@ -150,7 +150,15 @@ class ReadinessBagianController extends Controller
             DB::beginTransaction();
 
             request()->validate([
-                'kode' => 'required|string|unique:readiness_bagian,kode,' . $id,
+                'kode' => [
+                    'required',
+                    'string',
+                    Rule::unique('readiness_bagian', 'kode')
+                        ->where(function ($q) use ($request) {
+                            $q->where('readiness_jenis', $request->readiness_jenis);
+                        })
+                        ->ignore($id)
+                ],
                 'nama' => 'required|string',
                 'readiness_jenis' => 'required|numeric'
             ]);
