@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\ReadinessBagian;
 use App\ReadinessJenis;
+use App\ReadinessBagian;
 use App\ReadinessMatrix;
-use App\ReadinessMatrixHeader;
 use Illuminate\Http\Request;
+use App\ReadinessMatrixHeader;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class ReadinessMatrixAtasanController extends Controller
 {
@@ -59,14 +60,6 @@ class ReadinessMatrixAtasanController extends Controller
             ->make(true);
     }
 
-    public function create()
-    {
-    }
-
-    public function store(Request $request)
-    {
-    }
-
     public function show($id)
     {
         $matrixHeader = ReadinessMatrixHeader::with([
@@ -96,14 +89,24 @@ class ReadinessMatrixAtasanController extends Controller
             ->with('matrixHeader', $matrixHeader);
     }
 
-    public function edit(Request $request, $id)
-    {
-    }
-
     public function update(Request $request, $id)
     {
         try {
             DB::beginTransaction();
+
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'catatan' => 'required'
+                ],
+                [
+                    'catatan.required' => 'Catatan wajib diisi'
+                ]
+            );
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator);
+            }
 
             ReadinessMatrix::where('readiness_matrix_header', $id)
                 ->whereDoesntHave('validator')
@@ -127,14 +130,16 @@ class ReadinessMatrixAtasanController extends Controller
             return redirect()->route('readinessmatrixatasan.index')->with($message_type, $message);
         } catch (\Throwable $th) {
             DB::rollback();
-            dd($th);
             $message_type = 'danger';
             $message = 'Data readiness gagal divalidasi.';
             return redirect()->route('readinessmatrixatasan.show', $id)->withInput()->with($message_type, $message);
         }
     }
 
-    public function destroy($id)
-    {
-    }
+    // public function validate(Request $request, array $rules, array $messages = [], array $customAttributes = [])
+    // {
+    //     return $this->getValidationFactory()
+    //         ->make($request->all(), $rules, $messages, $customAttributes)
+    //         ->validate();
+    // }
 }

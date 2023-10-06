@@ -58,7 +58,12 @@
                                         <span class="font-weight-bold text-secondary">Catatan</span>
                                     </div>
                                     <div class="col-9 mb-4">
-                                        <textarea name="catatan" class="form-control" cols="30" rows="3">{{ $matrixHeader->catatan }}</textarea>
+                                        <textarea name="catatan" class="form-control @error('catatan') is-invalid @enderror" cols="30" rows="3">{{ $matrixHeader->catatan }}</textarea>
+                                        @error('catatan')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12">
