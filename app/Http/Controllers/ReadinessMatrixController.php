@@ -99,6 +99,26 @@ class ReadinessMatrixController extends Controller
         try {
             DB::beginTransaction();
 
+            // cek apakah sudah ada readiness serupa di rentang tanggal 16 sampai 15
+            $currentDay = date('d');
+            if ($currentDay < 16) {
+                $dateStart = date('Y-m-16', strtotime('-1 month'));
+                $dateEnd = date('Y-m-15');
+            } else {
+                $dateStart = date('Y-m-16');
+                $dateEnd = date('Y-m-15', strtotime('+1 month'));
+            }
+            $allowed = ReadinessMatrixHeader::where('staff', auth()->user()->id)
+                ->where('bagian', $request->readiness_bagian)
+                ->whereRaw('DATE(date) BETWEEN DATE(?) AND DATE(?)', [$dateStart, $dateEnd])
+                ->get();
+            if (count($allowed) > 0) {
+                return redirect()->route('readinessmatrix.create')
+                    ->withInput()
+                    ->with('danger', 'Data readiness matrix dengan bagian yang sama telah ada sebelumnya.');
+            }
+
+            // create readiness
             $kompetensi = ReadinessKompetensi::where('readiness_bagian', $request->readiness_bagian)
                 ->pluck('id');
 
@@ -205,10 +225,5 @@ class ReadinessMatrixController extends Controller
             $message = 'Data readiness gagal diubah.';
             return redirect()->route('readinessmatrix.edit', $id)->withInput()->with($message_type, $message);
         }
-    }
-
-    public function delete($id)
-    {
-        //
     }
 };
