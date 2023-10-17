@@ -61,7 +61,7 @@ class ReadinessValidatorController extends Controller
         }
     }
 
-    public function getData()
+    public function getData(Request $request)
     {
         $matrix = ReadinessMatrixHeader::select(
             'readiness_matrix_header.id AS id',
@@ -82,6 +82,7 @@ class ReadinessValidatorController extends Controller
             ->join('readiness_bagian AS rb', 'rb.id', 'readiness_matrix_header.bagian')
             ->join('users AS staff', 'staff.id', 'readiness_matrix_header.staff')
             ->join('users AS atasan', 'atasan.id', 'readiness_matrix_header.atasan')
+            ->whereRaw('DATE(readiness_matrix_header.date) BETWEEN DATE(?) AND DATE(?)', [$request->sdate, $request->edate])
             ->groupBy('readiness_matrix_header.id')
             ->get();
 
