@@ -25,7 +25,7 @@ class Karyawan
     public function handle($request, Closure $next)
     {
         if (Auth::user()) {
-            if (Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 3 || Auth::user()->role == 4 || Auth::user()->role == 5) {
+            if ((Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 3 || Auth::user()->role == 4 || Auth::user()->role == 5) && Auth::user()->deleted == 1) {
                 return $next($request);
             } else {
                 abort(401, 'Unauthorized user.');

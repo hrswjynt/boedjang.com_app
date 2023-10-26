@@ -24,7 +24,6 @@ Auth::routes([
 
 Route::group(['middleware' => ['auth']], function () {
 	// \UniSharp\LaravelFilemanager\Lfm::routes();
-	Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 	Route::resource('user', 'UserController')->except(['destroy']);
 
 	Route::get("sop-list", "SopController@getList")->name('sop_list.index');
@@ -45,6 +44,8 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group(['middleware' => ['karyawan']], function () {
 	// \UniSharp\LaravelFilemanager\Lfm::routes();
 
+	Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+	
 	Route::get("content", "ContentController@index")->name('content.index');
 	Route::post("content", "ContentController@store")->name('content.store');
 
