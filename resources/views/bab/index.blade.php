@@ -4,14 +4,14 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Bab Buku Saku</h1>
+        <h1 class="h3 mb-0 text-gray-800">Bab Peraturan Perusahaan</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6><b>Daftar Bab Buku Saku</b></h6>
+                    <h6><b>Daftar Bab Peraturan Perusahaan</b></h6>
                     <a href="{{ route('bab.create') }}" class="btn btn-success btn-sm add">
                         <i class="fa fa-user-plus "></i>
                         <span>Tambah Bab</span>

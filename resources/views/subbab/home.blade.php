@@ -50,7 +50,7 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Buku Saku</h1>
+        <h1 class="h3 mb-0 text-gray-800">Peraturan Perusahaan</h1>
     </div>
     <!-- Content Row -->
     <div class="row">
@@ -75,7 +75,7 @@
                         <br><br><br><br><br>
                         @else
                         <div class="col-md-12" style="height: 400px;">
-                            <h3 style="text-align: center;margin-top: 30px">Tidak ada data Buku Saku yang tersedia. <i class="fas fa-laugh-wink"></i></h3>
+                            <h3 style="text-align: center;margin-top: 30px">Tidak ada data Peraturan Perusahaan yang tersedia. <i class="fas fa-laugh-wink"></i></h3>
                         </div>
                         @endif
                 </div>

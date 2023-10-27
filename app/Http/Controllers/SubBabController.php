@@ -148,7 +148,7 @@ class SubBabController extends Controller
     {   
         $subbab = SubBab::where('slug',$slug)->first();
         if($subbab == null){
-            return redirect()->route('bukusaku_list.index')->with('danger','Buku Saku yang dicari tidak ditemukan.');
+            return redirect()->route('bukusaku_list.index')->with('danger','Peraturan Perusahaan yang dicari tidak ditemukan.');
         }
         $bab = SubBab::leftJoin('bab','bab.id','sub_bab.bab')->where('sub_bab.id',$subbab->id)->select('bab.name')->first();
         return view('subbab.post')->with('page','bukusaku_list')->with('subbab',$subbab)->with('bab',$bab);

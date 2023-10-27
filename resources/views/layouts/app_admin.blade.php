@@ -227,7 +227,7 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <!-- <h6 class="collapse-header">Custom Components:</h6> -->
                             <a class="collapse-item @if ($page == 'bukusaku_list') active @endif"
-                                href="{{ route('bukusaku_list.index') }}">Buku Saku</a>
+                                href="{{ route('bukusaku_list.index') }}">Peraturan Perusahaan</a>
                             <a class="collapse-item @if ($page == 'ketentuan_list') active @endif"
                                 href="{{ route('ketentuan_list.index') }}">Ketentuan</a>
                         </div>
@@ -485,11 +485,11 @@
                             @if (Auth::user()->role == 1)
                                 <a class="collapse-item @if ($page == 'ketentuan') active @endif"
                                     href="{{ route('ketentuan.index') }}">Ketentuan</a>
-                                <h6 class="collapse-header">- Master Buku Saku -</h6>
+                                <h6 class="collapse-header">- Master Peraturan Perusahaan -</h6>
                                 <a class="collapse-item @if ($page == 'bab') active @endif"
-                                    href="{{ route('bab.index') }}">Bab Buku Saku</a>
+                                    href="{{ route('bab.index') }}">Bab Peraturan Perusahaan</a>
                                 <a class="collapse-item @if ($page == 'subbab') active @endif"
-                                    href="{{ route('subbab.index') }}">Sub Bab Buku Saku</a>
+                                    href="{{ route('subbab.index') }}">Sub Bab Peraturan Perusahaan</a>
                             @endif
                         </div>
                     </div>
