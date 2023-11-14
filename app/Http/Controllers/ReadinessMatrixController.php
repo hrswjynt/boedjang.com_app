@@ -99,19 +99,12 @@ class ReadinessMatrixController extends Controller
         try {
             DB::beginTransaction();
 
-            // cek apakah sudah ada readiness serupa di rentang tanggal 16 sampai 15
-            $currentDay = date('d');
-            if ($currentDay < 16) {
-                $dateStart = date('Y-m-16', strtotime('-1 month'));
-                $dateEnd = date('Y-m-15');
-            } else {
-                $dateStart = date('Y-m-16');
-                $dateEnd = date('Y-m-15', strtotime('+1 month'));
-            }
+            // 10 hari setelah pengisian terakhir
             $allowed = ReadinessMatrixHeader::where('staff', auth()->user()->id)
                 ->where('bagian', $request->readiness_bagian)
-                ->whereRaw('DATE(date) BETWEEN DATE(?) AND DATE(?)', [$dateStart, $dateEnd])
+                ->whereDate('date', '>', date('Y-m-d', strtotime('-10 days')))
                 ->get();
+
             if (count($allowed) > 0) {
                 return redirect()->route('readinessmatrix.create')
                     ->withInput()
