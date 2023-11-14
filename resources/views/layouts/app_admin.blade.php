@@ -282,8 +282,8 @@
                         <span>Feedback Atasan</span>
                     </a>
                 </li>
-            @endif
-            @if (!!$status)
+
+                @if (!!$status)
                 <li class="nav-item @if ($page == 'readinessmatrix') active @endif">
                     <a class="nav-link" href="{{ route('readinessmatrix.index') }}">
                         <i class="fas fa-clipboard-list"></i>
@@ -296,7 +296,9 @@
                         <span>Readiness Matrix Atasan</span>
                     </a>
                 </li>
+                @endif
             @endif
+            
 
 
 
