@@ -27,7 +27,7 @@ class ReadinessMatrixController extends Controller
             'readiness_matrix_header.id AS id',
             'readiness_matrix_header.date AS date',
             'atasan.id AS atasan_id',
-            'atasan.name AS atasan_name',
+            'atasan_absen.NAMA AS atasan_name',
             'rb.id AS bagian_id',
             'rb.nama AS bagian_nama',
             DB::raw("CAST(SUM(rm.staff_valid) AS int) AS staff_checked"),
@@ -37,7 +37,9 @@ class ReadinessMatrixController extends Controller
             ->join('readiness_matrix AS rm', 'rm.readiness_matrix_header', 'readiness_matrix_header.id')
             ->join('readiness_bagian AS rb', 'rb.id', 'readiness_matrix_header.bagian')
             ->join('users AS staff', 'staff.id', 'readiness_matrix_header.staff')
+            ->join('u1127775_absensi.Absen AS staff_absen', 'staff_absen.NIP', 'staff.username')
             ->join('users AS atasan', 'atasan.id', 'readiness_matrix_header.atasan')
+            ->join('u1127775_absensi.Absen AS atasan_absen', 'atasan_absen.NIP', 'atasan.username')
             ->where('staff', Auth::user()->id)
             ->groupBy('readiness_matrix_header.id')
             ->get();
@@ -100,11 +102,32 @@ class ReadinessMatrixController extends Controller
             DB::beginTransaction();
 
             // 10 hari setelah pengisian terakhir
+            // $allowed = ReadinessMatrixHeader::where('staff', auth()->user()->id)
+            //     ->where('bagian', $request->readiness_bagian)
+            //     ->whereDate('date', '>', date('Y-m-d', strtotime('-10 days')))
+            //     ->get();
+
+            // cegah staff mengisi di antara tanggal 10 sampai 25
+            if (date('d') > 10 && date('d') < 25) {
+                return redirect()->route('readinessmatrix.create')
+                    ->withInput()
+                    ->with('danger', 'Data readiness matrix hanya bisa diisi dari tanggal 25 sampai tanggal 10.');
+            }
+
+            // ambil data tanggal 25 sampai 10
             $allowed = ReadinessMatrixHeader::where('staff', auth()->user()->id)
                 ->where('bagian', $request->readiness_bagian)
-                ->whereDate('date', '>', date('Y-m-d', strtotime('-10 days')))
+                ->when(date('d') >= 25, function ($q) {
+                    $q->whereDate('date', '>=', date('Y-m-25'))
+                        ->whereDate('date', '<=', date('Y-m-10', strtotime('+1 month')));
+                })
+                ->when(date('d') <= 10, function ($q) {
+                    $q->whereDate('date', '>=', date('Y-m-25', strtotime('-1 month')))
+                        ->whereDate('date', '<=', date('Y-m-10'));
+                })
                 ->get();
 
+            // cek apakah sudah pernah mengisi?
             if (count($allowed) > 0) {
                 return redirect()->route('readinessmatrix.create')
                     ->withInput()
@@ -159,7 +182,10 @@ class ReadinessMatrixController extends Controller
                     ->orderBy('readiness_kompetensi.nomor', 'ASC');
             },
             'dataBagian',
-            'dataAtasan'
+            'dataAtasan' => function ($atasan) {
+                $atasan->select('users.*', 'atasan_absen.NAMA AS nama_absen')
+                    ->join('u1127775_absensi.Absen AS atasan_absen', 'atasan_absen.NIP', 'users.username');
+            }
         ])
             ->where('id', $id)
             ->first();
@@ -183,7 +209,10 @@ class ReadinessMatrixController extends Controller
                     ->orderBy('readiness_kompetensi.nomor', 'ASC');
             },
             'dataBagian',
-            'dataAtasan'
+            'dataAtasan' => function ($atasan) {
+                $atasan->select('users.*', 'atasan_absen.NAMA AS nama_absen')
+                    ->join('u1127775_absensi.Absen AS atasan_absen', 'atasan_absen.NIP', 'users.username');
+            }
         ])
             ->where('id', $id)
             ->first();
@@ -197,6 +226,14 @@ class ReadinessMatrixController extends Controller
     {
         try {
             DB::beginTransaction();
+
+            // cegah staff mengedit di antara tanggal 10 sampai 25
+            if (date('d') > 10 && date('d') < 25) {
+                return redirect()->route('readinessmatrix.create')
+                    ->withInput()
+                    ->with('danger', 'Data readiness matrix hanya bisa diubah dari tanggal 25 sampai tanggal 10.');
+            }
+
             ReadinessMatrix::where('readiness_matrix_header', $id)
                 ->whereNull('atasan_valid')
                 ->update(['staff_valid' => 0, 'staff_valid_date' => null]);

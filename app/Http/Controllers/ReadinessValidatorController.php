@@ -67,9 +67,9 @@ class ReadinessValidatorController extends Controller
             'readiness_matrix_header.id AS id',
             'readiness_matrix_header.date AS date',
             'staff.id AS staff_id',
-            'staff.name AS staff_name',
+            'staff_absen.NAMA AS staff_name',
             'atasan.id AS atasan_id',
-            'atasan.name AS atasan_name',
+            'atasan_absen.NAMA AS atasan_name',
             'rb.id AS bagian_id',
             'rb.nama AS bagian_nama',
             DB::raw("CAST(SUM(rm.staff_valid) AS int) AS staff_checked"),
@@ -81,7 +81,9 @@ class ReadinessValidatorController extends Controller
             ->leftJoin('readiness_validator AS rv', 'rv.readiness_matrix', 'rm.id')
             ->join('readiness_bagian AS rb', 'rb.id', 'readiness_matrix_header.bagian')
             ->join('users AS staff', 'staff.id', 'readiness_matrix_header.staff')
+            ->join('u1127775_absensi.Absen AS staff_absen', 'staff_absen.NIP', 'staff.username')
             ->join('users AS atasan', 'atasan.id', 'readiness_matrix_header.atasan')
+            ->join('u1127775_absensi.Absen AS atasan_absen', 'atasan_absen.NIP', 'atasan.username')
             ->whereRaw('DATE(readiness_matrix_header.date) BETWEEN DATE(?) AND DATE(?)', [$request->sdate, $request->edate])
             ->groupBy('readiness_matrix_header.id')
             ->get();
@@ -132,8 +134,14 @@ class ReadinessValidatorController extends Controller
                     ->orderBy('readiness_kompetensi.nomor');
             },
             'dataBagian',
-            'dataStaff',
-            'dataAtasan'
+            'dataStaff' => function ($staff) {
+                $staff->select('users.*', 'staff_absen.NAMA AS staff_name')
+                    ->join('u1127775_absensi.Absen AS staff_absen', 'staff_absen.NIP', 'users.username');
+            },
+            'dataAtasan' => function ($atasan) {
+                $atasan->select('users.*', 'atasan_absen.NAMA AS atasan_name')
+                    ->join('u1127775_absensi.Absen AS atasan_absen', 'atasan_absen.NIP', 'users.username');
+            }
         ])
             ->where('id', $id)
             ->first();
