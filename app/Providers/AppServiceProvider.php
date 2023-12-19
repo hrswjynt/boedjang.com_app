@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
         //
         $this->app->bind('path.public', function() {
             // return '/home/samikary/admin.samikarya.com';
-            return '/var/www/boedjangroup.com/boedjangroup-public.com';
+            return '/var/www/boedjangroup-public.com';
         });
     }
 
